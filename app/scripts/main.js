@@ -1,0 +1,129 @@
+define('main', [], function() {
+    requirejs.config({
+        paths: {
+            'angular': '../bower_components/angular/angular',
+            'angular-resource': '../bower_components/angular-resource/angular-resource',
+            'angular-animate': '../bower_components/angular-animate/angular-animate',
+            'ui-router': '../bower_components/angular-ui-router/release/angular-ui-router',
+            'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap',
+            'modernizr': '../bower_components/modernizr/modernizr',
+            'jquery': '../bower_components/jquery/dist/jquery',
+            'underscore': '../bower_components/underscore/underscore',
+            'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
+            'd3': '../bower_components/d3/d3',
+            'nvd3': '../bower_components/nvd3/nv.d3',
+            'nvd3ChartDirectives': './angular_modules/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
+            'controllers': 'controllers/controllers',
+            'directives': 'directives/directives',
+            'filters': 'filters/filters',
+            'services': 'services/services',
+            'slugifier': './angular_modules/angular-slugify/angular-slugify'
+        },
+        shim: {
+            'angular': {
+                exports: 'angular'
+            },
+            'underscore': {
+                exports: '_'
+            },
+            'angular-resource': ['angular'],
+            'angular-animate': ['angular'],
+            'ui-router': ['angular'],
+            'ui-bootstrap': ['angular'],
+            'bootstrap': ['jquery'],
+            'controllers': ['angular', 'services'],
+            'filters': ['angular'],
+            'services': ['angular'],
+            'directives': ['angular'],
+            'slugifier': ['angular']
+        }
+    });
+
+    Window.name = 'NG_DEFER_BOOTSTRAP!';
+
+    requirejs([
+        'angular',
+        'jquery',
+        'angular-resource',
+        'angular-animate',
+        'ui-router',
+        'ui-bootstrap',
+        'underscore',
+        'd3',
+        'nvd3',
+        'nvd3ChartDirectives',
+        'bootstrap',
+        'modernizr',
+        'services',
+        'filters',
+        'directives',
+        'controllers',
+        'slugifier'
+    ], function(angular) {
+        'use strict';
+
+        /* App Module */
+        angular.element(document).ready(function () {
+            // smart works go here
+            var $html = angular.element('html');
+            angular.module('alleyChartbuilder', [
+                'ui.router',
+                'ngResource',
+                'ui.bootstrap',
+                'ngAnimate',
+                'webControllers',
+                'webFilters',
+                'webServices',
+                'webDirectives',
+                'nvd3ChartDirectives',
+                'slugifier'
+            ]).config(['$stateProvider', '$urlRouterProvider',
+                function($stateProvider, $urlRouterProvider) {
+                    $stateProvider.
+                      state('/', {
+                          url: '/',
+                          templateUrl: 'partials/home.html',
+                          controller: 'Home'
+                      }).
+                      state('chartbuilder', {
+                          url: '/chartbuilder',
+                          templateUrl: 'partials/chartbuilder.html',
+                          controller: 'Chartbuilder'
+                      }).
+                      state('chartbuilder.discreteBarChart', {
+                          url: '/discrete-bar-chart',
+                          templateUrl: 'partials/charts/discrete-bar-chart.html'
+                      }).
+                      state('chartbuilder.cumulativeLineChart', {
+                          url: '/cumulative-line-chart',
+                          templateUrl: 'partials/charts/cumulative-line-chart.html'
+                      }).
+                      state('chartbuilder.lineChart', {
+                          url: '/line-chart',
+                          templateUrl: 'partials/charts/line-chart.html'
+                      }).
+                      state('chartbuilder.stackedAreaChart', {
+                          url: '/stacked-area-chart',
+                          templateUrl: 'partials/charts/stacked-area-chart.html'
+                      }).
+                      state('chartbuilder.pieChart', {
+                          url: '/pie-chart',
+                          templateUrl: 'partials/charts/pie-chart.html'
+                      }).
+                      state('about', {
+                          url: '/about',
+                          templateUrl: 'partials/about.html',
+                          controller: 'About'
+                      }).
+                      state('404', {
+                          url: '/404',
+                          templateUrl: '404.html'
+                      });
+                    $urlRouterProvider.otherwise('/404');
+                }
+            ]);
+            // bootstrap model
+            angular.bootstrap($html, ['alleyChartbuilder']);
+        });
+    });
+});
