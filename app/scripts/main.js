@@ -8,6 +8,7 @@ define('main', [], function() {
             'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap',
             'modernizr': '../bower_components/modernizr/modernizr',
             'jquery': '../bower_components/jquery/dist/jquery',
+						'jqueryui': '../bower_components/jquery-ui/ui/jquery-ui',
             'underscore': '../bower_components/underscore/underscore',
             'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
             'd3': '../bower_components/d3/d3',
@@ -17,7 +18,8 @@ define('main', [], function() {
             'directives': 'directives/directives',
             'filters': 'filters/filters',
             'services': 'services/services',
-            'slugifier': './angular_modules/angular-slugify/angular-slugify'
+            'slugifier': './angular_modules/angular-slugify/angular-slugify',
+						'ui.sortable': './angular_modules/ui-sortable/sortable'
         },
         shim: {
             'angular': {
@@ -35,7 +37,9 @@ define('main', [], function() {
             'filters': ['angular'],
             'services': ['angular'],
             'directives': ['angular'],
-            'slugifier': ['angular']
+            'slugifier': ['angular'],
+						'jqueryui': ['jquery'],
+						'ui.sortable': ['jquery', 'jqueryui']
         }
     });
 
@@ -44,6 +48,7 @@ define('main', [], function() {
     requirejs([
         'angular',
         'jquery',
+				'jqueryui',
         'angular-resource',
         'angular-animate',
         'ui-router',
@@ -58,7 +63,8 @@ define('main', [], function() {
         'filters',
         'directives',
         'controllers',
-        'slugifier'
+        'slugifier',
+				'ui.sortable'
     ], function(angular) {
         'use strict';
 
@@ -66,7 +72,7 @@ define('main', [], function() {
         angular.element(document).ready(function () {
             // smart works go here
             var $html = angular.element('html');
-            angular.module('alleyChartbuilder', [
+            angular.module('angulard3Chartbuilder', [
                 'ui.router',
                 'ngResource',
                 'ui.bootstrap',
@@ -76,7 +82,8 @@ define('main', [], function() {
                 'webServices',
                 'webDirectives',
                 'nvd3ChartDirectives',
-                'slugifier'
+                'slugifier',
+								'ui.sortable'
             ]).config(['$stateProvider', '$urlRouterProvider',
                 function($stateProvider, $urlRouterProvider) {
                     $stateProvider.
@@ -90,26 +97,12 @@ define('main', [], function() {
                           templateUrl: 'partials/chartbuilder.html',
                           controller: 'Chartbuilder'
                       }).
-                      state('chartbuilder.discreteBarChart', {
-                          url: '/discrete-bar-chart',
-                          templateUrl: 'partials/charts/discrete-bar-chart.html'
-                      }).
-                      state('chartbuilder.cumulativeLineChart', {
-                          url: '/cumulative-line-chart',
-                          templateUrl: 'partials/charts/cumulative-line-chart.html'
-                      }).
-                      state('chartbuilder.lineChart', {
-                          url: '/line-chart',
-                          templateUrl: 'partials/charts/line-chart.html'
-                      }).
-                      state('chartbuilder.stackedAreaChart', {
-                          url: '/stacked-area-chart',
-                          templateUrl: 'partials/charts/stacked-area-chart.html'
-                      }).
-                      state('chartbuilder.pieChart', {
-                          url: '/pie-chart',
-                          templateUrl: 'partials/charts/pie-chart.html'
-                      }).
+											state('chartbuilder.graph', {
+													url: '/:graphType',
+													templateUrl: function(stateParams) {
+														return 'partials/charts/' + stateParams.graphType + '.html';
+													}
+											}).
                       state('about', {
                           url: '/about',
                           templateUrl: 'partials/about.html',
@@ -123,7 +116,7 @@ define('main', [], function() {
                 }
             ]);
             // bootstrap model
-            angular.bootstrap($html, ['alleyChartbuilder']);
+            angular.bootstrap($html, ['angulard3Chartbuilder']);
         });
     });
 });

@@ -1,0 +1,54 @@
+<div class="panel-group" id="accordion">
+	<div class="panel panel-default"
+		ng-repeat="group in structureData track by $index"
+		>
+		<div class="panel-heading">
+			<div class="panel-title">
+				<a data-toggle="collapse"
+					data-parent="#accordion"
+					data-target="#collapse-{{ $index }}"
+					href=""
+					>
+					Data Group {{ $index + 1 }}: {{ group.key }}
+				</a>
+			</div>
+		</div>
+		<div id="collapse-{{ $index }}" class="panel-collapse collapse in">
+			<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Remove</th>
+							<th>x-value: <select ng-options="type as type for type in ['Number', 'Text']" ng-model="newRowTypes[$index]"></select></th>
+							<th>y-value: <select ng-options="type as type for type in ['Number', 'Text']" ng-model="newRowTypes[$index]"></select></th>
+						</tr>
+					</thead>
+					<tbody ng-model="group.values" ui-sortable>
+						<tr ng-repeat="rows in group.values">
+							<td>
+								<span class="glyphicon glyphicon-minus"
+									ng-click="removeRow($parent.$index, $index)"
+									>
+								</span>
+							</td>
+							<td ng-repeat="row in rows track by $index">
+								{{ row }}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<span class="glyphicon glyphicon-plus"
+									ng-click="addRow($index)"
+									>
+								</span>
+							</td>
+							<td ng-repeat="row in dataInputs">
+								<input type="{{ newRowTypes[$index] | lowercase }}" class="form-control" placeholder="name" ng-model="newRow[$parent.$index][$index]" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,5 +1,5 @@
 {
-  "name": "alleychartbuilder",
+  "name": "angulard3builder",
   "version": "0.0.1",
   "dependencies": {
     "sass-bootstrap": "*",
@@ -11,6 +11,7 @@
     "angular-bootstrap": "*",
     "angular-animate": "*",
     "jquery": "*",
+		"jquery-ui": "*",
     "Buttons": "*",
     "animate-sass": "*",
     "requirejs": "*",
@@ -20,7 +21,6 @@
     "angular-ui-router": "~0.2.10"
   },
   "resolutions": {
-    "d3": "~3.3.13",
-    "angular": "1.2.14"
+    "d3": "~3.3.13"
   }
 }

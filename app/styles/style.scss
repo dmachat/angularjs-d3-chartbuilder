@@ -71,7 +71,7 @@ body {
 
 @media screen and (min-width: 768px) {
     .container {
-        max-width: 730px;
+        max-width: 750px;
     }
     /* Remove the padding we set earlier */
     .header,
@@ -88,4 +88,15 @@ body {
     .jumbotron {
         border-bottom: 0;
     }
+}
+@media screen and (min-width: 992px) {
+	.container {
+		max-width: 970px;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.container {
+		max-width: 1170px;
+	}
 }

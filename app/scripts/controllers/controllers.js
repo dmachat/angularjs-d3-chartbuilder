@@ -1,86 +1,85 @@
-define([
-    'angular',
-    'services'
-], function(angular) {
-    'use strict';
+define(['angular', 'services'], function(angular) {
+  'use strict';
 
-    /* Controllers */
+  /* Controllers */
 
-    angular.module('webControllers', [
-        'webServices'
-    ]).controller('Home', [
+  angular.module('webControllers', ['webServices'])
+		.controller('Home', [
         '$scope',
         '$location',
         function($scope, $location) {
             /* initialize */
         }
-    ]).controller('Chartbuilder', [
-      '$scope',
-      '$location',
-      '$state',
-      '$http',
-      function($scope, $location, $state, $http) {
-        $scope.chartDisplayType = [
-          'Line Chart',
-          'Cumulative Line Chart',
-          'Line with Focus Chart',
-          'Stacked Area Chart',
-          'Discrete Bar Chart',
-          'Multi Bar Chart',
-          'Multi Bar Horizontal Chart',
-          'Pie Chart',
-          'Scatter Chart'
-        ];
+    ])
+		.controller('Chartbuilder', ['$scope', '$location', '$state', '$http', '$filter', '$stateParams', 'getSampleData', function($scope, $location, $state, $http, $filter, $stateParams, getSampleData) {
+			$scope.exampleData = [];
+			$scope.chartHeight = 600;
+			$scope.isDonut = false;
+			$scope.chartDisplayType = [
+				{ name: 'Line Chart' },
+				{ name: 'Cumulative Line Chart' },
+				{ name: 'Line with Focus Chart' },
+				{ name: 'Stacked Area Chart' },
+				{ name: 'Discrete Bar Chart' },
+				{ name: 'Multi Bar Chart' },
+				{ name: 'Multi Bar Horizontal Chart', group: true },
+				{ name: 'Pie Chart' },
+				{ name: 'Scatter Chart' }
+			];
 
-        $scope.buildChart = function() {
-          switch ($scope.selectedChartType) {
-            case "Line Chart":
-              $state.go('chartbuilder.lineChart');
-              break;
-            case "Discrete Bar Chart":
-              $state.go('chartbuilder.discreteBarChart');
-              break;
-            case "Cumulative Line Chart":
-              $state.go('chartbuilder.cumulativeLineChart');
-              break;
-            case "Pie Chart":
-              $state.go('chartbuilder.pieChart');
-              break;
-          }
-        }
+			$scope.$watch('selectedChartType', function(newval) {
+				if (angular.isUndefined(newval)) return false;
+				$state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
+			}, true);
 
-        $scope.exampleData = []; 
-        $scope.targetGroup = { selected: $scope.exampleData.length > 0 ? $scope.exampleData[0] : undefined };
+			$scope.$watch('isDonut', function(newval) {
+				console.log(newval);
+			});
 
-        $scope.$watch('targetGroup', function(newval) {
-          console.log(newval);
-        }, true);
-        
-        $scope.moreData = $http.get('/data/sample-data.json').success(function(d) {
-          $scope.exampleData = [d];
-          console.log([d]);
-        });
+			getSampleData().then(function(data) {
+				$scope.sampleData = data;
+			});
 
-        $scope.addGroup = function() {
-          $scope.exampleData.push({ key: '', values: [] });
-        }
+			$scope.resetData = function() {
+				$scope.exampleData = [];
+			}
 
-        $scope.newRow = [];
+			$scope.getSampleData = function() {
+				$scope.exampleData = $scope.sampleData[$filter('slugify')($scope.selectedChartType.name)];
+			}
 
-        $scope.addRow = function() {
-          $scope.exampleGroup[targetGroupIndex].values.push([$scope.newRow[0], $scope.newRow[1]])
-          $scope.newRow = [];
-        }
+			$scope.addGroup = function() {
+				if (!$scope.newDataGroup) return false;
+				$scope.exampleData.push({ key: $scope.newDataGroup, values: [] });
+				$scope.newDataGroup = '';
+			}
 
-        $scope.removeRow = function(group, index) {
-          $scope.exampleData[group].values.splice(index, 1);
-        }
-      }
-    ]).controller('About', [
-      '$scope',
-      '$location',
-      function($scope, $location) {
+			// Functions for cumulative line graph
+			$scope.xLineFunction = function(){
+				return function(d) {
+					return d[0];
+				}
+			};
+			$scope.yLineFunction = function(){
+				return function(d) {
+					return d[1]/100;
+				}
+			}
 
-      }
-    ]);
+			// Functions for pie chart rendering
+			$scope.xPieFunction = function(){
+				return function(d) {
+					return d.key;
+				};
+			}
+			$scope.yPieFunction = function(){
+				return function(d) {
+					return d.y;
+				};
+			}
+
+    }])
+    .controller('About', ['$scope', '$location', function($scope, $location) {
+
+    }]);
 });
