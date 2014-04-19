@@ -84,8 +84,8 @@ define('main', [], function() {
                 'nvd3ChartDirectives',
                 'slugifier',
 								'ui.sortable'
-            ]).config(['$stateProvider', '$urlRouterProvider',
-                function($stateProvider, $urlRouterProvider) {
+            ]).config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
+                function($stateProvider, $urlRouterProvider, $locationProvider) {
                     $stateProvider.
                       state('/', {
                           url: '/',
@@ -113,6 +113,8 @@ define('main', [], function() {
                           templateUrl: '404.html'
                       });
                     $urlRouterProvider.otherwise('/404');
+
+										$locationProvider.html5Mode(true);
                 }
             ]);
             // bootstrap model
