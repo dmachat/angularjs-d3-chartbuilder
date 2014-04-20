@@ -4,6 +4,15 @@ define(['angular', 'services'], function(angular) {
   /* Controllers */
 
   angular.module('webControllers', ['webServices'])
+		.controller('headerCtrl', [
+				'$scope',
+				'$location',
+				function($scope, $location) {
+					$scope.isActive = function(viewLocation) {
+						return viewLocation === $location.path();
+					}
+				}
+		])
 		.controller('Home', [
         '$scope',
         '$location',

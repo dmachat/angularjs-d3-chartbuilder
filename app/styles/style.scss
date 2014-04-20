@@ -5,6 +5,9 @@ $fa-font-path: '../bower_components/font-awesome/fonts';
 $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import '../bower_components/sass-bootstrap/lib/bootstrap';
 @import 'custom_mixins.scss';
+@import 'animations.scss';
+@import 'charts.scss';
+
 /* This is your main css file */
 .browsehappy {
     margin: 0.2em 0;
@@ -17,7 +20,14 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 body {
     padding-top: 20px;
     padding-bottom: 20px;
+    /* Container relative to hold animated content */
+    .container {
+        .main-content-container {
+            position: relative;
+         }
+    }
 }
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 
 .header,
