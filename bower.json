@@ -18,7 +18,8 @@
     "modernizr": "*",
     "d3": "~3.4.3",
     "nvd3": "~1.1.15-beta",
-    "angular-ui-router": "~0.2.10"
+    "angular-ui-router": "~0.2.10",
+    "angular-nvd3-directives": "git@github.com:dmachat/angularjs-nvd3-directives.git"
   },
   "resolutions": {
     "d3": "~3.3.13"
