@@ -112,9 +112,8 @@ define('main', [], function() {
                           url: '/404',
                           templateUrl: '404.html'
                       });
-                    $urlRouterProvider.otherwise('/404');
 
-										$locationProvider.html5Mode(true);
+                    $urlRouterProvider.otherwise('/');
                 }
             ]);
             // bootstrap model

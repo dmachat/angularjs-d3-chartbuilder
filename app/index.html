@@ -20,11 +20,11 @@
     <![endif]-->
     <div class="header" ng-controller="headerCtrl">
       <ul class="nav nav-pills pull-right">
-        <li ng-class="{ active: isActive('/') }"><a href="/">Home</a>
+        <li ui-sref-active="active"><a ui-sref="/">Home</a>
         </li>
-        <li ng-class="{ active: isActive('/chartbuilder') }"><a href="/chartbuilder">Chartbuilder</a>
+        <li ui-sref-active="active"><a ui-sref="chartbuilder">Chartbuilder</a>
         </li>
-        <li ng-class="{ active: isActive('/about') }"><a href="/about">About</a>
+        <li ui-sref-active="active"><a ui-sref="about">About</a>
         </li>
       </ul>
       <h3 class="text-muted">angular + d3 chartbuilder <i class="fa fa-cog fa-spin"></i></h3>

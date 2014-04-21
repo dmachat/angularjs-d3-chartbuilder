@@ -41,10 +41,6 @@ define(['angular', 'services'], function(angular) {
 				$state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
 			}, true);
 
-			$scope.$watch('isDonut', function(newval) {
-				console.log(newval);
-			});
-
 			getSampleData().then(function(data) {
 				$scope.sampleData = data;
 			});
