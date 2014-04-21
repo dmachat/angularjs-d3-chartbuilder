@@ -13,7 +13,7 @@ define('main', [], function() {
             'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
             'd3': '../bower_components/d3/d3',
             'nvd3': '../bower_components/nvd3/nv.d3',
-            'nvd3ChartDirectives': './bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
+            'nvd3ChartDirectives': 'angular_modules/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
             'controllers': 'controllers/controllers',
             'directives': 'directives/directives',
             'filters': 'filters/filters',
