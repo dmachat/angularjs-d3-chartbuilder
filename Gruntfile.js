@@ -449,7 +449,7 @@ module.exports = function(grunt) {
         var mainjs = grunt.file.read('dist/scripts/main.js'),
             first, second, content;
 
-        while (mainjs.indexOf('../bower_components') != -1) {
+        while (mainjs.indexOf('../bower_components') !== -1) {
             first = mainjs.indexOf('../bower_components');
             second = mainjs.indexOf('"', first);
             content = 'vendor/' + mainjs.substring(first, second).split('/').pop();

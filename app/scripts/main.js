@@ -1,3 +1,5 @@
+'use strict';
+
 define('main', [], function() {
     requirejs.config({
         paths: {
@@ -42,8 +44,6 @@ define('main', [], function() {
 						'ui.sortable': ['jquery', 'jqueryui']
         }
     });
-
-    Window.name = 'NG_DEFER_BOOTSTRAP!';
 
     requirejs([
         'angular',
@@ -113,6 +113,7 @@ define('main', [], function() {
                           templateUrl: '404.html'
                       });
 
+                    $locationProvider.html5Mode(true);
                     $urlRouterProvider.otherwise('/');
                 }
             ]);
