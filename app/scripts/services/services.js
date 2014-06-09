@@ -1,13 +1,13 @@
 define(['angular'], function(angular) {
-    'use strict';
+  'use strict';
 
-    /* Services */
-    angular.module('webServices', [])
-			.factory('getSampleData', ['$http', function($http) {
-				return function() {
-					return $http.get('/data/sample-data.json').then(function(result) {
-						return result.data;
-					});
-				}
-			}]);
+  /* Services */
+  angular.module('webServices', [])
+    .factory('getSampleData', ['$http', function($http) {
+      return function() {
+        return $http.get('/data/sample-data.json').then(function(result) {
+          return result.data;
+        });
+      }
+    }]);
 });
