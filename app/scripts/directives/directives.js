@@ -2,7 +2,7 @@ define(['angular'], function(angular) {
   'use strict';
   /* Directives */
 
-  angular.module('webDirectives', []).
+  angular.module('chartbuilderDirectives', []).
     directive('structureDataInput', function() {
       return {
         restrict: 'EA',

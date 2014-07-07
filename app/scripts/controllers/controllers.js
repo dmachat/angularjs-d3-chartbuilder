@@ -3,7 +3,7 @@ define(['angular', 'services'], function(angular) {
 
   /* Controllers */
 
-  angular.module('webControllers', ['webServices'])
+  angular.module('chartbuilderControllers', ['chartbuilderServices'])
     .controller('headerCtrl', [
         '$scope',
         '$location',
@@ -33,20 +33,9 @@ define(['angular', 'services'], function(angular) {
         if (angular.isUndefined(newval)) {
           return false;
         }
-        $state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
+        //$state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
+        $state.go('chartbuilder.barchart');
       }, true);
-
-      getSampleData().then(function(data) {
-        $scope.sampleData = data;
-      });
-
-      $scope.resetData = function() {
-        $scope.exampleData = [];
-      };
-
-      $scope.getSampleData = function() {
-        $scope.exampleData = $scope.sampleData[$filter('slugify')($scope.selectedChartType.name)];
-      };
 
       $scope.addGroup = function() {
         if (!$scope.newDataGroup) {

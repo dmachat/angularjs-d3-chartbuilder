@@ -15,13 +15,15 @@ define('main', [], function() {
             'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
             'd3': '../bower_components/d3/d3',
             'nvd3': '../bower_components/nvd3/nv.d3',
-            'nvd3ChartDirectives': 'angular_modules/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
-            'controllers': 'controllers/controllers',
-            'directives': 'directives/directives',
-            'filters': 'filters/filters',
-            'services': 'services/services',
+            'nvd3ChartDirectives': './angular_modules/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
+            'controllers': './controllers/controllers',
+            'directives': './directives/directives',
+            'filters': './filters/filters',
+            'services': './services/services',
             'slugifier': './angular_modules/angular-slugify/angular-slugify',
-            'ui.sortable': './angular_modules/ui-sortable/sortable'
+            'ui.sortable': './angular_modules/ui-sortable/sortable',
+            'chartbuilder.linechart': './angular_modules/nvd3-modules/linechart/main',
+            'chartbuilder.barchart': './angular_modules/nvd3-modules/barchart/main'
         },
         shim: {
             'angular': {
@@ -41,7 +43,9 @@ define('main', [], function() {
             'directives': ['angular'],
             'slugifier': ['angular'],
             'jqueryui': ['jquery'],
-            'ui.sortable': ['jquery', 'jqueryui']
+            'ui.sortable': ['jquery', 'jqueryui'],
+            'chartbuilder.linechart': ['angular', 'nvd3ChartDirectives'],
+            'chartbuilder.barchart': ['angular', 'nvd3ChartDirectives']
         }
     });
 
@@ -64,8 +68,10 @@ define('main', [], function() {
         'directives',
         'controllers',
         'slugifier',
-        'ui.sortable'
-    ], function(angular, home) {
+        'ui.sortable',
+        'chartbuilder.linechart',
+        'chartbuilder.barchart'
+    ], function(angular) {
         'use strict';
 
         /* App Module */
@@ -77,44 +83,38 @@ define('main', [], function() {
                 'ngResource',
                 'ui.bootstrap',
                 'ngAnimate',
-                'webControllers',
-                'webFilters',
-                'webServices',
-                'webDirectives',
+                'chartbuilderControllers',
+                'chartbuilderFilters',
+                'chartbuilderServices',
+                'chartbuilderDirectives',
                 'nvd3ChartDirectives',
                 'slugifier',
-                'ui.sortable'
-            ]).config(['$stateProvider', '$urlRouterProvider', '$locationProvider',
-                function($stateProvider, $urlRouterProvider, $locationProvider) {
+                'ui.sortable',
+                'chartbuilder.linechart',
+                'chartbuilder.barchart'
+            ]).config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
                     $stateProvider.
                       state('/', {
                           url: '/',
-                          templateUrl: 'partials/home.html'
+                          templateUrl: '/partials/home.html'
                       }).
                       state('chartbuilder', {
                           url: '/chartbuilder',
-                          templateUrl: 'partials/chartbuilder.html',
+                          templateUrl: '/partials/chartbuilder.html',
                           controller: 'Chartbuilder'
-                      }).
-                      state('chartbuilder.graph', {
-                          url: '/:graphType',
-                          templateUrl: function(stateParams) {
-                            return 'partials/charts/' + stateParams.graphType + '.html';
-                          }
                       }).
                       state('about', {
                           url: '/about',
-                          templateUrl: 'partials/about.html'
+                          templateUrl: '/partials/about.html'
                       }).
                       state('404', {
                           url: '/404',
-                          templateUrl: '404.html'
+                          templateUrl: '/404.html'
                       });
 
-                    $locationProvider.html5Mode(true);
+                    //$locationProvider.html5Mode(true);
                     $urlRouterProvider.otherwise('/');
-                }
-            ]);
+                }]);
             // bootstrap model
             angular.bootstrap($html, ['angulard3Chartbuilder']);
         });
