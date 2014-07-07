@@ -10,7 +10,7 @@ define('main', [], function() {
             'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap',
             'modernizr': '../bower_components/modernizr/modernizr',
             'jquery': '../bower_components/jquery/dist/jquery',
-            'jqueryui': '../bower_components/jquery-ui/ui/jquery-ui',
+            'jqueryui': '../bower_components/jquery-ui/jquery-ui',
             'underscore': '../bower_components/underscore/underscore',
             'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
             'd3': '../bower_components/d3/d3',
@@ -113,7 +113,7 @@ define('main', [], function() {
                           templateUrl: '404.html'
                       });
 
-                    $locationProvider.html5Mode(true);
+                    //$locationProvider.html5Mode(true);
                     $urlRouterProvider.otherwise('/');
                 }
             ]);
