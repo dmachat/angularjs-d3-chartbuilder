@@ -13,6 +13,7 @@
     "grunt-contrib-connect": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-htmlmin": "*",
+    "grunt-build-control": "*",
     "requirejs": "*",
     "karma-script-launcher": "*",
     "karma-chrome-launcher": "*",

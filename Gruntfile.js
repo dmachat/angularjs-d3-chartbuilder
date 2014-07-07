@@ -417,6 +417,20 @@ module.exports = function(grunt) {
                 'imagemin',
                 'svgmin'
             ]
+        },
+        buildcontrol: {
+            options: {
+                dir: 'dist',
+                commit: true,
+                push: true,
+                message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+            },
+            pages: {
+                options: {
+                    remote: 'git@github.com:dmachat/angularjs-d3-chartbuilder.git',
+                    branch: 'gh-pages'
+                }
+            }
         }
     });
     grunt.registerTask('bundle-js', ['bower']);
