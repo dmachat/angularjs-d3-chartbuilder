@@ -10,14 +10,7 @@ define(['angular', 'services'], function(angular) {
         function($scope, $location) {
           $scope.isActive = function(viewLocation) {
             return viewLocation === $location.path();
-          }
-        }
-    ])
-    .controller('Home', [
-        '$scope',
-        '$location',
-        function($scope, $location) {
-            /* initialize */
+          };
         }
     ])
     .controller('Chartbuilder', ['$scope', '$location', '$state', '$http', '$filter', '$stateParams', 'getSampleData', function($scope, $location, $state, $http, $filter, $stateParams, getSampleData) {
@@ -37,7 +30,9 @@ define(['angular', 'services'], function(angular) {
       ];
 
       $scope.$watch('selectedChartType', function(newval) {
-        if (angular.isUndefined(newval)) return false;
+        if (angular.isUndefined(newval)) {
+          return false;
+        }
         $state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
       }, true);
 
@@ -47,44 +42,43 @@ define(['angular', 'services'], function(angular) {
 
       $scope.resetData = function() {
         $scope.exampleData = [];
-      }
+      };
 
       $scope.getSampleData = function() {
         $scope.exampleData = $scope.sampleData[$filter('slugify')($scope.selectedChartType.name)];
-      }
+      };
 
       $scope.addGroup = function() {
-        if (!$scope.newDataGroup) return false;
+        if (!$scope.newDataGroup) {
+          return false;
+        }
         $scope.exampleData.push({ key: $scope.newDataGroup, values: [] });
         $scope.newDataGroup = '';
-      }
+      };
 
       // Functions for cumulative line graph
       $scope.xLineFunction = function(){
         return function(d) {
           return d[0];
-        }
+        };
       };
       $scope.yLineFunction = function(){
         return function(d) {
           return d[1]/100;
-        }
-      }
+        };
+      };
 
       // Functions for pie chart rendering
       $scope.xPieFunction = function(){
         return function(d) {
           return d.key;
         };
-      }
+      };
       $scope.yPieFunction = function(){
         return function(d) {
           return d.y;
         };
-      }
-
-    }])
-    .controller('About', ['$scope', '$location', function($scope, $location) {
+      };
 
     }]);
 });

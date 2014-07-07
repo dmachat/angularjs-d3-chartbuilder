@@ -41,7 +41,8 @@
     "load-grunt-tasks": "*",
     "time-grunt": "*",
     "jshint-stylish": "*",
-    "grunt-jsbeautifier": "^0.2.6"
+    "grunt-jsbeautifier": "^0.2.6",
+    "text": "git://github.com/requirejs/text.git"
   },
   "engines": {
     "node": ">=0.8.0"
