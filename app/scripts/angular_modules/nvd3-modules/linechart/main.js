@@ -5,7 +5,9 @@
 "use strict";
 
 define(['angular'], function(angular) {
-  angular.module('chartbuilder.linechart', [])
+  angular.module('chartbuilder.linechart', ['chartbuilderServices'])
+    .value('chartbuilderModuleRegistry', {})
+    .value('chartbuilderDataStore', [])
     .config(['$stateProvider', function($stateProvider) {
       $stateProvider.state('chartbuilder.linechart', {
         url: '/linechart',
@@ -18,13 +20,23 @@ define(['angular'], function(angular) {
           }
         }
       });
-
-      var module = {
-        name: 'Line Chart',
-        slug: 'line-chart'
-      }
     }])
-    .controller('graphController', ['$scope', '$location', function($scope, $location) {
+    .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+      var module = {
+        'Line Chart': {
+          name: 'Line Chart',
+          slug: 'line-chart'
+        }
+      }
+
+      angular.extend(chartbuilderModuleRegistry, module);
+    }])
+    .controller('graphController', ['$scope', '$location', 'getSampleData', 'chartbuilderDataStore', function($scope, $location, getSampleData, chartbuilderDataStore) {
+      $scope.$on('getSampleData', function() {
+        getSampleData().then(function(data) {
+          $scope.exampleData = chartbuilderDataStore = [data];
+        });
+      })
       $scope.isActive = function(viewLocation) {
         return viewLocation === $location.path();
       };

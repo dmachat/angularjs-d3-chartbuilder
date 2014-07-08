@@ -1,6 +1,5 @@
 define(['angular'], function(angular) {
   'use strict';
-  /* Directives */
 
   angular.module('chartbuilderDirectives', []).
     directive('structureDataInput', function() {
@@ -11,7 +10,7 @@ define(['angular'], function(angular) {
           structureType: '@?'
         },
         templateUrl: '/partials/data-forms/structure-data-input.html',
-        link: function(scope, element, attrs) {
+        link: function(scope) {
           scope.dataColumns = 2;
           scope.newRow = {};
           scope.newRowTypes = ['Number', 'Number'];
@@ -28,14 +27,16 @@ define(['angular'], function(angular) {
           }
 
           scope.addRow = function(gidx) {
-            if (!scope.newRow[gidx].length) return false;
-            scope.structureData[gidx].values.push(scope.newRow[gidx])
-          }
+            if (!scope.newRow[gidx].length) {
+              return false;
+            }
+            scope.structureData[gidx].values.push(scope.newRow[gidx]);
+          };
 
           scope.removeRow = function(gidx, idx) {
             scope.structureData[gidx].values.splice(idx, 1);
-          }
+          };
         }
-      }
+      };
     });
 });

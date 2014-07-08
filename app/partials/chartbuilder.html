@@ -1,3 +1,4 @@
+{{ dataStore | json }}
 <div class="row">
 	<div class="col-lg-5">
 		<div class="panel panel-default">
@@ -6,10 +7,9 @@
 				<div class="form-group">
 					<select id="chartTypeSelect"
 						class="form-control"
-						ng-options="type as type.name for type in chartDisplayType"
+						ng-options="type.slug as type.name for (key, type) in modules"
 						ng-model="selectedChartType"
-						ng-disabled="type.group"
-						value="type.name"
+						value="type.slug"
 						>
 						<option value="">Select a chart type</option>
 					</select>

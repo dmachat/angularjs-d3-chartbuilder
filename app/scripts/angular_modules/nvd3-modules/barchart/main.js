@@ -6,6 +6,8 @@
 
 define(['angular'], function(angular) {
   angular.module('chartbuilder.barchart', ['chartbuilderServices'])
+    .value('chartbuilderModuleRegistry', {})
+    .value('chartbuilderDataStore', [])
     .config(['$stateProvider', function($stateProvider) {
       $stateProvider.state('chartbuilder.barchart', {
         url: '/barchart',
@@ -18,16 +20,23 @@ define(['angular'], function(angular) {
           }
         }
       });
-
-      var module = {
-        name: 'Bar Chart',
-        slug: 'bar-chart'
-      }
     }])
-    .controller('graphController', ['$scope', '$location', 'getSampleData', function($scope, $location, getSampleData) {
-      getSampleData().then(function(data) {
-        $scope.exampleData = [data];
-      });
+    .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+      var module = {
+        'Bar Chart': {
+          name: 'Bar Chart',
+          slug: 'barchart'
+        }
+      }
+
+      angular.extend(chartbuilderModuleRegistry, module);
+    }])
+    .controller('graphController', ['$scope', '$location', 'getSampleData', 'chartbuilderDataStore', function($scope, $location, getSampleData, chartbuilderDataStore) {
+      $scope.$on('getSampleData', function() {
+        getSampleData().then(function(data) {
+          $scope.exampleData = chartbuilderDataStore = [data];
+        });
+      })
 
       $scope.isActive = function(viewLocation) {
         return viewLocation === $location.path();

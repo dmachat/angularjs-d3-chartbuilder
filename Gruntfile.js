@@ -120,7 +120,11 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish'),
-                smarttabs: true
+                smarttabs: true,
+                globals: {
+                  define: false,
+                  requirejs: false
+                }
             },
             all: [
                 'Gruntfile.js',
@@ -444,7 +448,7 @@ module.exports = function(grunt) {
     grunt.registerTask('requirejs-bundle', function() {
         function replaceBetween(string, start, end, what) {
             return string.substring(0, start) + what + string.substring(end);
-        };
+        }
 
         var mainjs = grunt.file.read('dist/scripts/main.js'),
             first, second, content;

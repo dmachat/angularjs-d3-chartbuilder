@@ -4,6 +4,7 @@ define(['angular', 'services'], function(angular) {
   /* Controllers */
 
   angular.module('chartbuilderControllers', ['chartbuilderServices'])
+    .value('chartbuilderModuleRegistry', {})
     .controller('headerCtrl', [
         '$scope',
         '$location',
@@ -13,29 +14,25 @@ define(['angular', 'services'], function(angular) {
           };
         }
     ])
-    .controller('Chartbuilder', ['$scope', '$location', '$state', '$http', '$filter', '$stateParams', 'getSampleData', function($scope, $location, $state, $http, $filter, $stateParams, getSampleData) {
+    .controller('Chartbuilder', ['$scope', '$location', '$state', '$http', '$filter', '$stateParams', 'chartbuilderModuleRegistry', 'chartbuilderDataStore', function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderDataStore) {
       $scope.exampleData = [];
       $scope.chartHeight = 600;
       $scope.isDonut = false;
-      $scope.chartDisplayType = [
-        { name: 'Line Chart' },
-        { name: 'Cumulative Line Chart' },
-        { name: 'Line with Focus Chart' },
-        { name: 'Stacked Area Chart' },
-        { name: 'Discrete Bar Chart' },
-        { name: 'Multi Bar Chart' },
-        { name: 'Multi Bar Horizontal Chart', group: true },
-        { name: 'Pie Chart' },
-        { name: 'Scatter Chart' }
-      ];
+
+      $scope.modules = chartbuilderModuleRegistry;
+
+      $scope.dataStore = chartbuilderDataStore;
 
       $scope.$watch('selectedChartType', function(newval) {
         if (angular.isUndefined(newval)) {
           return false;
         }
-        //$state.go('chartbuilder.graph', { graphType: $filter('slugify')(newval.name) });
-        $state.go('chartbuilder.barchart');
+        $state.go('chartbuilder.' + newval);
       }, true);
+
+      $scope.getSampleData = function() {
+        $scope.$broadcast('getSampleData');
+      };
 
       $scope.addGroup = function() {
         if (!$scope.newDataGroup) {

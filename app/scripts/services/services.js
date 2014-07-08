@@ -8,6 +8,6 @@ define(['angular'], function(angular) {
         return $http.get('/scripts/angular_modules/nvd3-modules/barchart/data.json').then(function(result) {
           return result.data;
         });
-      }
+      };
     }]);
 });
