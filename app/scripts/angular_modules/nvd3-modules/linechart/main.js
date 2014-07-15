@@ -1,44 +1,56 @@
 /*
- Modular version of the line-chart nvd3-directive
-
+ Modular version of the bar chart nvd3-directive
  */
 "use strict";
 
-define(['angular'], function(angular) {
-  angular.module('chartbuilder.linechart', ['chartbuilderServices'])
-    .value('chartbuilderModuleRegistry', {})
-    .value('chartbuilderDataStore', [])
-    .config(['$stateProvider', function($stateProvider) {
-      $stateProvider.state('chartbuilder.linechart', {
-        url: '/linechart',
-        views: {
-          'graph': {
-            templateUrl: function(stateParams) {
-              return 'scripts/angular_modules/nvd3-modules/linechart/template.html';
-            },
-            controller: 'graphController'
-          }
-        }
-      });
-    }])
-    .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
-      var module = {
-        'Line Chart': {
-          name: 'Line Chart',
-          slug: 'line-chart'
-        }
-      }
+(function() {
+  define(['angular', 'text!angular_modules/nvd3-modules/linechart/template.html'], function(angular, template) {
+    var module = {
+      name: 'Line Chart',
+      slug: 'linechart',
+      data: '/scripts/angular_modules/nvd3-modules/linechart/data.json'
+    };
 
-      angular.extend(chartbuilderModuleRegistry, module);
-    }])
-    .controller('graphController', ['$scope', '$location', 'getSampleData', 'chartbuilderDataStore', function($scope, $location, getSampleData, chartbuilderDataStore) {
-      $scope.$on('getSampleData', function() {
-        getSampleData().then(function(data) {
-          $scope.exampleData = chartbuilderDataStore = [data];
+    angular.module('chartbuilder.linechart', ['chartbuilderServices'])
+      .value('chartbuilderModuleRegistry', {})
+      .value('chartbuilderSelectedModule', {})
+      /**
+       * Add this module's state to ui-router routes
+       */
+      .config(['$stateProvider', function($stateProvider) {
+        $stateProvider.state('chartbuilder.' + module.slug, {
+          url: '/' + module.slug,
+          views: {
+            'graph': {
+              template: template,
+              controller: module.slug + 'Controller'
+            }
+          }
         });
-      })
-      $scope.isActive = function(viewLocation) {
-        return viewLocation === $location.path();
-      };
-    }]);
-});
+      }])
+      .run(['chartbuilderModuleRegistry', 'getSampleData', function(chartbuilderModuleRegistry, getSampleData) {
+        var moduleOpts = {};
+        moduleOpts[module.name] = {
+          name: module.name,
+          slug: module.slug
+        }
+
+        getSampleData(module.data).then(function(data) {
+          moduleOpts[module.name].data = data;
+        });
+
+        // Add the slug and name definitions to chartbuilder
+        angular.extend(chartbuilderModuleRegistry, moduleOpts);
+
+      }])
+      .controller(module.slug + 'Controller', ['$scope', '$location', 'getSampleData', 'chartbuilderDataStore', 'chartbuilderModuleRegistry', 'chartbuilderSelectedModule', function($scope, $location, getSampleData, chartbuilderDataStore, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+        // Localize the datastore for the view
+        $scope.dataStore = chartbuilderDataStore;
+
+        // Initialize the data -- store sample data and set structure
+        chartbuilderSelectedModule.selected = module.slug;
+        chartbuilderDataStore.init(chartbuilderModuleRegistry[module.name].data);
+
+      }]);
+  });
+})();

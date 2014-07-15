@@ -1,6 +1,6 @@
-<div class="panel-group" id="accordion">
+<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>
 	<div class="panel panel-default"
-		ng-repeat="group in structureData track by $index"
+		ng-repeat="group in structureData.data track by $index"
 		>
 		<div class="panel-heading">
 			<div class="panel-title">
@@ -19,12 +19,13 @@
 					<thead>
 						<tr>
 							<th>Remove</th>
-							<th>x-value: <select ng-options="type as type for type in ['Number', 'Text']" ng-model="newRowTypes[$index]"></select></th>
-							<th>y-value: <select ng-options="type as type for type in ['Number', 'Text']" ng-model="newRowTypes[$index]"></select></th>
+							<th data-ng-repeat="type in structureData.columnTypes track by $index">
+								type: <select ng-options="type as type for type in structureData.columnTypes" ng-model="structureData.columnTypes[$index]"></select>
+							</th>
 						</tr>
 					</thead>
 					<tbody ng-model="group.values" ui-sortable>
-						<tr ng-repeat="rows in group.values">
+						<tr ng-repeat="rows in group.values track by $index">
 							<td>
 								<span class="glyphicon glyphicon-minus"
 									ng-click="removeRow($parent.$index, $index)"
@@ -32,7 +33,10 @@
 								</span>
 							</td>
 							<td ng-repeat="row in rows track by $index">
-								{{ row }}
+								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][$index]"
+									type="{{ structureData.columnTypes[$index] | lowercase }}"
+									>
+								</edit-in-place>
 							</td>
 						</tr>
 						<tr>
@@ -43,7 +47,7 @@
 								</span>
 							</td>
 							<td ng-repeat="row in dataInputs">
-								<input type="{{ newRowTypes[$index] | lowercase }}" class="form-control" placeholder="name" ng-model="newRow[$parent.$index][$index]" />
+								<input type="{{ structureData.columnTypes[$index] | lowercase }}" class="form-control" placeholder="name" ng-model="newRow[$parent.$index][$index]" />
 							</td>
 						</tr>
 					</tbody>

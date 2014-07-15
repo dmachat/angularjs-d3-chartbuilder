@@ -120,11 +120,6 @@ module.exports = function(grunt) {
             options: {
                 jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish'),
-                smarttabs: true,
-                globals: {
-                  define: false,
-                  requirejs: false
-                }
             },
             all: [
                 'Gruntfile.js',

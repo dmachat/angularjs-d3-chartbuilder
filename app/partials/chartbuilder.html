@@ -1,4 +1,3 @@
-{{ dataStore | json }}
 <div class="row">
 	<div class="col-lg-5">
 		<div class="panel panel-default">
@@ -17,22 +16,23 @@
 				<div class="form-group">
 					<input type="text" id="chartName" class="form-control" ng-model="chartName" placeholder="Chart Name" />
 				</div>
-				<div class="form-group input-group">
+				<div class="form-group input-group" data-ng-if="structureData.opts.multigroup">
 					<input type="text" class="form-control" placeholder="Add Data Group" ng-model="newDataGroup" />
 					<span class="input-group-btn">
 						<button class="btn btn-info" type="button" ng-click="addGroup()">Add</button>
 					</span>
 				</div>
-				<div class="form-group">
+				<div class="form-group" ng-repeat="(name, option) in structureData.opts track by $index">
 					<label>
-						<input type="checkbox" ng-model="isDonut" />Donut
+						<input type="{{ option.type }}" ng-model="option.value" />
+							{{ name }}
 					</label>
 				</div>
 			</div>
 		</div>
 
 		<div class="form-group btn-group btn-group-justified">
-			<a role="button" class="btn btn-lg btn-info" ng-click="getSampleData()">Use sample data</a>
+			<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>
 			<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>
 		</div>
 		<div class="form-group btn-group btn-group-justified">
@@ -40,8 +40,7 @@
 		</div>
 
 		<div structure-data-input
-			structure-data="exampleData"
-			structure-type="discrete-bar-chart"
+			structure-data="structureData"
 			>
 		</div>
 	</div>
@@ -55,7 +54,7 @@
 
 		<div class="alert alert-info alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Example Data: </strong>{{ exampleData | json }}
+			<strong>Example Data: </strong>{{ structureData.data | json }}
 		</div>
 	</div>
 </div>

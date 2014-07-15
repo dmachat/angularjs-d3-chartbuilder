@@ -1,11 +1,10 @@
+{{ dataStore.opts | json }}
 <nvd3-line-chart
-  data="exampleData"
-  id="exampleId"
-  xAxisTickFormat="xAxisTickFormatFunction()"
-  yAxisTickFormat="yAxisTickFormatFunction()"
-  height="600"
-  showXAxis="true"
-  showYAxis="true"
+  data="dataStore.data"
+  height="{{ dataStore.opts.height.value }}"
+	width="{{ dataStore.opts.width.value }}"
+  showXAxis="{{ dataStore.opts.showXAxis.value }}"
+  showYAxis="{{ dataStore.opts.showYAxis.value }}"
 	objectequality="true"
   >
   <svg></svg>

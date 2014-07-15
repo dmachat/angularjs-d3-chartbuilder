@@ -1,0 +1,18 @@
+.edit-in-place {
+  &.active {
+    span {
+      display: none;
+    }
+    input {
+      display: inline-block;
+    }
+  }
+  span {
+    cursor: pointer;
+  }
+  input {
+    display: none;
+  }
+}
+
+
