@@ -14,8 +14,7 @@ define('main', [], function() {
       'underscore': '../bower_components/underscore/underscore',
       'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
       'd3': '../bower_components/d3/d3',
-      'nvd3': '../bower_components/nvd3/nv.d3',
-      'nvd3ChartDirectives': './angular_modules/angularjs-nvd3-directives/dist/angularjs-nvd3-directives',
+      'nv.d3': '../bower_components/nvd3/nv.d3',
       'controllers': './controllers/controllers',
       'directives': './directives/directives',
       'filters': './filters/filters',
@@ -23,8 +22,9 @@ define('main', [], function() {
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
       'text': './vendor/text',
-      'chartbuilder.linechart': './angular_modules/nvd3-modules/linechart/main',
-      'chartbuilder.barchart': './angular_modules/nvd3-modules/barchart/main'
+      'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
+      'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
+      //'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main'
     },
     shim: {
       'angular': {
@@ -45,10 +45,10 @@ define('main', [], function() {
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['jquery', 'jqueryui'],
-      'nvd3': ['d3'],
-      'nvd3ChartDirectives': ['nvd3'],
-      'chartbuilder.linechart': ['angular', 'nvd3ChartDirectives'],
-      'chartbuilder.barchart': ['angular', 'nvd3ChartDirectives']
+      'nv.d3': ['d3'],
+      'chartbuilder.nvd3': ['angular'],
+      'chartbuilder.nvd3.linechart': ['angular'],
+      //'chartbuilder.nvd3.barchart': ['angular']
     }
   });
 
@@ -62,8 +62,7 @@ define('main', [], function() {
     'ui-bootstrap',
     'underscore',
     'd3',
-    'nvd3',
-    'nvd3ChartDirectives',
+    'nv.d3',
     'bootstrap',
     'modernizr',
     'services',
@@ -72,8 +71,9 @@ define('main', [], function() {
     'controllers',
     'slugifier',
     'ui.sortable',
-    'chartbuilder.linechart',
-    'chartbuilder.barchart'
+    'chartbuilder.nvd3',
+    'chartbuilder.nvd3.linechart',
+    //'chartbuilder.nvd3.barchart'
   ], function(angular) {
 
     /* App Module */
@@ -89,11 +89,11 @@ define('main', [], function() {
         'chartbuilderFilters',
         'chartbuilderServices',
         'chartbuilderDirectives',
-        'nvd3ChartDirectives',
         'slugifier',
         'ui.sortable',
-        'chartbuilder.linechart',
-        'chartbuilder.barchart'
+        'chartbuilder.nvd3',
+        'chartbuilder.nvd3.linechart',
+        //'chartbuilder.nvd3.barchart'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',

@@ -11,7 +11,7 @@
       data: '/scripts/angular_modules/nvd3-modules/barchart/data.json'
     };
 
-    angular.module('chartbuilder.barchart', ['chartbuilderServices'])
+    angular.module('chartbuilder.nvd3.barchart', ['chartbuilderServices'])
       .value('chartbuilderModuleRegistry', {})
       .value('chartbuilderSelectedModule', {})
       /**

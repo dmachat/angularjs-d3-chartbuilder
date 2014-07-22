@@ -21,15 +21,12 @@ define(['angular', 'services'], function(angular) {
       '$filter',
       '$stateParams',
       'chartbuilderModuleRegistry',
-      'chartbuilderDataStore',
+      'chartbuilderData',
       'chartbuilderSelectedModule',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderDataStore, chartbuilderSelectedModule) {
-        $scope.chartHeight = 600;
-        $scope.isDonut = false;
-
+      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.selectedChartType = chartbuilderSelectedModule.selected;
-        $scope.structureData = chartbuilderDataStore;
+        $scope.structureData = chartbuilderData;
 
         $scope.$watch('selectedChartType', function(newval) {
           if (angular.isUndefined(newval)) {
@@ -39,11 +36,11 @@ define(['angular', 'services'], function(angular) {
         }, true);
 
         $scope.showSampleData = function() {
-          chartbuilderDataStore.showSampleData();
+          chartbuilderData.showSampleData();
         };
 
         $scope.resetData = function() {
-          chartbuilderDataStore.resetData();
+          chartbuilderData.resetData();
         };
 
         $scope.addGroup = function() {

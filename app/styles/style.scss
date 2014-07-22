@@ -7,6 +7,8 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import 'custom_mixins.scss';
 @import 'animations.scss';
 @import 'charts.scss';
+@import 'header.scss';
+@import 'sidebar.scss';
 @import 'editinplace.scss';
 
 /* This is your main css file */
@@ -19,7 +21,6 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 /* Space out content a bit */
 
 body {
-    padding-top: 20px;
     padding-bottom: 20px;
     /* Container relative to hold animated content */
     .container {
@@ -36,19 +37,6 @@ body {
 .footer {
     padding-left: 15px;
     padding-right: 15px;
-}
-/* Custom page header */
-
-.header {
-    border-bottom: 1px solid #e5e5e5;
-}
-/* Make the masthead heading the same height as the navigation */
-
-.header h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
 }
 /* Custom page footer */
 
@@ -81,16 +69,6 @@ body {
 /* Responsive: Portrait tablets and up */
 
 @media screen and (min-width: 768px) {
-    .container {
-        max-width: 750px;
-    }
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
     /* Space out the masthead */
     .header {
         margin-bottom: 30px;
@@ -101,13 +79,7 @@ body {
     }
 }
 @media screen and (min-width: 992px) {
-	.container {
-		max-width: 970px;
-	}
 }
 
 @media screen and (min-width: 1200px) {
-	.container {
-		max-width: 1170px;
-	}
 }

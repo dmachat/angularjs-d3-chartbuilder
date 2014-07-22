@@ -10,9 +10,9 @@ define(['angular'], function(angular) {
         });
       };
     }])
-    .service('chartbuilderDataStore', function() {
+    .service('chartbuilderData', function() {
       var dataStore = {
-        opts: {},
+        options: {},
         data: [],
         resetData: function() {
           this.data = [];
@@ -21,19 +21,20 @@ define(['angular'], function(angular) {
             (isNaN(dataStore.sampleData[0].values[0][1]) ? 'Text' : 'Number')
           ];
           angular.forEach(dataStore.sampleData, function(group, idx) {
-            this.data.push({ key: 'Example Group ' + (idx + 1), values: [ [ ((this.columnTypes[0] === 'Text') ? 'A' : 0), ((this.columnTypes[1] === 'Text') ? 'A' : 0) ] ] });
+            this.data.push({ key: 'Example Group ' + (idx + 1), values: [ this.dataFormat() ] });
           }, dataStore);
         },
         showSampleData: function() {
           this.data = dataStore.sampleData;
         },
-        init: function(initData) {
-          this.sampleData = initData.exampleData;
-          if (angular.isDefined(initData.opts)) { 
-            this.opts = angular.extend(initData.opts, this.opts);
+        init: function(init) {
+          this.sampleData = init.data.exampleData;
+          this.dataFormat = init.dataFormat;
+          if (angular.isDefined(init.options)) { 
+            this.options = angular.extend(init.options, this.options);
           }
-          if (initData.exampleData.length > 1) {
-            this.opts.multigroup = true;
+          if (init.data.exampleData.length > 1) {
+            this.options.multigroup = true;
           }
           this.resetData();
         }
@@ -41,5 +42,21 @@ define(['angular'], function(angular) {
 
       return dataStore;
 
+    })
+    .service('chartbuilderUtils', function() {
+      return {
+        // get type for variable val
+        getType: function(val) {
+          if (val === null) return 'null';
+          else if (val === undefined) return 'undefined';
+          else if (val.constructor === Array) return 'array';
+          else if (val.constructor === Object) return 'object';
+          else if (val.constructor === String) return 'string';
+          else if (val.constructor === Number) return 'number';
+          else if (val.constructor === Boolean) return 'boolean';
+          else if (val.constructor === Function) return 'function';
+          else return 'object';
+        }
+      };
     });
 });
