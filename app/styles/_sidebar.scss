@@ -1,0 +1,26 @@
+.sidebar {
+  .input-group {
+    width: 100%;
+    margin: 5px 0;
+  }
+  .chartbuilder-options {
+    .panel-heading {
+      padding: 15px 15px 0;
+    }
+    #collapse-advanced-options {
+      .panel-body {
+        padding: 0;
+      }
+    }
+    .chartbuilder-input-group {
+      h4 {
+        margin-top: 20px;
+      }
+    }
+  }
+  [structure-data-input] {
+    .panel-body {
+      padding: 0;
+    }
+  }
+}

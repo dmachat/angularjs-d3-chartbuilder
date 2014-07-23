@@ -1,0 +1,13 @@
+{{ dataStore.opts | json }}
+<nvd3-line-chart
+  data="dataStore.data"
+	id="lineChart"
+  height="{{ dataStore.opts.height.value }}"
+	width="{{ dataStore.opts.width.value }}"
+  showXAxis="{{ dataStore.opts.showXAxis.value }}"
+  showYAxis="{{ dataStore.opts.showYAxis.value }}"
+	isArea="{{ dataStore.opts.isArea.value }}"
+	objectequality="true"
+  >
+  <svg></svg>
+</nvd3-line-chart>

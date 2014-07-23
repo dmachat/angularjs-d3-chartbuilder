@@ -1,4 +1,3 @@
-// Generated on 2014-01-14 using generator-webapp 0.4.6
 'use strict';
 
 // # Globbing
@@ -71,10 +70,6 @@ module.exports = function(grunt) {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass:server', 'autoprefixer']
             },
-            //scripts: {
-            //files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-            //tasks: ['sass:server', 'autoprefixer', 'concat']
-            //},
             styles: {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
                 tasks: ['newer:copy:styles', 'autoprefixer']
@@ -115,12 +110,12 @@ module.exports = function(grunt) {
             server: '.tmp'
         },
 
+
         // Make sure code styles are up to par and there are no obvious mistakes
         jshint: {
             options: {
                 jshintrc: '.jshintrc',
                 reporter: require('jshint-stylish'),
-                smarttabs: true
             },
             all: [
                 'Gruntfile.js',
@@ -139,19 +134,15 @@ module.exports = function(grunt) {
 
         // require js
         requirejs: {
-            dist: {
+            compile: {
                 options: {
-                    dir: '<%= yeoman.dist %>/scripts/',
-                    baseUrl: '<%= yeoman.app %>/scripts', // Directory to look for the require configuration file
-                    mainConfigFile: '<%= yeoman.app %>/scripts/main.js', // This is relative to the grunt file
-                    modules: [{
-                            name: 'main'
-                        } // Create a global bundle
-                    ],
-                    preserveLicenseComments: false, // remove all comments
-                    removeCombined: true, // remove files which aren't in bundles
-                    optimize: 'uglify', // minify bundles with uglify 2
-                    useStrict: true
+                    mainConfigFile: "<%= yeoman.app %>/scripts/main.js",
+                    baseUrl : "<%= yeoman.app %>/scripts",
+                    name: "main",
+                    out: "<%= yeoman.dist %>/scripts/main.js",
+                    optimize: "none",
+                    removeCombined: true,
+                    findNestedDependencies: true,
                 }
             }
         },
@@ -183,35 +174,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        /*
-        sass: {
-            dist: {
-                 options: {
-                    style: 'compressed'
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>/styles',
-                    src: ['*.scss'],
-                    dest: '.tmp/styles',
-                    ext: '.css'
-                }]
-            },
-            server: {
-                options: {
-                    debugInfo: true,
-                    style: 'expanded'
-                },
-                files: [{
-                    expand: true,
-                    cwd: '<%= yeoman.app %>/styles',
-                    src: ['*.scss'],
-                    dest: '.tmp/styles',
-                    ext: '.css'
-                }]
-            }
-        },
-        */
+
         // Add vendor prefixed styles
         autoprefixer: {
             options: {
@@ -236,20 +199,6 @@ module.exports = function(grunt) {
             app: {
                 html: '<%= yeoman.app %>/index.html',
                 ignorePath: '<%= yeoman.app %>/'
-            }
-        },
-
-        // Renames files for browser caching purposes
-        rev: {
-            dist: {
-                files: {
-                    src: [
-                        '<%= yeoman.dist %>/scripts/{,*/}*.js',
-                        '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}',
-                        '<%= yeoman.dist %>/styles/fonts/{,*/}*.*'
-                    ]
-                }
             }
         },
 
@@ -326,16 +275,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        uglify: {
-            dist: {
-                files: [{
-                    src: '<%= yeoman.app %>/scripts/*.js', // source files mask
-                    dest: '<%= yeoman.dist %>/scripts/', // destination folder
-                    expand: true, // allow dynamic building
-                    flatten: true // remove all unnecessary nesting
-                }]
-            }
-        },
         concat: {
             dist: {
                 src: ['.tmp/styles/{,*/}*.css'],
@@ -355,26 +294,13 @@ module.exports = function(grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.webp',
-                        '{,*/}*.html',
+                        '*.html',
                         'styles/fonts/{,*/}*.*',
                         'bower_components/sass-bootstrap/fonts/*.*',
-                        'bower_components/font-awesome/fonts/*.*'
+                        'bower_components/font-awesome/fonts/*.*',
+                        'bower_components/requirejs/require.js'
                     ]
                 }]
-            },
-            afterBuild: {
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    dot: true,
-                    cwd: '<%= yeoman.dist %>/scripts',
-                    dest: '<%= yeoman.dist %>/scripts/vendor',
-                    src: [
-                        '*.js',
-                        '!main.js'
-                    ]
-                }]
-
             },
             styles: {
                 expand: true,
@@ -407,12 +333,10 @@ module.exports = function(grunt) {
         concurrent: {
             server: [
                 'compass:server',
-                //'sass:server',
                 'copy:styles'
             ],
             dist: [
                 'compass',
-                //'sass:dist',
                 'copy:styles',
                 'imagemin',
                 'svgmin'
@@ -433,7 +357,6 @@ module.exports = function(grunt) {
             }
         }
     });
-    grunt.registerTask('bundle-js', ['bower']);
 
     grunt.registerTask('serve', function(target) {
         if (target === 'dist') {
@@ -455,23 +378,6 @@ module.exports = function(grunt) {
         grunt.task.run(['serve']);
     });
 
-    grunt.registerTask('requirejs-bundle', function() {
-        function replaceBetween(string, start, end, what) {
-            return string.substring(0, start) + what + string.substring(end);
-        };
-
-        var mainjs = grunt.file.read('dist/scripts/main.js'),
-            first, second, content;
-
-        while (mainjs.indexOf('../bower_components') !== -1) {
-            first = mainjs.indexOf('../bower_components');
-            second = mainjs.indexOf('"', first);
-            content = 'vendor/' + mainjs.substring(first, second).split('/').pop();
-            mainjs = replaceBetween(mainjs, first, second, content);
-        }
-        grunt.file.write('dist/scripts/main.js', mainjs);
-    });
-
     grunt.registerTask('build', [
         'clean:dist',
         'useminPrepare',
@@ -479,13 +385,8 @@ module.exports = function(grunt) {
         'autoprefixer',
         'cssmin',
         'requirejs',
-        'copy:afterBuild',
-        'clean:afterBuild',
-        'requirejs-bundle',
-        // 'uglify',
         'copy:dist',
         'modernizr',
-        // 'rev',
         'usemin',
         'htmlmin'
     ]);

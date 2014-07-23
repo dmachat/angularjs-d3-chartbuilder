@@ -1,15 +1,19 @@
 <div class="row">
-	<div class="col-lg-5">
-		<div class="panel panel-default">
-			<div class="panel-heading"><h4>Chart Options</h4></div>
+	<div class="col-lg-3 sidebar">
+		<div class="form-group btn-group btn-group-justified">
+			<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>
+		</div>
+		<div class="panel panel-default chartbuilder-options">
+			<div class="panel-heading">
+				<h4><i class="fa fa-wrench"></i> Chart Options</h4>
+			</div>
 			<div class="panel-body">
 				<div class="form-group">
 					<select id="chartTypeSelect"
 						class="form-control"
-						ng-options="type as type.name for type in chartDisplayType"
+						ng-options="type.slug as type.name for (key, type) in modules"
 						ng-model="selectedChartType"
-						ng-disabled="type.group"
-						value="type.name"
+						value="type.slug"
 						>
 						<option value="">Select a chart type</option>
 					</select>
@@ -17,45 +21,55 @@
 				<div class="form-group">
 					<input type="text" id="chartName" class="form-control" ng-model="chartName" placeholder="Chart Name" />
 				</div>
-				<div class="form-group input-group">
+				<div class="form-group input-group" data-ng-if="structureData.opts.multigroup">
 					<input type="text" class="form-control" placeholder="Add Data Group" ng-model="newDataGroup" />
 					<span class="input-group-btn">
 						<button class="btn btn-info" type="button" ng-click="addGroup()">Add</button>
 					</span>
 				</div>
-				<div class="form-group">
-					<label>
-						<input type="checkbox" ng-model="isDonut" />Donut
-					</label>
+				<div class="panel-heading">
+					<div class="panel-title">
+						<h4>
+							<a data-toggle="collapse"
+								data-target="#collapse-advanced-options"
+								href=""
+								>
+								Advanced Options
+							</a>
+						</h4>
+					</div>
+				</div>
+				<div id="collapse-advanced-options" class="panel-collapse collapse">
+					<div class="panel-body">
+			  		<chartbuilder-options options="structureData.options.chart" />
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="form-group btn-group btn-group-justified">
-			<a role="button" class="btn btn-lg btn-info" ng-click="getSampleData()">Use sample data</a>
+			<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>
 			<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>
-		</div>
-		<div class="form-group btn-group btn-group-justified">
-			<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>
 		</div>
 
 		<div structure-data-input
-			structure-data="exampleData"
-			structure-type="discrete-bar-chart"
+			structure-data="structureData"
 			>
 		</div>
-	</div>
-
-	<div class="col-lg-7">
-		<div class="panel panel-primary">
-			<div class="panel-body charts">
-				<div ui-view></div>
+		<div class="input-group">
+				<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">
+				<span class="input-group-btn">
+					<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
+				</span>
 			</div>
 		</div>
 
+	<div class="col-lg-9">
+		<div ui-view="graph" id="chart"></div>
+
 		<div class="alert alert-info alert-dismissable">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			<strong>Example Data: </strong>{{ exampleData | json }}
+			<strong>Example Data: </strong>{{ structureData.data | json }}
 		</div>
 	</div>
 </div>
