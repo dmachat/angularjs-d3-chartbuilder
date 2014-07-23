@@ -298,6 +298,7 @@ module.exports = function(grunt) {
                         'styles/fonts/{,*/}*.*',
                         'bower_components/sass-bootstrap/fonts/*.*',
                         'bower_components/font-awesome/fonts/*.*',
+                        'bower_components/nvd3/*.css',
                         'bower_components/requirejs/require.js'
                     ]
                 }]
@@ -389,6 +390,11 @@ module.exports = function(grunt) {
         'modernizr',
         'usemin',
         'htmlmin'
+    ]);
+
+    grunt.registerTask('push', [
+        'build',
+        'buildcontrol:pages'
     ]);
 
     grunt.registerTask('default', [
