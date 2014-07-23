@@ -1,1 +1,0 @@
-define(["angular"],function(e){"use strict";e.module("webFilters",[]).filter("numberFilter",function(){return function(e){return e.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")}})});

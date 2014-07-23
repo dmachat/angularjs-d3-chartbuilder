@@ -1,1 +1,0 @@
-define(["angular"],function(e){"use strict";e.module("webServices",[]).factory("getSampleData",["$http",function(e){return function(){return e.get("/data/sample-data.json").then(function(e){return e.data})}}])});
