@@ -39,6 +39,9 @@
             data: data,
             dataFormat: function() { return { x: 'number', y: 'number' }; },
             options: {
+              title: module.name,
+              subtitle: 'Subtitle for a line chart',
+              caption: '1a. Edit a caption for the graph',
               chart: {
                 type: module.slug,
                 height: 600,

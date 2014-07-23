@@ -67,6 +67,11 @@ define(['angular', 'text!../partials/data-forms/structure-data-input.html'], fun
               element.removeClass('active');
             }
           });
+
+          inputElement.bind('blur', function(event) {
+            scope.editing = false;
+            element.removeClass('active');
+          });
         }
       };
     })
