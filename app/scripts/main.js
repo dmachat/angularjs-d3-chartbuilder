@@ -28,10 +28,14 @@ define('main', [], function() {
     },
     shim: {
       'angular': {
+        deps: ['jquery'],
         exports: 'angular'
       },
       'underscore': {
         exports: '_'
+      },
+      'jquery': {
+        exports: '$'
       },
       'angular-resource': ['angular'],
       'angular-animate': ['angular'],
