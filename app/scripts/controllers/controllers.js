@@ -25,15 +25,15 @@ define(['angular', 'services'], function(angular) {
       'chartbuilderSelectedModule',
       function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
         $scope.modules = chartbuilderModuleRegistry;
-        $scope.selectedChartType = chartbuilderSelectedModule.selected;
+        $scope.selectedChartType = chartbuilderSelectedModule;
         $scope.structureData = chartbuilderData;
 
-        $scope.$watch('selectedChartType', function(newval) {
-          if (angular.isUndefined(newval)) {
+        $scope.changeChartType = function(type) {
+          if (angular.isUndefined(type) || type === '') {
             return false;
           }
-          $state.go('chartbuilder.' + newval);
-        }, true);
+          $state.go('chartbuilder.' + type);
+        };
 
         $scope.showSampleData = function() {
           chartbuilderData.showSampleData();
@@ -50,30 +50,5 @@ define(['angular', 'services'], function(angular) {
           chartbuilderData.addGroup($scope.newDataGroup);
           $scope.newDataGroup = '';
         };
-
-        // Functions for cumulative line graph
-        $scope.xLineFunction = function(){
-          return function(d) {
-            return d[0];
-          };
-        };
-        $scope.yLineFunction = function(){
-          return function(d) {
-            return d[1]/100;
-          };
-        };
-
-        // Functions for pie chart rendering
-        $scope.xPieFunction = function(){
-          return function(d) {
-            return d.key;
-          };
-        };
-        $scope.yPieFunction = function(){
-          return function(d) {
-            return d.y;
-          };
-        };
-
       }]);
 });

@@ -13,7 +13,7 @@
 
     angular.module('chartbuilder.nvd3.linechart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       .value('chartbuilderModuleRegistry', {})
-      .value('chartbuilderSelectedModule', {})
+      .value('chartbuilderSelectedModule', '')
       /**
        * Add this module's state to ui-router routes
        */
@@ -41,7 +41,7 @@
             options: {
               chart: {
                 type: module.slug,
-                height: 450,
+                height: 600,
                 margin : {
                     top: 20,
                     right: 20,
@@ -90,7 +90,7 @@
           $scope.dataStore = chartbuilderData;
 
           // Initialize the data -- store sample data and set structure
-          chartbuilderSelectedModule.selected = module.slug;
+          chartbuilderSelectedModule = module.slug;
           chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
         }
       ]);

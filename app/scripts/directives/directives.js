@@ -111,7 +111,6 @@ define(['angular', 'text!../partials/data-forms/structure-data-input.html'], fun
                      '</div>',
                    '</div>'].join(''),
         link: function(scope) {
-          console.log(scope.value);
           scope.inputObj = {};
           var obj = {};
           if (!_.has(scope.value, 'val')) {

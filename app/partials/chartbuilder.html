@@ -13,6 +13,7 @@
 						class="form-control"
 						ng-options="type.slug as type.name for (key, type) in modules"
 						ng-model="selectedChartType"
+						ng-change="changeChartType(selectedChartType)"
 						value="type.slug"
 						>
 						<option value="">Select a chart type</option>
