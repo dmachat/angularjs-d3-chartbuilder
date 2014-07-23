@@ -1,4 +1,4 @@
-define(['angular'], function(angular) {
+define(['angular', 'text!../partials/data-forms/structure-data-input.html'], function(angular, dataFormTemplate) {
   'use strict';
 
   angular.module('chartbuilderDirectives', []).
@@ -8,24 +8,25 @@ define(['angular'], function(angular) {
         scope: {
           structureData: '=',
         },
-        templateUrl: '/partials/data-forms/structure-data-input.html',
+        template: dataFormTemplate,
         link: function(scope) {
-          scope.dataColumns = 2;
+          scope.dataGroupBox = {};
           scope.newRow = {};
 
           scope.$watch('structureData.data', function(newval) {
             angular.forEach(newval, function(val, gidx) {
-              scope.newRow[gidx] = [];
+              scope.newRow[gidx] = {};
             });
           }, true);
 
-          scope.dataInputs = [];
-          for (var i = 0; i < scope.dataColumns; i++) {
-            scope.dataInputs.push(i);
-          }
-
           scope.addRow = function(gidx) {
-            if (!scope.newRow[gidx].length) {
+            var validate = true;
+            angular.forEach(scope.structureData.columnValues, function(type, key) {
+              if (!_.has(scope.newRow[gidx], key) || scope.newRow[gidx][key] === null) {
+                validate = false;
+              }
+            });
+            if (!validate) {
               return false;
             }
             scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
@@ -69,7 +70,7 @@ define(['angular'], function(angular) {
         }
       };
     })
-    .directive('chartbuilderInput', ['chartbuilderUtils', function(chartbuilderUtils) {
+    .directive('chartbuilderInput', function() {
       return {
         restrict: 'EA',
         scope: {
@@ -109,7 +110,7 @@ define(['angular'], function(angular) {
                        '</input>',
                      '</div>',
                    '</div>'].join(''),
-        link: function(scope, element) {
+        link: function(scope) {
           console.log(scope.value);
           scope.inputObj = {};
           var obj = {};
@@ -124,7 +125,7 @@ define(['angular'], function(angular) {
           scope.inputObj[scope.name] = obj;
         }
       };
-    }])
+    })
     .directive('chartbuilderOptions', ['chartbuilderUtils', function(chartbuilderUtils) {
       return {
         restrict: 'EA',
@@ -138,9 +139,9 @@ define(['angular'], function(angular) {
                      'item-changed="updateVal(inputName, inputValue, parentName)"',
                      '>',
                    '</chartbuilder-input>'].join(''),
-        link: function(scope, element) {
+        link: function(scope) {
 
-          scope.$watch('options', function(newval) {
+          scope.$watch('options', function() {
             // Initialize container for input objects
             scope.inputs = scope.returnInputs(scope.options);
           }, true);
@@ -170,14 +171,11 @@ define(['angular'], function(angular) {
 
           scope.updateVal = function(inputName, inputValue, parentName) {
             if (inputName !== parentName) {
-              console.log('updating sub');
               scope.options[parentName][inputName] = inputValue;
             }
             else if (_.has(scope.options, inputName)) {
-              console.log(inputValue);
               scope.options[inputName] = inputValue;
             }
-            console.log(scope.options);
           };
         }
       };

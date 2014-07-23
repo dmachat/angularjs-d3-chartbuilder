@@ -4,11 +4,11 @@
 "use strict";
 
 (function() {
-  define(['angular', 'text!angular_modules/nvd3-modules/linechart/template.html'], function(angular, template) {
+  define(['angular', 'text!angular_modules/nvd3-modules/linechart/template.html', 'angular_modules/nvd3-modules/linechart/data'], function(angular, template, data) {
     var module = {
       name: 'Line Chart',
       slug: 'lineChart',
-      data: '/scripts/angular_modules/nvd3-modules/linechart/data.json'
+      data: data
     };
 
     angular.module('chartbuilder.nvd3.linechart', ['chartbuilderServices', 'chartbuilder.nvd3'])
@@ -28,64 +28,71 @@
           }
         });
       }])
-      .run(['chartbuilderModuleRegistry', 'getSampleData', function(chartbuilderModuleRegistry, getSampleData) {
-        var moduleOpts = {};
-        moduleOpts[module.name] = {
-          name: module.name,
-          slug: module.slug,
-          dataFormat: function() { return { x: Number, y: Number }; },
-          options: {
-            chart: {
-              type: module.slug,
-              height: 450,
-              margin : {
-                  top: 20,
-                  right: 20,
-                  bottom: 40,
-                  left: 55
-              },
-              x: function(d){ return d.x; },
-              y: function(d){ return d.y; },
-              useInteractiveGuideline: true,
-              dispatch: {
-                  stateChange: function(e){ console.log("stateChange"); },
-                  changeState: function(e){ console.log("changeState"); },
-                  tooltipShow: function(e){ console.log("tooltipShow"); },
-                  tooltipHide: function(e){ console.log("tooltipHide"); }
-              },
-              xAxis: {
-                  axisLabel: 'Time (ms)'
-              },
-              yAxis: {
-                  axisLabel: 'Voltage (v)',
-                  tickFormat: function(d){
-                      return d3.format('.02f')(d);
-                  },
-                  axisLabelDistance: 30
-              },
-              callback: function(chart){
-                  console.log("!!! lineChart callback !!!");
+      .run([
+        'chartbuilderModuleRegistry',
+        'getSampleData',
+        function(chartbuilderModuleRegistry, getSampleData) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: function() { return { x: 'number', y: 'number' }; },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 450,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 40,
+                    left: 55
+                },
+                x: function(d){ return d.x; },
+                y: function(d){ return d.y; },
+                useInteractiveGuideline: true,
+                dispatch: {
+                    stateChange: function(e){ console.log("stateChange"); },
+                    changeState: function(e){ console.log("changeState"); },
+                    tooltipShow: function(e){ console.log("tooltipShow"); },
+                    tooltipHide: function(e){ console.log("tooltipHide"); }
+                },
+                xAxis: {
+                    axisLabel: 'Time (ms)'
+                },
+                yAxis: {
+                    axisLabel: 'Voltage (v)',
+                    tickFormat: function(d){
+                        return d3.format('.02f')(d);
+                    },
+                    axisLabelDistance: 30
+                },
+                callback: function(chart){
+                    //console.log("!!! lineChart callback !!!");
+                }
               }
             }
           }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
         }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        '$location',
+        'getSampleData',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        'chartbuilderSelectedModule',
+        function($scope, $location, getSampleData, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
 
-        getSampleData(module.data).then(function(data) {
-          moduleOpts[module.name].data = data;
-        });
-
-        // Add the slug and name definitions to chartbuilder
-        angular.extend(chartbuilderModuleRegistry, moduleOpts);
-
-      }])
-      .controller(module.slug + 'Controller', ['$scope', '$location', 'getSampleData', 'chartbuilderData', 'chartbuilderModuleRegistry', 'chartbuilderSelectedModule', function($scope, $location, getSampleData, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
-        // Localize the datastore for the view
-        $scope.dataStore = chartbuilderData;
-
-        // Initialize the data -- store sample data and set structure
-        chartbuilderSelectedModule.selected = module.slug;
-        chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
-
-      }]);
+          // Initialize the data -- store sample data and set structure
+          chartbuilderSelectedModule.selected = module.slug;
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
   });
 })();

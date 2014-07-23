@@ -20,6 +20,7 @@
     "jquery": true,
     "globals": {
       "define": true,
-      "requirejs": true
+      "requirejs": true,
+      "_": true
     }
 }

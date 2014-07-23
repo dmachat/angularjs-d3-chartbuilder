@@ -54,6 +54,10 @@ define('main', [], function() {
 
   requirejs([
     'angular',
+    'text!../partials/home.html',
+    'text!../partials/chartbuilder.html',
+    'text!../partials/about.html',
+    'text!../404.html',
     'jquery',
     'jqueryui',
     'angular-resource',
@@ -72,9 +76,9 @@ define('main', [], function() {
     'slugifier',
     'ui.sortable',
     'chartbuilder.nvd3',
-    'chartbuilder.nvd3.linechart',
+    'chartbuilder.nvd3.linechart'
     //'chartbuilder.nvd3.barchart'
-  ], function(angular) {
+  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
     angular.element(document).ready(function () {
@@ -102,20 +106,20 @@ define('main', [], function() {
           $stateProvider.
             state('/', {
               url: '/',
-              templateUrl: '/partials/home.html'
+              template: homeTemplate
             }).
             state('chartbuilder', {
               url: '/chartbuilder',
-              templateUrl: '/partials/chartbuilder.html',
+              template: chartbuilderTemplate,
               controller: 'Chartbuilder'
             }).
             state('about', {
               url: '/about',
-              templateUrl: '/partials/about.html'
+              template: aboutTemplate
             }).
             state('404', {
               url: '/404',
-              templateUrl: '/404.html'
+              template: pageNotFoundTemplate
             });
 
           //$locationProvider.html5Mode(true);

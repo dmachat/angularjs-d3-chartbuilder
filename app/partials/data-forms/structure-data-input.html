@@ -4,23 +4,26 @@
 		>
 		<div class="panel-heading">
 			<div class="panel-title">
+				Data Group {{ $index + 1 }}: 
+				<edit-in-place value="group.key" type="text"></edit-in-place>
 				<a data-toggle="collapse"
 					data-parent="#accordion"
 					data-target="#collapse-{{ $index }}"
 					href=""
+					ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"
 					>
-					Data Group {{ $index + 1 }}: {{ group.key }}
+					<i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-down' : 'fa-caret-up' }}"></i>
 				</a>
 			</div>
 		</div>
 		<div id="collapse-{{ $index }}" class="panel-collapse collapse in">
 			<div class="panel-body">
-				<table class="table">
+				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Remove</th>
-							<th data-ng-repeat="type in structureData.columnTypes track by $index">
-								type: <select ng-options="type as type for type in structureData.columnTypes" ng-model="structureData.columnTypes[$index]"></select>
+							<th data-ng-repeat="(key, type) in structureData.columnValues">
+								{{ key }}
 							</th>
 						</tr>
 					</thead>
@@ -32,9 +35,9 @@
 									>
 								</span>
 							</td>
-							<td ng-repeat="row in rows track by $index">
-								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][$index]"
-									type="{{ structureData.columnTypes[$index] | lowercase }}"
+							<td ng-repeat="(key, type) in structureData.columnValues">
+								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"
+									type="{{ type }}"
 									>
 								</edit-in-place>
 							</td>
@@ -46,8 +49,8 @@
 									>
 								</span>
 							</td>
-							<td ng-repeat="row in dataInputs">
-								<input type="{{ structureData.columnTypes[$index] | lowercase }}" class="form-control" placeholder="name" ng-model="newRow[$parent.$index][$index]" />
+							<td ng-repeat="(key, type) in structureData.columnValues">
+								<input type="{{ type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][key]" />
 							</td>
 						</tr>
 					</tbody>

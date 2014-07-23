@@ -47,7 +47,7 @@ define(['angular', 'services'], function(angular) {
           if (!$scope.newDataGroup) {
             return false;
           }
-          $scope.exampleData.push({ key: $scope.newDataGroup, values: [] });
+          chartbuilderData.addGroup($scope.newDataGroup);
           $scope.newDataGroup = '';
         };
 
