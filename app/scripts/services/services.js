@@ -13,6 +13,7 @@ define(['angular'], function(angular) {
     .service('chartbuilderData', function() {
       var dataStore = {
         options: {},
+        meta: {},
         data: [],
         columnValues: [],
         resetData: function() {
@@ -30,6 +31,9 @@ define(['angular'], function(angular) {
           this.columnValues = init.dataFormat();
           if (angular.isDefined(init.options)) { 
             this.options = angular.extend(init.options, this.options);
+          }
+          if (angular.isDefined(init.meta)) {
+            this.meta = angular.extend(init.meta, this.meta);
           }
           this.resetData();
         }

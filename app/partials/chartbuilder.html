@@ -58,10 +58,10 @@
 
 	<div class="col-lg-9">
 		<div class="graph-wrapper">
-			<h3 ng-if="structureData.data.length > 0"><edit-in-place value="structureData.options.title"></edit-in-place></h3>
-			<h5><edit-in-place value="structureData.options.subtitle"></edit-in-place></h5>
+			<h3><edit-in-place value="structureData.meta.title"></edit-in-place></h3>
+			<h5><edit-in-place value="structureData.meta.subtitle"></edit-in-place></h5>
 			<div ui-view="graph" id="chart"></div>
-			<p><edit-in-place value="structureData.options.caption"></edit-in-place></p>
+			<p><edit-in-place value="structureData.meta.caption"></edit-in-place></p>
 		</div>
 
 		<div class="alert alert-info alert-dismissable">

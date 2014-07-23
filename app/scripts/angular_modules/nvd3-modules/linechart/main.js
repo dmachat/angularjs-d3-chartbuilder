@@ -22,7 +22,9 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: '<nvd3 options="dataStore.options" data="dataStore.data"></nvd3>',
+              template: ['<nvd3 options="dataStore.options" ',
+                           'data="dataStore.data" ',
+                           'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
@@ -38,10 +40,12 @@
             slug: module.slug,
             data: data,
             dataFormat: function() { return { x: 'number', y: 'number' }; },
-            options: {
+            meta: {
               title: module.name,
               subtitle: 'Subtitle for a line chart',
               caption: '1a. Edit a caption for the graph',
+            },
+            options: {
               chart: {
                 type: module.slug,
                 height: 600,
