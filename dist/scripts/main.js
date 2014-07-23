@@ -31417,13 +31417,13 @@ define('text',['module'], function (module) {
 });
 
 
-define('text!../partials/home.html',[],function () { return '<div class="jumbotron">\n\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t<p class="lead">Start building a chart now</p>\n\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t</p>\n</div>\n';});
+define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/cumulativeLineChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4 jumbotron">\n\t\t\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t\t\t<p class="lead">Start building a chart now</p>\n\t\t\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t\t\t</p>\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/discreteBarChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/donutChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/historicalBarChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/lineChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/stackedAreaChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/scatterChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="/images/multiBarChart.png" />\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<input type="text" id="chartName" class="form-control" ng-model="chartName" placeholder="Chart Name" />\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group input-group" data-ng-if="structureData.opts.multigroup">\n\t\t\t\t\t<input type="text" class="form-control" placeholder="Add Data Group" ng-model="newDataGroup" />\n\t\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t\t<button class="btn btn-info" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options options="structureData.options.chart" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div ui-view="graph" id="chart"></div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tng-change="changeChartType(selectedChartType)"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<input type="text" id="chartName" class="form-control" ng-model="chartName" placeholder="Chart Name" />\n\t\t\t\t</div>\n\t\t\t\t<div class="form-group input-group" data-ng-if="structureData.opts.multigroup">\n\t\t\t\t\t<input type="text" class="form-control" placeholder="Add Data Group" ng-model="newDataGroup" />\n\t\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t\t<button class="btn btn-info" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t\t</span>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options options="structureData.options.chart" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div ui-view="graph" id="chart"></div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
-define('text!../partials/about.html',[],function () { return '<div class="page-header">\n\t<h3>About angular + d3 chartbuilder</h3>\n</div>\n<div class="row">\n\t<div class="col-lg-12">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. Because it\'s pluggable we have access to a wide range of data viz styles and customizations.</p>\n\t</div>\n</div>\n';});
+define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
 
 
 define('text!../404.html',[],function () { return '<style>::-moz-selection {\n                background: #b3d4fc;\n                text-shadow: none;\n            }\n\n            ::selection {\n                background: #b3d4fc;\n                text-shadow: none;\n            }\n\n            html {\n                padding: 30px 10px;\n                font-size: 20px;\n                line-height: 1.4;\n                color: #737373;\n                background: #f0f0f0;\n                -webkit-text-size-adjust: 100%;\n                -ms-text-size-adjust: 100%;\n            }\n\n            html,\n            input {\n                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n            }\n\n            body {\n                max-width: 500px;\n                _width: 500px;\n                padding: 30px 20px 50px;\n                border: 1px solid #b3b3b3;\n                border-radius: 4px;\n                margin: 0 auto;\n                box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;\n                background: #fcfcfc;\n            }\n\n            h1 {\n                margin: 0 10px;\n                font-size: 50px;\n                text-align: center;\n            }\n\n            h1 span {\n                color: #bbb;\n            }\n\n            h3 {\n                margin: 1.5em 0 0.5em;\n            }\n\n            p {\n                margin: 1em 0;\n            }\n\n            ul {\n                padding: 0 0 0 40px;\n                margin: 1em 0;\n            }\n\n            .container {\n                max-width: 380px;\n                _width: 380px;\n                margin: 0 auto;\n            }\n\n            /* google search */\n\n            #goog-fixurl ul {\n                list-style: none;\n                padding: 0;\n                margin: 0;\n            }\n\n            #goog-fixurl form {\n                margin: 0;\n            }\n\n            #goog-wm-qt,\n            #goog-wm-sb {\n                border: 1px solid #bbb;\n                font-size: 16px;\n                line-height: normal;\n                vertical-align: top;\n                color: #444;\n                border-radius: 2px;\n            }\n\n            #goog-wm-qt {\n                width: 220px;\n                height: 20px;\n                padding: 5px;\n                margin: 5px 10px 0 0;\n                box-shadow: inset 0 1px 1px #ccc;\n            }\n\n            #goog-wm-sb {\n                display: inline-block;\n                height: 32px;\n                padding: 0 10px;\n                margin: 5px 0 0;\n                white-space: nowrap;\n                cursor: pointer;\n                background-color: #f5f5f5;\n                background-image: -webkit-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -moz-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -ms-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -o-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                -webkit-appearance: none;\n                -moz-appearance: none;\n                appearance: none;\n                *overflow: visible;\n                *display: inline;\n                *zoom: 1;\n            }\n\n            #goog-wm-sb:hover,\n            #goog-wm-sb:focus {\n                border-color: #aaa;\n                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);\n                background-color: #f8f8f8;\n            }\n\n            #goog-wm-qt:hover,\n            #goog-wm-qt:focus {\n                border-color: #105cb6;\n                outline: 0;\n                color: #222;\n            }\n            \n            input::-moz-focus-inner {\n                padding: 0;\n                border: 0;\n            }</style><div class=container><h1>Not found\n                    <span>:(</span></h1><p>Sorry, but the page you were trying\n                to view does not exist.</p><p>It looks like this was the result\n                of either:</p><ul><li>a mistyped address</li><li>an out-of-date\n                link</li></ul></div>\n';});
@@ -85480,7 +85480,6 @@ define('directives',['angular', 'text!../partials/data-forms/structure-data-inpu
                      '</div>',
                    '</div>'].join(''),
         link: function(scope) {
-          console.log(scope.value);
           scope.inputObj = {};
           var obj = {};
           if (!_.has(scope.value, 'val')) {
@@ -85578,15 +85577,15 @@ define('controllers',['angular', 'services'], function(angular) {
       'chartbuilderSelectedModule',
       function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
         $scope.modules = chartbuilderModuleRegistry;
-        $scope.selectedChartType = chartbuilderSelectedModule.selected;
+        $scope.selectedChartType = chartbuilderSelectedModule;
         $scope.structureData = chartbuilderData;
 
-        $scope.$watch('selectedChartType', function(newval) {
-          if (angular.isUndefined(newval)) {
+        $scope.changeChartType = function(type) {
+          if (angular.isUndefined(type) || type === '') {
             return false;
           }
-          $state.go('chartbuilder.' + newval);
-        }, true);
+          $state.go('chartbuilder.' + type);
+        };
 
         $scope.showSampleData = function() {
           chartbuilderData.showSampleData();
@@ -85603,31 +85602,6 @@ define('controllers',['angular', 'services'], function(angular) {
           chartbuilderData.addGroup($scope.newDataGroup);
           $scope.newDataGroup = '';
         };
-
-        // Functions for cumulative line graph
-        $scope.xLineFunction = function(){
-          return function(d) {
-            return d[0];
-          };
-        };
-        $scope.yLineFunction = function(){
-          return function(d) {
-            return d[1]/100;
-          };
-        };
-
-        // Functions for pie chart rendering
-        $scope.xPieFunction = function(){
-          return function(d) {
-            return d.key;
-          };
-        };
-        $scope.yPieFunction = function(){
-          return function(d) {
-            return d.y;
-          };
-        };
-
       }]);
 });
 
@@ -86482,7 +86456,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
 
     angular.module('chartbuilder.nvd3.linechart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       .value('chartbuilderModuleRegistry', {})
-      .value('chartbuilderSelectedModule', {})
+      .value('chartbuilderSelectedModule', '')
       /**
        * Add this module's state to ui-router routes
        */
@@ -86510,7 +86484,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
             options: {
               chart: {
                 type: module.slug,
-                height: 450,
+                height: 600,
                 margin : {
                     top: 20,
                     right: 20,
@@ -86559,7 +86533,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
           $scope.dataStore = chartbuilderData;
 
           // Initialize the data -- store sample data and set structure
-          chartbuilderSelectedModule.selected = module.slug;
+          chartbuilderSelectedModule = module.slug;
           chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
         }
       ]);
