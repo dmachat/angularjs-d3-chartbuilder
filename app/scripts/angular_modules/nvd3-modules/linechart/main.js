@@ -48,6 +48,13 @@
             options: {
               chart: {
                 type: module.slug,
+                height: 600
+              }
+            }
+            /*
+            options: {
+              chart: {
+                type: module.slug,
                 height: 600,
                 margin : {
                     top: 20,
@@ -79,6 +86,7 @@
                 }
               }
             }
+            */
           }
 
           // Add the slug and name definitions to chartbuilder
