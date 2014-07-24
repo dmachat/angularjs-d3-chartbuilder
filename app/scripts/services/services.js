@@ -73,6 +73,14 @@ define(['angular'], function(angular) {
           else {
             return 'object';
           }
+        },
+        tryGetFunction: function(str) {
+          if (str.trim().substring(0, 8) === 'function') {
+            try {
+              var func = eval( '(' + str.trim() + ')' );
+              return func;
+            } catch(e) {};
+          }
         }
       };
     });

@@ -130,6 +130,7 @@ define(['angular', 'text!../partials/data-forms/structure-data-input.html'], fun
         }
       };
     })
+    /*
     .directive('chartbuilderOptions', ['chartbuilderUtils', function(chartbuilderUtils) {
       return {
         restrict: 'EA',
@@ -181,6 +182,218 @@ define(['angular', 'text!../partials/data-forms/structure-data-input.html'], fun
               scope.options[inputName] = inputValue;
             }
           };
+        }
+      };
+    }])
+    */
+    .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', function($compile, chartbuilderUtils) {
+      return {
+        restrict: 'EA',
+        scope: {
+          json: '=',
+          node: '=?',
+          children: '=?'
+        },
+        controller: function($scope) {
+          // Initialize container for child nodes
+          $scope.children = {};
+
+          // Initialize container for nodes with functions
+          $scope.jsonFn = {};
+
+          // Define auxiliary functions
+          $scope.utils = {
+            addNode: function(key, value) {
+              var json = null;
+              // Try to get json
+              try {
+                json = JSON.parse(value);
+              } catch(e) {};
+              if (json === null) {
+                json = chartbuilderUtils.tryGetFunction(value) || json;
+              }
+
+              // Add element to the object
+              if ($scope.node.type() === 'object') {
+                if (json !== null) {
+                  $scope.json[key] = json;
+                }
+                else {
+                  $scope.json[key] = value;
+                }
+              }
+
+              // Add element[s] to the array
+              else if ($scope.node.type() === 'array') {
+                if (json !== null) {
+                  if (json.constructor === Array) {
+                    // Push new array elements to the array
+                    $scope.json.push.apply($scope.json, json);
+                  }
+                  else {
+                    // Push single element to the array
+                    $scope.json.push(json);
+                  }
+                }
+                else {
+                  $scope.json.push(value);
+                }
+              }
+              $scope.refresh();
+            },
+
+            // Reset node value by key to default == null
+            resetNode: function(key) {
+              $scope.json[key] = null;
+              $scope.refresh();
+            },
+
+            // Validate text input to the form
+            validateNode: function(key) {
+              if ($scope.json[key] === null) {
+                // Check if null
+              }
+              else if (angular.isUndefined($scope.json[key]) | $scope.json[key] === '') {
+                // Check if undefined or ""
+                $scope.json[key] = null;
+              }
+              else if (!isNaN(+$scope.json[key]) && isFinite($scope.json[key])) {
+                // Try to convert string to number
+                $scope.json[key] = +$scope.json[key];
+              }
+              else if (chartbuilderUtils.tryGetFunction($scope.json[key])) {
+                // Try to parse function
+                $scope.json[key] = chartbuilderUtils.tryGetFunction($scope.json[key]);
+                $scope.utils.textarea.init(key);
+              }
+              else {
+                // Try to parse string to json
+                if ($scope.node.isHighEditLevel) {
+                  // If high editable level
+                  try {
+                    var json = JSON.parse($scope.json[key]);
+                    $scope.json[key] = json;
+                    $scope.refresh();
+                  }
+                  catch(e) {};
+                }
+                else {
+                  // If low editable level
+                  if ($scope.json[key] === 'true' || $scope.json[key] === 'false') {
+                    $scope.json[key] = JSON.parse($scope.json[key]);
+                    $scope.refesh();
+                  }
+                }
+              }
+            },
+
+            // Handle textarea fith functions
+            textarea: {
+              // Define function value for textarea
+              init: function(key) {
+                if ($scope.json[key] !== null) {
+                  $scope.jsonFn[key] = $scope.json[key].toString().trim();
+                }
+              },
+
+              // Validate if element value is function
+              validate: function(key) {
+                var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
+                func
+                  ? angular.element($scope.utils.textarea.element).removeClass('invalid').addClass('valid')
+                  : angular.element($scope.utils.textarea.element).removeClass('valid').addClass('invalid');
+              },
+
+              // onFocus event handler
+              onFocus: function(e, key) {
+                $scope.utils.textarea['valueBeforeEditing'] = angular.copy($scope.jsonFn[key]);
+                $scope.utils.textarea['element'] = e.currentTarget;
+                $scope.utils.textarea.validate(key);
+              },
+
+              // onChange event handler
+              onChange: function(key) {
+                $scope.utils.textarea.validate(key);
+              },
+
+              // onBlur event handler
+              onBlur: function(key) {
+                if ($scope.utils.textarea.valueBeforeEditing !== $scope.jsonFn[key]) {
+                  // Emit onFunctionChange event
+                  $scope.$emit('onFunctionChanged');
+
+                  var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
+                  if (func) {
+                    $scope.json[key] = func;
+                  }
+                  else {
+                    $scope.json[key] = $scope.jsonFn[key];
+                    delete $scope.jsonFn[key];
+                    // Full validation for node
+                    $scope.utils.validateNode(key);
+                  }
+                }
+              }
+            }
+          };
+
+          // Define properties of the current node
+          $scope.node = {
+
+            // Check current node is object or array
+            isObject: function() {
+              return angular.isObject($scope.json);
+            },
+
+            // Get type for current node
+            type: function() {
+              return chartbuilderUtils.getType($scope.json);
+            },
+
+            // Calculate collection length for object or array
+            length: function() {
+              return ($scope.json instanceof Object) ? (Object.keys($scope.json).length) : 1;
+            },
+
+            // Refresh template view
+            refresh: function() {
+              $scope.refresh();
+            }
+          };
+        },
+        link: function(scope, element, attrs) {
+          // Define child scope and template
+          var childScope = scope.$new(),
+            template = [
+              '<ul>',
+                '<li ng-repeat="key in utils.keys(json) track by key">',
+                  '<span ng-click="utils.clickNode(children[key])">{{ key }}: </span>',
+                  '<span ng-hide="children[key].isObject()">',
+                    '<input ng-show="children[key].type() === \'boolean\'" type="checkbox" ng-model="json[key]" />',
+                    '<input ng-show="children[key].type() === \'number\'" type="number" ng-model=json[key]" />',
+                    '<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)"></textarea>',
+                    '<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\'" type="text" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null" />',
+                  '</span>',
+                  '<chartbuilder-options json="json[key]" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>',
+                '</li>',
+              '</ul>'].join('');
+
+          // Define build template function
+          scope.build = function(_scope) {
+            if (scope.node.isObject()) {
+              element.html('').append($compile(template)(_scope));
+            }
+          };
+
+          // Define refresh function
+          scope.refresh = function() {
+            childScope.$destroy();
+            childScope = scope.$new();
+            scope.build(childScope);
+          };
+
+          // Build template view
+          scope.build(childScope);
         }
       };
     }]);
