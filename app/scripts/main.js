@@ -16,7 +16,13 @@ define('main', [], function() {
       'd3': '../bower_components/d3/d3',
       'nv.d3': '../bower_components/nvd3/nv.d3',
       'controllers': './controllers/controllers',
+
+      // Directives
       'directives': './directives/directives',
+      'options': './directives/options',
+      'data-input': './directives/data-input',
+      'edit-in-place': './directives/edit-in-place',
+
       'filters': './filters/filters',
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
@@ -24,7 +30,6 @@ define('main', [], function() {
       'text': './vendor/text',
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
-      //'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main'
     },
     shim: {
       'angular': {
@@ -46,6 +51,9 @@ define('main', [], function() {
       'filters': ['angular'],
       'services': ['angular'],
       'directives': ['angular'],
+      'options': ['angular'],
+      'data-input': ['angular'],
+      'edit-in-place': ['angular'],
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['jquery', 'jqueryui'],
@@ -76,12 +84,14 @@ define('main', [], function() {
     'services',
     'filters',
     'directives',
+    'options',
+    'data-input',
+    'edit-in-place',
     'controllers',
     'slugifier',
     'ui.sortable',
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.linechart'
-    //'chartbuilder.nvd3.barchart'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -101,7 +111,6 @@ define('main', [], function() {
         'ui.sortable',
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.linechart',
-        //'chartbuilder.nvd3.barchart'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',
