@@ -1,0 +1,12 @@
+<ul ng-hide="node.isCollapsed">
+	<li ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)">
+		<span class="key" ng-click="utils.clickNode(children[key])">{{ key }}: </span>
+		<span ng-hide="children[key].isObject()">
+			<input ng-show="children[key].type() === 'boolean'" type="checkbox" ng-model="json[key]"/>
+			<input ng-show="children[key].type() === 'number'" type="number" ng-model="json[key]"/>
+			<textarea ng-if="children[key].type() === 'function'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)"></textarea>
+			<input ng-show="children[key].type() !== 'number' && children[key].type() !== 'function'" type="text" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>
+		</span>
+		<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>
+	</li>
+</ul>

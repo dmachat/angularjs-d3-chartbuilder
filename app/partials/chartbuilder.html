@@ -25,6 +25,7 @@
 							<a data-toggle="collapse"
 								data-target="#collapse-advanced-options"
 								href=""
+								ng-click="nodeOptions.refresh()"
 								>
 								Advanced Options
 							</a>
@@ -33,7 +34,7 @@
 				</div>
 				<div id="collapse-advanced-options" class="panel-collapse collapse">
 					<div class="panel-body">
-			  		<chartbuilder-options options="structureData.options.chart" />
+			  		<chartbuilder-options json="structureData.options.chart" collapsed-level="1" node="nodeOptions" />
 					</div>
 				</div>
 			</div>
@@ -69,4 +70,5 @@
 			<strong>Example Data: </strong>{{ structureData.data | json }}
 		</div>
 	</div>
+	{{ structureData.options.chart | json }}
 </div>

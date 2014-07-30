@@ -17,7 +17,7 @@ define(['angular'], function(angular) {
         data: [],
         columnValues: [],
         resetData: function() {
-          this.data = [{ key: "Example Group", values: [] }];
+          this.data = [{ key: 'Example Group', values: [] }];
         },
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
@@ -74,12 +74,15 @@ define(['angular'], function(angular) {
             return 'object';
           }
         },
+        keys: function(obj) {
+          return (obj instanceof Object) ? Object.keys(obj) : [];
+        },
         tryGetFunction: function(str) {
           if (str.trim().substring(0, 8) === 'function') {
             try {
               var func = eval( '(' + str.trim() + ')' );
               return func;
-            } catch(e) {};
+            } catch(e) {}
           }
         }
       };
