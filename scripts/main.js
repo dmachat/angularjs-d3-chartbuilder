@@ -31420,7 +31420,7 @@ define('text',['module'], function (module) {
 define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/cumulativeLineChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4 jumbotron">\n\t\t\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t\t\t<p class="lead">Start building a chart now</p>\n\t\t\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t\t\t</p>\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/discreteBarChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/donutChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/historicalBarChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/lineChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/stackedAreaChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/scatterChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/multiBarChart.png" />\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tng-change="changeChartType(selectedChartType)"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options options="structureData.options.chart" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div class="graph-wrapper">\n\t\t\t<h3 ng-if="structureData.data.length > 0"><edit-in-place value="structureData.options.title"></edit-in-place></h3>\n\t\t\t<h5><edit-in-place value="structureData.options.subtitle"></edit-in-place></h5>\n\t\t\t<div ui-view="graph" id="chart"></div>\n\t\t\t<p><edit-in-place value="structureData.options.caption"></edit-in-place></p>\n\t\t</div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tng-change="changeChartType(selectedChartType)"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\tng-click="getAdvancedOptions()"\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options json="structureData.options.chart" collapsed-level="1" node="nodeOptions" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div class="graph-wrapper">\n\t\t\t<h3><edit-in-place value="structureData.meta.title"></edit-in-place></h3>\n\t\t\t<h5><edit-in-place value="structureData.meta.subtitle"></edit-in-place></h5>\n\t\t\t<div ui-view="graph" id="chart"></div>\n\t\t\t<p><edit-in-place value="structureData.meta.caption"></edit-in-place></p>\n\t\t</div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
@@ -85292,10 +85292,11 @@ define('services',['angular'], function(angular) {
     .service('chartbuilderData', function() {
       var dataStore = {
         options: {},
+        meta: {},
         data: [],
         columnValues: [],
         resetData: function() {
-          this.data = [{ key: "Example Group", values: [] }];
+          this.data = [{ key: 'Example Group', values: [] }];
         },
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
@@ -85309,6 +85310,9 @@ define('services',['angular'], function(angular) {
           this.columnValues = init.dataFormat();
           if (angular.isDefined(init.options)) { 
             this.options = angular.extend(init.options, this.options);
+          }
+          if (angular.isDefined(init.meta)) {
+            this.meta = angular.extend(init.meta, this.meta);
           }
           this.resetData();
         }
@@ -85348,6 +85352,17 @@ define('services',['angular'], function(angular) {
           else {
             return 'object';
           }
+        },
+        keys: function(obj) {
+          return (obj instanceof Object) ? Object.keys(obj) : [];
+        },
+        tryGetFunction: function(str) {
+          if (str.trim().substring(0, 8) === 'function') {
+            try {
+              var func = eval( '(' + str.trim() + ')' );
+              return func;
+            } catch(e) {}
+          }
         }
       };
     });
@@ -85364,195 +85379,283 @@ define('filters',['angular'], function(angular) {
     });
 });
 
+define('directives',['angular'], function(angular) {
+  angular.module('chartbuilderDirectives', []);
+});
+
+
+define('text!../partials/data-forms/chartbuilder-options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n\t<div class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)">\n\t\t<span ng-class="{ \'col-lg-4\': !children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n\t\t\t<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n\t\t</span>\n\t\t<div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n\t\t\t<span ng-hide="children[key].isObject()" class="pull-right">\n\t\t\t\t<div ng-show="children[key].type() === \'boolean\'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">\n\t\t\t\t\t<button type="button" class="btn" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n\t\t\t\t\t<button type="button" class="btn btn-default" ng-class="{ active: !json[key] }">Off</button>\n\t\t\t\t</div>\n\t\t\t\t<input ng-show="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n\t\t\t\t<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>\n\t\t\t\t<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n\t\t\t</span>\n\t\t\t<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n\t\t</div>\n\t</div>\n</div>\n';});
+
+define('options',[
+  'angular',
+  'text!../partials/data-forms/chartbuilder-options.html'
+  ], function(angular, chartbuilderOptionsTemplate) {
+    
+
+    angular.module('chartbuilderDirectives')
+      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', function($compile, chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          scope: {
+            json: '=',
+            node: '=?',
+            children: '=?',
+            collapsedLevel: '@'
+          },
+          controller: function($scope) {
+
+            // Initialize container for child nodes
+            $scope.children = {};
+
+            // Initialize container for nodes with functions
+            $scope.jsonFn = {};
+
+            // Define auxiliary functions
+            $scope.utils = {
+
+              // collapse/expand node by clicking
+              clickNode: function(node) {
+                node.isCollapsed = !node.isCollapsed;
+              },
+
+              // Validate text if input to the form
+              validateNode: function(key) {
+                // Check if null
+                if ($scope.json[key] === null);
+
+                // Check if undefined or ""
+                else if ($scope.json[key] === undefined | $scope.json[key] === '')
+                  $scope.json[key] = null;
+
+                // Try to convert string to number
+                else if (!isNaN(+$scope.json[key]) && isFinite($scope.json[key]))
+                  $scope.json[key] = +$scope.json[key];
+
+                // Try parse to function
+                else if (chartbuilderUtils.tryGetFunction($scope.json[key])){
+                  $scope.json[key] = chartbuilderUtils.tryGetFunction($scope.json[key]);
+                  $scope.utils.textarea.init(key);
+                }
+
+                // Try to parse string to json
+                else {
+                  // Check if boolean input -> then refresh
+                  if ($scope.json[key] === "true" || $scope.json[key] === "false") {
+                    $scope.json[key] = JSON.parse($scope.json[key]);
+                    $scope.refresh();
+                  }
+                }
+              },
+
+              // Handle textarea fith functions
+              textarea: {
+                // Define function value for textarea
+                init: function(key) {
+                  if ($scope.json[key] !== null) {
+                    $scope.jsonFn[key] = $scope.json[key].toString().trim();
+                  }
+                },
+
+                // Validate if element value is function
+                validate: function(key) {
+                  var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
+                  func ? angular.element($scope.utils.textarea.element).removeClass('invalid').addClass('valid') : angular.element($scope.utils.textarea.element).removeClass('valid').addClass('invalid');
+                },
+
+                // onFocus event handler
+                onFocus: function(e, key) {
+                  $scope.utils.textarea.valueBeforeEditing = angular.copy($scope.jsonFn[key]); //keep value before editing
+                  $scope.utils.textarea.element = e.currentTarget;
+                  $scope.utils.textarea.validate(key);
+                },
+
+                // onChange event handler
+                onChange: function(key) {
+                  $scope.utils.textarea.validate(key);
+                },
+
+                // onBlur event handler
+                onBlur: function(key) {
+                  //handle only if the field has been changed
+                  if ($scope.utils.textarea.valueBeforeEditing !== $scope.jsonFn[key]) {
+                    $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
+
+                    var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
+                    if (func) {
+                      $scope.json[key] = func;
+                    }
+                    else { //if value is not a valid function
+                      $scope.json[key] = $scope.jsonFn[key];
+                      delete $scope.jsonFn[key];
+                      $scope.utils.validateNode(key); //full validation for node
+                    }
+                  }
+                }
+              },
+
+              // Skip ordering in ng-repeat
+              keys: function(json) {
+                return chartbuilderUtils.keys(json);
+              },
+
+              // Hide some options
+              isHidden: function(key) {
+                return [
+                  'type',
+                  'dispatch',
+                  'noData',
+                  'id'
+                  ].indexOf(key) > -1;
+              }
+            };
+
+            // Define properties of the current node
+            $scope.node = {
+
+                // Check node is collapsed
+                isCollapsed: ($scope.collapsedLevel && +$scope.collapsedLevel) ? (+$scope.collapsedLevel <= 0) : true, /* set up isCollapsed properties, by default - true */
+
+                // Check current node is object or array
+                isObject: function() {
+                  return angular.isObject($scope.json)
+                },
+
+                // Get type for current node
+                type: function() {
+                  return chartbuilderUtils.getType($scope.json);
+                },
+
+                // Calculate collection length for object or array
+                length: function() {
+                  return ($scope.json instanceof Object) ? (Object.keys($scope.json).length) : 1
+                },
+
+                // Refresh template view
+                refresh: function() {
+                  $scope.refresh();
+                }
+            };
+          },
+          link: function(scope, element, attrs) {
+            // Define child scope and template
+            var childScope = scope.$new(),
+              template = chartbuilderOptionsTemplate;
+
+            // Define build template function
+            scope.build = function(_scope) {
+              if (scope.node.isObject()) {
+                element.html('').append($compile(template)(_scope));
+              }
+            };
+
+            // Define refresh function
+            scope.refresh = function() {
+              childScope.$destroy();
+              childScope = scope.$new();
+              scope.build(childScope);
+            };
+
+            // Build template view
+            scope.build(childScope);
+          }
+        }
+      }]);
+});
+
 
 define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n\t\t<div id="collapse-{{ $index }}" class="panel-collapse collapse in">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t{{ key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"\n\t\t\t\t\t\t\t\t\ttype="{{ type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<input type="{{ type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][key]" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n';});
 
-define('directives',['angular', 'text!../partials/data-forms/structure-data-input.html'], function(angular, dataFormTemplate) {
-  
+define('data-input',[
+  'angular',
+  'text!../partials/data-forms/structure-data-input.html',
+  ], function(angular, dataFormTemplate) {
+    
 
-  angular.module('chartbuilderDirectives', []).
-    directive('structureDataInput', function() {
-      return {
-        restrict: 'EA',
-        scope: {
-          structureData: '=',
-        },
-        template: dataFormTemplate,
-        link: function(scope) {
-          scope.dataGroupBox = {};
-          scope.newRow = {};
+    angular.module('chartbuilderDirectives').
+      directive('structureDataInput', function() {
+        return {
+          restrict: 'EA',
+          scope: {
+            structureData: '=',
+          },
+          template: dataFormTemplate,
+          link: function(scope) {
+            scope.dataGroupBox = {};
+            scope.newRow = {};
 
-          scope.$watch('structureData.data', function(newval) {
-            angular.forEach(newval, function(val, gidx) {
-              scope.newRow[gidx] = {};
-            });
-          }, true);
+            scope.$watch('structureData.data', function(newval) {
+              angular.forEach(newval, function(val, gidx) {
+                scope.newRow[gidx] = {};
+              });
+            }, true);
 
-          scope.addRow = function(gidx) {
-            var validate = true;
-            angular.forEach(scope.structureData.columnValues, function(type, key) {
-              if (!_.has(scope.newRow[gidx], key) || scope.newRow[gidx][key] === null) {
-                validate = false;
+            scope.addRow = function(gidx) {
+              var validate = true;
+              angular.forEach(scope.structureData.columnValues, function(type, key) {
+                if (!_.has(scope.newRow[gidx], key) || scope.newRow[gidx][key] === null) {
+                  validate = false;
+                }
+              });
+              if (!validate) {
+                return false;
+              }
+              scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
+            };
+
+            scope.removeRow = function(gidx, idx) {
+              scope.structureData.data[gidx].values.splice(idx, 1);
+            };
+          }
+        };
+      });
+});
+
+
+define('text!../partials/data-forms/edit-in-place.html',[],function () { return '<span ng-click="edit()" ng-bind="value"></span>\n<input ng-model="value" type="{{ type }}" class="form-control"></input>\n';});
+
+define('edit-in-place',[
+  'angular',
+  'text!../partials/data-forms/edit-in-place.html',
+  ], function(angular, editInPlaceTemplate) {
+    
+
+    angular.module('chartbuilderDirectives')
+      .directive('editInPlace', function() {
+        return {
+          restrict: 'EA',
+          scope: {
+            value: '=',
+            type: '@?'
+          },
+          template: editInPlaceTemplate,
+          link: function(scope, element) {
+            var inputElement = angular.element(element.children()[1]);
+
+            element.addClass('edit-in-place');
+
+            scope.editing = false;
+
+            scope.edit = function() {
+              scope.editing = true;
+
+              element.addClass('active');
+              inputElement[0].focus();
+            };
+
+            inputElement.bind('keydown keypress', function(event) {
+              if(event.which === 13) {
+                scope.editing = false;
+                element.removeClass('active');
               }
             });
-            if (!validate) {
-              return false;
-            }
-            scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
-          };
 
-          scope.removeRow = function(gidx, idx) {
-            scope.structureData.data[gidx].values.splice(idx, 1);
-          };
-        }
-      };
-    })
-    .directive('editInPlace', function() {
-      return {
-        restrict: 'EA',
-        scope: {
-          value: '=',
-          type: '@?'
-        },
-        template: ['<span ng-click="edit()" ng-bind="value"></span>',
-                   '<input ng-model="value" type="{{ type }}" class="form-control"></input>'].join(''),
-        link: function(scope, element) {
-          var inputElement = angular.element(element.children()[1]);
-
-          element.addClass('edit-in-place');
-
-          scope.editing = false;
-
-          scope.edit = function() {
-            scope.editing = true;
-
-            element.addClass('active');
-            inputElement[0].focus();
-          };
-
-          inputElement.bind('keydown keypress', function(event) {
-            if(event.which === 13) {
+            inputElement.bind('blur', function() {
               scope.editing = false;
               element.removeClass('active');
-            }
-          });
-
-          inputElement.bind('blur', function(event) {
-            scope.editing = false;
-            element.removeClass('active');
-          });
-        }
-      };
-    })
-    .directive('chartbuilderInput', function() {
-      return {
-        restrict: 'EA',
-        scope: {
-          value: '=',
-          name: '=',
-          itemChanged: '&'
-        },
-        template: ['<h4>{{ name }}</h4>',
-                   '<div ng-repeat="input in inputObj">',
-                     '<div class="input-group" ng-repeat="(label, setting) in input">',   
-                       '<span class="input-group-addon"',
-                         'ng-if="setting.type === \'checkbox\'"',
-                         '>',
-                         '<input type="{{ setting.type }}" ',
-                           'ng-model="setting.val" ',
-                           'ng-change="itemChanged({ inputName: label, inputValue: setting.val, parentName: name })"',
-                           '>',
-                         '</input>',
-                       '</span>',
-                       '<span class="form-control"',
-                         'ng-if="setting.type ===\'checkbox\'"',
-                         '>',
-                         '{{ label }}',
-                       '</span>',
-                       '<span class="input-group-addon"',
-                         'ng-if="label !== name && setting.type !==\'checkbox\'"',
-                         '>',
-                         '{{ label }}',
-                       '</span>',
-                       '<input class="form-control" ',
-                         'ng-if="setting.type !== \'checkbox\'"',
-                         'ng-model="setting.val" ',
-                         'class="form-control" ',
-                         'type="{{ setting.type }}" ',
-                         'ng-change="itemChanged({ inputName: label, inputValue: setting.val, parentName: name })"',
-                         '>',
-                       '</input>',
-                     '</div>',
-                   '</div>'].join(''),
-        link: function(scope) {
-          scope.inputObj = {};
-          var obj = {};
-          if (!_.has(scope.value, 'val')) {
-            angular.forEach(scope.value, function(settings, name) {
-              obj[name] = settings;
             });
           }
-          else {
-            obj[scope.name] = scope.value;
-          }
-          scope.inputObj[scope.name] = obj;
-        }
-      };
-    })
-    .directive('chartbuilderOptions', ['chartbuilderUtils', function(chartbuilderUtils) {
-      return {
-        restrict: 'EA',
-        scope: {
-          options: '='
-        },
-        template: ['<chartbuilder-input ng-repeat="(name, value) in inputs" ',
-                     'value="value" ',
-                     'name="name" ',
-                     'class="chartbuilder-input-group" ',
-                     'item-changed="updateVal(inputName, inputValue, parentName)"',
-                     '>',
-                   '</chartbuilder-input>'].join(''),
-        link: function(scope) {
-
-          scope.$watch('options', function() {
-            // Initialize container for input objects
-            scope.inputs = scope.returnInputs(scope.options);
-          }, true);
-
-          scope.returnInputs = function(obj) {
-            var inputs = {};
-            angular.forEach(obj, function(v, k) {
-              var type = chartbuilderUtils.getType(v);
-              if ('type' === k || 'dispatch' === k) {
-                return;
-              }
-              if ('number' === type) {
-                inputs[k] = { val: v, type: type };
-              }
-              if ('string' === type) {
-                inputs[k] = { val: v, type: 'text' };
-              }
-              if ('boolean' === type) {
-                inputs[k] = { val: v, type: 'checkbox' };
-              }
-              if ('object' === type) {
-                inputs[k] = scope.returnInputs(v);
-              }
-            });
-            return inputs;
-          };
-
-          scope.updateVal = function(inputName, inputValue, parentName) {
-            if (inputName !== parentName) {
-              scope.options[parentName][inputName] = inputValue;
-            }
-            else if (_.has(scope.options, inputName)) {
-              scope.options[inputName] = inputValue;
-            }
-          };
-        }
-      };
-    }]);
+        };
+      });
 });
 
 define('controllers',['angular', 'services'], function(angular) {
@@ -85606,6 +85709,13 @@ define('controllers',['angular', 'services'], function(angular) {
           }
           chartbuilderData.addGroup($scope.newDataGroup);
           $scope.newDataGroup = '';
+        };
+
+        $scope.getAdvancedOptions = function() {
+          if (!$scope.optionsLoaded) {
+            $scope.nodeOptions.refresh();
+            $scope.optionsLoaded = true;
+          }
         };
       }]);
 });
@@ -86269,12 +86379,10 @@ define("ui.sortable", function(){});
                                     .transition().duration(scope.options.chart['transitionDuration'])
                                     .call(scope.chart);
 
-                                // Set up svg height and width for IE
-                                if (navigator.appName === 'Microsoft Internet Explorer') {
-                                    d3.select(element[0]).select('svg')[0][0].style.height = scope.options.chart.height + 'px';
-                                    d3.select(element[0]).select('svg')[0][0].style.width = scope.options.chart.width + 'px';
-                                    if (scope.options.chart.type === 'multiChart') scope.chart.update(); // multiChart is not automatically updated
-                                }
+                                // Set up svg height and width. It is important for all browsers...
+                                d3.select(element[0]).select('svg')[0][0].style.height = scope.options.chart.height + 'px';
+                                d3.select(element[0]).select('svg')[0][0].style.width = scope.options.chart.width + 'px';
+                                if (scope.options.chart.type === 'multiChart') scope.chart.update(); // multiChart is not automatically updated
                             }
                         },
 
@@ -86470,7 +86578,9 @@ define('angular_modules/nvd3-modules/linechart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: '<nvd3 options="dataStore.options" data="dataStore.data"></nvd3>',
+              template: ['<nvd3 options="dataStore.options" ',
+                           'data="dataStore.data" ',
+                           'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
@@ -86486,10 +86596,19 @@ define('angular_modules/nvd3-modules/linechart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { x: 'number', y: 'number' }; },
-            options: {
+            meta: {
               title: module.name,
               subtitle: 'Subtitle for a line chart',
               caption: '1a. Edit a caption for the graph',
+            },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 600
+              }
+            }
+            /*
+            options: {
               chart: {
                 type: module.slug,
                 height: 600,
@@ -86523,6 +86642,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
                 }
               }
             }
+            */
           }
 
           // Add the slug and name definitions to chartbuilder
@@ -86566,7 +86686,13 @@ define('main', [], function() {
       'd3': '../bower_components/d3/d3',
       'nv.d3': '../bower_components/nvd3/nv.d3',
       'controllers': './controllers/controllers',
+
+      // Directives
       'directives': './directives/directives',
+      'options': './directives/options',
+      'data-input': './directives/data-input',
+      'edit-in-place': './directives/edit-in-place',
+
       'filters': './filters/filters',
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
@@ -86574,7 +86700,6 @@ define('main', [], function() {
       'text': './vendor/text',
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
-      //'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main'
     },
     shim: {
       'angular': {
@@ -86596,9 +86721,12 @@ define('main', [], function() {
       'filters': ['angular'],
       'services': ['angular'],
       'directives': ['angular'],
+      'options': ['angular'],
+      'data-input': ['angular'],
+      'edit-in-place': ['angular'],
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
-      'ui.sortable': ['jquery', 'jqueryui'],
+      'ui.sortable': ['angular', 'jquery', 'jqueryui'],
       'nv.d3': ['d3'],
       'chartbuilder.nvd3': ['angular'],
       'chartbuilder.nvd3.linechart': ['angular'],
@@ -86626,12 +86754,14 @@ define('main', [], function() {
     'services',
     'filters',
     'directives',
+    'options',
+    'data-input',
+    'edit-in-place',
     'controllers',
     'slugifier',
     'ui.sortable',
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.linechart'
-    //'chartbuilder.nvd3.barchart'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -86651,7 +86781,6 @@ define('main', [], function() {
         'ui.sortable',
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.linechart',
-        //'chartbuilder.nvd3.barchart'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',
