@@ -50,5 +50,12 @@ define(['angular', 'services'], function(angular) {
           chartbuilderData.addGroup($scope.newDataGroup);
           $scope.newDataGroup = '';
         };
+
+        $scope.getAdvancedOptions = function() {
+          if (!$scope.optionsLoaded) {
+            $scope.nodeOptions.refresh();
+            $scope.optionsLoaded = true;
+          }
+        };
       }]);
 });

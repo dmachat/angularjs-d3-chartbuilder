@@ -115,7 +115,8 @@ define([
                 return [
                   'type',
                   'dispatch',
-                  'noData'
+                  'noData',
+                  'id'
                   ].indexOf(key) > -1;
               }
             };

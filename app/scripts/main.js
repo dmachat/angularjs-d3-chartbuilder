@@ -56,7 +56,7 @@ define('main', [], function() {
       'edit-in-place': ['angular'],
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
-      'ui.sortable': ['jquery', 'jqueryui'],
+      'ui.sortable': ['angular', 'jquery', 'jqueryui'],
       'nv.d3': ['d3'],
       'chartbuilder.nvd3': ['angular'],
       'chartbuilder.nvd3.linechart': ['angular'],
