@@ -31417,7 +31417,7 @@ define('text',['module'], function (module) {
 });
 
 
-define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/cumulativeLineChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4 jumbotron">\n\t\t\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t\t\t<p class="lead">Start building a chart now</p>\n\t\t\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t\t\t</p>\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/discreteBarChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/donutChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/historicalBarChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/lineChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/stackedAreaChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/scatterChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/multiBarChart.png" />\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/cumulativeLineChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4 jumbotron">\n\t\t\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t\t\t<p class="lead">Start building a chart now</p>\n\t\t\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t\t\t</p>\n\t\t</div>\n\t\t<div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/donutChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/historicalBarChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/lineChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/stackedAreaChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/scatterChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/multiBarChart.png" />\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
 define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tng-change="changeChartType(selectedChartType)"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\tng-click="getAdvancedOptions()"\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options json="structureData.options.chart" collapsed-level="1" node="nodeOptions" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div class="graph-wrapper">\n\t\t\t<h3><edit-in-place value="structureData.meta.title"></edit-in-place></h3>\n\t\t\t<h5><edit-in-place value="structureData.meta.subtitle"></edit-in-place></h5>\n\t\t\t<div ui-view="graph" id="chart"></div>\n\t\t\t<p><edit-in-place value="structureData.meta.caption"></edit-in-place></p>\n\t\t</div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
@@ -85309,10 +85309,10 @@ define('services',['angular'], function(angular) {
           this.dataFormat = init.dataFormat;
           this.columnValues = init.dataFormat();
           if (angular.isDefined(init.options)) { 
-            this.options = angular.extend(init.options, this.options);
+            this.options = init.options;
           }
           if (angular.isDefined(init.meta)) {
-            this.meta = angular.extend(init.meta, this.meta);
+            this.meta = init.meta;
           }
           this.resetData();
         }
@@ -85384,7 +85384,7 @@ define('directives',['angular'], function(angular) {
 });
 
 
-define('text!../partials/data-forms/chartbuilder-options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n\t<div class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)">\n\t\t<span ng-class="{ \'col-lg-4\': !children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n\t\t\t<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n\t\t</span>\n\t\t<div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n\t\t\t<span ng-hide="children[key].isObject()" class="pull-right">\n\t\t\t\t<div ng-show="children[key].type() === \'boolean\'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">\n\t\t\t\t\t<button type="button" class="btn" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n\t\t\t\t\t<button type="button" class="btn btn-default" ng-class="{ active: !json[key] }">Off</button>\n\t\t\t\t</div>\n\t\t\t\t<input ng-show="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n\t\t\t\t<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>\n\t\t\t\t<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n\t\t\t</span>\n\t\t\t<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/data-forms/chartbuilder-options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n\t<a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)" ng-class="{ active: !children[key].isCollapsed }">\n\t\t<span ng-class="{ \'col-lg-4\': !children[key].isObject(), \'col-lg-12\': children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n\t\t\t<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n\t\t</span>\n\t\t<span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />\n\t\t<div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n\t\t\t<span ng-hide="children[key].isObject()" class="pull-right">\n\t\t\t\t<div ng-show="children[key].type() === \'boolean\'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">\n\t\t\t\t\t<button type="button" class="btn" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n\t\t\t\t\t<button type="button" class="btn btn-default" ng-class="{ active: !json[key] }">Off</button>\n\t\t\t\t</div>\n\t\t\t\t<input ng-show="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n\t\t\t\t<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>\n\t\t\t\t<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n\t\t\t</span>\n\t\t\t<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n\t\t</div>\n\t</a>\n</div>\n';});
 
 define('options',[
   'angular',
@@ -86544,9 +86544,6 @@ define("ui.sortable", function(){});
 
 define("chartbuilder.nvd3", function(){});
 
-
-define('text!angular_modules/nvd3-modules/linechart/template.html',[],function () { return '{{ dataStore.opts | json }}\n<nvd3-line-chart\n  data="dataStore.data"\n\tid="lineChart"\n  height="{{ dataStore.opts.height.value }}"\n\twidth="{{ dataStore.opts.width.value }}"\n  showXAxis="{{ dataStore.opts.showXAxis.value }}"\n  showYAxis="{{ dataStore.opts.showYAxis.value }}"\n\tisArea="{{ dataStore.opts.isArea.value }}"\n\tobjectequality="true"\n  >\n  <svg></svg>\n</nvd3-line-chart>\n';});
-
 define('angular_modules/nvd3-modules/linechart/data',{
   "exampleData": [{
     "key": "Series 1",
@@ -86560,7 +86557,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
 
 
 (function() {
-  define('chartbuilder.nvd3.linechart',['angular', 'text!angular_modules/nvd3-modules/linechart/template.html', 'angular_modules/nvd3-modules/linechart/data'], function(angular, template, data) {
+  define('chartbuilder.nvd3.linechart',['angular', 'angular_modules/nvd3-modules/linechart/data'], function(angular, data) {
     var module = {
       name: 'Line Chart',
       slug: 'lineChart',
@@ -86607,42 +86604,113 @@ define('angular_modules/nvd3-modules/linechart/data',{
                 height: 600
               }
             }
-            /*
+          }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
+        }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        '$location',
+        'getSampleData',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        'chartbuilderSelectedModule',
+        function($scope, $location, getSampleData, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
+
+          // Initialize the data -- store sample data and set structure
+          chartbuilderSelectedModule = module.slug;
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
+  });
+})();
+
+define('angular_modules/nvd3-modules/barchart/data',{
+  "exampleData": [{
+    "key": "Cumulative Return",
+    "values": [
+      { "label": "A", "value": -29.765957771107 },
+      { "label": "B", "value": 0 },
+      { "label": "C", "value": 32.807804682612 },
+      { "label": "D", "value": 196.45946739256 },
+      { "label": "E", "value": 0.19434030906893 },
+      { "label": "F", "value": -98.079782601442 },
+      { "label": "G", "value": -13.925743130903 },
+      { "label": "H", "value": -5.1387322875705 }
+    ]
+  }]
+});
+
+/*
+ Modular version of the bar chart nvd3-directive
+ */
+
+
+(function() {
+  define('chartbuilder.nvd3.barchart',['angular', 'angular_modules/nvd3-modules/barchart/data'], function(angular, data) {
+    var module = {
+      name: 'Bar Chart',
+      slug: 'discreteBarChart',
+      data: data
+    };
+
+    angular.module('chartbuilder.nvd3.barchart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+      .value('chartbuilderModuleRegistry', {})
+      .value('chartbuilderSelectedModule', '')
+      /**
+       * Add this module's state to ui-router routes
+       */
+      .config(['$stateProvider', function($stateProvider) {
+        $stateProvider.state('chartbuilder.' + module.slug, {
+          url: '/' + module.slug,
+          views: {
+            'graph': {
+              template: ['<nvd3 options="dataStore.options" ',
+                           'data="dataStore.data" ',
+                           'config="{ extended: true }"></nvd3>'].join(''),
+              controller: module.slug + 'Controller'
+            }
+          }
+        });
+      }])
+      .run([
+        'chartbuilderModuleRegistry',
+        'getSampleData',
+        function(chartbuilderModuleRegistry, getSampleData) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            meta: {
+              title: module.name,
+              subtitle: 'Subtitle for a bar chart',
+              caption: '1a. Edit a caption for the graph',
+            },
             options: {
               chart: {
                 type: module.slug,
                 height: 600,
-                margin : {
-                    top: 20,
-                    right: 20,
-                    bottom: 40,
-                    left: 55
-                },
-                x: function(d){ return d.x; },
-                y: function(d){ return d.y; },
-                useInteractiveGuideline: true,
-                dispatch: {
-                    stateChange: function(e){ console.log("stateChange"); },
-                    changeState: function(e){ console.log("changeState"); },
-                    tooltipShow: function(e){ console.log("tooltipShow"); },
-                    tooltipHide: function(e){ console.log("tooltipHide"); }
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format(',.4f')(d);
                 },
                 xAxis: {
-                    axisLabel: 'Time (ms)'
+                    axisLabel: 'X Axis'
                 },
                 yAxis: {
-                    axisLabel: 'Voltage (v)',
-                    tickFormat: function(d){
-                        return d3.format('.02f')(d);
-                    },
+                    axisLabel: 'Y Axis',
                     axisLabelDistance: 30
-                },
-                callback: function(chart){
-                    //console.log("!!! lineChart callback !!!");
                 }
               }
             }
-            */
           }
 
           // Add the slug and name definitions to chartbuilder
@@ -86700,6 +86768,7 @@ define('main', [], function() {
       'text': './vendor/text',
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
+      'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main'
     },
     shim: {
       'angular': {
@@ -86730,7 +86799,7 @@ define('main', [], function() {
       'nv.d3': ['d3'],
       'chartbuilder.nvd3': ['angular'],
       'chartbuilder.nvd3.linechart': ['angular'],
-      //'chartbuilder.nvd3.barchart': ['angular']
+      'chartbuilder.nvd3.barchart': ['angular']
     }
   });
 
@@ -86761,7 +86830,8 @@ define('main', [], function() {
     'slugifier',
     'ui.sortable',
     'chartbuilder.nvd3',
-    'chartbuilder.nvd3.linechart'
+    'chartbuilder.nvd3.linechart',
+    'chartbuilder.nvd3.barchart'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -86781,6 +86851,7 @@ define('main', [], function() {
         'ui.sortable',
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.linechart',
+        'chartbuilder.nvd3.barchart'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',
