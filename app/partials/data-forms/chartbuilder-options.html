@@ -1,8 +1,9 @@
 <div ng-hide="node.isCollapsed" class="list-group">
-	<div class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)">
-		<span ng-class="{ 'col-lg-4': !children[key].isObject() }" ng-click="utils.clickNode(children[key])">
+	<a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)" ng-class="{ active: !children[key].isCollapsed }">
+		<span ng-class="{ 'col-lg-4': !children[key].isObject(), 'col-lg-12': children[key].isObject() }" ng-click="utils.clickNode(children[key])">
 			<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ 'glyphicon-chevron-right': children[key].isCollapsed, 'glyphicon-chevron-down': !children[key].isCollapsed }"></i></h4>
 		</span>
+		<span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />
 		<div ng-class="{ 'col-lg-8': !children[key].isObject() }">
 			<span ng-hide="children[key].isObject()" class="pull-right">
 				<div ng-show="children[key].type() === 'boolean'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">
@@ -15,5 +16,5 @@
 			</span>
 			<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>
 		</div>
-	</div>
+	</a>
 </div>
