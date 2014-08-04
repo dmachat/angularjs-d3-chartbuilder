@@ -4,16 +4,16 @@
 "use strict";
 
 (function() {
-  define(['angular', 'text!angular_modules/nvd3-modules/barchart/template.html'], function(angular, template) {
+  define(['angular', 'angular_modules/nvd3-modules/barchart/data'], function(angular, data) {
     var module = {
       name: 'Bar Chart',
-      slug: 'barchart',
-      data: '/scripts/angular_modules/nvd3-modules/barchart/data.json'
+      slug: 'discreteBarChart',
+      data: data
     };
 
-    angular.module('chartbuilder.nvd3.barchart', ['chartbuilderServices'])
+    angular.module('chartbuilder.nvd3.barchart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       .value('chartbuilderModuleRegistry', {})
-      .value('chartbuilderSelectedModule', {})
+      .value('chartbuilderSelectedModule', '')
       /**
        * Add this module's state to ui-router routes
        */
@@ -22,35 +22,69 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: template,
+              template: ['<nvd3 options="dataStore.options" ',
+                           'data="dataStore.data" ',
+                           'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
         });
       }])
-      .run(['chartbuilderModuleRegistry', 'getSampleData', function(chartbuilderModuleRegistry, getSampleData) {
-        var moduleOpts = {};
-        moduleOpts[module.name] = {
-          name: module.name,
-          slug: module.slug
+      .run([
+        'chartbuilderModuleRegistry',
+        'getSampleData',
+        function(chartbuilderModuleRegistry, getSampleData) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            meta: {
+              title: module.name,
+              subtitle: 'Subtitle for a bar chart',
+              caption: '1a. Edit a caption for the graph',
+            },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 600,
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format(',.4f')(d);
+                },
+                xAxis: {
+                    axisLabel: 'X Axis'
+                },
+                yAxis: {
+                    axisLabel: 'Y Axis',
+                    axisLabelDistance: 30
+                }
+              }
+            }
+          }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
         }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        '$location',
+        'getSampleData',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        'chartbuilderSelectedModule',
+        function($scope, $location, getSampleData, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
 
-        getSampleData(module.data).then(function(data) {
-          moduleOpts[module.name].data = data;
-        });
-
-        // Add the slug and name definitions to chartbuilder
-        angular.extend(chartbuilderModuleRegistry, moduleOpts);
-
-      }])
-      .controller(module.slug + 'Controller', ['$scope', '$location', 'getSampleData', 'chartbuilderDataStore', 'chartbuilderModuleRegistry', 'chartbuilderSelectedModule', function($scope, $location, getSampleData, chartbuilderDataStore, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
-        // Localize the datastore for the view
-        $scope.dataStore = chartbuilderDataStore;
-
-        // Initialize the data -- store sample data and set structure
-        chartbuilderSelectedModule.selected = module.slug;
-        chartbuilderDataStore.init(chartbuilderModuleRegistry[module.name].data);
-
-      }]);
+          // Initialize the data -- store sample data and set structure
+          chartbuilderSelectedModule = module.slug;
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
   });
 })();

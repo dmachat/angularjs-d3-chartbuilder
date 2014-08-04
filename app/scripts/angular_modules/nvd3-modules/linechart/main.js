@@ -4,7 +4,7 @@
 "use strict";
 
 (function() {
-  define(['angular', 'text!angular_modules/nvd3-modules/linechart/template.html', 'angular_modules/nvd3-modules/linechart/data'], function(angular, template, data) {
+  define(['angular', 'angular_modules/nvd3-modules/linechart/data'], function(angular, data) {
     var module = {
       name: 'Line Chart',
       slug: 'lineChart',
@@ -51,42 +51,6 @@
                 height: 600
               }
             }
-            /*
-            options: {
-              chart: {
-                type: module.slug,
-                height: 600,
-                margin : {
-                    top: 20,
-                    right: 20,
-                    bottom: 40,
-                    left: 55
-                },
-                x: function(d){ return d.x; },
-                y: function(d){ return d.y; },
-                useInteractiveGuideline: true,
-                dispatch: {
-                    stateChange: function(e){ console.log("stateChange"); },
-                    changeState: function(e){ console.log("changeState"); },
-                    tooltipShow: function(e){ console.log("tooltipShow"); },
-                    tooltipHide: function(e){ console.log("tooltipHide"); }
-                },
-                xAxis: {
-                    axisLabel: 'Time (ms)'
-                },
-                yAxis: {
-                    axisLabel: 'Voltage (v)',
-                    tickFormat: function(d){
-                        return d3.format('.02f')(d);
-                    },
-                    axisLabelDistance: 30
-                },
-                callback: function(chart){
-                    //console.log("!!! lineChart callback !!!");
-                }
-              }
-            }
-            */
           }
 
           // Add the slug and name definitions to chartbuilder

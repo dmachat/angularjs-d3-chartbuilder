@@ -30,10 +30,10 @@ define(['angular'], function(angular) {
           this.dataFormat = init.dataFormat;
           this.columnValues = init.dataFormat();
           if (angular.isDefined(init.options)) { 
-            this.options = angular.extend(init.options, this.options);
+            this.options = init.options;
           }
           if (angular.isDefined(init.meta)) {
-            this.meta = angular.extend(init.meta, this.meta);
+            this.meta = init.meta;
           }
           this.resetData();
         }
