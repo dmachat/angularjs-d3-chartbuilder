@@ -30,7 +30,8 @@ define('main', [], function() {
       'text': './vendor/text',
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
-      'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main'
+      'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main',
+      'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main'
     },
     shim: {
       'angular': {
@@ -61,7 +62,8 @@ define('main', [], function() {
       'nv.d3': ['d3'],
       'chartbuilder.nvd3': ['angular'],
       'chartbuilder.nvd3.linechart': ['angular'],
-      'chartbuilder.nvd3.barchart': ['angular']
+      'chartbuilder.nvd3.barchart': ['angular'],
+      'chartbuilder.nvd3.multiBarChart': ['angular']
     }
   });
 
@@ -93,7 +95,8 @@ define('main', [], function() {
     'ui.sortable',
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.linechart',
-    'chartbuilder.nvd3.barchart'
+    'chartbuilder.nvd3.barchart',
+    'chartbuilder.nvd3.multiBarChart'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -113,7 +116,8 @@ define('main', [], function() {
         'ui.sortable',
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.linechart',
-        'chartbuilder.nvd3.barchart'
+        'chartbuilder.nvd3.barchart',
+        'chartbuilder.nvd3.multiBarChart'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',
