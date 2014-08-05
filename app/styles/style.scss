@@ -8,7 +8,6 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import 'animations.scss';
 @import 'home.scss';
 @import 'charts.scss';
-@import 'header.scss';
 @import 'sidebar.scss';
 @import 'editinplace.scss';
 
@@ -23,6 +22,9 @@ $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 
 body {
     padding-bottom: 20px;
+    > .main-content-container {
+        margin: 70px 0 0;
+    }
     /* Container relative to hold animated content */
     .container {
         .main-content-container {
@@ -67,6 +69,14 @@ body {
 .marketing p + h4 {
     margin-top: 28px;
 }
+
+.main-content-container {
+  .col-lg-9 {
+    position: fixed;
+    right: 0;
+  }
+}
+
 /* Responsive: Portrait tablets and up */
 
 @media screen and (min-width: 768px) {
