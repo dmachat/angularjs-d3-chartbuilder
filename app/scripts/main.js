@@ -28,10 +28,18 @@ define('main', [], function() {
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
       'text': './vendor/text',
+
+      // NVd3
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
       'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main',
-      'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main'
+      'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
+
+      // Maps
+      'topojson': '../bower_components/topojson/topojson',
+      'datamaps': '../bower_components/datamaps/dist/datamaps.all',
+      'chartbuilder.datamaps': './angular_modules/datamaps/angular-datamaps',
+      'chartbuilder.datamaps.usa': './angular_modules/datamaps/main'
     },
     shim: {
       'angular': {
@@ -43,6 +51,9 @@ define('main', [], function() {
       },
       'jquery': {
         exports: '$'
+      },
+      'd3': {
+        exports: 'd3'
       },
       'angular-resource': ['angular'],
       'angular-animate': ['angular'],
@@ -59,11 +70,25 @@ define('main', [], function() {
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['angular', 'jquery', 'jqueryui'],
+
+      // Shim the nvd3 modules
       'nv.d3': ['d3'],
-      'chartbuilder.nvd3': ['angular'],
-      'chartbuilder.nvd3.linechart': ['angular'],
-      'chartbuilder.nvd3.barchart': ['angular'],
-      'chartbuilder.nvd3.multiBarChart': ['angular']
+      'chartbuilder.nvd3': ['angular', 'nv.d3'],
+      'chartbuilder.nvd3.linechart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.barchart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
+
+      // Shim the datamap modules
+      'topojson': {
+        deps: ['d3'],
+        exports: 'topojson'
+      },
+      'datamaps': {
+        deps: ['d3', 'topojson'],
+        exports: 'Datamap'
+      },
+      'chartbuilder.datamaps': ['d3', 'topojson', 'datamaps'],
+      'chartbuilder.datamaps.usa': ['chartbuilder.datamaps']
     }
   });
 
@@ -96,7 +121,11 @@ define('main', [], function() {
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.linechart',
     'chartbuilder.nvd3.barchart',
-    'chartbuilder.nvd3.multiBarChart'
+    'chartbuilder.nvd3.multiBarChart',
+    'datamaps',
+    'topojson',
+    'chartbuilder.datamaps',
+    'chartbuilder.datamaps.usa'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -117,7 +146,9 @@ define('main', [], function() {
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.linechart',
         'chartbuilder.nvd3.barchart',
-        'chartbuilder.nvd3.multiBarChart'
+        'chartbuilder.nvd3.multiBarChart',
+        'datamaps',
+        'chartbuilder.datamaps.usa'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',

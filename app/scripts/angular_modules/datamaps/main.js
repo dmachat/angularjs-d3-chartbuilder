@@ -1,17 +1,17 @@
 /*
- Modular version of the bar chart nvd3-directive
+ Chartbuild Data Maps module
  */
 "use strict";
 
 (function() {
-  define(['angular', 'angular_modules/nvd3-modules/barchart/data'], function(angular, data) {
+  define(['angular', 'angular_modules/datamaps/data'], function(angular, data) {
     var module = {
-      name: 'Bar Chart',
-      slug: 'discreteBarChart',
+      name: 'USA Map',
+      slug: 'map',
       data: data
     };
 
-    angular.module('chartbuilder.nvd3.barchart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+    angular.module('chartbuilder.datamaps.usa', ['chartbuilderServices'])
       .value('chartbuilderModuleRegistry', {})
       .value('chartbuilderSelectedModule', '')
       /**
@@ -22,9 +22,10 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
+              template: ['<datamap options="dataStore.options" ',
+                           'style="display: block; padding: 0 0 50px" ',
                            'data="dataStore.data" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+                           'type="usa"></datamap>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
@@ -36,29 +37,20 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            dataFormat: function() { return { 'location': 'text', 'value': 'text' }; },
             meta: {
               title: module.name,
-              subtitle: 'Subtitle for a bar chart',
-              caption: '1a. Edit a caption for the graph',
+              subtitle: 'Subtitle for a map',
+              caption: '1a. Edit a caption for a map',
             },
             options: {
               chart: {
-                type: module.slug,
                 height: 600,
-                x: function(d){return d.label;},
-                y: function(d){return d.value;},
-                showValues: true,
-                valueFormat: function(d){
-                  return d3.format(',.4f')(d);
-                },
-                xAxis: {
-                  axisLabel: 'X Axis'
-                },
-                yAxis: {
-                  axisLabel: 'Y Axis',
-                  axisLabelDistance: 30
-                }
+                legend: true,
+                labels: true,
+                labelColor: '#333333',
+                labelSize: 12,
+                fillQuartiles: false,
               }
             }
           }
