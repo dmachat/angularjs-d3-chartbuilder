@@ -30,10 +30,7 @@
           }
         });
       }])
-      .run([
-        'chartbuilderModuleRegistry',
-        'getSampleData',
-        function(chartbuilderModuleRegistry, getSampleData) {
+      .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
           var moduleOpts = {};
           moduleOpts[module.name] = {
             name: module.name,
@@ -76,12 +73,10 @@
       ])
       .controller(module.slug + 'Controller', [
         '$scope',
-        '$location',
-        'getSampleData',
         'chartbuilderData',
         'chartbuilderModuleRegistry',
         'chartbuilderSelectedModule',
-        function($scope, $location, getSampleData, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+        function($scope, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
           // Localize the datastore for the view
           $scope.dataStore = chartbuilderData;
 
