@@ -28,6 +28,7 @@ define('main', [], function() {
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
+      'angular-file-input': './angular_modules/angular-file-input/angular-file-input',
       'text': './vendor/text',
 
       // NVd3
@@ -56,6 +57,9 @@ define('main', [], function() {
       'd3': {
         exports: 'd3'
       },
+      'comma-separated-values': {
+        exports: 'CSV'
+      },
       'angular-resource': ['angular'],
       'angular-animate': ['angular'],
       'ui-router': ['angular'],
@@ -65,9 +69,10 @@ define('main', [], function() {
       'filters': ['angular'],
       'services': ['angular'],
       'directives': ['angular'],
-      'options': ['angular'],
-      'data-input': ['angular'],
-      'edit-in-place': ['angular'],
+      'options': ['directives'],
+      'data-input': ['directives'],
+      'edit-in-place': ['directives'],
+      'angular-file-input': ['angular'],
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['angular', 'jquery', 'jqueryui'],
@@ -111,6 +116,7 @@ define('main', [], function() {
     'bootstrap',
     'modernizr',
     'comma-separated-values',
+    'angular-file-input',
     'services',
     'filters',
     'directives',
@@ -143,6 +149,7 @@ define('main', [], function() {
         'chartbuilderFilters',
         'chartbuilderServices',
         'chartbuilderDirectives',
+        'fileInput',
         'slugifier',
         'ui.sortable',
         'chartbuilder.nvd3',
