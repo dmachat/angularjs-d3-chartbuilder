@@ -19,6 +19,7 @@
     "d3": "~3.4.3",
     "nvd3": "~1.1.15-beta",
     "datamaps": "~0.3.2",
-    "angular-ui-router": "~0.2.10"
+    "angular-ui-router": "~0.2.10",
+    "comma-separated-values": "~3.3.0"
   }
 }

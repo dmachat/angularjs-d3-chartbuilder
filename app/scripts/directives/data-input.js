@@ -1,7 +1,8 @@
 define([
   'angular',
+  'comma-separated-values',
   'text!../partials/data-forms/structure-data-input.html',
-  ], function(angular, dataFormTemplate) {
+  ], function(angular, CSV, dataFormTemplate) {
     'use strict';
 
     angular.module('chartbuilderDirectives').
@@ -15,6 +16,7 @@ define([
           link: function(scope) {
             scope.dataGroupBox = {};
             scope.newRow = {};
+            scope.newDataFile = {};
 
             scope.$watch('structureData.data', function(newval) {
               angular.forEach(newval, function(val, gidx) {
@@ -38,6 +40,12 @@ define([
             scope.removeRow = function(gidx, idx) {
               scope.structureData.data[gidx].values.splice(idx, 1);
             };
+
+            scope.readFile = function(file, gidx){
+              var csv = new CSV(file, { header: true, line: '\n' }).parse();
+              scope.structureData.data[gidx].values = csv;
+            };
+
           }
         };
       });

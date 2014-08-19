@@ -1,3 +1,6 @@
 [submodule "dist/scripts/angular_modules/angularjs-nvd3-directives"]
 	path = dist/scripts/angular_modules/angularjs-nvd3-directives
 	url = git@github.com:dmachat/angularjs-nvd3-directives.git
+[submodule "app/scripts/angular_modules/angular-file-input"]
+	path = app/scripts/angular_modules/angular-file-input
+	url = git@github.com:dmachat/angular-file-input.git
