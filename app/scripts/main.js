@@ -36,6 +36,7 @@ define('main', [], function() {
       'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
       'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main',
       'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
+      'chartbuilder.nvd3.pieChart': './angular_modules/nvd3-modules/pieChart/main',
 
       // Maps
       'topojson': '../bower_components/topojson/topojson',
@@ -83,6 +84,7 @@ define('main', [], function() {
       'chartbuilder.nvd3.linechart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.barchart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.pieChart': ['chartbuilder.nvd3'],
 
       // Shim the datamap modules
       'topojson': {
@@ -130,6 +132,7 @@ define('main', [], function() {
     'chartbuilder.nvd3.linechart',
     'chartbuilder.nvd3.barchart',
     'chartbuilder.nvd3.multiBarChart',
+    'chartbuilder.nvd3.pieChart',
     'datamaps',
     'topojson',
     'chartbuilder.datamaps',
@@ -156,6 +159,7 @@ define('main', [], function() {
         'chartbuilder.nvd3.linechart',
         'chartbuilder.nvd3.barchart',
         'chartbuilder.nvd3.multiBarChart',
+        'chartbuilder.nvd3.pieChart',
         'datamaps',
         'chartbuilder.datamaps.usa'
       ]).config([
