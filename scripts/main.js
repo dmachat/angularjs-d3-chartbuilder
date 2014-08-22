@@ -86270,7 +86270,7 @@ define('options',[
 });
 
 
-define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: $index === 0 }">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t{{ key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"\n\t\t\t\t\t\t\t\t\ttype="{{ type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<input type="{{ type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][key]" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n        <div>\n          Use existing CSV values\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n        </div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: $index === 0 }">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t{{ key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"\n\t\t\t\t\t\t\t\t\ttype="{{ type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<input type="{{ type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][key]" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n        <div>\n          Use existing CSV values\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n        </div>\n        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n';});
 
 define('data-input',[
   'angular',
@@ -86292,12 +86292,26 @@ define('data-input',[
             scope.newRow = {};
             scope.newDataFile = {};
 
+            // Set CSV parsing options
+            var csvOptions = {
+              header: true,
+              line: '\n'
+            };
+
+            // Keep an empty new row for the input model
             scope.$watch('structureData.data', function(newval) {
-              angular.forEach(newval, function(val, gidx) {
+              angular.forEach(newval, function(group, gidx) {
                 scope.newRow[gidx] = {};
               });
             }, true);
 
+            // When data is pasted to the input text area, parse it for values
+            scope.onPasteInputChanged = function(input, gidx) {
+              scope.structureData.data[gidx].values = new CSV(input, csvOptions).parse();
+              scope.pasteInputToggle = false;
+            };
+
+            // Append a new data row from the empty data model
             scope.addRow = function(gidx) {
               var validate = true;
               angular.forEach(scope.structureData.columnValues, function(type, key) {
@@ -86315,11 +86329,10 @@ define('data-input',[
               scope.structureData.data[gidx].values.splice(idx, 1);
             };
 
-            scope.readFile = function(file, gidx){
-              var csv = new CSV(file, { header: true, line: '\n' }).parse();
-              scope.structureData.data[gidx].values = csv;
+            // This is just the callback from the file reader input. Parse and insert uploaded values
+            scope.readFile = function(file, gidx) {
+              scope.structureData.data[gidx].values = new CSV(file, csvOptions).parse();
             };
-
           }
         };
       });
