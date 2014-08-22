@@ -60,10 +60,11 @@
           <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input">
             <i class="fa fa-upload"></i>
           </div>
-          <button type="button" class="btn btn-default btn-xs" name="Paste">
+          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">
             <i class="fa fa-edit"></i>
           </button>
         </div>
+        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>
 			</div>
 		</div>
 	</div>
