@@ -6,9 +6,9 @@
 		<span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />
 		<div ng-class="{ 'col-lg-8': !children[key].isObject() }">
 			<span ng-hide="children[key].isObject()" class="pull-right">
-				<div ng-show="children[key].type() === 'boolean'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">
-					<button type="button" class="btn" ng-class="{ active: json[key], 'btn-primary': json[key], 'btn-default': !json[key] }">On</button>
-					<button type="button" class="btn btn-default" ng-class="{ active: !json[key] }">Off</button>
+				<div ng-show="children[key].type() === 'boolean'" ng-model="json[key]" class="btn-group">
+					<button type="button" class="btn" ng-click="json[key] = true" ng-class="{ active: json[key], 'btn-primary': json[key], 'btn-default': !json[key] }">On</button>
+					<button type="button" class="btn btn-default" ng-click="json[key] = false" ng-class="{ active: !json[key] }">Off</button>
 				</div>
 				<input ng-show="children[key].type() === 'number'" type="number" class="form-control" ng-model="json[key]" />
 				<textarea ng-if="children[key].type() === 'function'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>

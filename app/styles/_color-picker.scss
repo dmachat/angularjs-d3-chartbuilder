@@ -1,8 +1,12 @@
 .color-picker {
-  span.color-box {
-    height: 10px;
-    width: 10px;
+  span {
+    float: left;
+    height: 15px;
+    width: 15px;
     display: block;
-    border: 1px solid #b9b9b9;
+    margin: 1px;
+    &.color-box {
+      border: 1px solid #b9b9b9;
+    }
   }
 }

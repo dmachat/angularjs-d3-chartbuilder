@@ -2,9 +2,9 @@
 
 	'use strict';
 
-	angular.module('chartbuilder.nvd3', [])
+	angular.module('chartbuilder.nvd3', ['chartbuilderServices'])
 
-		.directive('nvd3', [function() {
+		.directive('nvd3', ['chartbuilderData', function(chartbuilderData) {
 			return {
 				restrict: 'AE',
 				scope: {
@@ -126,6 +126,8 @@
 
 							// Configure styles
 							configureStyles();
+              // @TODO get custom colors working
+              scope.chart.color(chartbuilderData.colors)
 
 							nv.addGraph(function() {
 								// Update the chart when window resizes
