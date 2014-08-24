@@ -102,6 +102,52 @@ define(['angular', 'd3'], function(angular, d3) {
               return func;
             } catch(e) {}
           }
+        },
+        saveFile: function(data, filename, contentType) {
+
+          // Use passed content type or default to "application/octet-stream"
+          var octetStreamMime = 'application/octet-stream';
+          var contentType = contentType || octetStreamMime;
+          filename = filename + '.' + contentType;
+
+          if (navigator.msSaveBlob) {
+            // Save blob is supported, so get the blob as it's contentType and call save.
+            var blob = new Blob([data], { type: contentType });
+            navigator.msSaveBlob(blob, filename);
+          }
+          else {
+            // Get the blob url creator
+            var urlCreator = window.URL || window.webkitURL || window.mozURL || window.msURL;
+            if (urlCreator) {
+              // Try to use a download link
+              var link = document.createElement("a");
+              if ("download" in link) {
+                // Prepare a blob URL
+                var blob = new Blob([data], { type: contentType });
+                var url = urlCreator.createObjectURL(blob);
+                link.setAttribute("href", url);
+
+                // Set the download attribute (Supported in Chrome 14+ / Firefox 20+)
+                link.setAttribute("download", filename);
+
+                // Simulate clicking the download link
+                var event = document.createEvent('MouseEvents');
+                event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+                link.dispatchEvent(event);
+
+                console.log("Download link Success");
+
+              } else {
+                // Prepare a blob URL
+                // Use application/octet-stream when using window.location to force download
+                var blob = new Blob([data], { type: octetStreamMime });
+                var url = urlCreator.createObjectURL(blob);
+                window.location = url;
+              }
+            } else {
+              console.log("Not supported");
+            }
+          }
         }
       };
     });

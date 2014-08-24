@@ -6,7 +6,7 @@ define([
     'use strict';
 
     angular.module('chartbuilderDirectives').
-      directive('structureDataInput', function() {
+      directive('structureDataInput', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
           scope: {
@@ -59,7 +59,13 @@ define([
             scope.readFile = function(file, gidx) {
               scope.structureData.data[gidx].values = new CSV(file, csvOptions).parse();
             };
+
+            // Download existing csv data
+            scope.downloadCSV = function(gidx) {
+              var csvText = new CSV(scope.structureData.data[gidx].values, csvOptions).encode();
+              chartbuilderUtils.saveFile(csvText, scope.structureData.data[gidx].key, 'csv');
+            };
           }
         };
-      });
+      }]);
 });

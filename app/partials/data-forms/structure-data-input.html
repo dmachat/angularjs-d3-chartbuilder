@@ -57,11 +57,14 @@
 				</table>
         <div>
           Use existing CSV values
-          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input">
+          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">
             <i class="fa fa-upload"></i>
           </div>
           <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">
             <i class="fa fa-edit"></i>
+          </button>
+          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">
+            <i class="fa fa-download"></i>
           </button>
         </div>
         <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>
