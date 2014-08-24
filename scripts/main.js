@@ -31520,7 +31520,7 @@ define('text',['module'], function (module) {
 define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/cumulativeLineChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4 jumbotron">\n\t\t\t\t<h1>angular + d3 chartbuilder</h1>\n\t\t\t\t<p class="lead">Start building a chart now</p>\n\t\t\t\t<p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n\t\t\t\t</p>\n\t\t</div>\n\t\t<div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/donutChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/historicalBarChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/lineChart.png" />\n\t\t</div>\n\t</div>\n\t<div class="row">\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/stackedAreaChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/scatterChart.png" />\n\t\t</div>\n\t\t<div class="col-lg-4">\n\t\t\t<img src="images/multiBarChart.png" />\n\t\t</div>\n\t</div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n\t<div class="col-lg-3 sidebar">\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n\t\t</div>\n\t\t<div class="panel panel-default chartbuilder-options">\n\t\t\t<div class="panel-heading">\n\t\t\t\t<h4><i class="fa fa-wrench"></i> Chart Options</h4>\n\t\t\t</div>\n\t\t\t<div class="panel-body">\n\t\t\t\t<div class="form-group">\n\t\t\t\t\t<select id="chartTypeSelect"\n\t\t\t\t\t\tclass="form-control"\n\t\t\t\t\t\tng-options="type.slug as type.name for (key, type) in modules"\n\t\t\t\t\t\tng-model="selectedChartType"\n\t\t\t\t\t\tng-change="changeChartType(selectedChartType)"\n\t\t\t\t\t\tvalue="type.slug"\n\t\t\t\t\t\t>\n\t\t\t\t\t\t<option value="">Select a chart type</option>\n\t\t\t\t\t</select>\n\t\t\t\t</div>\n\t\t\t\t<div class="panel-heading">\n\t\t\t\t\t<div class="panel-title">\n\t\t\t\t\t\t<h4>\n\t\t\t\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\t\t\t\tdata-target="#collapse-advanced-options"\n\t\t\t\t\t\t\t\thref=""\n\t\t\t\t\t\t\t\tng-click="getAdvancedOptions()"\n\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\tAdvanced Options\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h4>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div id="collapse-advanced-options" class="panel-collapse collapse">\n\t\t\t\t\t<div class="panel-body">\n\t\t\t  \t\t<chartbuilder-options json="structureData.options.chart" collapsed-level="1" node="nodeOptions" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class="form-group btn-group btn-group-justified">\n\t\t\t<a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n\t\t\t<a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n\t\t</div>\n\n\t\t<div structure-data-input\n\t\t\tstructure-data="structureData"\n\t\t\t>\n\t\t</div>\n\t\t<div class="input-group">\n\t\t\t\t<input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n\t\t\t\t<span class="input-group-btn">\n\t\t\t\t\t<button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n\t\t\t\t</span>\n\t\t\t</div>\n\t\t</div>\n\n\t<div class="col-lg-9">\n\t\t<div class="graph-wrapper">\n\t\t\t<h3><edit-in-place value="structureData.meta.title"></edit-in-place></h3>\n\t\t\t<h5><edit-in-place value="structureData.meta.subtitle"></edit-in-place></h5>\n\t\t\t<div ui-view="graph" id="chart"></div>\n\t\t\t<p><edit-in-place value="structureData.meta.caption"></edit-in-place></p>\n\t\t</div>\n\n\t\t<div class="alert alert-info alert-dismissable">\n\t\t\t<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n\t\t\t<strong>Example Data: </strong>{{ structureData.data | json }}\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n  <div class="col-lg-3 sidebar">\n    <div class="form-group btn-group btn-group-justified">\n      <a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>\n    </div>\n    <div class="panel panel-default chartbuilder-options">\n      <div class="panel-heading">\n        <h4><i class="fa fa-wrench"></i> Chart Options</h4>\n      </div>\n      <div class="panel-body">\n        <div class="form-group">\n          <select id="chartTypeSelect"\n            class="form-control"\n            ng-options="type.slug as type.name for (key, type) in modules"\n            ng-model="selectedChartType"\n            ng-change="changeChartType(selectedChartType)"\n            value="type.slug"\n            >\n            <option value="">Select a chart type</option>\n          </select>\n        </div>\n        <div class="well color-picker">\n          <h5>Colors</h5>\n          <span colorpicker\n            colorpicker-with-input="true"\n            ng-model="chartbuilderData.colors[$index]"\n            ng-repeat="color in chartbuilderData.colors track by $index"\n            ng-style="{ background: color }"\n            class="color-box"\n            >\n          </span>\n          <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>\n        </div>\n        <div class="panel-heading">\n          <div class="panel-title">\n            <h4>\n              <a data-toggle="collapse"\n                data-target="#collapse-advanced-options"\n                href=""\n                ng-click="getAdvancedOptions()"\n                >\n                Advanced Options\n              </a>\n            </h4>\n          </div>\n        </div>\n        <div id="collapse-advanced-options" class="panel-collapse collapse">\n          <div class="panel-body">\n            <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n          </div>\n        </div>\n      </div>\n    </div>\n\n    <div class="form-group btn-group btn-group-justified">\n      <a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>\n      <a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>\n    </div>\n\n    <div structure-data-input\n      structure-data="chartbuilderData"\n      >\n    </div>\n    <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n      </div>\n    </div>\n\n  <div class="col-lg-9">\n    <div class="graph-wrapper">\n      <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n      <div ui-view="graph" id="chart"></div>\n      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n    </div>\n\n    <div class="alert alert-info alert-dismissable">\n      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n    </div>\n  </div>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
@@ -85983,8 +85983,20 @@ angular.module('fileInput').factory('fileReader', [
 ]);
 define("angular-file-input", function(){});
 
-define('services',['angular'], function(angular) {
+define('services',['angular', 'd3'], function(angular, d3) {
   
+
+  // Get the d3 default colors to show in the color palette array
+  function d3defaultColors() {
+    var d3colors = d3.scale.category20(),
+      colors = [];
+
+    for (var i = 0; i < 20; i++ ) {
+      colors.push(d3colors(i));
+    }
+
+    return colors;
+  }
 
   /* Services */
   angular.module('chartbuilderServices', [])
@@ -86019,6 +86031,12 @@ define('services',['angular'], function(angular) {
           }
           if (angular.isDefined(init.meta)) {
             this.meta = init.meta;
+          }
+          if (angular.isDefined(init.colors)) {
+            this.colors = init.colors;
+          }
+          else {
+            this.colors = d3defaultColors();
           }
           this.resetData();
         }
@@ -86091,7 +86109,7 @@ define('directives',['angular'], function(angular) {
 });
 
 
-define('text!../partials/data-forms/chartbuilder-options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n\t<a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)" ng-class="{ active: !children[key].isCollapsed }">\n\t\t<span ng-class="{ \'col-lg-4\': !children[key].isObject(), \'col-lg-12\': children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n\t\t\t<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n\t\t</span>\n\t\t<span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />\n\t\t<div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n\t\t\t<span ng-hide="children[key].isObject()" class="pull-right">\n\t\t\t\t<div ng-show="children[key].type() === \'boolean\'" ng-click="json[key] = !json[key]" ng-model="json[key]" class="btn-group">\n\t\t\t\t\t<button type="button" class="btn" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n\t\t\t\t\t<button type="button" class="btn btn-default" ng-class="{ active: !json[key] }">Off</button>\n\t\t\t\t</div>\n\t\t\t\t<input ng-show="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n\t\t\t\t<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>\n\t\t\t\t<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n\t\t\t</span>\n\t\t\t<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n\t\t</div>\n\t</a>\n</div>\n';});
+define('text!../partials/data-forms/chartbuilder-options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n\t<a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)" ng-class="{ active: !children[key].isCollapsed }">\n\t\t<span ng-class="{ \'col-lg-4\': !children[key].isObject(), \'col-lg-12\': children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n\t\t\t<h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n\t\t</span>\n\t\t<span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />\n\t\t<div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n\t\t\t<span ng-hide="children[key].isObject()" class="pull-right">\n\t\t\t\t<div ng-show="children[key].type() === \'boolean\'" ng-model="json[key]" class="btn-group">\n\t\t\t\t\t<button type="button" class="btn" ng-click="json[key] = true" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n\t\t\t\t\t<button type="button" class="btn btn-default" ng-click="json[key] = false" ng-class="{ active: !json[key] }">Off</button>\n\t\t\t\t</div>\n\t\t\t\t<input ng-show="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n\t\t\t\t<textarea ng-if="children[key].type() === \'function\'" ng-model="jsonFn[key]" ng-init="utils.textarea.init(key)" ng-change="utils.textarea.onChange(key)" ng-focus="utils.textarea.onFocus($event, key)" ng-blur="utils.textarea.onBlur(key)" class="form-control"></textarea>\n\t\t\t\t<input ng-show="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n\t\t\t</span>\n\t\t\t<chartbuilder-options json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n\t\t</div>\n\t</a>\n</div>\n';});
 
 define('options',[
   'angular',
@@ -86386,12 +86404,520 @@ define('edit-in-place',[
       });
 });
 
-define('controllers',['angular', 'services'], function(angular) {
+
+
+angular.module('colorpicker.module', [])
+    .factory('Helper', function () {
+      return {
+        closestSlider: function (elem) {
+          var matchesSelector = elem.matches || elem.webkitMatchesSelector || elem.mozMatchesSelector || elem.msMatchesSelector;
+          if (matchesSelector.bind(elem)('I')) {
+            return elem.parentNode;
+          }
+          return elem;
+        },
+        getOffset: function (elem, fixedPosition) {
+          var
+              x = 0,
+              y = 0,
+              scrollX = 0,
+              scrollY = 0;
+          while (elem && !isNaN(elem.offsetLeft) && !isNaN(elem.offsetTop)) {
+            x += elem.offsetLeft;
+            y += elem.offsetTop;
+            if (!fixedPosition && elem.tagName === 'BODY') {
+              scrollX += document.documentElement.scrollLeft || elem.scrollLeft;
+              scrollY += document.documentElement.scrollTop || elem.scrollTop;
+            } else {
+              scrollX += elem.scrollLeft;
+              scrollY += elem.scrollTop;
+            }
+            elem = elem.offsetParent;
+          }
+          return {
+            top: y,
+            left: x,
+            scrollX: scrollX,
+            scrollY: scrollY
+          };
+        },
+        // a set of RE's that can match strings and generate color tuples. https://github.com/jquery/jquery-color/
+        stringParsers: [
+          {
+            re: /rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+            parse: function (execResult) {
+              return [
+                execResult[1],
+                execResult[2],
+                execResult[3],
+                execResult[4]
+              ];
+            }
+          },
+          {
+            re: /rgba?\(\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*,\s*(\d+(?:\.\d+)?)\%\s*(?:,\s*(\d+(?:\.\d+)?)\s*)?\)/,
+            parse: function (execResult) {
+              return [
+                2.55 * execResult[1],
+                2.55 * execResult[2],
+                2.55 * execResult[3],
+                execResult[4]
+              ];
+            }
+          },
+          {
+            re: /#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/,
+            parse: function (execResult) {
+              return [
+                parseInt(execResult[1], 16),
+                parseInt(execResult[2], 16),
+                parseInt(execResult[3], 16)
+              ];
+            }
+          },
+          {
+            re: /#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/,
+            parse: function (execResult) {
+              return [
+                parseInt(execResult[1] + execResult[1], 16),
+                parseInt(execResult[2] + execResult[2], 16),
+                parseInt(execResult[3] + execResult[3], 16)
+              ];
+            }
+          }
+        ]
+      };
+    })
+    .factory('Color', ['Helper', function (Helper) {
+      return {
+        value: {
+          h: 1,
+          s: 1,
+          b: 1,
+          a: 1
+        },
+        // translate a format from Color object to a string
+        'rgb': function () {
+          var rgb = this.toRGB();
+          return 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
+        },
+        'rgba': function () {
+          var rgb = this.toRGB();
+          return 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + rgb.a + ')';
+        },
+        'hex': function () {
+          return  this.toHex();
+        },
+
+        // HSBtoRGB from RaphaelJS
+        RGBtoHSB: function (r, g, b, a) {
+          r /= 255;
+          g /= 255;
+          b /= 255;
+
+          var H, S, V, C;
+          V = Math.max(r, g, b);
+          C = V - Math.min(r, g, b);
+          H = (C === 0 ? null :
+              V === r ? (g - b) / C :
+                  V === g ? (b - r) / C + 2 :
+                      (r - g) / C + 4
+              );
+          H = ((H + 360) % 6) * 60 / 360;
+          S = C === 0 ? 0 : C / V;
+          return {h: H || 1, s: S, b: V, a: a || 1};
+        },
+
+        //parse a string to HSB
+        setColor: function (val) {
+          val = val.toLowerCase();
+          for (var key in Helper.stringParsers) {
+            if (Helper.stringParsers.hasOwnProperty(key)) {
+              var parser = Helper.stringParsers[key];
+              var match = parser.re.exec(val),
+                  values = match && parser.parse(match);
+              if (values) {
+                this.value = this.RGBtoHSB.apply(null, values);
+                return false;
+              }
+            }
+          }
+        },
+
+        setHue: function (h) {
+          this.value.h = 1 - h;
+        },
+
+        setSaturation: function (s) {
+          this.value.s = s;
+        },
+
+        setLightness: function (b) {
+          this.value.b = 1 - b;
+        },
+
+        setAlpha: function (a) {
+          this.value.a = parseInt((1 - a) * 100, 10) / 100;
+        },
+
+        // HSBtoRGB from RaphaelJS
+        // https://github.com/DmitryBaranovskiy/raphael/
+        toRGB: function (h, s, b, a) {
+          if (!h) {
+            h = this.value.h;
+            s = this.value.s;
+            b = this.value.b;
+          }
+          h *= 360;
+          var R, G, B, X, C;
+          h = (h % 360) / 60;
+          C = b * s;
+          X = C * (1 - Math.abs(h % 2 - 1));
+          R = G = B = b - C;
+
+          h = ~~h;
+          R += [C, X, 0, 0, X, C][h];
+          G += [X, C, C, X, 0, 0][h];
+          B += [0, 0, X, C, C, X][h];
+          return {
+            r: Math.round(R * 255),
+            g: Math.round(G * 255),
+            b: Math.round(B * 255),
+            a: a || this.value.a
+          };
+        },
+
+        toHex: function (h, s, b, a) {
+          var rgb = this.toRGB(h, s, b, a);
+          return '#' + ((1 << 24) | (parseInt(rgb.r, 10) << 16) | (parseInt(rgb.g, 10) << 8) | parseInt(rgb.b, 10)).toString(16).substr(1);
+        }
+      };
+    }])
+    .factory('Slider', ['Helper', function (Helper) {
+      var
+          slider = {
+            maxLeft: 0,
+            maxTop: 0,
+            callLeft: null,
+            callTop: null,
+            knob: {
+              top: 0,
+              left: 0
+            }
+          },
+          pointer = {};
+
+      return {
+        getSlider: function() {
+          return slider;
+        },
+        getLeftPosition: function(event) {
+          return Math.max(0, Math.min(slider.maxLeft, slider.left + ((event.pageX || pointer.left) - pointer.left)));
+        },
+        getTopPosition: function(event) {
+          return Math.max(0, Math.min(slider.maxTop, slider.top + ((event.pageY || pointer.top) - pointer.top)));
+        },
+        setSlider: function (event, fixedPosition) {
+          var
+            target = Helper.closestSlider(event.target),
+            targetOffset = Helper.getOffset(target, fixedPosition);
+          slider.knob = target.children[0].style;
+          slider.left = event.pageX - targetOffset.left - window.pageXOffset + targetOffset.scrollX;
+          slider.top = event.pageY - targetOffset.top - window.pageYOffset + targetOffset.scrollY;
+
+          pointer = {
+            left: event.pageX,
+            top: event.pageY
+          };
+        },
+        setSaturation: function(event, fixedPosition) {
+          slider = {
+            maxLeft: 100,
+            maxTop: 100,
+            callLeft: 'setSaturation',
+            callTop: 'setLightness'
+          };
+          this.setSlider(event, fixedPosition);
+        },
+        setHue: function(event, fixedPosition) {
+          slider = {
+            maxLeft: 0,
+            maxTop: 100,
+            callLeft: false,
+            callTop: 'setHue'
+          };
+          this.setSlider(event, fixedPosition);
+        },
+        setAlpha: function(event, fixedPosition) {
+          slider = {
+            maxLeft: 0,
+            maxTop: 100,
+            callLeft: false,
+            callTop: 'setAlpha'
+          };
+          this.setSlider(event, fixedPosition);
+        },
+        setKnob: function(top, left) {
+          slider.knob.top = top + 'px';
+          slider.knob.left = left + 'px';
+        }
+      };
+    }])
+    .directive('colorpicker', ['$document', '$compile', 'Color', 'Slider', 'Helper', function ($document, $compile, Color, Slider, Helper) {
+      return {
+        require: '?ngModel',
+        restrict: 'A',
+        link: function ($scope, elem, attrs, ngModel) {
+          var
+              thisFormat = attrs.colorpicker ? attrs.colorpicker : 'hex',
+              position = angular.isDefined(attrs.colorpickerPosition) ? attrs.colorpickerPosition : 'bottom',
+              fixedPosition = angular.isDefined(attrs.colorpickerFixedPosition) ? attrs.colorpickerFixedPosition : false,
+              target = angular.isDefined(attrs.colorpickerParent) ? elem.parent() : angular.element(document.body),
+              withInput = angular.isDefined(attrs.colorpickerWithInput) ? attrs.colorpickerWithInput : false,
+              inputTemplate = withInput ? '<input type="text" name="colorpicker-input">' : '',
+              template =
+                  '<div class="colorpicker dropdown">' +
+                      '<div class="dropdown-menu">' +
+                      '<colorpicker-saturation><i></i></colorpicker-saturation>' +
+                      '<colorpicker-hue><i></i></colorpicker-hue>' +
+                      '<colorpicker-alpha><i></i></colorpicker-alpha>' +
+                      '<colorpicker-preview></colorpicker-preview>' +
+                      inputTemplate +
+                      '<button class="close close-colorpicker">&times;</button>' +
+                      '</div>' +
+                      '</div>',
+              colorpickerTemplate = angular.element(template),
+              pickerColor = Color,
+              sliderAlpha,
+              sliderHue = colorpickerTemplate.find('colorpicker-hue'),
+              sliderSaturation = colorpickerTemplate.find('colorpicker-saturation'),
+              colorpickerPreview = colorpickerTemplate.find('colorpicker-preview'),
+              pickerColorPointers = colorpickerTemplate.find('i');
+
+          $compile(colorpickerTemplate)($scope);
+
+          if (withInput) {
+            var pickerColorInput = colorpickerTemplate.find('input');
+            pickerColorInput
+                .on('mousedown', function(event) {
+                  event.stopPropagation();
+                })
+                .on('keyup', function(event) {
+                  var newColor = this.value;
+                  elem.val(newColor);
+                  if(ngModel) {
+                    $scope.$apply(ngModel.$setViewValue(newColor));
+                  }
+                  event.stopPropagation();
+                  event.preventDefault();
+                });
+            elem.on('keyup', function() {
+              pickerColorInput.val(elem.val());
+            });
+          }
+
+          var bindMouseEvents = function() {
+            $document.on('mousemove', mousemove);
+            $document.on('mouseup', mouseup);
+          };
+
+          if (thisFormat === 'rgba') {
+            colorpickerTemplate.addClass('alpha');
+            sliderAlpha = colorpickerTemplate.find('colorpicker-alpha');
+            sliderAlpha
+                .on('click', function(event) {
+                  Slider.setAlpha(event, fixedPosition);
+                  mousemove(event);
+                })
+                .on('mousedown', function(event) {
+                  Slider.setAlpha(event, fixedPosition);
+                  bindMouseEvents();
+                });
+          }
+
+          sliderHue
+              .on('click', function(event) {
+                Slider.setHue(event, fixedPosition);
+                mousemove(event);
+              })
+              .on('mousedown', function(event) {
+                Slider.setHue(event, fixedPosition);
+                bindMouseEvents();
+              });
+
+          sliderSaturation
+              .on('click', function(event) {
+                Slider.setSaturation(event, fixedPosition);
+                mousemove(event);
+              })
+              .on('mousedown', function(event) {
+                Slider.setSaturation(event, fixedPosition);
+                bindMouseEvents();
+              });
+
+          if (fixedPosition) {
+            colorpickerTemplate.addClass('colorpicker-fixed-position');
+          }
+
+          colorpickerTemplate.addClass('colorpicker-position-' + position);
+
+          target.append(colorpickerTemplate);
+
+          if(ngModel) {
+            ngModel.$render = function () {
+              elem.val(ngModel.$viewValue);
+            };
+            $scope.$watch(attrs.ngModel, function() {
+              update();
+            });
+          }
+
+          elem.on('$destroy', function() {
+            colorpickerTemplate.remove();
+          });
+
+          var previewColor = function () {
+            try {
+              colorpickerPreview.css('backgroundColor', pickerColor[thisFormat]());
+            } catch (e) {
+              colorpickerPreview.css('backgroundColor', pickerColor.toHex());
+            }
+            sliderSaturation.css('backgroundColor', pickerColor.toHex(pickerColor.value.h, 1, 1, 1));
+            if (thisFormat === 'rgba') {
+              sliderAlpha.css.backgroundColor = pickerColor.toHex();
+            }
+          };
+
+          var mousemove = function (event) {
+            var
+                left = Slider.getLeftPosition(event),
+                top = Slider.getTopPosition(event),
+                slider = Slider.getSlider();
+
+            Slider.setKnob(top, left);
+
+            if (slider.callLeft) {
+              pickerColor[slider.callLeft].call(pickerColor, left / 100);
+            }
+            if (slider.callTop) {
+              pickerColor[slider.callTop].call(pickerColor, top / 100);
+            }
+            previewColor();
+            var newColor = pickerColor[thisFormat]();
+            elem.val(newColor);
+            if(ngModel) {
+              $scope.$apply(ngModel.$setViewValue(newColor));
+            }
+            if (withInput) {
+              pickerColorInput.val(newColor);
+            }
+            return false;
+          };
+
+          var mouseup = function () {
+            $document.off('mousemove', mousemove);
+            $document.off('mouseup', mouseup);
+          };
+
+          var update = function () {
+            pickerColor.setColor(elem.val());
+            pickerColorPointers.eq(0).css({
+              left: pickerColor.value.s * 100 + 'px',
+              top: 100 - pickerColor.value.b * 100 + 'px'
+            });
+            pickerColorPointers.eq(1).css('top', 100 * (1 - pickerColor.value.h) + 'px');
+            pickerColorPointers.eq(2).css('top', 100 * (1 - pickerColor.value.a) + 'px');
+            previewColor();
+          };
+
+          var getColorpickerTemplatePosition = function() {
+            var
+                positionValue,
+                positionOffset = Helper.getOffset(elem[0]);
+
+            if(angular.isDefined(attrs.colorpickerParent)) {
+              positionOffset.left = 0;
+              positionOffset.top = 0;
+            }
+
+            if (position === 'top') {
+              positionValue =  {
+                'top': positionOffset.top - 147,
+                'left': positionOffset.left
+              };
+            } else if (position === 'right') {
+              positionValue = {
+                'top': positionOffset.top,
+                'left': positionOffset.left + 126
+              };
+            } else if (position === 'bottom') {
+              positionValue = {
+                'top': positionOffset.top + elem[0].offsetHeight + 2,
+                'left': positionOffset.left
+              };
+            } else if (position === 'left') {
+              positionValue = {
+                'top': positionOffset.top,
+                'left': positionOffset.left - 150
+              };
+            }
+            return {
+              'top': positionValue.top + 'px',
+              'left': positionValue.left + 'px'
+            };
+          };
+
+          var documentMousedownHandler = function() {
+            hideColorpickerTemplate();
+          };
+
+          elem.on('click', function () {
+            update();
+            colorpickerTemplate
+                .addClass('colorpicker-visible')
+                .css(getColorpickerTemplatePosition());
+
+            // register global mousedown event to hide the colorpicker
+            $document.on('mousedown', documentMousedownHandler);
+          });
+
+          colorpickerTemplate.on('mousedown', function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+          });
+
+          var emitEvent = function(name) {
+            if(ngModel) {
+              $scope.$emit(name, {
+                name: attrs.ngModel,
+                value: ngModel.$modelValue
+              });
+            }
+          };
+
+          var hideColorpickerTemplate = function() {
+            if (colorpickerTemplate.hasClass('colorpicker-visible')) {
+              colorpickerTemplate.removeClass('colorpicker-visible');
+              emitEvent('colorpicker-closed');
+              // unregister the global mousedown event
+              $document.off('mousedown', documentMousedownHandler);
+            }
+          };
+
+          colorpickerTemplate.find('button').on('click', function () {
+            hideColorpickerTemplate();
+          });
+        }
+      };
+    }]);
+define("angular-color-picker", function(){});
+
+define('controllers',['angular', 'services', 'angular-color-picker'], function(angular) {
   
 
   /* Controllers */
 
-  angular.module('chartbuilderControllers', ['chartbuilderServices'])
+  angular.module('chartbuilderControllers', ['chartbuilderServices', 'colorpicker.module'])
     .controller('headerCtrl', [
       '$scope',
       '$location',
@@ -86414,7 +86940,7 @@ define('controllers',['angular', 'services'], function(angular) {
       function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.selectedChartType = chartbuilderSelectedModule;
-        $scope.structureData = chartbuilderData;
+        $scope.chartbuilderData = chartbuilderData;
 
         $scope.changeChartType = function(type) {
           if (angular.isUndefined(type) || type === '') {
@@ -86445,6 +86971,11 @@ define('controllers',['angular', 'services'], function(angular) {
             $scope.optionsLoaded = true;
           }
         };
+
+        $scope.addColor = function() {
+          $scope.chartbuilderData.colors.push('#FFFFFF');
+        };
+
       }]);
 });
 
@@ -86964,316 +87495,270 @@ define("ui.sortable", function(){});
 
 (function() {
 
-	
+  
 
-	angular.module('chartbuilder.nvd3', [])
+  angular.module('chartbuilder.nvd3', [])
 
-		.directive('nvd3', [function() {
-			return {
-				restrict: 'AE',
-				scope: {
-					data: '=',			//chart data, [required]
-					options: '=',		//chart options, according to nvd3 core api, [required]
-					api: '=?',			//directive global api, [optional]
-					events: '=?',		//global events that directive would subscribe to, [optional]
-					config: '=?'		//global directive configuration, [optional]
-				},
-				link: function(scope, element, attrs) {
-					var defaultConfig = {
-						extended: false,
-						visible: true,
-						disabled: false,
-						autorefresh: true,
-						refreshDataOnly: false
-					};
+    .directive('nvd3', [function() {
+      return {
+        restrict: 'AE',
+        scope: {
+          data: '=',      //chart data, [required]
+          options: '=',   //chart options, according to nvd3 core api, [required]
+          colors: '=?',   //chart colors, [optional]
+          api: '=?',      //directive global api, [optional]
+          events: '=?',   //global events that directive would subscribe to, [optional]
+          config: '=?'    //global directive configuration, [optional]
+        },
+        link: function(scope, element, attrs) {
+          var defaultConfig = {
+            extended: false,
+            visible: true,
+            disabled: false,
+            autorefresh: true,
+            refreshDataOnly: false
+          };
 
-					// basic directive configuration
-					scope._config = angular.extend(defaultConfig, scope.config);
+          // basic directive configuration
+          scope._config = angular.extend(defaultConfig, scope.config);
 
-					// directive global api
-					scope.api = {
-						// Fully refresh directive
-						refresh: function() {
-							scope.api.updateWithOptions(scope.options);
-						},
-						// Update chart with new options
-						updateWithOptions: function(options) {
-							// Clearing
-							scope.api.clearElement();
+          // directive global api
+          scope.api = {
 
-							// Exit if options are not yet bound
-							if (angular.isDefined(options) === false) return;
+            // Fully refresh directive
+            refresh: function() {
+              scope.api.updateWithOptions(scope.options);
+            },
 
-							// Exit if chart is hidden
-							if (!scope._config.visible) return;
+            // Update chart with new options
+            updateWithOptions: function(options) {
 
-							// Initialize chart with specific type
-							scope.chart = nv.models[options.chart.type]();
+              // Clearing
+              scope.api.clearElement();
 
-							angular.forEach(scope.chart, function(value, key) {
-								if (key === 'options');
+              // Exit if options are not yet bound
+              if (angular.isDefined(options) === false) return;
 
-								else if (key === 'dispatch') {
-									if (options.chart[key] === undefined || options.chart[key] === null) {
-										if (scope._config.extended) options.chart[key] = {};
-									}
-									configureEvents(scope.chart[key], options.chart[key]);
-								}
+              // Exit if chart is hidden
+              if (!scope._config.visible) return;
 
-								else if ([
-									'lines',
-									'lines1',
-									'lines2',
-									'bars', // TODO: Fix bug in nvd3, nv.models.historicalBar - chart.interactive (false -> _)
-									'bars1',
-									'bars2',
-									'stack1',
-									'stack2',
-									'multibar',
-									'discretebar',
-									'pie',
-									'scatter',
-									'bullet',
-									'sparkline',
-									'legend',
-									'distX',
-									'distY',
-									'xAxis',
-									'x2Axis',
-									'yAxis',
-									'yAxis1',
-									'yAxis2',
-									'y1Axis',
-									'y2Axis',
-									'y3Axis',
-									'y4Axis',
-									'interactiveLayer',
-									'controls'
-								].indexOf(key) >= 0){
-									if (options.chart[key] === undefined || options.chart[key] === null) {
-										if (scope._config.extended) options.chart[key] = {};
-									}
-									configure(scope.chart[key], options.chart[key], options.chart.type);
-								}
+              // Initialize chart with specific type
+              scope.chart = nv.models[options.chart.type]();
 
-								else if (//TODO: need to fix bug in nvd3
-									(key ==='clipEdge' && options.chart.type === 'multiBarHorizontalChart')
-										|| (key === 'clipVoronoi' && options.chart.type === 'historicalBarChart')
-										|| (key === 'color' && options.chart.type === 'indentedTreeChart')
-										|| (key === 'defined' && (options.chart.type === 'historicalBarChart' || options.chart.type === 'cumulativeLineChart' || options.chart.type === 'lineWithFisheyeChart'))
-										|| (key === 'forceX' && (options.chart.type === 'multiBarChart' || options.chart.type === 'discreteBarChart' || options.chart.type === 'multiBarHorizontalChart'))
-										|| (key === 'interpolate' && options.chart.type === 'historicalBarChart')
-										|| (key === 'isArea' && options.chart.type === 'historicalBarChart')
-										|| (key === 'size' && options.chart.type === 'historicalBarChart')
-										|| (key === 'stacked' && options.chart.type === 'stackedAreaChart')
-										|| (key === 'values' && options.chart.type === 'pieChart')
-										|| (key === 'xScale' && options.chart.type === 'scatterChart')
-										|| (key === 'yScale' && options.chart.type === 'scatterChart')
-										|| (key === 'x' && (options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart'))
-										|| (key === 'y' && options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart')
-									);
+              // Configure colors
+              if (scope.colors) {
+                scope.chart.color(scope.colors);
+              }
 
-								else if (options.chart[key] === undefined || options.chart[key] === null) {
-									if (scope._config.extended) options.chart[key] = value();
-								}
+              angular.forEach(scope.chart, function(value, key) {
+                if (key === 'options');
 
-								else scope.chart[key](options.chart[key]);
-							});
+                else if (key === 'dispatch') {
+                  if (options.chart[key] === undefined || options.chart[key] === null) {
+                    if (scope._config.extended) options.chart[key] = {};
+                  }
+                  configureEvents(scope.chart[key], options.chart[key]);
+                }
 
-							// Update with data
-							scope.api.updateWithData(scope.data);
+                else if ([
+                  'lines',
+                  'lines1',
+                  'lines2',
+                  'bars', // TODO: Fix bug in nvd3, nv.models.historicalBar - chart.interactive (false -> _)
+                  'bars1',
+                  'bars2',
+                  'stack1',
+                  'stack2',
+                  'multibar',
+                  'discretebar',
+                  'pie',
+                  'scatter',
+                  'bullet',
+                  'sparkline',
+                  'legend',
+                  'distX',
+                  'distY',
+                  'xAxis',
+                  'x2Axis',
+                  'yAxis',
+                  'yAxis1',
+                  'yAxis2',
+                  'y1Axis',
+                  'y2Axis',
+                  'y3Axis',
+                  'y4Axis',
+                  'interactiveLayer',
+                  'controls'
+                ].indexOf(key) >= 0){
+                  if (options.chart[key] === undefined || options.chart[key] === null) {
+                    if (scope._config.extended) options.chart[key] = {};
+                  }
+                  configure(scope.chart[key], options.chart[key], options.chart.type);
+                }
 
-							// Configure wrappers
-							configureWrapper('title');
-							configureWrapper('subtitle');
-							configureWrapper('caption');
+                else if (//TODO: need to fix bug in nvd3
+                  (key ==='clipEdge' && options.chart.type === 'multiBarHorizontalChart')
+                    || (key === 'clipVoronoi' && options.chart.type === 'historicalBarChart')
+                    || (key === 'color' && options.chart.type === 'indentedTreeChart')
+                    || (key === 'defined' && (options.chart.type === 'historicalBarChart' || options.chart.type === 'cumulativeLineChart' || options.chart.type === 'lineWithFisheyeChart'))
+                    || (key === 'forceX' && (options.chart.type === 'multiBarChart' || options.chart.type === 'discreteBarChart' || options.chart.type === 'multiBarHorizontalChart'))
+                    || (key === 'interpolate' && options.chart.type === 'historicalBarChart')
+                    || (key === 'isArea' && options.chart.type === 'historicalBarChart')
+                    || (key === 'size' && options.chart.type === 'historicalBarChart')
+                    || (key === 'stacked' && options.chart.type === 'stackedAreaChart')
+                    || (key === 'values' && options.chart.type === 'pieChart')
+                    || (key === 'xScale' && options.chart.type === 'scatterChart')
+                    || (key === 'yScale' && options.chart.type === 'scatterChart')
+                    || (key === 'x' && (options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart'))
+                    || (key === 'y' && options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart')
+                  );
 
-							// Configure styles
-							configureStyles();
+                else if (options.chart[key] === undefined || options.chart[key] === null) {
+                  if (scope._config.extended) options.chart[key] = value();
+                }
 
-							nv.addGraph(function() {
-								// Update the chart when window resizes
-								nv.utils.windowResize(function() { scope.chart.update(); });
-								return scope.chart;
-							}, options.chart['callback']);
-						},
+                else scope.chart[key](options.chart[key]);
+              });
 
-						// Update chart with new data
-						updateWithData: function (data) {
-							if (data) {
-								scope.options.chart['transitionDuration'] = +scope.options.chart['transitionDuration'] || 250;
-								// remove whole svg element with old data
-								d3.select(element[0]).select('svg').remove();
+              // Update with data
+              scope.api.updateWithData(scope.data);
 
-								// Select the current element to add <svg> element and to render the chart in
-								d3.select(element[0]).append('svg')
-									.attr('height', scope.options.chart.height)
-									.attr('width', scope.options.chart.width)
-									.datum(data)
-									.transition().duration(scope.options.chart['transitionDuration'])
-									.call(scope.chart);
+              // Configure styles
+              if (options['styles'] || scope._config.extended) {
+                configureStyles();
+              }
 
-								// Set up svg height and width. It is important for all browsers...
-								d3.select(element[0]).select('svg')[0][0].style.height = scope.options.chart.height + 'px';
-								d3.select(element[0]).select('svg')[0][0].style.width = scope.options.chart.width + 'px';
-								if (scope.options.chart.type === 'multiChart') scope.chart.update(); // multiChart is not automatically updated
-							}
-						},
+              nv.addGraph(function() {
+                // Update the chart when window resizes
+                nv.utils.windowResize(function() { scope.chart.update(); });
+                return scope.chart;
+              }, options.chart['callback']);
+            },
 
-						// Fully clear directive element
-						clearElement: function () {
-							element.find('.title').remove();
-							element.find('.subtitle').remove();
-							element.find('.caption').remove();
-							element.empty();
-							scope.chart = null;
-						}
-					};
+            // Update chart with new data
+            updateWithData: function (data) {
+              if (data) {
+                scope.options.chart['transitionDuration'] = +scope.options.chart['transitionDuration'] || 250;
+                // remove whole svg element with old data
+                d3.select(element[0]).select('svg').remove();
 
-					// Configure the chart model with the passed options
-					function configure(chart, options, chartType) {
-						if (chart && options){
-							angular.forEach(chart, function(value, key){
-								if (key === 'dispatch') {
-									if (options[key] === undefined || options[key] === null) {
-										if (scope._config.extended) options[key] = {};
-									}
-									configureEvents(value, options[key]);
-								}
-								else if (//TODO: need to fix bug in nvd3
-									(key === 'xScale' && chartType === 'scatterChart')
-										|| (key === 'yScale' && chartType === 'scatterChart')
-										|| (key === 'values' && chartType === 'pieChart'));
-								else if ([
-									'scatter',
-									'defined',
-									'options',
-									'axis',
-									'rangeBand',
-									'rangeBands'
-								].indexOf(key) < 0){
-									if (options[key] === undefined || options[key] === null) {
-										if (scope._config.extended) options[key] = value();
-									}
-									else chart[key](options[key]);
-								}
-							});
-						}
-					}
+                // Select the current element to add <svg> element and to render the chart in
+                d3.select(element[0]).append('svg')
+                  .attr('height', scope.options.chart.height)
+                  .attr('width', scope.options.chart.width)
+                  .datum(data)
+                  .transition().duration(scope.options.chart['transitionDuration'])
+                  .call(scope.chart);
 
-					// Subscribe to the chart events (contained in 'dispatch')
-					// and pass eventHandler functions in the 'options' parameter
-					function configureEvents(dispatch, options) {
-						if (dispatch && options) {
-							angular.forEach(dispatch, function(value, key) {
-								if (options[key] === undefined || options[key] === null) {
-									if (scope._config.extended) options[key] = value.on;
-								}
-								else dispatch.on(key + '._', options[key]);
-							});
-						}
-					}
+                // Set up svg height and width. It is important for all browsers...
+                d3.select(element[0]).select('svg')[0][0].style.height = scope.options.chart.height + 'px';
+                d3.select(element[0]).select('svg')[0][0].style.width = scope.options.chart.width + 'px';
+                if (scope.options.chart.type === 'multiChart') scope.chart.update(); // multiChart is not automatically updated
+              }
+            },
 
-					// Configure 'title', 'subtitle', 'caption'.
-					// nvd3 has no sufficient models for it yet.
-					function configureWrapper(name) {
-						var _ = angular.extend(defaultWrapper(name), scope.options[name] || {});
+            // Fully clear directive element
+            clearElement: function () {
+              element.empty();
+              scope.chart = null;
+            }
+          };
 
-						if (scope._config.extended) scope.options[name] = _;
+          // Configure the chart model with the passed options
+          function configure(chart, options, chartType) {
+            if (chart && options){
+              angular.forEach(chart, function(value, key){
+                if (key === 'dispatch') {
+                  if (options[key] === undefined || options[key] === null) {
+                    if (scope._config.extended) options[key] = {};
+                  }
+                  configureEvents(value, options[key]);
+                }
+                else if (//TODO: need to fix bug in nvd3
+                  (key === 'xScale' && chartType === 'scatterChart')
+                    || (key === 'yScale' && chartType === 'scatterChart')
+                    || (key === 'values' && chartType === 'pieChart'));
+                else if ([
+                  'scatter',
+                  'defined',
+                  'options',
+                  'axis',
+                  'rangeBand',
+                  'rangeBands'
+                ].indexOf(key) < 0){
+                  if (options[key] === undefined || options[key] === null) {
+                    if (scope._config.extended) options[key] = value();
+                  }
+                  else chart[key](options[key]);
+                }
+              });
+            }
+          }
 
-						var wrapElement = angular.element('<div></div>').html(_['html'] || '')
-							.addClass(name).addClass(_.class)
-							.removeAttr('style')
-							.css(_.css);
+          // Subscribe to the chart events (contained in 'dispatch')
+          // and pass eventHandler functions in the 'options' parameter
+          function configureEvents(dispatch, options) {
+            if (dispatch && options) {
+              angular.forEach(dispatch, function(value, key) {
+                if (options[key] === undefined || options[key] === null) {
+                  if (scope._config.extended) options[key] = value.on;
+                }
+                else dispatch.on(key + '._', options[key]);
+              });
+            }
+          }
 
-						if (!_['html']) wrapElement.text(_.text);
+          // Add some styles to the whole directive element
+          function configureStyles(){
+            var _ = angular.extend(defaultStyles(), scope.options['styles'] || {});
 
-						if (_.enable) {
-							if (name === 'title') element.prepend(wrapElement);
-							else if (name === 'subtitle') element.find('.title').after(wrapElement);
-							else if (name === 'caption') element.append(wrapElement);
-						}
-					}
+            if (scope._config.extended) scope.options['styles'] = _;
 
-					// Add some styles to the whole directive element
-					function configureStyles(){
-						var _ = angular.extend(defaultStyles(), scope.options['styles'] || {});
+            angular.forEach(_.classes, function(value, key) {
+              value ? element.addClass(key) : element.removeClass(key);
+            });
 
-						if (scope._config.extended) scope.options['styles'] = _;
+            element.removeAttr('style').css(_.css);
+          }
 
-						angular.forEach(_.classes, function(value, key) {
-							value ? element.addClass(key) : element.removeClass(key);
-						});
+          // Default values for styles
+          function defaultStyles() {
+            return {
+              classes: {
+                'with-3d-shadow': true,
+                'with-transitions': true,
+                'gallery': false
+              },
+              css: {}
+            };
+          }
 
-						element.removeAttr('style').css(_.css);
-					}
+          // Watching on options, data, config changing
+          scope.$watch('options', function(options) {
+            if (!scope._config.disabled && scope._config.autorefresh) scope.api.refresh();
+          }, true);
+          scope.$watch('data', function(data) {
+            if (!scope._config.disabled && scope._config.autorefresh) {
+              scope._config.refreshDataOnly ? scope.chart.update() : scope.api.refresh(); // if wanted to refresh data only, use chart.update method, otherwise use full refresh.
+            }
+          }, true);
+          scope.$watch('config', function(config) {
+            scope._config = angular.extend(defaultConfig, config);
+            scope.api.refresh();
+          }, true);
+          scope.$watch('colors', function(colors) {
+            scope.chart.color(colors).update();
+          }, true);
 
-					// Default values for 'title', 'subtitle', 'caption'
-					function defaultWrapper(_) {
-						switch (_) {
-							case 'title': return {
-								enable: false,
-								text: 'Write Your Title',
-								class: 'h4',
-								css: {
-									width: scope.options.chart.width + 'px',
-									textAlign: 'center'
-								}
-							};
-							case 'subtitle': return {
-								enable: false,
-								text: 'Write Your Subtitle',
-								css: {
-									width: scope.options.chart.width + 'px',
-									textAlign: 'center'
-								}
-							};
-							case 'caption': return {
-								enable: false,
-								text: 'Figure 1. Write Your Caption text.',
-								css: {
-									width: scope.options.chart.width + 'px',
-									textAlign: 'center'
-								}
-							};
-						}
-					}
-
-					// Default values for styles
-					function defaultStyles() {
-						return {
-							classes: {
-								'with-3d-shadow': true,
-								'with-transitions': true,
-								'gallery': false
-							},
-							css: {}
-						};
-					}
-
-					// Watching on options, data, config changing
-					scope.$watch('options', function(options) {
-						if (!scope._config.disabled && scope._config.autorefresh) scope.api.refresh();
-					}, true);
-					scope.$watch('data', function(data) {
-						if (!scope._config.disabled && scope._config.autorefresh) {
-							scope._config.refreshDataOnly ? scope.chart.update() : scope.api.refresh(); // if wanted to refresh data only, use chart.update method, otherwise use full refresh.
-						}
-					}, true);
-					scope.$watch('config', function(config) {
-						scope._config = angular.extend(defaultConfig, config);
-						scope.api.refresh();
-					}, true);
-
-					//subscribe on global events
-					angular.forEach(scope.events, function(eventHandler, event) {
-						scope.$on(event, function(e){
-							return eventHandler(e, scope);
-						});
-					});
-				}
-			};
-		}]);
+          //subscribe on global events
+          angular.forEach(scope.events, function(eventHandler, event) {
+            scope.$on(event, function(e){
+              return eventHandler(e, scope);
+            });
+          });
+        }
+      };
+    }]);
 })();
 
 define("chartbuilder.nvd3", function(){});
@@ -87311,6 +87796,7 @@ define('angular_modules/nvd3-modules/linechart/data',{
             'graph': {
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -87400,6 +87886,7 @@ define('angular_modules/nvd3-modules/barchart/data',{
             'graph': {
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -87529,6 +88016,7 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
             'graph': {
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -87632,8 +88120,10 @@ define('angular_modules/nvd3-modules/pieChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data[0].values" ',
+              template: ['<nvd3 ng-repeat="pie in dataStore.data" ',
+                           'options="dataStore.options" ',
+                           'data="pie.values" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -100293,20 +100783,13 @@ define('angular_modules/nvd3-modules/pieChart/data',{
           scope: {
             data: '=',			//map data, [required]
             options: '=',		//map options, [required]
+            colors: '=?',    //map colors array, [optional]
             type: '@?',     //map scope, world or usa, [optional, defaults to usa]
           },
-          template: '<div id="map-container" style="height: 450px; width: 800px;"></div>',
+          template: '<div id="map-container" style="position: relative; display: block; height: {{ height }}px; width: {{ width }}px"></div>',
           link: function(scope, element, attrs) {
+            scope.mapOptions = mapOptions();
 
-            // basic options
-            var baseOptions = {
-              element: element[0].children[0],
-              scope: scope.type ? scope.type : 'usa'
-            }
-
-            scope.colors = ['rgb(31, 119, 180)', 'rgb(174, 199, 232)', 'rgb(255, 127, 14)'];
-
-            // directive global api
             scope.api = {
 
               // Fully refresh directive
@@ -100324,31 +100807,34 @@ define('angular_modules/nvd3-modules/pieChart/data',{
                 // Exit if options are not yet bound
                 if (!angular.isDefined(options)) return;
 
-                // Update with data
-                scope.api.updateWithData(scope.data);
+                // Update bounding box
+                scope.width = options.chart.width || 600;
+                scope.height = options.chart.height || scope.width * 0.6;
 
-                if (data) {
-                  // Set up svg height and width. It is important for all browsers...
-                  d3.select(element[0]).style.height = scope.options.chart.height + 'px';
-                  d3.select(element[0]).style.width = scope.options.chart.width + 'px';
+                scope.mapOptions = mapOptions();
 
+                // Add data to map redraw
+                if (data[0].values.length) {
                   // update the map element
-                  data = scope.mapData(data);
-                  _options = angular.extend(baseOptions, data);
+                  scope.mapOptions = mapData(scope.mapOptions, data[0].values);
                 }
 
-                scope.map = new Datamap(_options);
+                scope.mapOptions.geographyConfig = angular.extend({}, options.chart.geographyConfig);
+
+                scope.map = new Datamap(scope.mapOptions);
+
+                if (!options.chart) return;
 
                 // set labels
-                if (options.chart && options.chart.labels) {
+                if (options.chart.labels) {
                   scope.map.labels({
-                    labelColor: options.chart.labelColor ? options.chart.labelColor : '#333',
+                    labelColor: options.chart.labelColor ? options.chart.labelColor : '#333333',
                     fontSize: options.chart.labelSize ? options.chart.labelSize : 12
                   });
                 }
 
                 // set legend
-                if (options.chart && options.chart.legend) {
+                if (options.chart.legend) {
                   scope.map.legend();
                 }
 
@@ -100356,6 +100842,7 @@ define('angular_modules/nvd3-modules/pieChart/data',{
 
               // Update chart with new data
               updateWithData: function(data) {
+                scope.map.updateChoropleth(data);
               },
 
               // Fully clear directive element
@@ -100365,29 +100852,51 @@ define('angular_modules/nvd3-modules/pieChart/data',{
               }
             };
 
-            // Watching on options, data, config changing
-            scope.$watch('[options, data]', function() {
+            // Watching on options, colors changing
+            scope.$watch('[options, colors]', function() {
               scope.api.refresh();
             }, true);
 
-            scope.mapData = function(data) {
-              var _data = {
+            // Watch data changing. Only refresh if options or data map points have changed
+            scope.$watch('data', function(data, old) {
+              if (data[0].values.length !== old[0].values.length) {
+                scope.api.refresh();
+              }
+              else {
+                var _data = {};
+                angular.forEach(data[0].values, function(val) {
+                  _data[val.location] = { fillKey: val.value };
+                });
+                scope.api.updateWithData(_data);
+              }
+            }, true);
+
+            // Generate base map options
+            function mapOptions() {
+              return {
+                element: element[0].children[0],
+                scope: (scope.type === 'usa' || scope.type === 'world') ? scope.type : 'usa',
+                height: scope.height,
+                width: scope.width,
+                projection: scope.type === 'world' ? 'mercator' : 'equirectangular',
                 fills: {
                   defaultFill: '#b9b9b9'
                 },
                 data: {}
-              };
+              }
+            };
 
-              angular.forEach(data[0].values, function(val) {
-                _data.data[val.location] = { fillKey: val.value };
+            // Extend the mapOptions object with data and fill values
+            function mapData(dst, data) {
+              angular.forEach(data, function(val) {
+                dst.data[val.location] = { fillKey: val.value };
               });
 
-              angular.forEach(_.uniq(_.pluck(data[0].values, 'value')), function(key, idx) {
-                _data.fills[key] = scope.colors[idx];
+              angular.forEach(_.uniq(_.pluck(data, 'value')), function(key, idx) {
+                dst.fills[key] = scope.colors[idx];
               });
 
-              return _data;
-
+              return dst;
             };
           }
         };
@@ -100421,7 +100930,7 @@ define('angular_modules/datamaps/data',{
 (function() {
   define('chartbuilder.datamaps.usa',['angular', 'angular_modules/datamaps/data'], function(angular, data) {
     var module = {
-      name: 'USA Map',
+      name: 'Maps',
       slug: 'map',
       data: data
     };
@@ -100440,7 +100949,8 @@ define('angular_modules/datamaps/data',{
               template: ['<datamap options="dataStore.options" ',
                            'style="display: block; padding: 0 0 50px" ',
                            'data="dataStore.data" ',
-                           'type="usa"></datamap>'].join(''),
+                           'colors="dataStore.colors" ',
+                           'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
@@ -100460,12 +100970,24 @@ define('angular_modules/datamaps/data',{
             },
             options: {
               chart: {
-                height: 600,
+                mapType: 'usa',
+                height: null,
+                width: 800,
                 legend: true,
                 labels: true,
                 labelColor: '#333333',
                 labelSize: 12,
                 fillQuartiles: false,
+                geographyConfig: {
+                  hideAntarctica: true,
+                  borderWidth: 1,
+                  borderColor: '#FDFDFD',
+                  popupOnHover: true,
+                  highlightOnHover: true,
+                  highlightFillColor: '#FC8D59',
+                  highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+                  highlightBorderWidth: 2
+                },
               }
             }
           }
@@ -100522,6 +101044,7 @@ define('main', [], function() {
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
       'angular-file-input': './angular_modules/angular-file-input/angular-file-input',
+      'angular-color-picker': './angular_modules/angular-color-picker/angular-color-picker',
       'text': './vendor/text',
 
       // NVd3
