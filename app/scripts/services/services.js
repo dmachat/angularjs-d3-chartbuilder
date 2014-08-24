@@ -1,5 +1,17 @@
-define(['angular'], function(angular) {
+define(['angular', 'd3'], function(angular, d3) {
   'use strict';
+
+  // Get the d3 default colors to show in the color palette array
+  function d3defaultColors() {
+    var d3colors = d3.scale.category20(),
+      colors = [];
+
+    for (var i = 0; i < 20; i++ ) {
+      colors.push(d3colors(i));
+    }
+
+    return colors;
+  }
 
   /* Services */
   angular.module('chartbuilderServices', [])
@@ -34,6 +46,12 @@ define(['angular'], function(angular) {
           }
           if (angular.isDefined(init.meta)) {
             this.meta = init.meta;
+          }
+          if (angular.isDefined(init.colors)) {
+            this.colors = init.colors;
+          }
+          else {
+            this.colors = d3defaultColors();
           }
           this.resetData();
         }

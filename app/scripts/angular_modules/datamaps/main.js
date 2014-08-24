@@ -6,7 +6,7 @@
 (function() {
   define(['angular', 'angular_modules/datamaps/data'], function(angular, data) {
     var module = {
-      name: 'USA Map',
+      name: 'Maps',
       slug: 'map',
       data: data
     };
@@ -25,7 +25,8 @@
               template: ['<datamap options="dataStore.options" ',
                            'style="display: block; padding: 0 0 50px" ',
                            'data="dataStore.data" ',
-                           'type="usa"></datamap>'].join(''),
+                           'colors="dataStore.colors" ',
+                           'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
               controller: module.slug + 'Controller'
             }
           }
@@ -45,12 +46,24 @@
             },
             options: {
               chart: {
-                height: 600,
+                mapType: 'usa',
+                height: null,
+                width: 800,
                 legend: true,
                 labels: true,
                 labelColor: '#333333',
                 labelSize: 12,
                 fillQuartiles: false,
+                geographyConfig: {
+                  hideAntarctica: true,
+                  borderWidth: 1,
+                  borderColor: '#FDFDFD',
+                  popupOnHover: true,
+                  highlightOnHover: true,
+                  highlightFillColor: '#FC8D59',
+                  highlightBorderColor: 'rgba(250, 15, 160, 0.2)',
+                  highlightBorderWidth: 2
+                },
               }
             }
           }

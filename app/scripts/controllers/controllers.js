@@ -1,9 +1,9 @@
-define(['angular', 'services'], function(angular) {
+define(['angular', 'services', 'angular-color-picker'], function(angular) {
   'use strict';
 
   /* Controllers */
 
-  angular.module('chartbuilderControllers', ['chartbuilderServices'])
+  angular.module('chartbuilderControllers', ['chartbuilderServices', 'colorpicker.module'])
     .controller('headerCtrl', [
       '$scope',
       '$location',
@@ -26,7 +26,7 @@ define(['angular', 'services'], function(angular) {
       function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.selectedChartType = chartbuilderSelectedModule;
-        $scope.structureData = chartbuilderData;
+        $scope.chartbuilderData = chartbuilderData;
 
         $scope.changeChartType = function(type) {
           if (angular.isUndefined(type) || type === '') {
@@ -57,5 +57,10 @@ define(['angular', 'services'], function(angular) {
             $scope.optionsLoaded = true;
           }
         };
+
+        $scope.addColor = function() {
+          $scope.chartbuilderData.colors.push('#FFFFFF');
+        };
+
       }]);
 });
