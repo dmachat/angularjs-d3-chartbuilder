@@ -24,6 +24,7 @@
             'graph': {
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }

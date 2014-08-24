@@ -22,8 +22,10 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data[0].values" ',
+              template: ['<nvd3 ng-repeat="pie in dataStore.data" ',
+                           'options="dataStore.options" ',
+                           'data="pie.values" ',
+                           'colors="dataStore.colors" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
