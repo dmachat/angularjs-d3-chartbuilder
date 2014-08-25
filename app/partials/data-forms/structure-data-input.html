@@ -50,7 +50,7 @@
                   </span></a>
 							</td>
 							<td ng-repeat="(key, type) in structureData.columnValues">
-								<input type="{{ type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][key]" />
+								<input type="{{ type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
 							</td>
 						</tr>
 					</tbody>
