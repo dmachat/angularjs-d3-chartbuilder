@@ -44,10 +44,10 @@
 						</tr>
 						<tr>
 							<td>
-								<span class="glyphicon glyphicon-plus"
+                <a href><span class="glyphicon glyphicon-plus"
 									ng-click="addRow($index)"
 									>
-								</span>
+                  </span></a>
 							</td>
 							<td ng-repeat="(key, type) in structureData.columnValues">
 								<input type="{{ type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][key]" />
