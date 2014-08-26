@@ -108,7 +108,6 @@ define(['angular', 'd3'], function(angular, d3) {
           // Use passed content type or default to "application/octet-stream"
           var octetStreamMime = 'application/octet-stream';
           var contentType = contentType || octetStreamMime;
-          filename = filename + '.' + contentType;
 
           if (navigator.msSaveBlob) {
             // Save blob is supported, so get the blob as it's contentType and call save.
@@ -134,8 +133,6 @@ define(['angular', 'd3'], function(angular, d3) {
                 var event = document.createEvent('MouseEvents');
                 event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
                 link.dispatchEvent(event);
-
-                console.log("Download link Success");
 
               } else {
                 // Prepare a blob URL

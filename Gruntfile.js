@@ -103,6 +103,7 @@ module.exports = function(grunt) {
                     dot: true,
                     src: [
                         '<%= yeoman.dist %>/scripts/*.js',
+                        '!<%= yeoman.dist %>/chartbuilder.vendor.js',
                         '!<%= yeoman.dist %>/scripts/main.js'
                     ]
                 }]
@@ -279,6 +280,19 @@ module.exports = function(grunt) {
             dist: {
                 src: ['.tmp/styles/{,*/}*.css'],
                 dest: '.tmp/styles/style.css'
+            },
+            jslibs: {
+                src: [
+                    'app/bower_components/d3/d3.min.js',
+                    'app/bower_components/nvd3/nv.d3.min.js',
+                    'app/bower_components/datamaps/dist/datamaps.all.min.js',
+                    'app/bower_components/topojson/topojson.js'
+                ],
+                dest: '<%= yeoman.dist %>/chartbuilder.vendor.js'
+            },
+            csslibs: {
+                src: ['app/bower_components/nvd3/nv.d3.min.css'],
+                dest: '<%= yeoman.dist %>/chartbuilder.vendor.css'
             }
         },
 
@@ -391,7 +405,9 @@ module.exports = function(grunt) {
         'copy:dist',
         'modernizr',
         'usemin',
-        'htmlmin'
+        'htmlmin',
+        'concat:jslibs',
+        'concat:csslibs'
     ]);
 
     grunt.registerTask('push', [

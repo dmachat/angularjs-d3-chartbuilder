@@ -75,11 +75,15 @@
       <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
       <div ui-view="graph" id="chart"></div>
       <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
+
+      <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
     </div>
 
     <div class="alert alert-info alert-dismissable">
       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
       <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
     </div>
+
+    <textarea id="exportedSVG" ng-model="exportedSVG"></textarea>
   </div>
 </div>
