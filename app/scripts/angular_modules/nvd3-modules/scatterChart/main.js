@@ -1,17 +1,16 @@
 /*
- Modular version of the multi bar chart nvd3-directive
+ Modular version of the scatter chart nvd3-directive
  */
 "use strict";
 
 (function() {
-  define(['angular', 'angular_modules/nvd3-modules/multiBarChart/data'], function(angular, data) {
+  define(['angular'], function(angular) {
     var module = {
-      name: 'Multi Bar Chart',
-      slug: 'multiBarChart',
-      data: data
+      name: 'Scatter Chart',
+      slug: 'scatterChart'
     };
 
-    angular.module('chartbuilder.nvd3.multiBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+    angular.module('chartbuilder.nvd3.scatterChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       .value('chartbuilderModuleRegistry', {})
       .value('chartbuilderSelectedModule', '')
       /**
@@ -32,37 +31,64 @@
         });
       }])
       .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+          var data = generateData(4, 10);
+          function generateData(groups, points) {
+            var data = [],
+              shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+              random = d3.random.normal();
+
+            for (var i = 0; i < groups; i++) {
+              data.push({
+                key: 'Group ' + i,
+                values: []
+              });
+
+              for (var j = 0; j < points; j++) {
+                data[i].values.push({
+                  x: random(),
+                  y: random(),
+                  size: Math.random(),
+                  shape: shapes[j % 6]
+                });
+              }
+            }
+            return data;
+          }
           var moduleOpts = {};
           moduleOpts[module.name] = {
             name: module.name,
             slug: module.slug,
-            data: data,
-            dataFormat: function() { return { 'x': 'text', 'y': 'number' }; },
+            data: { exampleData: data },
+            dataFormat: function() { return { 'x': 'number', 'y': 'number', 'size': 'number', 'shape': 'text' }; },
             meta: {
               title: module.name,
-              subtitle: 'Subtitle for a multi bar chart',
+              subtitle: 'Subtitle for a scatter chart',
               caption: '1a. Edit a caption for the graph',
             },
             options: {
               chart: {
                 type: module.slug,
                 height: 600,
-                clipEdge: true,
-                staggerLabels: true,
-                stacked: true,
+                scatter: {
+                  onlyCircles: false
+                },
+                showDistX: true,
+                showDistY: true,
+                tooltipContent: function(key) {
+                  return '<h3>' + key + '</h3>';
+                },
                 xAxis: {
-                    axisLabel: 'x Axis',
-                    showMaxMin: false,
-                    tickFormat: function(d){
-                        return d3.format(',f')(d);
-                    }
+                  axisLabel: 'X Axis',
+                  tickFormat: function(d) {
+                    return d3.format('.02f')(d);
+                  }
                 },
                 yAxis: {
-                    axisLabel: 'Y Axis',
-                    axisLabelDistance: 40,
-                    tickFormat: function(d){
-                        return d3.format(',.1f')(d);
-                    }
+                  axisLabel: 'Y Axis',
+                  tickFormat: function(d) {
+                    return d3.format('.02f')(d);
+                  },
+                  axisLabelDistance: 30
                 }
               }
             }

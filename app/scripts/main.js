@@ -43,6 +43,8 @@ define('main', [], function() {
       'chartbuilder.nvd3.pieChart': './angular_modules/nvd3-modules/pieChart/main',
       'chartbuilder.nvd3.historicalBarChart': './angular_modules/nvd3-modules/historicalBarChart/main',
       'chartbuilder.nvd3.stackedAreaChart': './angular_modules/nvd3-modules/stackedAreaChart/main',
+      'chartbuilder.nvd3.scatterChart': './angular_modules/nvd3-modules/scatterChart/main',
+      'chartbuilder.nvd3.scatterPlusLineChart': './angular_modules/nvd3-modules/scatterPlusLineChart/main',
 
       // Maps
       'topojson': '../bower_components/topojson/topojson',
@@ -93,6 +95,8 @@ define('main', [], function() {
       'chartbuilder.nvd3.pieChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.historicalBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.stackedAreaChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.scatterChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.scatterPlusLineChart': ['chartbuilder.nvd3'],
 
       // Shim the datamap modules
       'topojson': {
@@ -143,6 +147,8 @@ define('main', [], function() {
     'chartbuilder.nvd3.pieChart',
     'chartbuilder.nvd3.historicalBarChart',
     'chartbuilder.nvd3.stackedAreaChart',
+    'chartbuilder.nvd3.scatterChart',
+    'chartbuilder.nvd3.scatterPlusLineChart',
     'datamaps',
     'topojson',
     'chartbuilder.datamaps',
@@ -172,6 +178,8 @@ define('main', [], function() {
         'chartbuilder.nvd3.pieChart',
         'chartbuilder.nvd3.historicalBarChart',
         'chartbuilder.nvd3.stackedAreaChart',
+        'chartbuilder.nvd3.scatterChart',
+        'chartbuilder.nvd3.scatterPlusLineChart',
         'datamaps',
         'chartbuilder.datamaps.usa'
       ]).config([
