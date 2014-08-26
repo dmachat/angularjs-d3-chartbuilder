@@ -1,4 +1,4 @@
-define(['angular', 'services', 'angular-color-picker'], function(angular) {
+define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-picker'], function(angular) {
   'use strict';
 
   /* Controllers */
@@ -23,7 +23,8 @@ define(['angular', 'services', 'angular-color-picker'], function(angular) {
       'chartbuilderModuleRegistry',
       'chartbuilderData',
       'chartbuilderSelectedModule',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule) {
+      'chartbuilderUtils',
+      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule, chartbuilderUtils) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.selectedChartType = chartbuilderSelectedModule;
         $scope.chartbuilderData = chartbuilderData;
@@ -61,6 +62,38 @@ define(['angular', 'services', 'angular-color-picker'], function(angular) {
         $scope.addColor = function() {
           $scope.chartbuilderData.colors.push('#FFFFFF');
         };
+
+        $scope.saveImage = function() {
+
+          // Set up elements and svg
+          var chartElement = document.getElementById('chart'),
+            svg = chartElement.getElementsByTagName('svg')[0],
+            svg_xml = (new XMLSerializer).serializeToString(svg),
+            canvas = document.getElementById('canvas');
+
+          // SVG -> Canvas
+          canvg('canvas', svg_xml);
+
+          // Canvas -> file
+          var a = document.createElement('a');
+          a.download = "image.png";
+          a.href = canvas.toDataURL('image/png');
+          document.body.appendChild(a);
+          a.click();
+
+        }
+
+        $scope.svgToString = function() {
+
+          // Set up elements and svg
+          var chartElement = document.getElementById('chart'),
+            svg = chartElement.getElementsByTagName('svg')[0],
+            svg_xml = (new XMLSerializer).serializeToString(svg);
+
+          // Bind svg string to textarea
+          $scope.exportedSVG = svg_xml;
+
+        }
 
       }]);
 });

@@ -63,7 +63,7 @@ define([
             // Download existing csv data
             scope.downloadCSV = function(gidx) {
               var csvText = new CSV(scope.structureData.data[gidx].values, csvOptions).encode();
-              chartbuilderUtils.saveFile(csvText, scope.structureData.data[gidx].key, 'csv');
+              chartbuilderUtils.saveFile(csvText, scope.structureData.data[gidx].key + '.csv', 'text/csv');
             };
           }
         };

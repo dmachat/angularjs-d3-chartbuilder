@@ -16,6 +16,9 @@ define('main', [], function() {
       'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
       'd3': '../bower_components/d3/d3',
       'nv.d3': '../bower_components/nvd3/nv.d3',
+      'rgbcolor': '../bower_components/canvg/rgbcolor',
+      'StackBlur': '../bower_components/canvg/StackBlur',
+      'canvg': '../bower_components/canvg/canvg',
       'controllers': './controllers/controllers',
 
       // Directives
