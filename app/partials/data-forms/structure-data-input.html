@@ -35,7 +35,7 @@
 									>
 								</span>
 							</td>
-							<td ng-repeat="(key, type) in structureData.columnValues">
+							<td ng-repeat="(key, type) in structureData.columnValues track by key">
 								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"
 									type="{{ type }}"
 									>
