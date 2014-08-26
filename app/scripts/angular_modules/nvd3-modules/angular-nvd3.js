@@ -246,12 +246,14 @@
             if (!scope._config.disabled && scope._config.autorefresh) {
               scope._config.refreshDataOnly ? scope.chart.update() : scope.api.refresh(); // if wanted to refresh data only, use chart.update method, otherwise use full refresh.
             }
+            console.log(data);
           }, true);
           scope.$watch('config', function(config) {
             scope._config = angular.extend(defaultConfig, config);
             scope.api.refresh();
           }, true);
           scope.$watch('colors', function(colors) {
+            if (!scope.data) return false;
             scope.chart.color(colors).update();
           }, true);
 

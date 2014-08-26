@@ -84,6 +84,6 @@
       <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
     </div>
 
-    <textarea id="exportedSVG" ng-model="exportedSVG"></textarea>
+    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>
   </div>
 </div>
