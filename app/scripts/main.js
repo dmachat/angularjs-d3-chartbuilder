@@ -26,6 +26,7 @@ define('main', [], function() {
       'options': './directives/options',
       'data-input': './directives/data-input',
       'edit-in-place': './directives/edit-in-place',
+      'd3-options': './directives/options-constants',
 
       'filters': './filters/filters',
       'services': './services/services',
@@ -81,6 +82,7 @@ define('main', [], function() {
       'options': ['directives'],
       'data-input': ['directives'],
       'edit-in-place': ['directives'],
+      'd3-options': ['directives'],
       'angular-file-input': ['angular'],
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
@@ -137,6 +139,7 @@ define('main', [], function() {
     'options',
     'data-input',
     'edit-in-place',
+    'd3-options',
     'controllers',
     'slugifier',
     'ui.sortable',
