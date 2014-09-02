@@ -1,14 +1,15 @@
 define([
   'angular',
-  'text!../partials/data-forms/chartbuilder-options.html'
+  'text!angular_modules/chartbuilder-options/options.html'
   ], function(angular, chartbuilderOptionsTemplate) {
     'use strict';
 
-    angular.module('chartbuilderDirectives')
-      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', function($compile, chartbuilderUtils) {
+    angular.module('chartbuilderOptions', ['chartbuilderDirectives'])
+      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', function($compile, chartbuilderUtils, chartbuilderOptionValues) {
         return {
           restrict: 'EA',
           scope: {
+            key: '@?',
             json: '=',
             node: '=?',
             children: '=?',
@@ -19,8 +20,9 @@ define([
             // Initialize container for child nodes
             $scope.children = {};
 
-            // Initialize container for nodes with functions
-            $scope.jsonFn = {};
+            // Initialize container for function options
+            $scope.functionOptions = {};
+            $scope.selectedOptions = {};
 
             // Define auxiliary functions
             $scope.utils = {
@@ -59,49 +61,45 @@ define([
                 }
               },
 
-              // Handle textarea fith functions
-              textarea: {
-                // Define function value for textarea
+              listSelector: {
                 init: function(key) {
-                  if ($scope.json[key] !== null) {
-                    $scope.jsonFn[key] = $scope.json[key].toString().trim();
+                  if (key in chartbuilderOptionValues) {
+                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
+                    $scope.functionOptions[key] = chartbuilderOptionValues[key];
                   }
                 },
+                onChange: function(item, key) {
+                  $scope.json[key] = item;
 
-                // Validate if element value is function
-                validate: function(key) {
-                  var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
-                  func ? angular.element($scope.utils.textarea.element).removeClass('invalid').addClass('valid') : angular.element($scope.utils.textarea.element).removeClass('valid').addClass('invalid');
-                },
+                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
+                }
+              },
 
-                // onFocus event handler
-                onFocus: function(e, key) {
-                  $scope.utils.textarea.valueBeforeEditing = angular.copy($scope.jsonFn[key]); //keep value before editing
-                  $scope.utils.textarea.element = e.currentTarget;
-                  $scope.utils.textarea.validate(key);
+              functionSelector: {
+                // Set up the select list with available functions
+                init: function(key) {
+                  if (key in chartbuilderOptionValues) {
+                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
+                    $scope.functionOptions[key] = chartbuilderOptionValues[key];
+                  }
                 },
 
                 // onChange event handler
-                onChange: function(key) {
-                  $scope.utils.textarea.validate(key);
-                },
+                onChange: function(option, key) {
+                  var optionFunction = chartbuilderOptionValues[key][option].toString().trim();
 
-                // onBlur event handler
-                onBlur: function(key) {
-                  //handle only if the field has been changed
-                  if ($scope.utils.textarea.valueBeforeEditing !== $scope.jsonFn[key]) {
-                    $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
+                  // Validate if selected option is function
+                  var func = chartbuilderUtils.tryGetFunction(optionFunction);
 
-                    var func = chartbuilderUtils.tryGetFunction($scope.jsonFn[key]);
-                    if (func) {
-                      $scope.json[key] = func;
-                    }
-                    else { //if value is not a valid function
-                      $scope.json[key] = $scope.jsonFn[key];
-                      delete $scope.jsonFn[key];
-                      $scope.utils.validateNode(key); //full validation for node
-                    }
+                  if (func) {
+                    $scope.json[key] = func;
                   }
+                  else { //if value is not a valid function
+                    $scope.json[key] = null;
+                    $scope.utils.validateNode(key); //full validation for node
+                  }
+
+                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
                 }
               },
 
@@ -134,7 +132,16 @@ define([
 
                 // Get type for current node
                 type: function() {
-                  return chartbuilderUtils.getType($scope.json);
+                  var type = chartbuilderUtils.getType($scope.json);
+                  if (type === 'string'
+                      && (
+                        $scope.key === 'interpolate'
+                        || $scope.key === 'style'
+                      )
+                    ) {
+                    return 'selector';
+                  }
+                  return type;
                 },
 
                 // Calculate collection length for object or array

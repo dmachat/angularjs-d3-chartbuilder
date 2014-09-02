@@ -53,7 +53,9 @@
                 labels: true,
                 labelColor: '#333333',
                 labelSize: 12,
-                fillQuartiles: false,
+                fillQuartiles: function(d) {
+                  return d/4;
+                },
                 geographyConfig: {
                   hideAntarctica: true,
                   borderWidth: 1,

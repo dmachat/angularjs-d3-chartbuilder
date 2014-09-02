@@ -246,7 +246,6 @@
             if (!scope._config.disabled && scope._config.autorefresh) {
               scope._config.refreshDataOnly ? scope.chart.update() : scope.api.refresh(); // if wanted to refresh data only, use chart.update method, otherwise use full refresh.
             }
-            console.log(data);
           }, true);
           scope.$watch('config', function(config) {
             scope._config = angular.extend(defaultConfig, config);
