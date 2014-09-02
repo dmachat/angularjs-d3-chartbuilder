@@ -3,7 +3,7 @@ define([
   ], function(angular) {
     'use strict';
 
-    angular.module('chartbuilderDirectives').
+    angular.module('chartbuilderOptions').
       value('chartbuilderOptionValues', {
         'interpolate': {
           'linear': 'linear',

@@ -1,5 +1,5 @@
 <div ng-hide="node.isCollapsed" class="list-group">
-  <a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key)" ng-class="{ active: !children[key].isCollapsed }">
+  <a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key) || ((children[key].type() === 'function' || children[key].type() === 'selector') && !selectedOptions[key])" ng-class="{ active: !children[key].isCollapsed }">
     <span ng-class="{ 'col-lg-4': !children[key].isObject(), 'col-lg-12': children[key].isObject() }" ng-click="utils.clickNode(children[key])">
       <h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ 'glyphicon-chevron-right': children[key].isCollapsed, 'glyphicon-chevron-down': !children[key].isCollapsed }"></i></h4>
     </span>

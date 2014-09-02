@@ -1,10 +1,10 @@
 define([
   'angular',
-  'text!../partials/data-forms/chartbuilder-options.html'
+  'text!angular_modules/chartbuilder-options/options.html'
   ], function(angular, chartbuilderOptionsTemplate) {
     'use strict';
 
-    angular.module('chartbuilderDirectives')
+    angular.module('chartbuilderOptions', ['chartbuilderDirectives'])
       .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', function($compile, chartbuilderUtils, chartbuilderOptionValues) {
         return {
           restrict: 'EA',

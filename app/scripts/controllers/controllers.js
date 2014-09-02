@@ -3,7 +3,7 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
 
   /* Controllers */
 
-  angular.module('chartbuilderControllers', ['chartbuilderServices', 'colorpicker.module'])
+  angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'colorpicker.module'])
     .controller('headerCtrl', [
       '$scope',
       '$location',
