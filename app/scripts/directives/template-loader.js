@@ -91,7 +91,7 @@ define([
                 return;
               }
 
-              $window.parent.postMessage(data, window.location.href);
+              $window.parent.postMessage(data, $window.location.href);
             }
           }
         };
