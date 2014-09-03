@@ -55,6 +55,14 @@ define([
             return d[1];
           }
         },
+        'tooltipContent': {
+          'key/value': function(key, y, e, graph) {
+            return '<h3>' + key + '</h3>' +'<p>' + y + '</p>' ;
+          },
+          'value only': function(key, y) {
+            return '<h3>' + y + '</h3>';
+          }
+        },
         'fillQuartiles': {
           'flat': function(d) {
             return d/4;
