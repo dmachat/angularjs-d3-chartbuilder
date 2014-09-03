@@ -68,11 +68,11 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
           // Set up elements and svg
           var chartElement = document.getElementById('chart'),
             svg = chartElement.getElementsByTagName('svg')[0],
-            svg_xml = (new XMLSerializer).serializeToString(svg),
+            svgXml = (new XMLSerializer).serializeToString(svg),
             canvas = document.getElementById('canvas');
 
           // SVG -> Canvas
-          canvg('canvas', svg_xml);
+          canvg('canvas', svgXml);
 
           // Canvas -> file
           var a = document.createElement('a');
@@ -88,10 +88,10 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
           // Set up elements and svg
           var chartElement = document.getElementById('chart'),
             svg = chartElement.getElementsByTagName('svg')[0],
-            svg_xml = (new XMLSerializer).serializeToString(svg);
+            svgXml = (new XMLSerializer).serializeToString(svg);
 
           // Bind svg string to textarea
-          $scope.exportedSVG = svg_xml;
+          $scope.exportedSVG = svgXml;
 
         }
 

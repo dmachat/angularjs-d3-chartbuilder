@@ -38,29 +38,42 @@ define(['angular', 'd3'], function(angular, d3) {
           this.data = this.sampleData.exampleData;
         },
         init: function(init) {
+          if (this.preloaded) {
+            return;
+          }
+
           this.sampleData = init.data;
           this.dataFormat = init.dataFormat;
           this.columnValues = init.dataFormat();
+
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
           }
           if (angular.isDefined(init.meta)) {
             this.meta = init.meta;
           }
+
+          // Set colors. User defined or d3 defaults
           if (angular.isDefined(init.colors)) {
             this.colors = init.colors;
           }
           else {
             this.colors = d3defaultColors();
           }
+
+          // Reset the data object according to format
           this.resetData();
         },
         load: function(chart) {
-          var _this = this;
 
+          var _this = this;
+          _this.preloaded = true;
+
+          // Map the options object to chartbuilderData
           angular.forEach(chart, function(options, key) {
             _this[key] = options;
           });
+
         }
       };
 
