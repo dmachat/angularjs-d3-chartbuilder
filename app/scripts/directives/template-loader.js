@@ -4,7 +4,7 @@ define([
   ], function(angular, templateOptionsServiceTemplate) {
     'use strict';
 
-    function isJSON(data) {
+    function isJson(data) {
       try {
         return angular.fromJson(data);
       } catch(e) {
@@ -43,7 +43,7 @@ define([
 
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
-              var optionsObject = isJSON(file);
+              var optionsObject = isJson(file);
 
               if (optionsObject) {
                 scope.chartbuilderData.load(optionsObject);
