@@ -25,6 +25,7 @@ define('main', [], function() {
       'directives': './directives/directives',
       'data-input': './directives/data-input',
       'edit-in-place': './directives/edit-in-place',
+      'template-loader': './directives/template-loader',
       'chartbuilder-options': './angular_modules/chartbuilder-options/options',
       'chartbuilder-options-constants': './angular_modules/chartbuilder-options/options-constants',
 
@@ -32,7 +33,7 @@ define('main', [], function() {
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
-      'angular-file-input': './angular_modules/angular-file-input/angular-file-input',
+      'angular-file-input': './angular_modules/angular-file-input/dist/angular-file-input',
       'angular-color-picker': './angular_modules/angular-color-picker/angular-color-picker',
       'text': './vendor/text',
 
@@ -81,6 +82,7 @@ define('main', [], function() {
       'directives': ['angular'],
       'data-input': ['directives'],
       'edit-in-place': ['directives'],
+      'template-loader': ['directives'],
       'chartbuilder-options': ['angular'],
       'chartbuilder-options-constants': ['chartbuilder-options'],
       'angular-file-input': ['angular'],
@@ -139,6 +141,7 @@ define('main', [], function() {
     'chartbuilder-options',
     'data-input',
     'edit-in-place',
+    'template-loader',
     'chartbuilder-options-constants',
     'controllers',
     'slugifier',

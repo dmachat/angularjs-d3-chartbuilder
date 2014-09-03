@@ -54,6 +54,13 @@ define(['angular', 'd3'], function(angular, d3) {
             this.colors = d3defaultColors();
           }
           this.resetData();
+        },
+        load: function(chart) {
+          var _this = this;
+
+          angular.forEach(chart, function(options, key) {
+            _this[key] = options;
+          });
         }
       };
 
