@@ -319,6 +319,17 @@ module.exports = function(grunt) {
                     ]
                 }]
             },
+
+            appcss: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '.tmp/styles',
+                    dest: '<%= yeoman.app %>/styles',
+                    src: '{,*/}*.css'
+                }]
+            },
+
             styles: {
                 expand: true,
                 dot: true,
@@ -386,6 +397,7 @@ module.exports = function(grunt) {
             'concat',
             'autoprefixer',
             'connect:livereload',
+            'copy:appcss',
             'watch'
         ]);
     });
