@@ -79,27 +79,43 @@ define([
              */
 
             // this is initialized on the directive
-            scope.listenForParentInit = function() {
-              if ($window.chartbuilderOptions) {
+            scope.initDataLoad = function() {
+              // // if bootstrapped data, use that
+              // // i.e. front-end of site
+              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
+              //   scope.chartbuilderData.load($window.chartbuilderOptions);
+              //   return;
+              // }
 
-                scope.chartbuilderData.load($window.chartbuilderOptions);
-
+              // confirm that we're in an iframe
+              if ( ! window.frameElement ){
+                return;
               }
 
-              $window.addEventListener('message', function(e) {
-                if ( e.origin !== $window.location.origin ) {
-                  throw( 'Illegal postMessage from ' + e.origin );
-                }
+            // tell parent window that child frame is ready to receive data
+            var origin = $window.location.protocol + '//' + $window.location.hostname ;              
+            window.parent.postMessage({
+              src : 'chartbuilder',
+              channel : 'upstream',
+              msg : 'ready',
+              data : null
+            }, origin )
 
-                // now e.data has the saved JSON from WP
-                // chartbuilderData.options.chart.type = e.data.type;
-                // chartbuilderData.data = e.data.data;
-                scope.chartbuilderData.load(e.data);
+            //    check for format like the above
+            //   $window.addEventListener('message', function(e) {
+            //     if ( e.origin !== $window.location.origin ) {
+            //       throw( 'Illegal postMessage from ' + e.origin );
+            //     }
 
-              });
+            //     // now e.data has the saved JSON from WP
+            //     // chartbuilderData.options.chart.type = e.data.type;
+            //     // chartbuilderData.data = e.data.data;
+            //     scope.chartbuilderData.load(e.data);
+
+            //   });
             };
 
-            scope.listenForParentInit();
+            scope.initDataLoad();
 
             scope.sendToWordPress = function(){
               var data = scope.parseDataForWP();
