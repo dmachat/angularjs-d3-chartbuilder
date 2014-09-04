@@ -38,7 +38,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a file-input-button on-file-load="readTemplateFile(file)" class="btn-file-input" name="Upload Template">load</a>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template">load</button>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
@@ -56,7 +56,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a href="" ng-click="downloadOptionsObject()" name="Download Options Template">save json</a>',
+          template: '<button type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Download Options Template">save json</button>',
           link: function(scope) {
 
             // Download the current chartbuilderData object
@@ -71,7 +71,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a href="" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">To WP</a>',
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">to WP</button>',
           link: function(scope) {
 
             /**

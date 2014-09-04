@@ -196,7 +196,8 @@ define('main', [], function() {
           $stateProvider.
             state('/', {
               url: '/',
-              template: homeTemplate
+              template: homeTemplate,
+              controller: 'Home'
             }).
             state('chartbuilder', {
               url: '/chartbuilder',
