@@ -15,6 +15,7 @@ define(['angular', 'd3'], function(angular, d3) {
 
   /* Services */
   angular.module('chartbuilderServices', [])
+    .value('chartbuilderModuleRegistry', {})
     .factory('getSampleData', ['$http', function($http) {
       return function(path) {
         return $http.get(path).then(function(result) {
@@ -45,6 +46,8 @@ define(['angular', 'd3'], function(angular, d3) {
           this.sampleData = init.data;
           this.dataFormat = init.dataFormat;
           this.columnValues = init.dataFormat();
+          this.name = init.name;
+          this.slug = init.slug;
 
           if (angular.isDefined(init.options)) { 
             this.options = init.options;

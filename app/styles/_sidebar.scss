@@ -1,4 +1,15 @@
 .sidebar {
+  .chartbuilder-sidebar-group {
+    h2.select-dropdown {
+      cursor: pointer;
+      &:hover {
+        color: $grey;
+      }
+    }
+  }
+  .chartbuilder-sidebar-separator {
+    border-bottom: 2px groove $grey;
+  }
   .input-group {
     width: 100%;
     margin: 5px 0;

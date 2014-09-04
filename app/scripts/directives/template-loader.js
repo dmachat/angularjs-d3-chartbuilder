@@ -1,7 +1,6 @@
 define([
   'angular',
-  'text!../partials/data-forms/template-options-service.html',
-  ], function(angular, templateOptionsServiceTemplate) {
+  ], function(angular) {
     'use strict';
 
     function isJson(data) {
@@ -35,12 +34,12 @@ define([
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('templateOptionsService', ['$window', 'chartbuilderUtils', function($window, chartbuilderUtils) {
+      .directive('chartOptionsLoader', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
-          template: templateOptionsServiceTemplate,
+          replace: true,
+          template: '<a file-input-button on-file-load="readTemplateFile(file)" class="btn-file-input" name="Upload Template">load</a>',
           link: function(scope) {
-
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
               var optionsObject = isJson(file);
@@ -50,12 +49,30 @@ define([
               }
 
             };
+          }
+        }
+      }])
+      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          replace: true,
+          template: '<a href="" ng-click="downloadOptionsObject()" name="Download Options Template">save json</a>',
+          link: function(scope) {
 
             // Download the current chartbuilderData object
             scope.downloadOptionsObject = function() {
               var chartbuilderObject = angular.toJson(scope.chartbuilderData);
               chartbuilderUtils.saveFile(chartbuilderObject, 'chartbuilder-options.json', 'text/json');
             };
+          }
+        }
+      }])
+      .directive('chartOptionsFromWindow', ['$window', 'chartbuilderUtils', function($window, chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          replace: true,
+          template: '<a href="" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">To WP</a>',
+          link: function(scope) {
 
             /**
              * WordPress plugin integration functions

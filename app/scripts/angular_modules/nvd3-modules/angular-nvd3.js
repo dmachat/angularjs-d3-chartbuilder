@@ -3,7 +3,6 @@
   'use strict';
 
   angular.module('chartbuilder.nvd3', [])
-
     .directive('nvd3', [function() {
       return {
         restrict: 'AE',
