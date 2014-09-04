@@ -105972,7 +105972,7 @@ define('main', [], function() {
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
-      'angular-file-input': './angular_modules/angular-file-input/dist/angular-file-input',
+      'angular-file-input': '../bower_components/angular-file-input/dist/angular-file-input',
       'angular-color-picker': './angular_modules/angular-color-picker/angular-color-picker',
       'text': './vendor/text',
 
