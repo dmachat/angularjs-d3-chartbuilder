@@ -17,10 +17,12 @@
   direction: ltr;
   cursor: pointer;
 }
+
 * html .btn-file-input {
   line-height: 24px;
   margin: 1px -3px 0 0;
 }
+
 * + html .btn-file-input {
   padding: 2px 15px;
   margin: 1px 0 0 0;
