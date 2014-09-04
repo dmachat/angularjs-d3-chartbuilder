@@ -22,19 +22,10 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
       '$stateParams',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
-      'chartbuilderSelectedModule',
       'chartbuilderUtils',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule, chartbuilderUtils) {
+      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
         $scope.modules = chartbuilderModuleRegistry;
-        $scope.selectedChartType = chartbuilderSelectedModule;
         $scope.chartbuilderData = chartbuilderData;
-
-        $scope.changeChartType = function(type) {
-          if (angular.isUndefined(type) || type === '') {
-            return false;
-          }
-          $state.go('chartbuilder.' + type);
-        };
 
         $scope.showSampleData = function() {
           chartbuilderData.showSampleData();

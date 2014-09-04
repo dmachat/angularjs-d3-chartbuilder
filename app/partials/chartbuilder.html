@@ -1,27 +1,67 @@
 <div class="row">
   <div class="col-lg-3 sidebar">
-    <div class="form-group btn-group btn-group-justified">
-      <a role="button" class="btn btn-lg btn-success" ng-click="saveImage()">Save image</a>
-    </div>
-    <div template-options-service></div>
-    <div class="panel panel-default chartbuilder-options">
-      <div class="panel-heading">
-        <h4><i class="fa fa-wrench"></i> Chart Options</h4>
-      </div>
-      <div class="panel-body">
-        <div class="form-group">
-          <select id="chartTypeSelect"
-            class="form-control"
-            ng-options="type.slug as type.name for (key, type) in modules"
-            ng-model="selectedChartType"
-            ng-change="changeChartType(selectedChartType)"
-            value="type.slug"
-            >
-            <option value="">Select a chart type</option>
-          </select>
+    <div class="chartbuilder-sidebar-group clearfix">
+      <div class="col-lg-12">
+        <div class="dropdown">
+          <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
+            {{ chartbuilderData.name }} <i class="fa fa-caret-down"></i>
+          </h2>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
+            <li ng-repeat="module in modules" >
+              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>
+            </li>
+          </ul>
         </div>
-        <div class="well color-picker">
-          <h5>Colors</h5>
+      </div>
+      <div class="col-lg-12">
+        <ul class="nav nav-pills">
+          <li><chart-options-loader /></li>
+          <li><a href="">create new</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="chartbuilder-sidebar-separator"></div>
+
+    <div class="chartbuilder-sidebar-group clearfix">
+      <div class="col-lg-12">
+        <h2>Data</h2>
+      </div>
+      <div class="col-lg-12">
+        <ul class="nav nav-pills">
+          <li><a href="" ng-click="showSampleData()">use sample data</a></li>
+          <li><a href="" ng-click="resetData()">reset data</a></li>
+        </ul>
+      </div>
+
+      <div structure-data-input structure-data="chartbuilderData"></div>
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
+        </span>
+      </div>
+    </div>
+    <div class="chartbuilder-sidebar-separator"></div>
+
+    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
+      <div class="col-lg-12">
+        <h2>Options</h2>
+      </div>
+
+      <div class="panel-heading">
+        <div class="panel-title">
+          <h4>
+            <a data-toggle="collapse"
+              data-target="#collapse-color-options"
+              href=""
+              >
+              Colors
+            </a>
+          </h4>
+        </div>
+      </div>
+      <div id="collapse-color-options" class="panel-collapse collapse in">
+        <div class="panel-body color-picker">
           <span colorpicker
             colorpicker-with-input="true"
             ng-model="chartbuilderData.colors[$index]"
@@ -32,43 +72,41 @@
           </span>
           <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>
         </div>
-        <div class="panel-heading">
-          <div class="panel-title">
-            <h4>
-              <a data-toggle="collapse"
-                data-target="#collapse-advanced-options"
-                href=""
-                ng-click="getAdvancedOptions()"
-                >
-                Advanced Options
-              </a>
-            </h4>
-          </div>
+      </div>
+      <div class="panel-heading">
+        <div class="panel-title">
+          <h4>
+            <a data-toggle="collapse"
+              data-target="#collapse-advanced-options"
+              href=""
+              ng-click="getAdvancedOptions()"
+              >
+              Advanced Options
+            </a>
+          </h4>
         </div>
-        <div id="collapse-advanced-options" class="panel-collapse collapse">
-          <div class="panel-body">
-            <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
-          </div>
+      </div>
+      <div id="collapse-advanced-options" class="panel-collapse collapse">
+        <div class="panel-body">
+          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
         </div>
       </div>
     </div>
+    <div class="chartbuilder-sidebar-separator"></div>
 
-    <div class="form-group btn-group btn-group-justified">
-      <a role="button" class="btn btn-lg btn-info" ng-click="showSampleData()">Use sample data</a>
-      <a role="button" class="btn btn-lg btn-danger" ng-click="resetData()">Reset data</a>
-    </div>
-
-    <div structure-data-input
-      structure-data="chartbuilderData"
-      >
-    </div>
-    <div class="input-group">
-        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
-        </span>
+    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
+      <div class="col-lg-12">
+        <h2>Export</h2>
+      </div>
+      <div class="col-lg-12">
+        <ul class="nav nav-pills">
+          <li><a href="" ng-click="saveImage()">save image</a></li>
+          <li><chart-options-saver></chart-options-saver></li>
+          <li><chart-options-from-window></chart-options-from-window></li>
+        </ul>
       </div>
     </div>
+  </div>
 
   <div class="col-lg-9">
     <div class="graph-wrapper">
