@@ -313,7 +313,7 @@ module.exports = function(grunt) {
                         'bower_components/sass-bootstrap/fonts/*.*',
                         'bower_components/font-awesome/fonts/*.*',
                         'bower_components/nvd3/*.css',
-                        'scripts/angular_modules/angular-file-input/dist/*.css',
+                        'bower_components/angular-file-input/dist/*.css',
                         'scripts/angular_modules/angular-color-picker/*.css',
                         'bower_components/requirejs/require.js'
                     ]
