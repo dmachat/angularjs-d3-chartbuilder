@@ -4,5 +4,14 @@
   }
   .jumbotron {
     height: 100%;
+    .dropdown {
+      display: inline-block;
+      h2 {
+        min-width: 300px;
+      }
+      .dropdown-menu {
+        width: 100%;
+      }
+    }
   }
 }

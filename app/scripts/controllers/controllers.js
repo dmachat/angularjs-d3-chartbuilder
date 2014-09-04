@@ -4,26 +4,21 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
   /* Controllers */
 
   angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'colorpicker.module'])
-    .controller('headerCtrl', [
+    .controller('Home', [
       '$scope',
-      '$location',
-      function($scope, $location) {
-        $scope.isActive = function(viewLocation) {
-          return viewLocation === $location.path();
-        };
+      'chartbuilderModuleRegistry',
+      'chartbuilderData',
+      function($scope, chartbuilderModuleRegistry, chartbuilderData) {
+        $scope.modules = chartbuilderModuleRegistry;
+        $scope.chartbuilderData = chartbuilderData;
       }
     ])
     .controller('Chartbuilder', [
       '$scope',
-      '$location',
-      '$state',
-      '$http',
-      '$filter',
-      '$stateParams',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
       'chartbuilderUtils',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
+      function($scope, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
 
