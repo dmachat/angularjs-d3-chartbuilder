@@ -391,15 +391,24 @@ module.exports = function(grunt) {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
 
-        grunt.task.run([
+
+        var serveTasks = [
             'clean:server',
             'concurrent:server',
             'concat',
             'autoprefixer',
-            'connect:livereload',
-            'copy:appcss',
-            'watch'
-        ]);
+            'copy:appcss'
+        ];
+
+        // if --livereload=false then ignore it,
+        // otherwise runt that task in the original order
+        if ( grunt.option('livereload') !== false ) {
+            serveTasks.push( 'connect:livereload' );
+        }
+
+        serveTasks.push( 'watch' );
+
+        grunt.task.run( serveTasks );
     });
 
     grunt.registerTask('server', function() {
