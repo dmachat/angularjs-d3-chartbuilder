@@ -30,14 +30,6 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
           chartbuilderData.resetData();
         };
 
-        $scope.addGroup = function() {
-          if (!$scope.newDataGroup) {
-            return false;
-          }
-          chartbuilderData.addGroup($scope.newDataGroup);
-          $scope.newDataGroup = '';
-        };
-
         $scope.getAdvancedOptions = function() {
           if (!$scope.optionsLoaded) {
             $scope.nodeOptions.refresh();

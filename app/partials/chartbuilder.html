@@ -4,7 +4,7 @@
       <div class="col-lg-12">
         <div class="dropdown">
           <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
-            {{ chartbuilderData.name }} <i class="fa fa-caret-down"></i>
+            {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Select a chart type') }} <i class="fa fa-caret-down"></i>
           </h2>
           <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
             <li ng-repeat="module in modules" >
@@ -14,10 +14,10 @@
         </div>
       </div>
       <div class="col-lg-12">
-        <ul class="nav nav-pills">
-          <li><chart-options-loader /></li>
-          <li><a href="">create new</a></li>
-        </ul>
+        <div class="btn-group">
+          <chart-options-loader></chart-options-loader>
+          <button type="button" class="btn btn-default">create new</button>
+        </div>
       </div>
     </div>
     <div class="chartbuilder-sidebar-separator"></div>
@@ -27,19 +27,13 @@
         <h2>Data</h2>
       </div>
       <div class="col-lg-12">
-        <ul class="nav nav-pills">
-          <li><a href="" ng-click="showSampleData()">use sample data</a></li>
-          <li><a href="" ng-click="resetData()">reset data</a></li>
-        </ul>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>
+          <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>
+        </div>
       </div>
 
       <div structure-data-input structure-data="chartbuilderData"></div>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
-        </span>
-      </div>
     </div>
     <div class="chartbuilder-sidebar-separator"></div>
 
@@ -100,10 +94,11 @@
       </div>
       <div class="col-lg-12">
         <ul class="nav nav-pills">
-          <li><a href="" ng-click="saveImage()">save image</a></li>
-          <li><chart-options-saver></chart-options-saver></li>
-          <li><chart-options-from-window></chart-options-from-window></li>
-        </ul>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>
+          <chart-options-saver></chart-options-saver>
+          <chart-options-from-window></chart-options-from-window>
+        </div>
       </div>
     </div>
   </div>
