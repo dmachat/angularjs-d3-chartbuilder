@@ -31517,10 +31517,10 @@ define('text',['module'], function (module) {
 });
 
 
-define('text!../partials/home.html',[],function () { return '<div class="chartbuilder-home">\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/cumulativeLineChart.png" /></a>\n    </div>\n    <div class="col-lg-4 jumbotron">\n        <h1>angular + d3 chartbuilder</h1>\n        <p class="lead">Start building a chart now</p>\n        <p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>\n        </p>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.map"><img src="images/usaMap.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.pieChart"><img src="images/donutChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/lineChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.stackedAreaChart"><img src="images/stackedAreaChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.scatterChart"><img src="images/scatterChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.multiBarChart"><img src="images/multiBarChart.png" /></a>\n    </div>\n  </div>\n</div>\n';});
+define('text!../partials/home.html',[],function () { return '\n<div class="chartbuilder-home">\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/cumulativeLineChart.png" /></a>\n    </div>\n    <div class="col-lg-4 jumbotron">\n        <h1>angular + d3 chartbuilder</h1>\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="btn btn-default" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Start building a chart now\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.map"><img src="images/usaMap.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.pieChart"><img src="images/donutChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/lineChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.stackedAreaChart"><img src="images/stackedAreaChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.scatterChart"><img src="images/scatterChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.multiBarChart"><img src="images/multiBarChart.png" /></a>\n    </div>\n  </div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n  <div class="col-lg-3 sidebar">\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n            {{ chartbuilderData.name }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n      <div class="col-lg-12">\n        <ul class="nav nav-pills">\n          <li><chart-options-loader /></li>\n          <li><a href="">create new</a></li>\n        </ul>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <h2>Data</h2>\n      </div>\n      <div class="col-lg-12">\n        <ul class="nav nav-pills">\n          <li><a href="" ng-click="showSampleData()">use sample data</a></li>\n          <li><a href="" ng-click="resetData()">reset data</a></li>\n        </ul>\n      </div>\n\n      <div structure-data-input structure-data="chartbuilderData"></div>\n      <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Options</h2>\n      </div>\n\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-color-options"\n              href=""\n              >\n              Colors\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-color-options" class="panel-collapse collapse in">\n        <div class="panel-body color-picker">\n          <span colorpicker\n            colorpicker-with-input="true"\n            ng-model="chartbuilderData.colors[$index]"\n            ng-repeat="color in chartbuilderData.colors track by $index"\n            ng-style="{ background: color }"\n            class="color-box"\n            >\n          </span>\n          <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>\n        </div>\n      </div>\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-advanced-options"\n              href=""\n              ng-click="getAdvancedOptions()"\n              >\n              Advanced Options\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-advanced-options" class="panel-collapse collapse">\n        <div class="panel-body">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n        </div>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Export</h2>\n      </div>\n      <div class="col-lg-12">\n        <ul class="nav nav-pills">\n          <li><a href="" ng-click="saveImage()">save image</a></li>\n          <li><chart-options-saver></chart-options-saver></li>\n          <li><chart-options-from-window></chart-options-from-window></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n\n  <div class="col-lg-9">\n    <div class="graph-wrapper">\n      <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n      <div ui-view="graph" id="chart"></div>\n      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n\n      <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n    </div>\n\n    <div class="alert alert-info alert-dismissable">\n      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n    </div>\n\n    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n  </div>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n  <div class="col-lg-3 sidebar">\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n      <div class="col-lg-12">\n        <div class="btn-group">\n          <chart-options-loader></chart-options-loader>\n          <button type="button" class="btn btn-default">create new</button>\n        </div>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <h2>Data</h2>\n      </div>\n      <div class="col-lg-12">\n        <div class="btn-group">\n          <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>\n          <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>\n        </div>\n      </div>\n\n      <div structure-data-input structure-data="chartbuilderData"></div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Options</h2>\n      </div>\n\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-color-options"\n              href=""\n              >\n              Colors\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-color-options" class="panel-collapse collapse in">\n        <div class="panel-body color-picker">\n          <span colorpicker\n            colorpicker-with-input="true"\n            ng-model="chartbuilderData.colors[$index]"\n            ng-repeat="color in chartbuilderData.colors track by $index"\n            ng-style="{ background: color }"\n            class="color-box"\n            >\n          </span>\n          <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>\n        </div>\n      </div>\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-advanced-options"\n              href=""\n              ng-click="getAdvancedOptions()"\n              >\n              Advanced Options\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-advanced-options" class="panel-collapse collapse">\n        <div class="panel-body">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n        </div>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Export</h2>\n      </div>\n      <div class="col-lg-12">\n        <ul class="nav nav-pills">\n        <div class="btn-group">\n          <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>\n          <chart-options-saver></chart-options-saver>\n          <chart-options-from-window></chart-options-from-window>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class="col-lg-9">\n    <div class="graph-wrapper">\n      <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n      <div ui-view="graph" id="chart"></div>\n      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n\n      <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n    </div>\n\n    <div class="alert alert-info alert-dismissable">\n      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n    </div>\n\n    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n  </div>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
@@ -86798,7 +86798,7 @@ define('chartbuilder-options',[
 });
 
 
-define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: $index === 0 }">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t{{ key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues track by key">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"\n\t\t\t\t\t\t\t\t\ttype="{{ type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n                <a href><span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n                  </span></a>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<input type="{{ type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n        <div>\n          Use existing CSV values\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">\n            <i class="fa fa-download"></i>\n          </button>\n        </div>\n        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n';});
+define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: $index === 0 }">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t{{ key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues track by key">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"\n\t\t\t\t\t\t\t\t\ttype="{{ type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n                <a href><span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n                  </span></a>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="(key, type) in structureData.columnValues">\n\t\t\t\t\t\t\t\t<input type="{{ type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n        <div>\n          Use existing CSV values\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">\n            <i class="fa fa-download"></i>\n          </button>\n        </div>\n        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n  <div class="input-group">\n    <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n    <span class="input-group-btn">\n      <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n    </span>\n  </div>\n</div>\n';});
 
 define('data-input',[
   'angular',
@@ -86808,7 +86808,7 @@ define('data-input',[
     
 
     angular.module('chartbuilderDirectives').
-      directive('structureDataInput', ['chartbuilderUtils', function(chartbuilderUtils) {
+      directive('structureDataInput', ['chartbuilderUtils', 'chartbuilderData', function(chartbuilderUtils, chartbuilderData) {
         return {
           restrict: 'EA',
           scope: {
@@ -86851,6 +86851,14 @@ define('data-input',[
                 return false;
               }
               scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
+            };
+
+            scope.addGroup = function() {
+              if (!scope.newDataGroup) {
+                return false;
+              }
+              chartbuilderData.addGroup(scope.newDataGroup);
+              scope.newDataGroup = '';
             };
 
             scope.removeRow = function(gidx, idx) {
@@ -86960,7 +86968,7 @@ define('template-loader',[
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a file-input-button on-file-load="readTemplateFile(file)" class="btn-file-input" name="Upload Template">load</a>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template">load</button>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
@@ -86978,7 +86986,7 @@ define('template-loader',[
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a href="" ng-click="downloadOptionsObject()" name="Download Options Template">save json</a>',
+          template: '<button type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Download Options Template">save json</button>',
           link: function(scope) {
 
             // Download the current chartbuilderData object
@@ -86993,7 +87001,7 @@ define('template-loader',[
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a href="" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">To WP</a>',
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">to WP</button>',
           link: function(scope) {
 
             /**
@@ -91371,26 +91379,21 @@ define('controllers',['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', '
   /* Controllers */
 
   angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'colorpicker.module'])
-    .controller('headerCtrl', [
+    .controller('Home', [
       '$scope',
-      '$location',
-      function($scope, $location) {
-        $scope.isActive = function(viewLocation) {
-          return viewLocation === $location.path();
-        };
+      'chartbuilderModuleRegistry',
+      'chartbuilderData',
+      function($scope, chartbuilderModuleRegistry, chartbuilderData) {
+        $scope.modules = chartbuilderModuleRegistry;
+        $scope.chartbuilderData = chartbuilderData;
       }
     ])
     .controller('Chartbuilder', [
       '$scope',
-      '$location',
-      '$state',
-      '$http',
-      '$filter',
-      '$stateParams',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
       'chartbuilderUtils',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
+      function($scope, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
 
@@ -91400,14 +91403,6 @@ define('controllers',['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', '
 
         $scope.resetData = function() {
           chartbuilderData.resetData();
-        };
-
-        $scope.addGroup = function() {
-          if (!$scope.newDataGroup) {
-            return false;
-          }
-          chartbuilderData.addGroup($scope.newDataGroup);
-          $scope.newDataGroup = '';
         };
 
         $scope.getAdvancedOptions = function() {
@@ -106140,7 +106135,8 @@ define('main', [], function() {
           $stateProvider.
             state('/', {
               url: '/',
-              template: homeTemplate
+              template: homeTemplate,
+              controller: 'Home'
             }).
             state('chartbuilder', {
               url: '/chartbuilder',
