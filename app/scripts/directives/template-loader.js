@@ -92,39 +92,50 @@ define([
                 return;
               }
 
-            // tell parent window that child frame is ready to receive data
-            var origin = $window.location.protocol + '//' + $window.location.hostname ;              
-            window.parent.postMessage({
-              src : 'chartbuilder',
-              channel : 'upstream',
-              msg : 'ready',
-              data : null
-            }, origin )
+              // setup postMessage listener and tell parent window that child frame is ready to receive data
+              var origin = $window.location.protocol + '//' + $window.location.hostname;              
+              window.addEventListener('message', scope.receiveMessage, true);
+              window.parent.postMessage( {
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'ready',
+                data : null
+              }, origin )
 
-            //    check for format like the above
-            //   $window.addEventListener('message', function(e) {
-            //     if ( e.origin !== $window.location.origin ) {
-            //       throw( 'Illegal postMessage from ' + e.origin );
-            //     }
+            };
 
-            //     // now e.data has the saved JSON from WP
-            //     // chartbuilderData.options.chart.type = e.data.type;
-            //     // chartbuilderData.data = e.data.data;
-            //     scope.chartbuilderData.load(e.data);
+            scope.receiveMessage = function(e){
+              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+                throw( 'Illegal postMessage from ' + e.origin );
+              }
 
-            //   });
+              var msgObj = e.data;
+              if (  !angular.isUndefined( msgObj.src) &&
+                    msgObj.src === 'chartbuilder' &&
+                    !angular.isUndefined( msgObj.channel ) &&
+                    msgObj.channel === 'downstream' &&
+                    !angular.isUndefined( msgObj.msg ) &&
+                    msgObj.msg === 'savedData' &&
+                    !angular.isUndefined( msgObj.data ) &&
+                    msgObj.data
+              ) {
+                console.log( 'App iframe received savedData from WordPress')
+                console.log( msgObj.data );
+                scope.chartbuilderData.load( msgObj.data );
+                $state.go('chartbuilder.' + msgObj.data.options.chart.type );
+              }
             };
 
             scope.initDataLoad();
 
             scope.sendToWordPress = function(){
-              var data = scope.parseDataForWP();
 
-              if (!data){
-                return;
-              }
-
-              $window.parent.postMessage(data, $window.location.href);
+              $window.parent.postMessage({
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'chartData',
+                data : angular.toJson(scope.chartbuilderData)
+              }, $window.location.href);
             }
           }
         };
