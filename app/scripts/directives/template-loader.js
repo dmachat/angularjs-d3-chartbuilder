@@ -35,7 +35,7 @@ define([
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('templateOptionsService', ['$window', 'chartbuilderUtils', function($window, chartbuilderUtils) {
+      .directive('templateOptionsService', ['$window', '$state', 'chartbuilderUtils', function($window, $state, chartbuilderUtils) {
         return {
           restrict: 'EA',
           template: templateOptionsServiceTemplate,
@@ -105,7 +105,16 @@ define([
                 console.log( 'App iframe received savedData from WordPress')
                 console.log( msgObj.data );
                 scope.chartbuilderData.load( msgObj.data );
-                $state.go('chartbuilder.' + msgObj.data.options.chart.type );
+                
+                // check if mapType
+                var type;
+                if ( ! angular.isUndefined( msgObj.data.options.chart.mapType ) ){
+                  type = 'map'
+                } else {
+                  type = msgObj.data.options.chart.type;
+                }
+
+                $state.go('chartbuilder.' + type);
               }
             };
 
