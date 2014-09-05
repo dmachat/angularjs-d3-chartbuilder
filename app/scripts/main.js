@@ -215,6 +215,21 @@ define('main', [], function() {
 
           //$locationProvider.html5Mode(true);
           $urlRouterProvider.otherwise('/');
+      }])
+      .run(['$rootScope', function($rootScope) {
+        /* global events for all nvd3 directives */
+        $rootScope.events = {
+          'options.onFunctionChanged': function(e, $scope){
+            $scope.api.refresh();
+          }
+        };
+
+        /* subscribe on chartbuilder-options event */
+        $rootScope.$on('onFunctionChanged', function(e) {
+          setTimeout(function() {
+            $rootScope.$broadcast('options.onFunctionChanged'); // broadcast event that will be caught by nvd3 directive
+          }, 50)
+        });
       }]);
       // bootstrap model
       angular.bootstrap($html, ['angulard3Chartbuilder']);

@@ -39,13 +39,14 @@ define(['angular', 'd3'], function(angular, d3) {
           this.data = this.sampleData.exampleData;
         },
         init: function(init) {
+          this.columnValues = init.dataFormat();
+
           if (this.preloaded) {
             return;
           }
 
           this.sampleData = init.data;
           this.dataFormat = init.dataFormat;
-          this.columnValues = init.dataFormat();
           this.name = init.name;
           this.slug = init.slug;
 

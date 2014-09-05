@@ -1,123 +1,121 @@
-<div class="row">
-  <div class="col-lg-3 sidebar">
-    <div class="chartbuilder-sidebar-group clearfix">
-      <div class="col-lg-12">
-        <div class="dropdown">
-          <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
-            {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Select a chart type') }} <i class="fa fa-caret-down"></i>
-          </h2>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
-            <li ng-repeat="module in modules" >
-              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-lg-12">
-        <div class="btn-group">
-          <chart-options-loader></chart-options-loader>
-          <button type="button" class="btn btn-default">create new</button>
-        </div>
+<div class="col-lg-3 sidebar">
+  <div class="chartbuilder-sidebar-group clearfix">
+    <div class="col-lg-12">
+      <div class="dropdown">
+        <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
+          {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Select a chart type') }} <i class="fa fa-caret-down"></i>
+        </h2>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
+          <li ng-repeat="module in modules" >
+            <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="chartbuilder-sidebar-separator"></div>
-
-    <div class="chartbuilder-sidebar-group clearfix">
-      <div class="col-lg-12">
-        <h2>Data</h2>
+    <div class="col-lg-12">
+      <div class="btn-group">
+        <chart-options-loader></chart-options-loader>
+        <button type="button" class="btn btn-default">create new</button>
       </div>
-      <div class="col-lg-12">
-        <div class="btn-group">
-          <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>
-          <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>
-        </div>
-      </div>
-
-      <div structure-data-input structure-data="chartbuilderData"></div>
     </div>
-    <div class="chartbuilder-sidebar-separator"></div>
+  </div>
+  <div class="chartbuilder-sidebar-separator"></div>
 
-    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
-      <div class="col-lg-12">
-        <h2>Options</h2>
+  <div class="chartbuilder-sidebar-group clearfix">
+    <div class="col-lg-12">
+      <h2>Data</h2>
+    </div>
+    <div class="col-lg-12">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>
+        <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>
       </div>
+    </div>
 
-      <div class="panel-heading">
-        <div class="panel-title">
-          <h4>
-            <a data-toggle="collapse"
-              data-target="#collapse-color-options"
-              href=""
-              >
-              Colors
-            </a>
-          </h4>
-        </div>
-      </div>
-      <div id="collapse-color-options" class="panel-collapse collapse in">
-        <div class="panel-body color-picker">
-          <span colorpicker
-            colorpicker-with-input="true"
-            ng-model="chartbuilderData.colors[$index]"
-            ng-repeat="color in chartbuilderData.colors track by $index"
-            ng-style="{ background: color }"
-            class="color-box"
+    <div structure-data-input structure-data="chartbuilderData"></div>
+  </div>
+  <div class="chartbuilder-sidebar-separator"></div>
+
+  <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
+    <div class="col-lg-12">
+      <h2>Options</h2>
+    </div>
+
+    <div class="panel-heading">
+      <div class="panel-title">
+        <h4>
+          <a data-toggle="collapse"
+            data-target="#collapse-color-options"
+            href=""
             >
-          </span>
-          <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>
-        </div>
-      </div>
-      <div class="panel-heading">
-        <div class="panel-title">
-          <h4>
-            <a data-toggle="collapse"
-              data-target="#collapse-advanced-options"
-              href=""
-              ng-click="getAdvancedOptions()"
-              >
-              Advanced Options
-            </a>
-          </h4>
-        </div>
-      </div>
-      <div id="collapse-advanced-options" class="panel-collapse collapse">
-        <div class="panel-body">
-          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
-        </div>
+            Colors
+          </a>
+        </h4>
       </div>
     </div>
-    <div class="chartbuilder-sidebar-separator"></div>
-
-    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
-      <div class="col-lg-12">
-        <h2>Export</h2>
+    <div id="collapse-color-options" class="panel-collapse collapse in">
+      <div class="panel-body color-picker">
+        <span colorpicker
+          colorpicker-with-input="true"
+          ng-model="chartbuilderData.colors[$index]"
+          ng-repeat="color in chartbuilderData.colors track by $index"
+          ng-style="{ background: color }"
+          class="color-box"
+          >
+        </span>
+        <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>
       </div>
-      <div class="col-lg-12">
-        <ul class="nav nav-pills">
-        <div class="btn-group">
-          <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>
-          <chart-options-saver></chart-options-saver>
-          <chart-options-from-window></chart-options-from-window>
-        </div>
+    </div>
+    <div class="panel-heading">
+      <div class="panel-title">
+        <h4>
+          <a data-toggle="collapse"
+            data-target="#collapse-advanced-options"
+            href=""
+            ng-click="getAdvancedOptions()"
+            >
+            Advanced Options
+          </a>
+        </h4>
+      </div>
+    </div>
+    <div id="collapse-advanced-options" class="panel-collapse collapse">
+      <div class="panel-body">
+        <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
       </div>
     </div>
   </div>
+  <div class="chartbuilder-sidebar-separator"></div>
 
-  <div class="col-lg-9">
-    <div class="graph-wrapper">
-      <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>
-      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
-      <div ui-view="graph" id="chart"></div>
-      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
-
-      <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
+  <div class="chartbuilder-sidebar-group clearfix">
+    <div class="col-lg-12">
+      <h2>Export</h2>
     </div>
-
-    <div class="alert alert-info alert-dismissable">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
+    <div class="col-lg-12">
+      <ul class="nav nav-pills">
+      <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>
+        <chart-options-saver></chart-options-saver>
+        <chart-options-from-window></chart-options-from-window>
+      </div>
     </div>
-
-    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>
   </div>
+</div>
+
+<div class="col-lg-9">
+  <div class="graph-wrapper">
+    <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>
+    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
+    <div ui-view="graph" id="chart"></div>
+    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
+
+    <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
+  </div>
+
+  <div class="alert alert-info alert-dismissable">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
+  </div>
+
+  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>
 </div>

@@ -24,6 +24,7 @@
                            'options="dataStore.options" ',
                            'data="pie.values" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
