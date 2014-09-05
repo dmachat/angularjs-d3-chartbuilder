@@ -31520,7 +31520,7 @@ define('text',['module'], function (module) {
 define('text!../partials/home.html',[],function () { return '\n<div class="chartbuilder-home">\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/cumulativeLineChart.png" /></a>\n    </div>\n    <div class="col-lg-4 jumbotron">\n        <h1>angular + d3 chartbuilder</h1>\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="btn btn-default" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Start building a chart now\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.map"><img src="images/usaMap.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.pieChart"><img src="images/donutChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/lineChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.stackedAreaChart"><img src="images/stackedAreaChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.scatterChart"><img src="images/scatterChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.multiBarChart"><img src="images/multiBarChart.png" /></a>\n    </div>\n  </div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="row">\n  <div class="col-lg-3 sidebar">\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n      <div class="col-lg-12">\n        <div class="btn-group">\n          <chart-options-loader></chart-options-loader>\n          <button type="button" class="btn btn-default">create new</button>\n        </div>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group clearfix">\n      <div class="col-lg-12">\n        <h2>Data</h2>\n      </div>\n      <div class="col-lg-12">\n        <div class="btn-group">\n          <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>\n          <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>\n        </div>\n      </div>\n\n      <div structure-data-input structure-data="chartbuilderData"></div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Options</h2>\n      </div>\n\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-color-options"\n              href=""\n              >\n              Colors\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-color-options" class="panel-collapse collapse in">\n        <div class="panel-body color-picker">\n          <span colorpicker\n            colorpicker-with-input="true"\n            ng-model="chartbuilderData.colors[$index]"\n            ng-repeat="color in chartbuilderData.colors track by $index"\n            ng-style="{ background: color }"\n            class="color-box"\n            >\n          </span>\n          <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>\n        </div>\n      </div>\n      <div class="panel-heading">\n        <div class="panel-title">\n          <h4>\n            <a data-toggle="collapse"\n              data-target="#collapse-advanced-options"\n              href=""\n              ng-click="getAdvancedOptions()"\n              >\n              Advanced Options\n            </a>\n          </h4>\n        </div>\n      </div>\n      <div id="collapse-advanced-options" class="panel-collapse collapse">\n        <div class="panel-body">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n        </div>\n      </div>\n    </div>\n    <div class="chartbuilder-sidebar-separator"></div>\n\n    <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n      <div class="col-lg-12">\n        <h2>Export</h2>\n      </div>\n      <div class="col-lg-12">\n        <ul class="nav nav-pills">\n        <div class="btn-group">\n          <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>\n          <chart-options-saver></chart-options-saver>\n          <chart-options-from-window></chart-options-from-window>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class="col-lg-9">\n    <div class="graph-wrapper">\n      <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n      <div ui-view="graph" id="chart"></div>\n      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n\n      <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n    </div>\n\n    <div class="alert alert-info alert-dismissable">\n      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n    </div>\n\n    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n  </div>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="col-lg-3 sidebar">\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <div class="dropdown">\n        <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n          {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }} <i class="fa fa-caret-down"></i>\n        </h2>\n        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n          <li ng-repeat="module in modules" >\n            <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n    <div class="col-lg-12">\n      <div class="btn-group">\n        <chart-options-loader></chart-options-loader>\n        <button type="button" class="btn btn-default">create new</button>\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Data</h2>\n    </div>\n    <div class="col-lg-12">\n      <div class="btn-group">\n        <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>\n        <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>\n      </div>\n    </div>\n\n    <div structure-data-input structure-data="chartbuilderData"></div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n    <div class="col-lg-12">\n      <h2>Options</h2>\n    </div>\n\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-color-options"\n            href=""\n            >\n            Colors\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-color-options" class="panel-collapse collapse in">\n      <div class="panel-body color-picker">\n        <span colorpicker\n          colorpicker-with-input="true"\n          ng-model="chartbuilderData.colors[$index]"\n          ng-repeat="color in chartbuilderData.colors track by $index"\n          ng-style="{ background: color }"\n          class="color-box"\n          >\n        </span>\n        <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>\n      </div>\n    </div>\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-advanced-options"\n            href=""\n            ng-click="getAdvancedOptions()"\n            >\n            Advanced Options\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-advanced-options" class="panel-collapse collapse">\n      <div class="panel-body">\n        <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Export</h2>\n    </div>\n    <div class="col-lg-12">\n      <ul class="nav nav-pills">\n      <div class="btn-group">\n        <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>\n        <chart-options-saver></chart-options-saver>\n        <chart-options-from-window></chart-options-from-window>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class="col-lg-9">\n  <div class="graph-wrapper">\n    <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n    <div ui-view="graph" id="chart"></div>\n    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n\n    <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n  </div>\n\n  <div class="alert alert-info alert-dismissable">\n    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n  </div>\n\n  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
@@ -86445,7 +86445,7 @@ define('services',['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', function() {
+    .service('chartbuilderData', ['$state', function($state) {
       var dataStore = {
         options: {},
         meta: {},
@@ -86461,13 +86461,14 @@ define('services',['angular', 'd3'], function(angular, d3) {
           this.data = this.sampleData.exampleData;
         },
         init: function(init) {
+          this.columnValues = init.dataFormat();
+
           if (this.preloaded) {
             return;
           }
 
           this.sampleData = init.data;
           this.dataFormat = init.dataFormat;
-          this.columnValues = init.dataFormat();
           this.name = init.name;
           this.slug = init.slug;
 
@@ -86491,8 +86492,15 @@ define('services',['angular', 'd3'], function(angular, d3) {
         },
         load: function(chart) {
 
-          var _this = this;
+          var _this = this,
+            currentSlug = _this.slug;
+
           _this.preloaded = true;
+
+          // Make sure we're on the right page to render the chart
+          if (currentSlug !== chart.slug) {
+            $state.go('chartbuilder.' + chart.slug);
+          }
 
           // Map the options object to chartbuilderData
           angular.forEach(chart, function(options, key) {
@@ -86504,7 +86512,7 @@ define('services',['angular', 'd3'], function(angular, d3) {
 
       return dataStore;
 
-    })
+    }])
     .service('chartbuilderUtils', function() {
       return {
         // get type for variable val
@@ -86648,35 +86656,6 @@ define('chartbuilder-options',[
                 node.isCollapsed = !node.isCollapsed;
               },
 
-              // Validate text if input to the form
-              validateNode: function(key) {
-                // Check if null
-                if ($scope.json[key] === null);
-
-                // Check if undefined or ""
-                else if ($scope.json[key] === undefined | $scope.json[key] === '')
-                  $scope.json[key] = null;
-
-                // Try to convert string to number
-                else if (!isNaN(+$scope.json[key]) && isFinite($scope.json[key]))
-                  $scope.json[key] = +$scope.json[key];
-
-                // Try parse to function
-                else if (chartbuilderUtils.tryGetFunction($scope.json[key])){
-                  $scope.json[key] = chartbuilderUtils.tryGetFunction($scope.json[key]);
-                  $scope.utils.textarea.init(key);
-                }
-
-                // Try to parse string to json
-                else {
-                  // Check if boolean input -> then refresh
-                  if ($scope.json[key] === "true" || $scope.json[key] === "false") {
-                    $scope.json[key] = JSON.parse($scope.json[key]);
-                    $scope.refresh();
-                  }
-                }
-              },
-
               listSelector: {
                 init: function(key) {
                   if (key in chartbuilderOptionValues) {
@@ -86686,8 +86665,6 @@ define('chartbuilder-options',[
                 },
                 onChange: function(item, key) {
                   $scope.json[key] = item;
-
-                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
                 }
               },
 
@@ -86702,6 +86679,7 @@ define('chartbuilder-options',[
 
                 // onChange event handler
                 onChange: function(option, key) {
+
                   var optionFunction = chartbuilderOptionValues[key][option].toString().trim();
 
                   // Validate if selected option is function
@@ -86712,7 +86690,6 @@ define('chartbuilder-options',[
                   }
                   else { //if value is not a valid function
                     $scope.json[key] = null;
-                    $scope.utils.validateNode(key); //full validation for node
                   }
 
                   $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
@@ -87095,19 +87072,29 @@ define('chartbuilder-options-constants',[
         'x': {
           '2d-array': function(d) {
             return d[0];
+          },
+          'key/value': function(d) {
+            return d.key;
           }
         },
         'y': {
           '2d-array': function(d) {
             return d[1];
+          },
+          'key/value': function(d) {
+            return d.y;
           }
         },
         'tooltipContent': {
           'key/value': function(key, y, e, graph) {
+            console.log(key);
             return '<h3>' + key + '</h3>' +'<p>' + y + '</p>' ;
           },
           'value only': function(key, y) {
             return '<h3>' + y + '</h3>';
+          },
+          'key only': function(key) {
+            return '<h3>' + key + '</h3>';
           }
         },
         'fillQuartiles': {
@@ -92267,6 +92254,7 @@ define('angular_modules/nvd3-modules/lineChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92353,6 +92341,7 @@ define('angular_modules/nvd3-modules/discreteBarChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92479,6 +92468,7 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92582,6 +92572,7 @@ define('angular_modules/nvd3-modules/pieChart/data',{
                            'options="dataStore.options" ',
                            'data="pie.values" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92682,6 +92673,7 @@ define('angular_modules/nvd3-modules/historicalBarChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92807,6 +92799,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data[0].values" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -92892,6 +92885,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -93005,6 +92999,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -105706,6 +105701,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
             data: '=',			//map data, [required]
             options: '=',		//map options, [required]
             colors: '=?',    //map colors array, [optional]
+            events: '=?',   //global events that directive would subscribe to, [optional]
             type: '@?',     //map scope, world or usa, [optional, defaults to usa]
           },
           template: '<div id="map-container" style="position: relative; display: block; height: {{ height }}px; width: {{ width }}px"></div>',
@@ -105793,6 +105789,13 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
               }
             }, true);
 
+            //subscribe on global events
+            angular.forEach(scope.events, function(eventHandler, event) {
+              scope.$on(event, function(e){
+                return eventHandler(e, scope);
+              });
+            });
+
             // Generate base map options
             function mapOptions() {
               return {
@@ -105872,6 +105875,7 @@ define('angular_modules/datamaps/data',{
                            'style="display: block; padding: 0 0 50px" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
               controller: module.slug + 'Controller'
             }
@@ -106154,6 +106158,21 @@ define('main', [], function() {
 
           //$locationProvider.html5Mode(true);
           $urlRouterProvider.otherwise('/');
+      }])
+      .run(['$rootScope', function($rootScope) {
+        /* global events for all nvd3 directives */
+        $rootScope.events = {
+          'options.onFunctionChanged': function(e, $scope){
+            $scope.api.refresh();
+          }
+        };
+
+        /* subscribe on chartbuilder-options event */
+        $rootScope.$on('onFunctionChanged', function(e) {
+          setTimeout(function() {
+            $rootScope.$broadcast('options.onFunctionChanged'); // broadcast event that will be caught by nvd3 directive
+          }, 50)
+        });
       }]);
       // bootstrap model
       angular.bootstrap($html, ['angulard3Chartbuilder']);
