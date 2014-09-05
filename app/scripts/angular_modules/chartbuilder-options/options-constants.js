@@ -48,19 +48,29 @@ define([
         'x': {
           '2d-array': function(d) {
             return d[0];
+          },
+          'key/value': function(d) {
+            return d.key;
           }
         },
         'y': {
           '2d-array': function(d) {
             return d[1];
+          },
+          'key/value': function(d) {
+            return d.y;
           }
         },
         'tooltipContent': {
           'key/value': function(key, y, e, graph) {
+            console.log(key);
             return '<h3>' + key + '</h3>' +'<p>' + y + '</p>' ;
           },
           'value only': function(key, y) {
             return '<h3>' + y + '</h3>';
+          },
+          'key only': function(key) {
+            return '<h3>' + key + '</h3>';
           }
         },
         'fillQuartiles': {
