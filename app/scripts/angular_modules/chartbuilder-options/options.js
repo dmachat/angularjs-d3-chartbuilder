@@ -44,34 +44,6 @@ define([
                 }
               },
 
-              functionSelector: {
-                // Set up the select list with available functions
-                init: function(key) {
-                  if (key in chartbuilderOptionValues) {
-                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
-                    $scope.functionOptions[key] = chartbuilderOptionValues[key];
-                  }
-                },
-
-                // onChange event handler
-                onChange: function(option, key) {
-
-                  var optionFunction = chartbuilderOptionValues[key][option].toString().trim();
-
-                  // Validate if selected option is function
-                  var func = chartbuilderUtils.tryGetFunction(optionFunction);
-
-                  if (func) {
-                    $scope.json[key] = func;
-                  }
-                  else { //if value is not a valid function
-                    $scope.json[key] = null;
-                  }
-
-                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
-                }
-              },
-
               // Skip ordering in ng-repeat
               keys: function(json) {
                 return chartbuilderUtils.keys(json);
@@ -102,10 +74,12 @@ define([
                 // Get type for current node
                 type: function() {
                   var type = chartbuilderUtils.getType($scope.json);
-                  if (type === 'string'
-                      && (
-                        $scope.key === 'interpolate'
-                        || $scope.key === 'style'
+                  if (type === 'function'
+                      || (type === 'string'
+                        && (
+                          $scope.key === 'interpolate'
+                          || $scope.key === 'style'
+                        )
                       )
                     ) {
                     return 'selector';
