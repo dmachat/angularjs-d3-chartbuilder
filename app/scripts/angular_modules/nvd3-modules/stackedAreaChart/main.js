@@ -23,6 +23,7 @@
               template: ['<nvd3 options="dataStore.options" ',
                            'data="dataStore.data[0].values" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'config="{ extended: true }"></nvd3>'].join(''),
               controller: module.slug + 'Controller'
             }

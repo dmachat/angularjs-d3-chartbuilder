@@ -26,6 +26,7 @@
                            'style="display: block; padding: 0 0 50px" ',
                            'data="dataStore.data" ',
                            'colors="dataStore.colors" ',
+                           'events="$root.events" ',
                            'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
               controller: module.slug + 'Controller'
             }
