@@ -2,8 +2,8 @@
 
   'use strict';
 
-  angular.module('chartbuilder.nvd3', [])
-    .directive('nvd3', [function() {
+  angular.module('chartbuilder.nvd3', ['chartbuilderOptions'])
+    .directive('nvd3', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
       return {
         restrict: 'AE',
         scope: {
@@ -119,6 +119,10 @@
 
                 else if (options.chart[key] === undefined || options.chart[key] === null) {
                   if (scope._config.extended) options.chart[key] = value();
+                }
+
+                else if (angular.isString(options.chart[key]) && options.chart[key].trim().substring(0, 8) === 'function') {
+                  scope.chart[key](chartbuilderOptionValues[key][options.chart[key]].option);
                 }
 
                 else scope.chart[key](options.chart[key]);

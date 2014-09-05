@@ -126,14 +126,6 @@ define(['angular', 'd3'], function(angular, d3) {
         keys: function(obj) {
           return (obj instanceof Object) ? Object.keys(obj) : [];
         },
-        tryGetFunction: function(str) {
-          if (str.trim().substring(0, 8) === 'function') {
-            try {
-              var func = eval( '(' + str.trim() + ')' );
-              return func;
-            } catch(e) {}
-          }
-        },
         saveFile: function(data, filename, contentType) {
 
           // Use passed content type or default to "application/octet-stream"
