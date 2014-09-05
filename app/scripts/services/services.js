@@ -23,7 +23,7 @@ define(['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', function() {
+    .service('chartbuilderData', ['$state', function($state) {
       var dataStore = {
         options: {},
         meta: {},
@@ -70,8 +70,15 @@ define(['angular', 'd3'], function(angular, d3) {
         },
         load: function(chart) {
 
-          var _this = this;
+          var _this = this,
+            currentSlug = _this.slug;
+
           _this.preloaded = true;
+
+          // Make sure we're on the right page to render the chart
+          if (currentSlug !== chart.slug) {
+            $state.go('chartbuilder.' + chart.slug);
+          }
 
           // Map the options object to chartbuilderData
           angular.forEach(chart, function(options, key) {
@@ -83,7 +90,7 @@ define(['angular', 'd3'], function(angular, d3) {
 
       return dataStore;
 
-    })
+    }])
     .service('chartbuilderUtils', function() {
       return {
         // get type for variable val
