@@ -10,6 +10,12 @@
       slug: 'scatterPlusLineChart'
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.scatterPlusLineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -19,11 +25,7 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -61,6 +63,7 @@
             slug: module.slug,
             data: { exampleData: data },
             dataFormat: function() { return { 'x': 'number', 'y': 'number', 'size': 'number', 'shape': 'text' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a scatter plus line chart',

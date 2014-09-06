@@ -11,6 +11,12 @@
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                      'data="dataStore.data" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.discreteBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -20,11 +26,7 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -37,6 +39,7 @@
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a bar chart',

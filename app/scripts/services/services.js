@@ -49,6 +49,7 @@ define(['angular', 'd3'], function(angular, d3) {
           this.dataFormat = init.dataFormat;
           this.name = init.name;
           this.slug = init.slug;
+          this.template = init.template;
 
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
