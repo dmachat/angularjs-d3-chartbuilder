@@ -34,7 +34,7 @@ define([
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('chartOptionsLoader', ['chartbuilderUtils', function(chartbuilderUtils) {
+      .directive('chartOptionsLoader', function() {
         return {
           restrict: 'EA',
           replace: true,
@@ -51,7 +51,7 @@ define([
             };
           }
         }
-      }])
+      })
       .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
@@ -67,7 +67,7 @@ define([
           }
         }
       }])
-      .directive('chartOptionsFromWindow', ['$window', '$state', 'chartbuilderUtils', function($window, $state, chartbuilderUtils) {
+      .directive('chartOptionsFromWindow', ['$window', '$state', function($window, $state) {
         return {
           restrict: 'EA',
           replace: true,
