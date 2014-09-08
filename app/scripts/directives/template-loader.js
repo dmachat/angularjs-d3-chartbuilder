@@ -122,22 +122,15 @@ define([
                 console.log( 'App iframe received savedData from WordPress')
                 console.log( msgObj.data );
                 scope.chartbuilderData.load( msgObj.data );
-                
-                // check if mapType
-                var type;
-                if ( ! angular.isUndefined( msgObj.data.options.chart.mapType ) ){
-                  type = 'map'
-                } else {
-                  type = msgObj.data.options.chart.type;
-                }
-
-                $state.go('chartbuilder.' + type);
               }
             };
 
             scope.initDataLoad();
 
             scope.sendToWordPress = function(){
+
+              // Unset preloaded for loading
+              delete scope.chartbuilderData.preloaded;
 
               $window.parent.postMessage({
                 src : 'chartbuilder',
