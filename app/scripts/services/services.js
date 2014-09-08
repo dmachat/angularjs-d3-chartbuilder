@@ -31,6 +31,7 @@ define(['angular', 'd3'], function(angular, d3) {
         columnValues: [],
         resetData: function() {
           this.data = [{ key: 'Example Group', values: [] }];
+          this.preloaded = false;
         },
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
