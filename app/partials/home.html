@@ -1,3 +1,4 @@
+
 <div class="chartbuilder-home">
   <div class="row">
     <div class="col-lg-4">
@@ -5,9 +6,16 @@
     </div>
     <div class="col-lg-4 jumbotron">
         <h1>angular + d3 chartbuilder</h1>
-        <p class="lead">Start building a chart now</p>
-        <p><a class="btn btn-lg btn-success" ui-sref="chartbuilder">Go</a>
-        </p>
+        <div class="dropdown">
+          <h2 id="chartTypeSelect" class="btn btn-default" data-toggle="dropdown">
+            {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Start building a chart now') }} <i class="fa fa-caret-down"></i>
+          </h2>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
+            <li ng-repeat="module in modules" >
+              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>
+            </li>
+          </ul>
+        </div>
     </div>
     <div class="col-lg-4">
       <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>

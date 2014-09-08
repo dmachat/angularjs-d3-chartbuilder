@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="scripts/angular_modules/angular-color-picker/angular-color-picker.css">
     <link rel="stylesheet" href="bower_components/nvd3/nv.d3.min.css">
-    <link rel="stylesheet" href="scripts/angular_modules/angular-file-input/dist/angular-file-input.min.css">
+    <link rel="stylesheet" href="bower_components/angular-file-input/dist/angular-file-input.min.css">
     <script data-main="scripts/main" src="bower_components/requirejs/require.js"></script>
 </head>
 
@@ -20,7 +20,7 @@
 	<!--[if lt IE 10]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-	<div class="navbar navbar-default navbar-fixed-top" ng-controller="headerCtrl">
+	<div class="navbar navbar-default navbar-fixed-top">
 		<a ui-sref="/" class="navbar-brand">angular + d3 chartbuilder <i class="fa fa-cog fa-spin"></i></a>
 		<ul class="nav navbar-nav navbar-right">
 			<li ui-sref-active="active"><a ui-sref="/">Home</a>
@@ -31,8 +31,8 @@
 			</li>
 		</ul>
 	</div>
-	<div class="main-content-container">
-		<div ui-view></div>
+	<div class="main-content-container container-fluid">
+		<div class="row" ui-view></div>
 	</div>
 </body>
 

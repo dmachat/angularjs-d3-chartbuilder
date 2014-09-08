@@ -11,9 +11,14 @@
       data: data
     };
 
+    var template = ['<nvd3 ng-repeat="pie in dataStore.data" ',
+                      'options="dataStore.options" ',
+                      'data="pie.values" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.pieChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
-      .value('chartbuilderModuleRegistry', {})
-      .value('chartbuilderSelectedModule', '')
       /**
        * Add this module's state to ui-router routes
        */
@@ -22,11 +27,7 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 ng-repeat="pie in dataStore.data" ',
-                           'options="dataStore.options" ',
-                           'data="pie.values" ',
-                           'colors="dataStore.colors" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -39,6 +40,7 @@
             slug: module.slug,
             data: data,
             dataFormat: function() { return { key: 'text', y: 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a pie chart',
@@ -63,13 +65,11 @@
         '$scope',
         'chartbuilderData',
         'chartbuilderModuleRegistry',
-        'chartbuilderSelectedModule',
-        function($scope, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+        function($scope, chartbuilderData, chartbuilderModuleRegistry) {
           // Localize the datastore for the view
           $scope.dataStore = chartbuilderData;
 
           // Initialize the data -- store sample data and set structure
-          chartbuilderSelectedModule = module.slug;
           chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
         }
       ]);

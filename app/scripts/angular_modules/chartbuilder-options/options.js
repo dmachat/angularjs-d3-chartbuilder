@@ -32,35 +32,6 @@ define([
                 node.isCollapsed = !node.isCollapsed;
               },
 
-              // Validate text if input to the form
-              validateNode: function(key) {
-                // Check if null
-                if ($scope.json[key] === null);
-
-                // Check if undefined or ""
-                else if ($scope.json[key] === undefined | $scope.json[key] === '')
-                  $scope.json[key] = null;
-
-                // Try to convert string to number
-                else if (!isNaN(+$scope.json[key]) && isFinite($scope.json[key]))
-                  $scope.json[key] = +$scope.json[key];
-
-                // Try parse to function
-                else if (chartbuilderUtils.tryGetFunction($scope.json[key])){
-                  $scope.json[key] = chartbuilderUtils.tryGetFunction($scope.json[key]);
-                  $scope.utils.textarea.init(key);
-                }
-
-                // Try to parse string to json
-                else {
-                  // Check if boolean input -> then refresh
-                  if ($scope.json[key] === "true" || $scope.json[key] === "false") {
-                    $scope.json[key] = JSON.parse($scope.json[key]);
-                    $scope.refresh();
-                  }
-                }
-              },
-
               listSelector: {
                 init: function(key) {
                   if (key in chartbuilderOptionValues) {
@@ -70,36 +41,6 @@ define([
                 },
                 onChange: function(item, key) {
                   $scope.json[key] = item;
-
-                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
-                }
-              },
-
-              functionSelector: {
-                // Set up the select list with available functions
-                init: function(key) {
-                  if (key in chartbuilderOptionValues) {
-                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
-                    $scope.functionOptions[key] = chartbuilderOptionValues[key];
-                  }
-                },
-
-                // onChange event handler
-                onChange: function(option, key) {
-                  var optionFunction = chartbuilderOptionValues[key][option].toString().trim();
-
-                  // Validate if selected option is function
-                  var func = chartbuilderUtils.tryGetFunction(optionFunction);
-
-                  if (func) {
-                    $scope.json[key] = func;
-                  }
-                  else { //if value is not a valid function
-                    $scope.json[key] = null;
-                    $scope.utils.validateNode(key); //full validation for node
-                  }
-
-                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
                 }
               },
 
@@ -133,10 +74,12 @@ define([
                 // Get type for current node
                 type: function() {
                   var type = chartbuilderUtils.getType($scope.json);
-                  if (type === 'string'
-                      && (
-                        $scope.key === 'interpolate'
-                        || $scope.key === 'style'
+                  if (type === 'function'
+                      || (type === 'string'
+                        && (
+                          $scope.key === 'interpolate'
+                          || $scope.key === 'style'
+                        )
                       )
                     ) {
                     return 'selector';

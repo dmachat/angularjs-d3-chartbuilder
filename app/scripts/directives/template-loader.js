@@ -1,7 +1,6 @@
 define([
   'angular',
-  'text!../partials/data-forms/template-options-service.html',
-  ], function(angular, templateOptionsServiceTemplate) {
+  ], function(angular) {
     'use strict';
 
     function isJson(data) {
@@ -35,12 +34,12 @@ define([
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('templateOptionsService', ['$window', '$state', 'chartbuilderUtils', function($window, $state, chartbuilderUtils) {
+      .directive('chartOptionsLoader', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
-          template: templateOptionsServiceTemplate,
+          replace: true,
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template">load</button>',
           link: function(scope) {
-
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
               var optionsObject = isJson(file);
@@ -50,12 +49,30 @@ define([
               }
 
             };
+          }
+        }
+      }])
+      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          replace: true,
+          template: '<button type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Download Options Template">save json</button>',
+          link: function(scope) {
 
             // Download the current chartbuilderData object
             scope.downloadOptionsObject = function() {
               var chartbuilderObject = angular.toJson(scope.chartbuilderData);
               chartbuilderUtils.saveFile(chartbuilderObject, 'chartbuilder-options.json', 'text/json');
             };
+          }
+        }
+      }])
+      .directive('chartOptionsFromWindow', ['$window', '$state', 'chartbuilderUtils', function($window, $state, chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          replace: true,
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">to WP</button>',
+          link: function(scope) {
 
             /**
              * WordPress plugin integration functions

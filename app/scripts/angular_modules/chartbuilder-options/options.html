@@ -11,9 +11,8 @@
           <button type="button" class="btn btn-default" ng-click="json[key] = false" ng-class="{ active: !json[key] }">Off</button>
         </div>
         <input ng-if="children[key].type() === 'number'" type="number" class="form-control" ng-model="json[key]" />
-        <select class="form-control" ng-if="children[key].type() === 'function'"  ng-model="selectedOptions[key]" ng-init="utils.functionSelector.init(key)" ng-options="key as key for (key, option) in functionOptions[key]" ng-change="utils.functionSelector.onChange(selectedOptions[key], key)"></select>
-        <select class="form-control selector" ng-if="children[key].type() === 'selector'" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as key for (key, label) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>
-        <input ng-if="children[key].type() !== 'number' && children[key].type() !== 'function' && children[key].type() !== 'boolean' && children[key].type() !== 'selector'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>
+        <select class="form-control selector" ng-if="children[key].type() === 'selector' || selectedOptions[key]" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as value.label for (key, value) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>
+        <input ng-if="children[key].type() !== 'number' && children[key].type() !== 'boolean' && children[key].type() !== 'selector' && !selectedOptions[key]" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>
       </span>
       <chartbuilder-options key="{{ key }}" json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>
     </div>

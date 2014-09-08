@@ -4,37 +4,23 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
   /* Controllers */
 
   angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'colorpicker.module'])
-    .controller('headerCtrl', [
+    .controller('Home', [
       '$scope',
-      '$location',
-      function($scope, $location) {
-        $scope.isActive = function(viewLocation) {
-          return viewLocation === $location.path();
-        };
+      'chartbuilderModuleRegistry',
+      'chartbuilderData',
+      function($scope, chartbuilderModuleRegistry, chartbuilderData) {
+        $scope.modules = chartbuilderModuleRegistry;
+        $scope.chartbuilderData = chartbuilderData;
       }
     ])
     .controller('Chartbuilder', [
       '$scope',
-      '$location',
-      '$state',
-      '$http',
-      '$filter',
-      '$stateParams',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
-      'chartbuilderSelectedModule',
       'chartbuilderUtils',
-      function($scope, $location, $state, $http, $filter, $stateParams, chartbuilderModuleRegistry, chartbuilderData, chartbuilderSelectedModule, chartbuilderUtils) {
+      function($scope, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
         $scope.modules = chartbuilderModuleRegistry;
-        $scope.selectedChartType = chartbuilderSelectedModule;
         $scope.chartbuilderData = chartbuilderData;
-
-        $scope.changeChartType = function(type) {
-          if (angular.isUndefined(type) || type === '') {
-            return false;
-          }
-          $state.go('chartbuilder.' + type);
-        };
 
         $scope.showSampleData = function() {
           chartbuilderData.showSampleData();
@@ -42,14 +28,6 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
 
         $scope.resetData = function() {
           chartbuilderData.resetData();
-        };
-
-        $scope.addGroup = function() {
-          if (!$scope.newDataGroup) {
-            return false;
-          }
-          chartbuilderData.addGroup($scope.newDataGroup);
-          $scope.newDataGroup = '';
         };
 
         $scope.getAdvancedOptions = function() {

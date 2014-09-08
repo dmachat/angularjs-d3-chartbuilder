@@ -13,6 +13,7 @@
             data: '=',			//map data, [required]
             options: '=',		//map options, [required]
             colors: '=?',    //map colors array, [optional]
+            events: '=?',   //global events that directive would subscribe to, [optional]
             type: '@?',     //map scope, world or usa, [optional, defaults to usa]
           },
           template: '<div id="map-container" style="position: relative; display: block; height: {{ height }}px; width: {{ width }}px"></div>',
@@ -99,6 +100,13 @@
                 scope.api.updateWithData(_data);
               }
             }, true);
+
+            //subscribe on global events
+            angular.forEach(scope.events, function(eventHandler, event) {
+              scope.$on(event, function(e){
+                return eventHandler(e, scope);
+              });
+            });
 
             // Generate base map options
             function mapOptions() {

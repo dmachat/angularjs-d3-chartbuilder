@@ -33,14 +33,14 @@ define('main', [], function() {
       'services': './services/services',
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
-      'angular-file-input': './angular_modules/angular-file-input/dist/angular-file-input',
+      'angular-file-input': '../bower_components/angular-file-input/dist/angular-file-input',
       'angular-color-picker': './angular_modules/angular-color-picker/angular-color-picker',
       'text': './vendor/text',
 
       // NVd3
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
-      'chartbuilder.nvd3.linechart': './angular_modules/nvd3-modules/linechart/main',
-      'chartbuilder.nvd3.barchart': './angular_modules/nvd3-modules/barchart/main',
+      'chartbuilder.nvd3.lineChart': './angular_modules/nvd3-modules/lineChart/main',
+      'chartbuilder.nvd3.discreteBarChart': './angular_modules/nvd3-modules/discreteBarChart/main',
       'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
       'chartbuilder.nvd3.pieChart': './angular_modules/nvd3-modules/pieChart/main',
       'chartbuilder.nvd3.historicalBarChart': './angular_modules/nvd3-modules/historicalBarChart/main',
@@ -92,9 +92,9 @@ define('main', [], function() {
 
       // Shim the nvd3 modules
       'nv.d3': ['d3'],
-      'chartbuilder.nvd3': ['angular', 'nv.d3'],
-      'chartbuilder.nvd3.linechart': ['chartbuilder.nvd3'],
-      'chartbuilder.nvd3.barchart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3': ['angular', 'nv.d3', 'services'],
+      'chartbuilder.nvd3.lineChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.discreteBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.pieChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.historicalBarChart': ['chartbuilder.nvd3'],
@@ -147,8 +147,8 @@ define('main', [], function() {
     'slugifier',
     'ui.sortable',
     'chartbuilder.nvd3',
-    'chartbuilder.nvd3.linechart',
-    'chartbuilder.nvd3.barchart',
+    'chartbuilder.nvd3.lineChart',
+    'chartbuilder.nvd3.discreteBarChart',
     'chartbuilder.nvd3.multiBarChart',
     'chartbuilder.nvd3.pieChart',
     'chartbuilder.nvd3.historicalBarChart',
@@ -178,8 +178,8 @@ define('main', [], function() {
         'slugifier',
         'ui.sortable',
         'chartbuilder.nvd3',
-        'chartbuilder.nvd3.linechart',
-        'chartbuilder.nvd3.barchart',
+        'chartbuilder.nvd3.lineChart',
+        'chartbuilder.nvd3.discreteBarChart',
         'chartbuilder.nvd3.multiBarChart',
         'chartbuilder.nvd3.pieChart',
         'chartbuilder.nvd3.historicalBarChart',
@@ -196,7 +196,8 @@ define('main', [], function() {
           $stateProvider.
             state('/', {
               url: '/',
-              template: homeTemplate
+              template: homeTemplate,
+              controller: 'Home'
             }).
             state('chartbuilder', {
               url: '/chartbuilder',
@@ -214,6 +215,21 @@ define('main', [], function() {
 
           //$locationProvider.html5Mode(true);
           $urlRouterProvider.otherwise('/');
+      }])
+      .run(['$rootScope', function($rootScope) {
+        /* global events for all nvd3 directives */
+        $rootScope.events = {
+          'options.onFunctionChanged': function(e, $scope){
+            $scope.api.refresh();
+          }
+        };
+
+        /* subscribe on chartbuilder-options event */
+        $rootScope.$on('onFunctionChanged', function(e) {
+          setTimeout(function() {
+            $rootScope.$broadcast('options.onFunctionChanged'); // broadcast event that will be caught by nvd3 directive
+          }, 50)
+        });
       }]);
       // bootstrap model
       angular.bootstrap($html, ['angulard3Chartbuilder']);

@@ -15,6 +15,7 @@ define(['angular', 'd3'], function(angular, d3) {
 
   /* Services */
   angular.module('chartbuilderServices', [])
+    .value('chartbuilderModuleRegistry', {})
     .factory('getSampleData', ['$http', function($http) {
       return function(path) {
         return $http.get(path).then(function(result) {
@@ -22,7 +23,7 @@ define(['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', function() {
+    .service('chartbuilderData', ['$state', function($state) {
       var dataStore = {
         options: {},
         meta: {},
@@ -30,6 +31,7 @@ define(['angular', 'd3'], function(angular, d3) {
         columnValues: [],
         resetData: function() {
           this.data = [{ key: 'Example Group', values: [] }];
+          this.preloaded = false;
         },
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
@@ -38,13 +40,17 @@ define(['angular', 'd3'], function(angular, d3) {
           this.data = this.sampleData.exampleData;
         },
         init: function(init) {
+          this.columnValues = init.dataFormat();
+
           if (this.preloaded) {
             return;
           }
 
           this.sampleData = init.data;
           this.dataFormat = init.dataFormat;
-          this.columnValues = init.dataFormat();
+          this.name = init.name;
+          this.slug = init.slug;
+          this.template = init.template;
 
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
@@ -66,8 +72,15 @@ define(['angular', 'd3'], function(angular, d3) {
         },
         load: function(chart) {
 
-          var _this = this;
+          var _this = this,
+            currentSlug = _this.slug;
+
           _this.preloaded = true;
+
+          // Make sure we're on the right page to render the chart
+          if (currentSlug !== chart.slug) {
+            $state.go('chartbuilder.' + chart.slug);
+          }
 
           // Map the options object to chartbuilderData
           angular.forEach(chart, function(options, key) {
@@ -79,7 +92,7 @@ define(['angular', 'd3'], function(angular, d3) {
 
       return dataStore;
 
-    })
+    }])
     .service('chartbuilderUtils', function() {
       return {
         // get type for variable val
@@ -114,14 +127,6 @@ define(['angular', 'd3'], function(angular, d3) {
         },
         keys: function(obj) {
           return (obj instanceof Object) ? Object.keys(obj) : [];
-        },
-        tryGetFunction: function(str) {
-          if (str.trim().substring(0, 8) === 'function') {
-            try {
-              var func = eval( '(' + str.trim() + ')' );
-              return func;
-            } catch(e) {}
-          }
         },
         saveFile: function(data, filename, contentType) {
 

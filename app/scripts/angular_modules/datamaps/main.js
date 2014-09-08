@@ -11,6 +11,13 @@
       data: data
     };
 
+    var template = ['<datamap options="dataStore.options" ',
+                 'style="display: block; padding: 0 0 50px" ',
+                 'data="dataStore.data" ',
+                 'colors="dataStore.colors" ',
+                 'events="$root.events" ',
+                 'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join('');
+
     angular.module('chartbuilder.datamaps.usa', ['chartbuilderServices'])
       .value('chartbuilderModuleRegistry', {})
       .value('chartbuilderSelectedModule', '')
@@ -22,11 +29,7 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<datamap options="dataStore.options" ',
-                           'style="display: block; padding: 0 0 50px" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -39,6 +42,7 @@
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'location': 'text', 'value': 'text' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a map',

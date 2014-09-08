@@ -4,16 +4,20 @@
 "use strict";
 
 (function() {
-  define(['angular', 'angular_modules/nvd3-modules/linechart/data'], function(angular, data) {
+  define(['angular', 'angular_modules/nvd3-modules/discreteBarChart/data'], function(angular, data) {
     var module = {
-      name: 'Line Chart',
-      slug: 'lineChart',
+      name: 'Bar Chart',
+      slug: 'discreteBarChart',
       data: data
     };
 
-    angular.module('chartbuilder.nvd3.linechart', ['chartbuilderServices', 'chartbuilder.nvd3'])
-      .value('chartbuilderModuleRegistry', {})
-      .value('chartbuilderSelectedModule', '')
+    var template = ['<nvd3 options="dataStore.options" ',
+                      'data="dataStore.data" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
+    angular.module('chartbuilder.nvd3.discreteBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
        */
@@ -22,10 +26,7 @@
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -37,16 +38,30 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: function() { return { x: 'number', y: 'number' }; },
+            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
-              subtitle: 'Subtitle for a line chart',
+              subtitle: 'Subtitle for a bar chart',
               caption: '1a. Edit a caption for the graph',
             },
             options: {
               chart: {
                 type: module.slug,
-                height: 600
+                height: 600,
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showValues: true,
+                valueFormat: function(d){
+                  return d3.format(',.4f')(d);
+                },
+                xAxis: {
+                  axisLabel: 'X Axis'
+                },
+                yAxis: {
+                  axisLabel: 'Y Axis',
+                  axisLabelDistance: 30
+                }
               }
             }
           }
@@ -59,13 +74,11 @@
         '$scope',
         'chartbuilderData',
         'chartbuilderModuleRegistry',
-        'chartbuilderSelectedModule',
-        function($scope, chartbuilderData, chartbuilderModuleRegistry, chartbuilderSelectedModule) {
+        function($scope, chartbuilderData, chartbuilderModuleRegistry) {
           // Localize the datastore for the view
           $scope.dataStore = chartbuilderData;
 
           // Initialize the data -- store sample data and set structure
-          chartbuilderSelectedModule = module.slug;
           chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
         }
       ]);

@@ -6,7 +6,7 @@ define([
     'use strict';
 
     angular.module('chartbuilderDirectives').
-      directive('structureDataInput', ['chartbuilderUtils', function(chartbuilderUtils) {
+      directive('structureDataInput', ['chartbuilderUtils', 'chartbuilderData', function(chartbuilderUtils, chartbuilderData) {
         return {
           restrict: 'EA',
           scope: {
@@ -49,6 +49,14 @@ define([
                 return false;
               }
               scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
+            };
+
+            scope.addGroup = function() {
+              if (!scope.newDataGroup) {
+                return false;
+              }
+              chartbuilderData.addGroup(scope.newDataGroup);
+              scope.newDataGroup = '';
             };
 
             scope.removeRow = function(gidx, idx) {
