@@ -34,7 +34,7 @@ define([
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('chartOptionsLoader', ['chartbuilderUtils', function(chartbuilderUtils) {
+      .directive('chartOptionsLoader', function() {
         return {
           restrict: 'EA',
           replace: true,
@@ -51,7 +51,7 @@ define([
             };
           }
         }
-      }])
+      })
       .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
@@ -67,11 +67,11 @@ define([
           }
         }
       }])
-      .directive('chartOptionsFromWindow', ['$window', 'chartbuilderUtils', function($window, chartbuilderUtils) {
+      .directive('chartOptionsFromWindow', ['$window', function($window) {
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">to WP</button>',
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">to WP</button>',
           link: function(scope) {
 
             /**
@@ -79,36 +79,65 @@ define([
              */
 
             // this is initialized on the directive
-            scope.listenForParentInit = function() {
-              if ($window.chartbuilderOptions) {
+            scope.initDataLoad = function() {
+              // // if bootstrapped data, use that
+              // // i.e. front-end of site
+              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
+              //   scope.chartbuilderData.load($window.chartbuilderOptions);
+              //   return;
+              // }
 
-                scope.chartbuilderData.load($window.chartbuilderOptions);
-
-              }
-
-              $window.addEventListener('message', function(e) {
-                if ( e.origin !== $window.location.origin ) {
-                  throw( 'Illegal postMessage from ' + e.origin );
-                }
-
-                // now e.data has the saved JSON from WP
-                // chartbuilderData.options.chart.type = e.data.type;
-                // chartbuilderData.data = e.data.data;
-                scope.chartbuilderData.load(e.data);
-
-              });
-            };
-
-            scope.listenForParentInit();
-
-            scope.sendToWordPress = function(){
-              var data = scope.parseDataForWP();
-
-              if (!data){
+              // confirm that we're in an iframe
+              if ( ! window.frameElement ){
                 return;
               }
 
-              $window.parent.postMessage(data, $window.location.href);
+              // setup postMessage listener and tell parent window that child frame is ready to receive data
+              var origin = $window.location.protocol + '//' + $window.location.hostname;              
+              window.addEventListener('message', scope.receiveMessage, true);
+              window.parent.postMessage( {
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'ready',
+                data : null
+              }, origin )
+
+            };
+
+            scope.receiveMessage = function(e){
+              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+                throw( 'Illegal postMessage from ' + e.origin );
+              }
+
+              var msgObj = e.data;
+              if (  !angular.isUndefined( msgObj.src) &&
+                    msgObj.src === 'chartbuilder' &&
+                    !angular.isUndefined( msgObj.channel ) &&
+                    msgObj.channel === 'downstream' &&
+                    !angular.isUndefined( msgObj.msg ) &&
+                    msgObj.msg === 'savedData' &&
+                    !angular.isUndefined( msgObj.data ) &&
+                    msgObj.data
+              ) {
+                console.log( 'App iframe received savedData from WordPress')
+                console.log( msgObj.data );
+                scope.chartbuilderData.load( msgObj.data );
+              }
+            };
+
+            scope.initDataLoad();
+
+            scope.sendToWordPress = function(){
+
+              // Unset preloaded for loading
+              delete scope.chartbuilderData.preloaded;
+
+              $window.parent.postMessage({
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'chartData',
+                data : angular.toJson(scope.chartbuilderData)
+              }, $window.location.href);
             }
           }
         };
