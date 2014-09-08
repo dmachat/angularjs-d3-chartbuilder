@@ -67,7 +67,7 @@ define([
           }
         }
       }])
-      .directive('chartOptionsFromWindow', ['$window', '$state', function($window, $state) {
+      .directive('chartOptionsFromWindow', ['$window', function($window) {
         return {
           restrict: 'EA',
           replace: true,
