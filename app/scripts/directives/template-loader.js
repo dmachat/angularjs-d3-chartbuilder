@@ -71,7 +71,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">to WP</button>',
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">to WP</button>',
           link: function(scope) {
 
             /**
