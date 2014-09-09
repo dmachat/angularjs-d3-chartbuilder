@@ -47,7 +47,7 @@
     }
   }
 
-  var app = angular.module('chartbuilderOptions', []).
+  var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionValues', {
       'interpolate': {
         'linear': {
