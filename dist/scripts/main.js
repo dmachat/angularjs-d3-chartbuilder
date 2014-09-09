@@ -86453,6 +86453,7 @@ define('services',['angular', 'd3'], function(angular, d3) {
         columnValues: [],
         resetData: function() {
           this.data = [{ key: 'Example Group', values: [] }];
+          this.preloaded = false;
         },
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
@@ -86471,6 +86472,7 @@ define('services',['angular', 'd3'], function(angular, d3) {
           this.dataFormat = init.dataFormat;
           this.name = init.name;
           this.slug = init.slug;
+          this.template = init.template;
 
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
@@ -86548,14 +86550,6 @@ define('services',['angular', 'd3'], function(angular, d3) {
         keys: function(obj) {
           return (obj instanceof Object) ? Object.keys(obj) : [];
         },
-        tryGetFunction: function(str) {
-          if (str.trim().substring(0, 8) === 'function') {
-            try {
-              var func = eval( '(' + str.trim() + ')' );
-              return func;
-            } catch(e) {}
-          }
-        },
         saveFile: function(data, filename, contentType) {
 
           // Use passed content type or default to "application/octet-stream"
@@ -86620,7 +86614,7 @@ define('directives',['angular'], function(angular) {
 });
 
 
-define('text!angular_modules/chartbuilder-options/options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n  <a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key) || ((children[key].type() === \'function\' || children[key].type() === \'selector\') && !selectedOptions[key])" ng-class="{ active: !children[key].isCollapsed }">\n    <span ng-class="{ \'col-lg-4\': !children[key].isObject(), \'col-lg-12\': children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n      <h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n    </span>\n    <span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />\n    <div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n      <span ng-hide="children[key].isObject()" class="pull-right">\n        <div ng-if="children[key].type() === \'boolean\'" ng-model="json[key]" class="btn-group">\n          <button type="button" class="btn" ng-click="json[key] = true" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n          <button type="button" class="btn btn-default" ng-click="json[key] = false" ng-class="{ active: !json[key] }">Off</button>\n        </div>\n        <input ng-if="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n        <select class="form-control" ng-if="children[key].type() === \'function\'"  ng-model="selectedOptions[key]" ng-init="utils.functionSelector.init(key)" ng-options="key as key for (key, option) in functionOptions[key]" ng-change="utils.functionSelector.onChange(selectedOptions[key], key)"></select>\n        <select class="form-control selector" ng-if="children[key].type() === \'selector\'" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as key for (key, label) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>\n        <input ng-if="children[key].type() !== \'number\' && children[key].type() !== \'function\' && children[key].type() !== \'boolean\' && children[key].type() !== \'selector\'" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n      </span>\n      <chartbuilder-options key="{{ key }}" json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n    </div>\n  </a>\n</div>\n';});
+define('text!angular_modules/chartbuilder-options/options.html',[],function () { return '<div ng-hide="node.isCollapsed" class="list-group">\n  <a href class="row list-group-item" ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key) || ((children[key].type() === \'function\' || children[key].type() === \'selector\') && !selectedOptions[key])" ng-class="{ active: !children[key].isCollapsed }">\n    <span ng-class="{ \'col-lg-4\': !children[key].isObject(), \'col-lg-12\': children[key].isObject() }" ng-click="utils.clickNode(children[key])">\n      <h4>{{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ \'glyphicon-chevron-right\': children[key].isCollapsed, \'glyphicon-chevron-down\': !children[key].isCollapsed }"></i></h4>\n    </span>\n    <span ng-if="children[key].isObject()" class="clearfix visible-lg-block" />\n    <div ng-class="{ \'col-lg-8\': !children[key].isObject() }">\n      <span ng-hide="children[key].isObject()" class="pull-right">\n        <div ng-if="children[key].type() === \'boolean\'" ng-model="json[key]" class="btn-group">\n          <button type="button" class="btn" ng-click="json[key] = true" ng-class="{ active: json[key], \'btn-primary\': json[key], \'btn-default\': !json[key] }">On</button>\n          <button type="button" class="btn btn-default" ng-click="json[key] = false" ng-class="{ active: !json[key] }">Off</button>\n        </div>\n        <input ng-if="children[key].type() === \'number\'" type="number" class="form-control" ng-model="json[key]" />\n        <select class="form-control selector" ng-if="children[key].type() === \'selector\' || selectedOptions[key]" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as value.label for (key, value) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>\n        <input ng-if="children[key].type() !== \'number\' && children[key].type() !== \'boolean\' && children[key].type() !== \'selector\' && !selectedOptions[key]" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>\n      </span>\n      <chartbuilder-options key="{{ key }}" json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>\n    </div>\n  </a>\n</div>\n';});
 
 define('chartbuilder-options',[
   'angular',
@@ -86668,34 +86662,6 @@ define('chartbuilder-options',[
                 }
               },
 
-              functionSelector: {
-                // Set up the select list with available functions
-                init: function(key) {
-                  if (key in chartbuilderOptionValues) {
-                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
-                    $scope.functionOptions[key] = chartbuilderOptionValues[key];
-                  }
-                },
-
-                // onChange event handler
-                onChange: function(option, key) {
-
-                  var optionFunction = chartbuilderOptionValues[key][option].toString().trim();
-
-                  // Validate if selected option is function
-                  var func = chartbuilderUtils.tryGetFunction(optionFunction);
-
-                  if (func) {
-                    $scope.json[key] = func;
-                  }
-                  else { //if value is not a valid function
-                    $scope.json[key] = null;
-                  }
-
-                  $scope.$emit('onFunctionChanged'); //emit onFunctionChange event if the function definition was changed.
-                }
-              },
-
               // Skip ordering in ng-repeat
               keys: function(json) {
                 return chartbuilderUtils.keys(json);
@@ -86726,10 +86692,12 @@ define('chartbuilder-options',[
                 // Get type for current node
                 type: function() {
                   var type = chartbuilderUtils.getType($scope.json);
-                  if (type === 'string'
-                      && (
-                        $scope.key === 'interpolate'
-                        || $scope.key === 'style'
+                  if (type === 'function'
+                      || (type === 'string'
+                        && (
+                          $scope.key === 'interpolate'
+                          || $scope.key === 'style'
+                        )
                       )
                     ) {
                     return 'selector';
@@ -86941,7 +86909,7 @@ define('template-loader',[
     }
 
     angular.module('chartbuilderDirectives')
-      .directive('chartOptionsLoader', ['chartbuilderUtils', function(chartbuilderUtils) {
+      .directive('chartOptionsLoader', function() {
         return {
           restrict: 'EA',
           replace: true,
@@ -86958,7 +86926,7 @@ define('template-loader',[
             };
           }
         }
-      }])
+      })
       .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
@@ -86974,11 +86942,11 @@ define('template-loader',[
           }
         }
       }])
-      .directive('chartOptionsFromWindow', ['$window', 'chartbuilderUtils', function($window, chartbuilderUtils) {
+      .directive('chartOptionsFromWindow', ['$window', function($window) {
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="sendToWorpress()" name="Send Options Object to Wordpress">to WP</button>',
+          template: '<button type="button" class="btn btn-default" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">to WP</button>',
           link: function(scope) {
 
             /**
@@ -86986,124 +86954,250 @@ define('template-loader',[
              */
 
             // this is initialized on the directive
-            scope.listenForParentInit = function() {
-              if ($window.chartbuilderOptions) {
+            scope.initDataLoad = function() {
+              // // if bootstrapped data, use that
+              // // i.e. front-end of site
+              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
+              //   scope.chartbuilderData.load($window.chartbuilderOptions);
+              //   return;
+              // }
 
-                scope.chartbuilderData.load($window.chartbuilderOptions);
-
-              }
-
-              $window.addEventListener('message', function(e) {
-                if ( e.origin !== $window.location.origin ) {
-                  throw( 'Illegal postMessage from ' + e.origin );
-                }
-
-                // now e.data has the saved JSON from WP
-                // chartbuilderData.options.chart.type = e.data.type;
-                // chartbuilderData.data = e.data.data;
-                scope.chartbuilderData.load(e.data);
-
-              });
-            };
-
-            scope.listenForParentInit();
-
-            scope.sendToWordPress = function(){
-              var data = scope.parseDataForWP();
-
-              if (!data){
+              // confirm that we're in an iframe
+              if ( ! window.frameElement ){
                 return;
               }
 
-              $window.parent.postMessage(data, $window.location.href);
+              // setup postMessage listener and tell parent window that child frame is ready to receive data
+              var origin = $window.location.protocol + '//' + $window.location.hostname;              
+              window.addEventListener('message', scope.receiveMessage, true);
+              window.parent.postMessage( {
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'ready',
+                data : null
+              }, origin )
+
+            };
+
+            scope.receiveMessage = function(e){
+              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+                throw( 'Illegal postMessage from ' + e.origin );
+              }
+
+              var msgObj = e.data;
+              if (  !angular.isUndefined( msgObj.src) &&
+                    msgObj.src === 'chartbuilder' &&
+                    !angular.isUndefined( msgObj.channel ) &&
+                    msgObj.channel === 'downstream' &&
+                    !angular.isUndefined( msgObj.msg ) &&
+                    msgObj.msg === 'savedData' &&
+                    !angular.isUndefined( msgObj.data ) &&
+                    msgObj.data
+              ) {
+                console.log( 'App iframe received savedData from WordPress')
+                console.log( msgObj.data );
+                scope.chartbuilderData.load( msgObj.data );
+              }
+            };
+
+            scope.initDataLoad();
+
+            scope.sendToWordPress = function(){
+
+              // Unset preloaded for loading
+              delete scope.chartbuilderData.preloaded;
+
+              $window.parent.postMessage({
+                src : 'chartbuilder',
+                channel : 'upstream',
+                msg : 'chartData',
+                data : angular.toJson(scope.chartbuilderData)
+              }, $window.location.href);
             }
           }
         };
       }]);
 });
 
-define('chartbuilder-options-constants',[
-  'angular',
-  ], function(angular) {
-    
+(function(angular, factory) {
+  
 
-    angular.module('chartbuilderOptions').
-      value('chartbuilderOptionValues', {
-        'interpolate': {
-          'linear': 'linear',
-          'linear-closed': 'linear-closed',
-          'step-before': 'step-before',
-          'step-after': 'step-after',
-          'basis': 'basis',
-          'basis-open': 'basis-open',
-          'basis-closed': 'basis-closed',
-          'bundle': 'bundle',
-          'cardinal': 'bundle',
-          'cardinal-open': 'cardinal-open',
-          'cardinal-closed': 'cardinal-closed',
-          'monotone': 'monotone'
+  if (typeof define === 'function' && define.amd) {
+    define('chartbuilder-options-constants',['angular'], function(angular) {
+      return factory(angular);
+    });
+  } else {
+    return factory(angular);
+  }
+} (angular || null, function(angular) {
+
+  
+
+  var xTwoDimensionalArray = {
+    'label': '2d-array',
+    'option': function(d) {
+      return d[0];
+    }
+  }
+
+  var yTwoDimensionalArray = {
+    'label': '2d-array',
+    'option': function(d) {
+      return d[1];
+    }
+  }
+
+  var xKeyValue = {
+    'label': 'key/value',
+    'option': function(d) {
+      return d.key;
+    }
+  }
+
+  var xLabelValue = {
+    'label': 'key/value',
+    'option': function(d) {
+      return d.label;
+    }
+  }
+
+  var yKeyValue = {
+    'label': 'key/value',
+    'option': function(d) {
+      return d.y;
+    }
+  }
+
+  var app = angular.module('chartbuilderOptions').
+    value('chartbuilderOptionValues', {
+      'interpolate': {
+        'linear': {
+          'label': 'linear'
         },
-        'style': {
-          'stack': 'stack',
-          'stream': 'stream',
-          'stream-center': 'stream-center',
-          'expand': 'expand',
-          'stack_percent': 'stack_percent'
+        'linear-closed': {
+          'label': 'linear-closed'
         },
-        'valueFormat': {
-          'text': function(d) {
+        'step-before': {
+          'label': 'step-before'
+        },
+        'step-after': {
+          'label': 'step-after'
+        },
+        'basis': {
+          'label': 'basis'
+        },
+        'basis-open': {
+          'label': 'basis-open'
+        },
+        'basis-closed': {
+          'label': 'basis-closed'
+        },
+        'bundle': {
+          'label': 'bundle'
+        },
+        'cardinal': {
+          'label': 'bundle'
+        },
+        'cardinal-open': {
+          'label': 'cardinal-open'
+        },
+        'cardinal-closed': {
+          'label': 'cardinal-closed'
+        },
+        'monotone': {
+          'label': 'monotone'
+        }
+      },
+      'style': {
+        'stack': {
+          'label': 'stack'
+        },
+        'stream': {
+          'label': 'stream'
+        },
+        'stream-center': {
+          'label': 'stream-center'
+        },
+        'expand': {
+          'label': 'expand'
+        },
+        'stack_percent': {
+          'label': 'stack_percent'
+        }
+      },
+      'valueFormat': {
+        'function:text': {
+          'label': 'text',
+          'option': function(d) {
             return d;
-          },
-          'date': function(d) {
+          }
+        },
+        'function:date': {
+          'label': 'date',
+          'option': function(d) {
             return d3.time.format('%x')(new Date(d));
           }
-        },
-        'tickFormat': {
-          'text': function(d) {
+        }
+      },
+      'tickFormat': {
+        'function:text': {
+          'label': 'text',
+          'option': function(d) {
             return d;
-          },
-          'percent': function(d) {
+          }
+        },
+        'function:percent': {
+          'label': 'percent',
+          'option': function(d) {
             return d3.format('.0%')(d);
-          },
-          'price': function(d) {
+          }
+        },
+        'function:price': {
+          'label': 'price',
+          'option': function(d) {
             return d3.format('$,d')(d);
           }
-        },
-        'x': {
-          '2d-array': function(d) {
-            return d[0];
-          },
-          'key/value': function(d) {
-            return d.key;
-          }
-        },
-        'y': {
-          '2d-array': function(d) {
-            return d[1];
-          },
-          'key/value': function(d) {
-            return d.y;
-          }
-        },
-        'tooltipContent': {
-          'key/value': function(key, y, e, graph) {
-            console.log(key);
+        }
+      },
+      'x': {
+        'function:2d-array': xTwoDimensionalArray,
+        'function:key/value': xKeyValue,
+        'function:label/value': xLabelValue
+      },
+      'y': {
+        'function:2d-array': yTwoDimensionalArray,
+        'function:key/value': yKeyValue
+      },
+      'tooltipContent': {
+        'function:key/value': {
+          'label': 'key/value',
+          'option': function(key, y, e, graph) {
             return '<h3>' + key + '</h3>' +'<p>' + y + '</p>' ;
-          },
-          'value only': function(key, y) {
+          }
+        },
+        'function:value only': {
+          'label': 'value only',
+          'option': function(key, y) {
             return '<h3>' + y + '</h3>';
-          },
-          'key only': function(key) {
+          }
+        },
+        'function:key only': {
+          'label': 'key only',
+          'option': function(key) {
             return '<h3>' + key + '</h3>';
           }
-        },
-        'fillQuartiles': {
-          'flat': function(d) {
+        }
+      },
+      'fillQuartiles': {
+        'function:flat': {
+          'label': 'flat',
+          'option': function(d) {
             return d/4;
           }
         }
-      });
-  });
+      }
+    });
+}));
 
 /**
  * A class to parse color values
@@ -91956,8 +92050,8 @@ define("ui.sortable", function(){});
 
   
 
-  angular.module('chartbuilder.nvd3', [])
-    .directive('nvd3', [function() {
+  angular.module('chartbuilder.nvd3', ['chartbuilderOptions'])
+    .directive('nvd3', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
       return {
         restrict: 'AE',
         scope: {
@@ -92073,6 +92167,10 @@ define("ui.sortable", function(){});
 
                 else if (options.chart[key] === undefined || options.chart[key] === null) {
                   if (scope._config.extended) options.chart[key] = value();
+                }
+
+                else if (angular.isString(options.chart[key]) && options.chart[key].trim().substring(0, 8) === 'function') {
+                  scope.chart[key](chartbuilderOptionValues[key][options.chart[key]].option);
                 }
 
                 else scope.chart[key](options.chart[key]);
@@ -92242,6 +92340,12 @@ define('angular_modules/nvd3-modules/lineChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.lineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92251,11 +92355,7 @@ define('angular_modules/nvd3-modules/lineChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92268,6 +92368,7 @@ define('angular_modules/nvd3-modules/lineChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { x: 'number', y: 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a line chart',
@@ -92329,6 +92430,12 @@ define('angular_modules/nvd3-modules/discreteBarChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                      'data="dataStore.data" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.discreteBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92338,11 +92445,7 @@ define('angular_modules/nvd3-modules/discreteBarChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92355,6 +92458,7 @@ define('angular_modules/nvd3-modules/discreteBarChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a bar chart',
@@ -92456,6 +92560,12 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.multiBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92465,11 +92575,7 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92482,6 +92588,7 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'x': 'text', 'y': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a multi bar chart',
@@ -92559,6 +92666,13 @@ define('angular_modules/nvd3-modules/pieChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 ng-repeat="pie in dataStore.data" ',
+                      'options="dataStore.options" ',
+                      'data="pie.values" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.pieChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92568,12 +92682,7 @@ define('angular_modules/nvd3-modules/pieChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 ng-repeat="pie in dataStore.data" ',
-                           'options="dataStore.options" ',
-                           'data="pie.values" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92586,6 +92695,7 @@ define('angular_modules/nvd3-modules/pieChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { key: 'text', y: 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a pie chart',
@@ -92661,6 +92771,12 @@ define('angular_modules/nvd3-modules/historicalBarChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.historicalBarChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92670,11 +92786,7 @@ define('angular_modules/nvd3-modules/historicalBarChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92687,6 +92799,7 @@ define('angular_modules/nvd3-modules/historicalBarChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'timestamp': 'number', 'value': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a historical bar chart',
@@ -92787,6 +92900,12 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
       data: data
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data[0].values" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.stackedAreaChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92796,11 +92915,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data[0].values" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92813,6 +92928,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'timestamp': 'number', 'value': 'number' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a stacked area chart',
@@ -92873,6 +92989,12 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
       slug: 'scatterChart'
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.scatterChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92882,11 +93004,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -92922,6 +93040,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
             slug: module.slug,
             data: { exampleData: data },
             dataFormat: function() { return { 'x': 'number', 'y': 'number', 'size': 'number', 'shape': 'text' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a scatter chart',
@@ -92987,6 +93106,12 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
       slug: 'scatterPlusLineChart'
     };
 
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
     angular.module('chartbuilder.nvd3.scatterPlusLineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
@@ -92996,11 +93121,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<nvd3 options="dataStore.options" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'config="{ extended: true }"></nvd3>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -93038,6 +93159,7 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
             slug: module.slug,
             data: { exampleData: data },
             dataFormat: function() { return { 'x': 'number', 'y': 'number', 'size': 'number', 'shape': 'text' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a scatter plus line chart',
@@ -105860,6 +105982,13 @@ define('angular_modules/datamaps/data',{
       data: data
     };
 
+    var template = ['<datamap options="dataStore.options" ',
+                 'style="display: block; padding: 0 0 50px" ',
+                 'data="dataStore.data" ',
+                 'colors="dataStore.colors" ',
+                 'events="$root.events" ',
+                 'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join('');
+
     angular.module('chartbuilder.datamaps.usa', ['chartbuilderServices'])
       .value('chartbuilderModuleRegistry', {})
       .value('chartbuilderSelectedModule', '')
@@ -105871,12 +106000,7 @@ define('angular_modules/datamaps/data',{
           url: '/' + module.slug,
           views: {
             'graph': {
-              template: ['<datamap options="dataStore.options" ',
-                           'style="display: block; padding: 0 0 50px" ',
-                           'data="dataStore.data" ',
-                           'colors="dataStore.colors" ',
-                           'events="$root.events" ',
-                           'type="{{ dataStore.options.chart.mapType }}"></datamap>'].join(''),
+              template: template,
               controller: module.slug + 'Controller'
             }
           }
@@ -105889,6 +106013,7 @@ define('angular_modules/datamaps/data',{
             slug: module.slug,
             data: data,
             dataFormat: function() { return { 'location': 'text', 'value': 'text' }; },
+            template: template,
             meta: {
               title: module.name,
               subtitle: 'Subtitle for a map',
