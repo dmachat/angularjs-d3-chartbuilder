@@ -34,16 +34,30 @@
   }
 
   var xLabelValue = {
-    'label': 'key/value',
+    'label': 'label/value',
     'option': function(d) {
       return d.label;
     }
   }
 
-  var yKeyValue = {
-    'label': 'key/value',
+  var xValue = {
+    'label': 'x/y',
+    'option': function(d) {
+      return d.x;
+    }
+  }
+
+  var yValue = {
+    'label': 'key/y',
     'option': function(d) {
       return d.y;
+    }
+  }
+
+  var yLabelValue = {
+    'label': 'label/value',
+    'option': function(d) {
+      return d.value;
     }
   }
 
@@ -141,11 +155,13 @@
       'x': {
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
+        'function:x': xValue,
         'function:label/value': xLabelValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
-        'function:key/value': yKeyValue
+        'function:key/y': yValue,
+        'function:label/value': yLabelValue
       },
       'tooltipContent': {
         'function:key/value': {
