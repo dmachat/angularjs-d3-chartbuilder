@@ -129,12 +129,24 @@
                 dst.data[val.location] = { fillKey: val.value };
               });
 
-              angular.forEach(_.uniq(_.pluck(data, 'value')), function(key, idx) {
-                dst.fills[key] = scope.colors[idx];
-              });
+              if (!scope.options.fillQuartiles) {
+                var fillKeys = [];
+                angular.forEach(data, function(data) {
+                  if (fillKeys.indexOf(data.value) === -1) {
+                    fillKeys.push(data.value);
+                  }
+                });
+
+                angular.forEach(fillKeys, function(key, idx) {
+                  dst.fills[key] = scope.colors[idx];
+                });
+              }
+              else {
+                // @TODO Map numeric ranges to quartiles
+              }
 
               return dst;
-            };
+            }
           }
         };
       }]);
