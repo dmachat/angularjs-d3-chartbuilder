@@ -87055,16 +87055,30 @@ define('template-loader',[
   }
 
   var xLabelValue = {
-    'label': 'key/value',
+    'label': 'label/value',
     'option': function(d) {
       return d.label;
     }
   }
 
-  var yKeyValue = {
-    'label': 'key/value',
+  var xValue = {
+    'label': 'x/y',
+    'option': function(d) {
+      return d.x;
+    }
+  }
+
+  var yValue = {
+    'label': 'key/y',
     'option': function(d) {
       return d.y;
+    }
+  }
+
+  var yLabelValue = {
+    'label': 'label/value',
+    'option': function(d) {
+      return d.value;
     }
   }
 
@@ -87162,11 +87176,13 @@ define('template-loader',[
       'x': {
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
+        'function:x': xValue,
         'function:label/value': xLabelValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
-        'function:key/value': yKeyValue
+        'function:key/y': yValue,
+        'function:label/value': yLabelValue
       },
       'tooltipContent': {
         'function:key/value': {
@@ -92614,6 +92630,181 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
                     tickFormat: function(d){
                         return d3.format(',.1f')(d);
                     }
+                }
+              }
+            }
+          }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
+        }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        function($scope, chartbuilderData, chartbuilderModuleRegistry) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
+
+          // Initialize the data -- store sample data and set structure
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
+  });
+})();
+
+define('angular_modules/nvd3-modules/multiBarHorizontalChart/data',{
+  "exampleData": [
+    {
+      "key": "Series1",
+      "color": "#d62728",
+      "values": [{
+          "label" : "Group A" ,
+          "value" : -1.8746444827653
+        },
+        {
+          "label" : "Group B" ,
+          "value" : -8.0961543492239
+        },
+        {
+          "label" : "Group C" ,
+          "value" : -0.57072943117674
+        },
+        {
+          "label" : "Group D" ,
+          "value" : -2.4174010336624
+        },
+        {
+          "label" : "Group E" ,
+          "value" : -0.72009071426284
+        },
+        {
+          "label" : "Group F" ,
+          "value" : -0.77154485523777
+        },
+        {
+          "label" : "Group G" ,
+          "value" : -0.90152097798131
+        },
+        {
+          "label" : "Group H" ,
+          "value" : -0.91445417330854
+        },
+        {
+          "label" : "Group I" ,
+          "value" : -0.055746319141851
+        }
+      ]
+    },
+    {
+      "key": "Series2",
+      "color": "#1f77b4",
+      "values": [
+        {
+          "label" : "Group A" ,
+          "value" : 25.307646510375
+        } ,
+        {
+          "label" : "Group B" ,
+          "value" : 16.756779544553
+        } ,
+        {
+          "label" : "Group C" ,
+          "value" : 18.451534877007
+        } ,
+        {
+          "label" : "Group D" ,
+          "value" : 8.6142352811805
+        } ,
+        {
+          "label" : "Group E" ,
+          "value" : 7.8082472075876
+        } ,
+        {
+          "label" : "Group F" ,
+          "value" : 5.259101026956
+        } ,
+        {
+          "label" : "Group G" ,
+          "value" : 0.30947953487127
+        } ,
+        {
+          "label" : "Group H" ,
+          "value" : 0
+        } ,
+        {
+          "label" : "Group I" ,
+          "value" : 0
+        }
+      ]
+    }
+  ]
+});
+
+/*
+ Modular version of the multi bar horizontal chart nvd3-directive
+ */
+
+
+(function() {
+  define('chartbuilder.nvd3.multiBarHorizontalChart',['angular', 'angular_modules/nvd3-modules/multiBarHorizontalChart/data'], function(angular, data) {
+    var module = {
+      name: 'Multi Bar Horizontal Chart',
+      slug: 'multiBarHorizontalChart',
+      data: data
+    };
+
+    var template = ['<nvd3 options="dataStore.options" ',
+                      'data="dataStore.data" ',
+                      'colors="dataStore.colors" ',
+                      'events="$root.events" ',
+                      'config="{ extended: true }"></nvd3>'].join('');
+
+    angular.module('chartbuilder.nvd3.multiBarHorizontalChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+      /**
+       * Add this module's state to ui-router routes
+       */
+      .config(['$stateProvider', function($stateProvider) {
+        $stateProvider.state('chartbuilder.' + module.slug, {
+          url: '/' + module.slug,
+          views: {
+            'graph': {
+              template: template,
+              controller: module.slug + 'Controller'
+            }
+          }
+        });
+      }])
+      .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            template: template,
+            meta: {
+              title: module.name,
+              subtitle: 'Subtitle for a bar chart',
+              caption: '1a. Edit a caption for the graph',
+            },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 600,
+                x: function(d){return d.label;},
+                y: function(d){return d.value;},
+                showValues: true,
+                valueFormat: function(d){
+                  return d3.format(',.4f')(d);
+                },
+                xAxis: {
+                  axisLabel: 'X Axis'
+                },
+                yAxis: {
+                  axisLabel: 'Y Axis',
+                  axisLabelDistance: 30
                 }
               }
             }
@@ -105939,12 +106130,24 @@ define('angular_modules/nvd3-modules/stackedAreaChart/data',{
                 dst.data[val.location] = { fillKey: val.value };
               });
 
-              angular.forEach(_.uniq(_.pluck(data, 'value')), function(key, idx) {
-                dst.fills[key] = scope.colors[idx];
-              });
+              if (!scope.options.fillQuartiles) {
+                var fillKeys = [];
+                angular.forEach(data, function(data) {
+                  if (fillKeys.indexOf(data.value) === -1) {
+                    fillKeys.push(data.value);
+                  }
+                });
+
+                angular.forEach(fillKeys, function(key, idx) {
+                  dst.fills[key] = scope.colors[idx];
+                });
+              }
+              else {
+                // @TODO Map numeric ranges to quartiles
+              }
 
               return dst;
-            };
+            }
           }
         };
       }]);
@@ -106110,6 +106313,7 @@ define('main', [], function() {
       'chartbuilder.nvd3.lineChart': './angular_modules/nvd3-modules/lineChart/main',
       'chartbuilder.nvd3.discreteBarChart': './angular_modules/nvd3-modules/discreteBarChart/main',
       'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
+      'chartbuilder.nvd3.multiBarHorizontalChart': './angular_modules/nvd3-modules/multiBarHorizontalChart/main',
       'chartbuilder.nvd3.pieChart': './angular_modules/nvd3-modules/pieChart/main',
       'chartbuilder.nvd3.historicalBarChart': './angular_modules/nvd3-modules/historicalBarChart/main',
       'chartbuilder.nvd3.stackedAreaChart': './angular_modules/nvd3-modules/stackedAreaChart/main',
@@ -106164,6 +106368,7 @@ define('main', [], function() {
       'chartbuilder.nvd3.lineChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.discreteBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.multiBarHorizontalChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.pieChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.historicalBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.stackedAreaChart': ['chartbuilder.nvd3'],
@@ -106218,6 +106423,7 @@ define('main', [], function() {
     'chartbuilder.nvd3.lineChart',
     'chartbuilder.nvd3.discreteBarChart',
     'chartbuilder.nvd3.multiBarChart',
+    'chartbuilder.nvd3.multiBarHorizontalChart',
     'chartbuilder.nvd3.pieChart',
     'chartbuilder.nvd3.historicalBarChart',
     'chartbuilder.nvd3.stackedAreaChart',
@@ -106249,6 +106455,7 @@ define('main', [], function() {
         'chartbuilder.nvd3.lineChart',
         'chartbuilder.nvd3.discreteBarChart',
         'chartbuilder.nvd3.multiBarChart',
+        'chartbuilder.nvd3.multiBarHorizontalChart',
         'chartbuilder.nvd3.pieChart',
         'chartbuilder.nvd3.historicalBarChart',
         'chartbuilder.nvd3.stackedAreaChart',
