@@ -54,6 +54,13 @@
     }
   }
 
+  var yCleaned = {
+    'label': 'yCleaned',
+    'option': function(d) {
+      return parseInt(d.y);
+    }
+  }
+
   var yLabelValue = {
     'label': 'label/value',
     'option': function(d) {
@@ -150,6 +157,12 @@
           'option': function(d) {
             return d3.format('$,d')(d);
           }
+        },
+        'function:year': {
+          'label': 'price',
+          'option': function(d) {
+            return d3.time.format('%y')(new Date(d, 1, 1));
+          }
         }
       },
       'x': {
@@ -161,7 +174,8 @@
       'y': {
         'function:2d-array': yTwoDimensionalArray,
         'function:key/y': yValue,
-        'function:label/value': yLabelValue
+        'function:label/value': yLabelValue,
+        'function:cleanedy': yCleaned
       },
       'tooltipContent': {
         'function:key/value': {

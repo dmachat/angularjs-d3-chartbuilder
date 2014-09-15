@@ -24,13 +24,16 @@ define([
       }
 
       // validate chart type
-      if (!angular.isString(chartbuilderData.options.chart.type)) {
+      if (!angular.isString(data.options.chart.type)) {
         console.log('invalid chart type');
         return false;
       }
 
+      // Unset preloaded for loading
+      delete scope.chartbuilderData.preloaded;
+
       // return chart data
-      return data;
+      return angular.toJson(data);
     }
 
     angular.module('chartbuilderDirectives')
@@ -129,14 +132,13 @@ define([
 
             scope.sendToWordPress = function(){
 
-              // Unset preloaded for loading
-              delete scope.chartbuilderData.preloaded;
+              var chartData = parseDataForWP(scope.chartbuilderData);
 
               $window.parent.postMessage({
                 src : 'chartbuilder',
                 channel : 'upstream',
                 msg : 'chartData',
-                data : angular.toJson(scope.chartbuilderData)
+                data : chartData,
               }, $window.location.href);
             }
           }
