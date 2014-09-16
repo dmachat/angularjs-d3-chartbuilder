@@ -36,6 +36,13 @@ define(['angular', 'd3'], function(angular, d3) {
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
         },
+        duplicateGroup: function(title) {
+          var _this = this;
+          var values = _this.data[_this.data.length - 1].values.map(function(object) {
+            return object;
+          });
+          _this.data.push({ key: title, values: values });
+        },
         showSampleData: function() {
           this.data = this.sampleData.exampleData;
         },

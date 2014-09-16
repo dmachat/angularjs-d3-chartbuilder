@@ -41,7 +41,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template">load</button>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Load chart object">load</button>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
@@ -55,17 +55,44 @@ define([
           }
         }
       })
-      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+      .directive('chartTemplateOptionsLoader', function() {
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Download Options Template">save json</button>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template Options">load options</button>',
           link: function(scope) {
+            // Get the file from the file-input directive, make sure it's json
+            scope.readTemplateFile = function(file) {
+              var optionsObject = isJson(file);
 
+              if (optionsObject) {
+                scope.chartbuilderData.loadOptions(optionsObject);
+              }
+
+            };
+          }
+        }
+      })
+      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          link: function(scope, element, attrs) {
             // Download the current chartbuilderData object
             scope.downloadOptionsObject = function() {
-              var chartbuilderObject = angular.toJson(scope.chartbuilderData);
-              chartbuilderUtils.saveFile(chartbuilderObject, 'chartbuilder-options.json', 'text/json');
+              var optionsObject = scope.getOptions();
+              chartbuilderUtils.saveFile(optionsObject, 'chartbuilder-options.json', 'text/json');
+            };
+
+            scope.getOptions = function() {
+              if (!attrs.optionsOnly) {
+                return angular.toJson(scope.chartbuilderData);
+              } else {
+                var templateOptions = {
+                  colors: scope.chartbuilderData.colors,
+                  options: scope.chartbuilderData.options.chart
+                }
+                return angular.toJson(templateOptions);
+              }
             };
           }
         }
