@@ -124,6 +124,7 @@ define([
               ) {
                 console.log( 'App iframe received savedData from WordPress')
                 console.log( msgObj.data );
+                scope.chartbuilderData.env = 'iframe';
                 scope.chartbuilderData.load( msgObj.data );
               }
             };
