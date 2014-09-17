@@ -40,5 +40,9 @@ define(['angular', 'services', 'angular-color-picker'], function(angular) {
           $scope.chartbuilderData.addNewColor();
         };
 
+        $scope.reverseColors = function() {
+          $scope.chartbuilderData.reverseColors();
+        };
+
       }]);
 });

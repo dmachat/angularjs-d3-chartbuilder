@@ -49,6 +49,9 @@ define(['angular', 'd3'], function(angular, d3) {
         addNewColor: function() {
           this.colors.push('#FFFFFF');
         },
+        reverseColors: function() {
+          this.colors.reverse();
+        },
         init: function(init) {
           this.columnValues = init.dataFormat();
 
@@ -95,6 +98,16 @@ define(['angular', 'd3'], function(angular, d3) {
           // Map the options object to chartbuilderData
           angular.forEach(chart, function(options, key) {
             _this[key] = options;
+          });
+
+        },
+        loadOptions: function(options) {
+
+          var _this = this;
+          angular.forEach(options, function(values, name) {
+            if (name === 'colors') {
+              _this.colors = values;
+            }
           });
 
         }
