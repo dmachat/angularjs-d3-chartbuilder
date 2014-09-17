@@ -21,8 +21,11 @@ define([
                 svgXml = (new XMLSerializer).serializeToString(svg),
                 canvas = document.getElementById('canvas');
 
+              // svg size has to be explicitly set. we already have height
+              canvas.setAttribute('width', chartElement.offsetWidth);
+
               // SVG -> Canvas
-              canvg('canvas', svgXml);
+              canvg('canvas', svgXml, { renderCallback: 'scope.downloadImage' });
 
               // Canvas -> file
               var a = document.createElement('a');

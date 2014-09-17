@@ -108,7 +108,7 @@
     <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
   </div>
 
-  <canvas id="canvas" style="display: none" width:"{{ chartbuilderData.options.chart.width }}px" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
+  <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>
 
   <div class="alert alert-info alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
