@@ -26,6 +26,7 @@ define('main', [], function() {
       'data-input': './directives/data-input',
       'edit-in-place': './directives/edit-in-place',
       'template-loader': './directives/template-loader',
+      'save-images': './directives/save-images',
       'chartbuilder-options': './angular_modules/chartbuilder-options/options',
       'chartbuilder-options-constants': './angular_modules/chartbuilder-options/options-constants',
 
@@ -84,6 +85,7 @@ define('main', [], function() {
       'data-input': ['directives'],
       'edit-in-place': ['directives'],
       'template-loader': ['directives'],
+      'save-images': ['directives'],
       'chartbuilder-options': ['angular'],
       'chartbuilder-options-constants': ['chartbuilder-options'],
       'angular-file-input': ['angular'],
@@ -144,6 +146,7 @@ define('main', [], function() {
     'data-input',
     'edit-in-place',
     'template-loader',
+    'save-images',
     'chartbuilder-options-constants',
     'controllers',
     'slugifier',
@@ -196,7 +199,7 @@ define('main', [], function() {
         '$stateProvider',
         '$urlRouterProvider',
         '$locationProvider',
-        function($stateProvider, $urlRouterProvider, $locationProvider) {
+        function($stateProvider, $urlRouterProvider) {
           $stateProvider.
             state('/', {
               url: '/',
@@ -217,23 +220,7 @@ define('main', [], function() {
               template: pageNotFoundTemplate
             });
 
-          //$locationProvider.html5Mode(true);
           $urlRouterProvider.otherwise('/');
-      }])
-      .run(['$rootScope', function($rootScope) {
-        /* global events for all nvd3 directives */
-        $rootScope.events = {
-          'options.onFunctionChanged': function(e, $scope){
-            $scope.api.refresh();
-          }
-        };
-
-        /* subscribe on chartbuilder-options event */
-        $rootScope.$on('onFunctionChanged', function(e) {
-          setTimeout(function() {
-            $rootScope.$broadcast('options.onFunctionChanged'); // broadcast event that will be caught by nvd3 directive
-          }, 50)
-        });
       }]);
       // bootstrap model
       angular.bootstrap($html, ['angulard3Chartbuilder']);

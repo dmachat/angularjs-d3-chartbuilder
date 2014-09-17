@@ -121,7 +121,7 @@
                   if (scope._config.extended) options.chart[key] = value();
                 }
 
-                else if (angular.isString(options.chart[key]) && options.chart[key].trim().substring(0, 8) === 'function') {
+                else if (angular.isString(options.chart[key]) && options.chart[key].trim().substring(0, 9) === 'function:') {
                   scope.chart[key](chartbuilderOptionValues[key][options.chart[key]].option);
                 }
 

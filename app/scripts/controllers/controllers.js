@@ -1,4 +1,4 @@
-define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-picker'], function(angular) {
+define(['angular', 'services', 'angular-color-picker'], function(angular) {
   'use strict';
 
   /* Controllers */
@@ -17,8 +17,7 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
       '$scope',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
-      'chartbuilderUtils',
-      function($scope, chartbuilderModuleRegistry, chartbuilderData, chartbuilderUtils) {
+      function($scope, chartbuilderModuleRegistry, chartbuilderData) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
 
@@ -38,40 +37,12 @@ define(['angular', 'services', 'rgbcolor', 'StackBlur', 'canvg', 'angular-color-
         };
 
         $scope.addColor = function() {
-          $scope.chartbuilderData.colors.push('#FFFFFF');
+          $scope.chartbuilderData.addNewColor();
         };
 
-        $scope.saveImage = function() {
-
-          // Set up elements and svg
-          var chartElement = document.getElementById('chart'),
-            svg = chartElement.getElementsByTagName('svg')[0],
-            svgXml = (new XMLSerializer).serializeToString(svg),
-            canvas = document.getElementById('canvas');
-
-          // SVG -> Canvas
-          canvg('canvas', svgXml);
-
-          // Canvas -> file
-          var a = document.createElement('a');
-          a.download = "image.png";
-          a.href = canvas.toDataURL('image/png');
-          document.body.appendChild(a);
-          a.click();
-
-        }
-
-        $scope.svgToString = function() {
-
-          // Set up elements and svg
-          var chartElement = document.getElementById('chart'),
-            svg = chartElement.getElementsByTagName('svg')[0],
-            svgXml = (new XMLSerializer).serializeToString(svg);
-
-          // Bind svg string to textarea
-          $scope.exportedSVG = svgXml;
-
-        }
+        $scope.reverseColors = function() {
+          $scope.chartbuilderData.reverseColors();
+        };
 
       }]);
 });

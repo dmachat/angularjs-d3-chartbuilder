@@ -59,6 +59,14 @@ define([
               scope.newDataGroup = '';
             };
 
+            scope.duplicateGroup = function() {
+              if (!scope.newDataGroup) {
+                return false;
+              }
+              chartbuilderData.duplicateGroup(scope.newDataGroup);
+              scope.newDataGroup = '';
+            };
+
             scope.removeRow = function(gidx, idx) {
               scope.structureData.data[gidx].values.splice(idx, 1);
             };

@@ -11,8 +11,6 @@
           </li>
         </ul>
       </div>
-    </div>
-    <div class="col-lg-12">
       <div class="btn-group">
         <chart-options-loader></chart-options-loader>
         <button type="button" class="btn btn-default">create new</button>
@@ -24,8 +22,6 @@
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
       <h2>Data</h2>
-    </div>
-    <div class="col-lg-12">
       <div class="btn-group">
         <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>
         <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>
@@ -39,6 +35,10 @@
   <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
     <div class="col-lg-12">
       <h2>Options</h2>
+      <div class="btn-group">
+        <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>
+        <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>
+      </div>
     </div>
 
     <div class="panel-heading">
@@ -64,6 +64,7 @@
           >
         </span>
         <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>
+        <span class="glyphicon glyphicon-transfer" ng-click="reverseColors()"></span>
       </div>
     </div>
     <div class="panel-heading">
@@ -90,13 +91,10 @@
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
       <h2>Export</h2>
-    </div>
-    <div class="col-lg-12">
-      <ul class="nav nav-pills">
       <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>
-        <chart-options-saver></chart-options-saver>
-        <chart-options-from-window></chart-options-from-window>
+        <chartbuilder-save-to-png></chartbuilder-save-to-png>
+        <button chart-options-saver type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Chart Data">save chart data</button>
+        <chart-options-from-window ng-if="chartbuilderData.env"></chart-options-from-window>
       </div>
     </div>
   </div>
@@ -108,9 +106,9 @@
     <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
     <div ui-view="graph" id="chart"></div>
     <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
-
-    <canvas id="canvas" style="display: none" width:"100%" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
   </div>
+
+  <canvas id="canvas" style="display: none" width:"{{ chartbuilderData.options.chart.width }}px" height="{{ chartbuilderData.options.chart.height }}px"></canvas>
 
   <div class="alert alert-info alert-dismissable">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

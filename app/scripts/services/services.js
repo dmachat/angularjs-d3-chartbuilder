@@ -36,8 +36,21 @@ define(['angular', 'd3'], function(angular, d3) {
         addGroup: function(title) {
           this.data.push({ key: title, values: [] });
         },
+        duplicateGroup: function(title) {
+          var _this = this;
+          var values = _this.data[_this.data.length - 1].values.map(function(object) {
+            return object;
+          });
+          _this.data.push({ key: title, values: values });
+        },
         showSampleData: function() {
           this.data = this.sampleData.exampleData;
+        },
+        addNewColor: function() {
+          this.colors.push('#FFFFFF');
+        },
+        reverseColors: function() {
+          this.colors.reverse();
         },
         init: function(init) {
           this.columnValues = init.dataFormat();
@@ -87,6 +100,16 @@ define(['angular', 'd3'], function(angular, d3) {
             _this[key] = options;
           });
 
+        },
+        loadOptions: function(options) {
+
+          var _this = this;
+          angular.forEach(options, function(values, name) {
+            if (name === 'colors') {
+              _this.colors = values;
+            }
+          });
+
         }
       };
 
@@ -131,12 +154,14 @@ define(['angular', 'd3'], function(angular, d3) {
         saveFile: function(data, filename, contentType) {
 
           // Use passed content type or default to "application/octet-stream"
-          var octetStreamMime = 'application/octet-stream';
-          var contentType = contentType || octetStreamMime;
+          var octetStreamMime = 'application/octet-stream',
+            blob,
+            url;
+          contentType = contentType || octetStreamMime;
 
           if (navigator.msSaveBlob) {
             // Save blob is supported, so get the blob as it's contentType and call save.
-            var blob = new Blob([data], { type: contentType });
+            blob = new Blob([data], { type: contentType });
             navigator.msSaveBlob(blob, filename);
           }
           else {
@@ -144,15 +169,15 @@ define(['angular', 'd3'], function(angular, d3) {
             var urlCreator = window.URL || window.webkitURL || window.mozURL || window.msURL;
             if (urlCreator) {
               // Try to use a download link
-              var link = document.createElement("a");
-              if ("download" in link) {
+              var link = document.createElement('a');
+              if ('download' in link) {
                 // Prepare a blob URL
-                var blob = new Blob([data], { type: contentType });
-                var url = urlCreator.createObjectURL(blob);
-                link.setAttribute("href", url);
+                blob = new Blob([data], { type: contentType });
+                url = urlCreator.createObjectURL(blob);
+                link.setAttribute('href', url);
 
                 // Set the download attribute (Supported in Chrome 14+ / Firefox 20+)
-                link.setAttribute("download", filename);
+                link.setAttribute('download', filename);
 
                 // Simulate clicking the download link
                 var event = document.createEvent('MouseEvents');
@@ -162,12 +187,12 @@ define(['angular', 'd3'], function(angular, d3) {
               } else {
                 // Prepare a blob URL
                 // Use application/octet-stream when using window.location to force download
-                var blob = new Blob([data], { type: octetStreamMime });
-                var url = urlCreator.createObjectURL(blob);
+                blob = new Blob([data], { type: octetStreamMime });
+                url = urlCreator.createObjectURL(blob);
                 window.location = url;
               }
             } else {
-              console.log("Not supported");
+              console.log('Not supported');
             }
           }
         }

@@ -24,13 +24,16 @@ define([
       }
 
       // validate chart type
-      if (!angular.isString(chartbuilderData.options.chart.type)) {
+      if (!angular.isString(data.options.chart.type)) {
         console.log('invalid chart type');
         return false;
       }
 
+      // Unset preloaded for loading
+      delete scope.chartbuilderData.preloaded;
+
       // return chart data
-      return data;
+      return angular.toJson(data);
     }
 
     angular.module('chartbuilderDirectives')
@@ -38,7 +41,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template">load</button>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Load chart object">load</button>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
@@ -52,17 +55,44 @@ define([
           }
         }
       })
-      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+      .directive('chartTemplateOptionsLoader', function() {
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Download Options Template">save json</button>',
+          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Upload Template Options">load options</button>',
           link: function(scope) {
+            // Get the file from the file-input directive, make sure it's json
+            scope.readTemplateFile = function(file) {
+              var optionsObject = isJson(file);
 
+              if (optionsObject) {
+                scope.chartbuilderData.loadOptions(optionsObject);
+              }
+
+            };
+          }
+        }
+      })
+      .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
+        return {
+          restrict: 'EA',
+          link: function(scope, element, attrs) {
             // Download the current chartbuilderData object
             scope.downloadOptionsObject = function() {
-              var chartbuilderObject = angular.toJson(scope.chartbuilderData);
-              chartbuilderUtils.saveFile(chartbuilderObject, 'chartbuilder-options.json', 'text/json');
+              var optionsObject = scope.getOptions();
+              chartbuilderUtils.saveFile(optionsObject, 'chartbuilder-options.json', 'text/json');
+            };
+
+            scope.getOptions = function() {
+              if (!attrs.optionsOnly) {
+                return angular.toJson(scope.chartbuilderData);
+              } else {
+                var templateOptions = {
+                  colors: scope.chartbuilderData.colors,
+                  options: scope.chartbuilderData.options.chart
+                }
+                return angular.toJson(templateOptions);
+              }
             };
           }
         }
@@ -121,6 +151,7 @@ define([
               ) {
                 console.log( 'App iframe received savedData from WordPress')
                 console.log( msgObj.data );
+                scope.chartbuilderData.env = 'iframe';
                 scope.chartbuilderData.load( msgObj.data );
               }
             };
@@ -129,14 +160,13 @@ define([
 
             scope.sendToWordPress = function(){
 
-              // Unset preloaded for loading
-              delete scope.chartbuilderData.preloaded;
+              var chartData = parseDataForWP(scope.chartbuilderData);
 
               $window.parent.postMessage({
                 src : 'chartbuilder',
                 channel : 'upstream',
                 msg : 'chartData',
-                data : angular.toJson(scope.chartbuilderData)
+                data : chartData,
               }, $window.location.href);
             }
           }
