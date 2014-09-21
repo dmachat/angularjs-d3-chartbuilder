@@ -41,7 +41,7 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: function() { return { 'location': 'text', 'value': 'text' }; },
+            dataFormat: [{ 'key': 'location', 'type': 'text' }, { 'key': 'value', 'type': 'text' }],
             template: template,
             meta: {
               title: module.name,

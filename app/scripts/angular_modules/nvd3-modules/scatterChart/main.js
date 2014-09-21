@@ -60,7 +60,7 @@
             name: module.name,
             slug: module.slug,
             data: { exampleData: data },
-            dataFormat: function() { return { 'x': 'number', 'y': 'number', 'size': 'number', 'shape': 'text' }; },
+            dataFormat: [{ 'key': 'x', 'type': 'number' }, { 'key': 'y', 'type': 'number' }, { 'key': 'size', 'type': 'number' }, { 'key': 'shape', 'type': 'text' }],
             template: template,
             meta: {
               title: module.name,

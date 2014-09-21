@@ -11,12 +11,14 @@ define([
           restrict: 'EA',
           scope: {
             structureData: '=',
+            expandData: '@?'
           },
           template: dataFormTemplate,
           link: function(scope) {
             scope.dataGroupBox = {};
             scope.newRow = {};
             scope.newDataFile = {};
+            scope.singleSeriesData = {};
 
             // Set CSV parsing options
             var csvOptions = {

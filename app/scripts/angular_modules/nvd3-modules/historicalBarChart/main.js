@@ -38,7 +38,7 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: function() { return { 'timestamp': 'number', 'value': 'number' }; },
+            dataFormat: [{ 'key': 'timestamp', 'type': 'number' }, { 'key': 'value', 'type': 'number' }],
             template: template,
             meta: {
               title: module.name,

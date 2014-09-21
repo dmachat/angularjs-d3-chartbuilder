@@ -1,4 +1,4 @@
-<div class="panel-group" id="accordion" ng-model="group.groups" ui-sortable>
+<div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>
 	<div class="panel panel-default"
 		ng-repeat="group in structureData.data track by $index"
 		>
@@ -16,14 +16,14 @@
 				</a>
 			</div>
 		</div>
-    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: $index === 0 }">
+    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">
 			<div class="panel-body">
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Remove</th>
-							<th data-ng-repeat="(key, type) in structureData.columnValues">
-								{{ key }}
+							<th data-ng-repeat="column in structureData.dataFormat">
+								{{ column.key }}
 							</th>
 						</tr>
 					</thead>
@@ -35,9 +35,9 @@
 									>
 								</span>
 							</td>
-							<td ng-repeat="(key, type) in structureData.columnValues track by key">
-								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][key]"
-									type="{{ type }}"
+							<td ng-repeat="column in structureData.dataFormat track by column.key">
+								<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
+									type="{{ column.type }}"
 									>
 								</edit-in-place>
 							</td>
@@ -49,14 +49,14 @@
 									>
                   </span></a>
 							</td>
-							<td ng-repeat="(key, type) in structureData.columnValues">
-								<input type="{{ type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
+							<td ng-repeat="column in structureData.dataFormat">
+								<input type="{{ column.type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
 							</td>
 						</tr>
 					</tbody>
 				</table>
-        <div>
-          Use existing CSV values
+        <div class="clearfix"><a href class="pull-right" ng-click="singleSeriesData[gidx] = !singleSeriesData[gidx]">single series data</a></div>
+        <div class="pull-right" ng-if="singleSeriesData[gidx]">
           <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">
             <i class="fa fa-upload"></i>
           </div>
@@ -71,13 +71,19 @@
 			</div>
 		</div>
 	</div>
-  <div class="input-group">
-    <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
-    </span>
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last</button>
-    </span>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
+          </span>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last</button>
+          </span>
+        </div>
+			</div>
+		</div>
   </div>
 </div>

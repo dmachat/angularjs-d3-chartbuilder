@@ -21,27 +21,11 @@ define(['angular', 'services', 'angular-color-picker'], function(angular) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
 
-        $scope.showSampleData = function() {
-          chartbuilderData.showSampleData();
-        };
-
-        $scope.resetData = function() {
-          chartbuilderData.resetData();
-        };
-
         $scope.getAdvancedOptions = function() {
           if (!$scope.optionsLoaded) {
             $scope.nodeOptions.refresh();
             $scope.optionsLoaded = true;
           }
-        };
-
-        $scope.addColor = function() {
-          $scope.chartbuilderData.addNewColor();
-        };
-
-        $scope.reverseColors = function() {
-          $scope.chartbuilderData.reverseColors();
         };
 
       }]);
