@@ -38,7 +38,7 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: function() { return { 'label': 'text', 'value': 'number' }; },
+            dataFormat: [{ 'key': 'label', 'type': 'text' }, { 'key': 'value', 'type': 'number' }],
             template: template,
             meta: {
               title: module.name,

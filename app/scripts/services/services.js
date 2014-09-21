@@ -23,7 +23,7 @@ define(['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', ['$state', function($state) {
+    .service('chartbuilderData', ['$state', '$filter', 'chartbuilderUtils', function($state, $filter, chartbuilderUtils) {
       var dataStore = {
         options: {},
         meta: {},
@@ -53,7 +53,6 @@ define(['angular', 'd3'], function(angular, d3) {
           this.colors.reverse();
         },
         init: function(init) {
-          this.columnValues = init.dataFormat();
 
           if (this.preloaded) {
             return;
@@ -101,6 +100,45 @@ define(['angular', 'd3'], function(angular, d3) {
           });
 
         },
+        loadDataSet: function(file) {
+          var _this = this,
+            type = file.match(/\t(.*)$/m) ? 'tsv' : 'csv',
+            headers;
+
+          // Reset data
+          _this.data = [];
+
+          // Stream the parsed csv to output
+          d3[type].parseRows(file, function(row, idx) {
+            if (idx === 0) {
+
+              // Set the headers
+              headers = angular.extend([], row);
+
+              // Write a new data group for each column > 1
+              for (var i = 1; i < headers.length; i++) {
+                _this.data[i - 1] = {
+                  'key': headers[i],
+                  'values': []
+                }
+              }
+              return;
+            }
+
+            // Push column values into respective data groups
+            for (var i = 1; i < headers.length; i++) {
+              var newRow = {};
+              newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
+              newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
+
+              _this.data[i - 1].values.push(newRow);
+            }
+
+          }, function(error, rows) {
+            _this.data = [];
+            _this.errorMessage = error;
+          });
+        },
         loadOptions: function(options) {
 
           var _this = this;
@@ -110,6 +148,25 @@ define(['angular', 'd3'], function(angular, d3) {
             }
           });
 
+        },
+        downloadCSV: function() {
+
+          var _this = this;
+
+          var collateData = [];
+
+          angular.forEach(_this.data, function(group) {
+            angular.forEach(group.values, function(row, idx) {
+              var props = {};
+              angular.forEach(_this.dataFormat, function(column, columnId) {
+                props[(columnId !== 0 ? group.key : column.key)] = row[column.key];
+              });
+              collateData[idx] = angular.extend((collateData[idx] || {}), props);
+            });
+          });
+
+          var csv = d3.csv.format(collateData);
+          chartbuilderUtils.saveFile(csv, 'raw_data.csv', 'text/csv');
         }
       };
 

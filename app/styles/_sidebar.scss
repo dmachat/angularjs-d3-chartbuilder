@@ -11,6 +11,10 @@
     .btn-group {
       margin: 0 0 10px;
     }
+    textarea.paste-input {
+      min-height: 180px;
+      font-family: monospace;
+    }
   }
   .chartbuilder-sidebar-separator {
     border-bottom: 2px groove #e7e7e7;

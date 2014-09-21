@@ -11,6 +11,7 @@
           </li>
         </ul>
       </div>
+      <p>Load a saved chartbuilder chart, or create a new one</p>
       <div class="btn-group">
         <chart-options-loader></chart-options-loader>
         <button type="button" class="btn btn-default">create new</button>
@@ -22,19 +23,25 @@
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
       <h2>Data</h2>
+      <p>Edit the data you'd like to appear in the chart. You may also upload or paste CSV and TSV data</p>
       <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="showSampleData()">use sample data</button>
-        <button type="button" class="btn btn-default" ng-click="resetData()">reset data</button>
+        <button type="button" class="btn btn-default" ng-click="chartbuilderData.showSampleData()">use sample</button>
+        <button file-input-button type="button" on-file-load="chartbuilderData.loadDataSet(file)" class="btn btn-default btn-file-input" name="Read Data Set">upload</button>
+        <button type="button" ng-click="chartbuilderData.downloadCSV()" class="btn btn-default btn-file-input" name="Download Data Set">download</button>
+        <button type="butotn" ng-click="dataInputTextarea = !dataInputTextarea" class="btn btn-default" name="Paste Data Set">paste</button>
+        <button type="button" class="btn btn-default" ng-click="chartbuilderData.resetData()">reset</button>
       </div>
     </div>
 
-    <div structure-data-input structure-data="chartbuilderData"></div>
+    <textarea class="form-control paste-input" ng-show="dataInputTextarea" ng-model="dataInputDataSet" ng-change="chartbuilderData.loadDataSet(dataInputDataSet)" placeholder="Paste TSV or CSV data"></textarea>
+    <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>
   </div>
   <div class="chartbuilder-sidebar-separator"></div>
 
   <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
     <div class="col-lg-12">
       <h2>Options</h2>
+      <p>Set colors and other advanced options for the chart.</p>
       <div class="btn-group">
         <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>
         <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>
@@ -63,8 +70,8 @@
           class="color-box"
           >
         </span>
-        <span class="glyphicon glyphicon-plus" ng-click="addColor()"></span>
-        <span class="glyphicon glyphicon-transfer" ng-click="reverseColors()"></span>
+        <span class="glyphicon glyphicon-plus" ng-click="chartbuilderData.addNewColor()"></span>
+        <span class="glyphicon glyphicon-transfer" ng-click="chartbuilderData.reverseColors()"></span>
       </div>
     </div>
     <div class="panel-heading">
@@ -91,6 +98,7 @@
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
       <h2>Export</h2>
+      <p>Save the chart as an image, or as data which you can load later with Chartbuilder</p>
       <div class="btn-group">
         <chartbuilder-save-to-png></chartbuilder-save-to-png>
         <button chart-options-saver type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Chart Data">save chart data</button>
