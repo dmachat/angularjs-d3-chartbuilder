@@ -70,10 +70,6 @@ module.exports = function(grunt) {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass:server', 'autoprefixer']
             },
-            styles: {
-                files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
-            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -276,23 +272,11 @@ module.exports = function(grunt) {
                 }
             }
         },
+
         concat: {
-            dist: {
+            dev: {
                 src: ['.tmp/styles/{,*/}*.css'],
                 dest: '.tmp/styles/style.css'
-            },
-            jslibs: {
-                src: [
-                    'app/bower_components/d3/d3.min.js',
-                    'app/bower_components/nvd3/nv.d3.min.js',
-                    'app/bower_components/datamaps/dist/datamaps.all.min.js',
-                    'app/bower_components/topojson/topojson.js'
-                ],
-                dest: '<%= yeoman.dist %>/chartbuilder.vendor.js'
-            },
-            csslibs: {
-                src: ['app/bower_components/nvd3/nv.d3.min.css'],
-                dest: '<%= yeoman.dist %>/chartbuilder.vendor.css'
             }
         },
 
@@ -360,8 +344,7 @@ module.exports = function(grunt) {
         // Run some tasks in parallel to speed up build process
         concurrent: {
             server: [
-                'compass:server',
-                'copy:styles'
+                'compass:server'
             ],
             dist: [
                 'compass',
@@ -390,7 +373,6 @@ module.exports = function(grunt) {
         if (target === 'dist') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }
-
 
         var serveTasks = [
             'clean:server',
@@ -426,9 +408,7 @@ module.exports = function(grunt) {
         'copy:dist',
         'modernizr',
         'usemin',
-        'htmlmin',
-        'concat:jslibs',
-        'concat:csslibs'
+        'htmlmin'
     ]);
 
     grunt.registerTask('push', [
