@@ -86719,7 +86719,10 @@ define('chartbuilder-options',[
     
 
     angular.module('chartbuilderOptions', ['chartbuilderDirectives'])
-      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', function($compile, chartbuilderUtils, chartbuilderOptionValues) {
+      .service('chartbuilderOptionValueKeys', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
+        return (chartbuilderOptionValues instanceof Object) ? Object.keys(chartbuilderOptionValues) : [];
+      }])
+      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', 'chartbuilderOptionValueKeys', function($compile, chartbuilderUtils, chartbuilderOptionValues, chartbuilderOptionValueKeys) {
         return {
           restrict: 'EA',
           scope: {
@@ -86749,7 +86752,7 @@ define('chartbuilder-options',[
               listSelector: {
                 init: function(key) {
                   if (key in chartbuilderOptionValues) {
-                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
+                    $scope.selectedOptions[key] = $scope.json[key] || chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
                     $scope.functionOptions[key] = chartbuilderOptionValues[key];
                   }
                 },
@@ -86788,11 +86791,11 @@ define('chartbuilder-options',[
                 // Get type for current node
                 type: function() {
                   var type = chartbuilderUtils.getType($scope.json);
+
                   if (type === 'function'
                       || (type === 'string'
                         && (
-                          $scope.key === 'interpolate'
-                          || $scope.key === 'style'
+                          chartbuilderOptionValueKeys.indexOf($scope.key) > -1
                         )
                       )
                     ) {
@@ -86839,7 +86842,7 @@ define('chartbuilder-options',[
 });
 
 
-define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n\t<div class="panel panel-default"\n\t\tng-repeat="group in structureData.data track by $index"\n\t\t>\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n\t\t\t\tData Group {{ $index + 1 }}: \n\t\t\t\t<edit-in-place value="group.key" type="text"></edit-in-place>\n\t\t\t\t<a data-toggle="collapse"\n\t\t\t\t\tdata-parent="#accordion"\n\t\t\t\t\tdata-target="#collapse-{{ $index }}"\n\t\t\t\t\thref=""\n\t\t\t\t\tng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n\t\t\t\t\t>\n\t\t\t\t\t<i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n\t\t\t\t</a>\n\t\t\t</div>\n\t\t</div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n\t\t\t<div class="panel-body">\n\t\t\t\t<table class="table table-striped">\n\t\t\t\t\t<thead>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<th>Remove</th>\n\t\t\t\t\t\t\t<th data-ng-repeat="column in structureData.dataFormat">\n\t\t\t\t\t\t\t\t{{ column.key }}\n\t\t\t\t\t\t\t</th>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</thead>\n\t\t\t\t\t<tbody ng-model="group.values" ui-sortable>\n\t\t\t\t\t\t<tr ng-repeat="rows in group.values track by $index">\n\t\t\t\t\t\t\t<td>\n\t\t\t\t\t\t\t\t<span class="glyphicon glyphicon-minus"\n\t\t\t\t\t\t\t\t\tng-click="removeRow($parent.$index, $index)"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="column in structureData.dataFormat track by column.key">\n\t\t\t\t\t\t\t\t<edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n\t\t\t\t\t\t\t\t\ttype="{{ column.type }}"\n\t\t\t\t\t\t\t\t\t>\n\t\t\t\t\t\t\t\t</edit-in-place>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t<td>\n                <a href><span class="glyphicon glyphicon-plus"\n\t\t\t\t\t\t\t\t\tng-click="addRow($index)"\n\t\t\t\t\t\t\t\t\t>\n                  </span></a>\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t\t<td ng-repeat="column in structureData.dataFormat">\n\t\t\t\t\t\t\t\t<input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n\t\t\t\t\t\t\t</td>\n\t\t\t\t\t\t</tr>\n\t\t\t\t\t</tbody>\n\t\t\t\t</table>\n        <div class="clearfix"><a href class="pull-right" ng-click="singleSeriesData[gidx] = !singleSeriesData[gidx]">single series data</a></div>\n        <div class="pull-right" ng-if="singleSeriesData[gidx]">\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">\n            <i class="fa fa-download"></i>\n          </button>\n        </div>\n        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t<div class="panel panel-default">\n\t\t<div class="panel-heading">\n\t\t\t<div class="panel-title">\n        <div class="input-group">\n          <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n          <span class="input-group-btn">\n            <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n          </span>\n          <span class="input-group-btn">\n            <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last</button>\n          </span>\n        </div>\n\t\t\t</div>\n\t\t</div>\n  </div>\n</div>\n';});
+define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n  <div class="panel panel-default"\n    ng-repeat="group in structureData.data track by $index"\n    >\n    <div class="panel-heading">\n      <div class="panel-title">\n        Data Group {{ $index + 1 }}: \n        <edit-in-place value="group.key" type="text"></edit-in-place>\n        <a data-toggle="collapse"\n          data-parent="#accordion"\n          data-target="#collapse-{{ $index }}"\n          href=""\n          ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n          >\n          <i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-down\' : \'fa-caret-up\' }}"></i>\n        </a>\n      </div>\n    </div>\n    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n      <div class="panel-body">\n        <table class="table table-striped">\n          <thead>\n            <tr>\n              <th>Remove</th>\n              <th data-ng-repeat="column in structureData.dataFormat">\n                {{ column.key }}\n              </th>\n              <th>Color</th>\n            </tr>\n          </thead>\n          <tbody ng-model="group.values" ui-sortable>\n            <tr ng-repeat="rows in group.values track by $index">\n              <td>\n                <span class="glyphicon glyphicon-minus"\n                  ng-click="removeRow($parent.$index, $index)"\n                  >\n                </span>\n              </td>\n              <td ng-repeat="column in structureData.dataFormat track by column.key">\n                <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n                  type="{{ column.type }}"\n                  >\n                </edit-in-place>\n              </td>\n              <td class="color-picker">\n                <span colorpicker\n                  colorpicker-with-input="true"\n                  ng-model="structureData.data[$parent.$index].values[$index].color"\n                  ng-style="{ background: color }"\n                  class="color-box"\n                  >\n                </span>\n              </td>\n            </tr>\n            <tr>\n              <td>\n                <a href><span class="glyphicon glyphicon-plus"\n                  ng-click="addRow($index)"\n                  >\n                  </span></a>\n              </td>\n              <td colspan="2" ng-repeat="column in structureData.dataFormat">\n                <input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n              </td>\n            </tr>\n          </tbody>\n        </table>\n        <div class="clearfix"><a href class="pull-right" ng-click="singleSeriesData[gidx] = !singleSeriesData[gidx]">single series data</a></div>\n        <div class="pull-right" ng-if="singleSeriesData[gidx]">\n          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">\n            <i class="fa fa-upload"></i>\n          </div>\n          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">\n            <i class="fa fa-edit"></i>\n          </button>\n          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">\n            <i class="fa fa-download"></i>\n          </button>\n        </div>\n        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>\n      </div>\n    </div>\n  </div>\n  <div class="panel panel-default">\n    <div class="panel-heading">\n      <div class="panel-title">\n        <div class="input-group">\n          <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n          <span class="input-group-btn">\n            <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n          </span>\n          <span class="input-group-btn">\n            <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last</button>\n          </span>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n';});
 
 define('data-input',[
   'angular',
@@ -91013,6 +91016,13 @@ define('save-images',[
     }
   }
 
+  var xYearValue = {
+    'label': 'year/value',
+    'option': function(d) {
+      return new Date(d.x);
+    }
+  }
+
   var yValue = {
     'label': 'key/y',
     'option': function(d) {
@@ -91091,6 +91101,17 @@ define('save-images',[
           'label': 'stack_percent'
         }
       },
+      'labelType': {
+        'key': {
+          'label': 'key'
+        },
+        'value': {
+          'label': 'value'
+        },
+        'percent': {
+          'label': 'percent'
+        }
+      },
       'valueFormat': {
         'function:text': {
           'label': 'text',
@@ -91121,11 +91142,11 @@ define('save-images',[
         'function:price': {
           'label': 'price',
           'option': function(d) {
-            return d3.format('$,d')(d);
+            return d3.format('$,.1f')(d);
           }
         },
         'function:year': {
-          'label': 'price',
+          'label': 'year',
           'option': function(d) {
             return d3.time.format('%y')(new Date(d, 1, 1));
           }
@@ -91134,8 +91155,9 @@ define('save-images',[
       'x': {
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
-        'function:x': xValue,
-        'function:label/value': xLabelValue
+        'function:x/y': xValue,
+        'function:label/value': xLabelValue,
+        'function:year/value': xYearValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
@@ -92328,6 +92350,13 @@ define("ui.sortable", function(){});
                   if (options.chart[key] === undefined || options.chart[key] === null) {
                     if (scope._config.extended) options.chart[key] = {};
                   }
+
+                  angular.forEach(options.chart[key], function(value, option) {
+                    if (angular.isString(value) && value.trim().substring(0, 9) === 'function:') {
+                      options.chart[key][option] = chartbuilderOptionValues[option][value].option;
+                    }
+                  });
+
                   configure(scope.chart[key], options.chart[key], options.chart.type);
                 }
 
@@ -92356,7 +92385,9 @@ define("ui.sortable", function(){});
                   scope.chart[key](chartbuilderOptionValues[key][options.chart[key]].option);
                 }
 
-                else scope.chart[key](options.chart[key]);
+                else {
+                  scope.chart[key](options.chart[key]);
+                }
               });
 
               // Update with data
@@ -92560,7 +92591,11 @@ define('angular_modules/nvd3-modules/lineChart/data',{
             options: {
               chart: {
                 type: module.slug,
-                height: 600
+                height: 600,
+                x: 'function:x/y',
+                y: 'function:key/y',
+                forceX: [null, null],
+                forceY: [null, null]
               }
             }
           }
@@ -92651,19 +92686,11 @@ define('angular_modules/nvd3-modules/discreteBarChart/data',{
               chart: {
                 type: module.slug,
                 height: 600,
-                x: function(d){return d.label;},
-                y: function(d){return d.value;},
+                x: 'function:label/value',
+                y: 'function:label/value',
                 showValues: true,
-                valueFormat: function(d){
-                  return d3.format(',.4f')(d);
-                },
-                xAxis: {
-                  axisLabel: 'X Axis'
-                },
-                yAxis: {
-                  axisLabel: 'Y Axis',
-                  axisLabelDistance: 30
-                }
+                forceX: [null, null],
+                forceY: [null, null]
               }
             }
           }
@@ -92782,22 +92809,10 @@ define('angular_modules/nvd3-modules/multiBarChart/data',{
                 type: module.slug,
                 height: 600,
                 clipEdge: true,
-                staggerLabels: true,
-                stacked: true,
-                xAxis: {
-                    axisLabel: 'x Axis',
-                    showMaxMin: false,
-                    tickFormat: function(d){
-                        return d3.format(',f')(d);
-                    }
-                },
-                yAxis: {
-                    axisLabel: 'Y Axis',
-                    axisLabelDistance: 40,
-                    tickFormat: function(d){
-                        return d3.format(',.1f')(d);
-                    }
-                }
+                forceY: [null, null],
+                forceX: [null, null],
+                x: 'function:x/y',
+                y: 'function:key/y'
               }
             }
           }
@@ -92960,19 +92975,11 @@ define('angular_modules/nvd3-modules/multiBarHorizontalChart/data',{
               chart: {
                 type: module.slug,
                 height: 600,
-                x: function(d){return d.label;},
-                y: function(d){return d.value;},
+                x: 'function:label/value',
+                y: 'function:label/value',
                 showValues: true,
-                valueFormat: function(d){
-                  return d3.format(',.4f')(d);
-                },
-                xAxis: {
-                  axisLabel: 'X Axis'
-                },
-                yAxis: {
-                  axisLabel: 'Y Axis',
-                  axisLabelDistance: 30
-                }
+                forceX: [null, null],
+                forceY: [null, null]
               }
             }
           }
@@ -93063,8 +93070,8 @@ define('angular_modules/nvd3-modules/pieChart/data',{
               chart: {
                 type: module.slug,
                 height: 600,
-                x: function(d){return d.key;},
-                y: function(d){return d.y;}
+                x: 'function:key/value',
+                y: 'function:key/y'
               }
             }
           }
