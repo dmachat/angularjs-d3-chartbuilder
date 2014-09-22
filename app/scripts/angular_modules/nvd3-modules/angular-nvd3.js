@@ -97,6 +97,13 @@
                   if (options.chart[key] === undefined || options.chart[key] === null) {
                     if (scope._config.extended) options.chart[key] = {};
                   }
+
+                  angular.forEach(options.chart[key], function(value, option) {
+                    if (angular.isString(value) && value.trim().substring(0, 9) === 'function:') {
+                      options.chart[key][option] = chartbuilderOptionValues[option][value].option;
+                    }
+                  });
+
                   configure(scope.chart[key], options.chart[key], options.chart.type);
                 }
 
@@ -125,7 +132,9 @@
                   scope.chart[key](chartbuilderOptionValues[key][options.chart[key]].option);
                 }
 
-                else scope.chart[key](options.chart[key]);
+                else {
+                  scope.chart[key](options.chart[key]);
+                }
               });
 
               // Update with data

@@ -47,6 +47,13 @@
     }
   }
 
+  var xYearValue = {
+    'label': 'year/value',
+    'option': function(d) {
+      return new Date(d.x);
+    }
+  }
+
   var yValue = {
     'label': 'key/y',
     'option': function(d) {
@@ -125,6 +132,17 @@
           'label': 'stack_percent'
         }
       },
+      'labelType': {
+        'key': {
+          'label': 'key'
+        },
+        'value': {
+          'label': 'value'
+        },
+        'percent': {
+          'label': 'percent'
+        }
+      },
       'valueFormat': {
         'function:text': {
           'label': 'text',
@@ -155,11 +173,11 @@
         'function:price': {
           'label': 'price',
           'option': function(d) {
-            return d3.format('$,d')(d);
+            return d3.format('$,.1f')(d);
           }
         },
         'function:year': {
-          'label': 'price',
+          'label': 'year',
           'option': function(d) {
             return d3.time.format('%y')(new Date(d, 1, 1));
           }
@@ -168,8 +186,9 @@
       'x': {
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
-        'function:x': xValue,
-        'function:label/value': xLabelValue
+        'function:x/y': xValue,
+        'function:label/value': xLabelValue,
+        'function:year/value': xYearValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
