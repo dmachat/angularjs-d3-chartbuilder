@@ -5,7 +5,10 @@ define([
     'use strict';
 
     angular.module('chartbuilderOptions', ['chartbuilderDirectives'])
-      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', function($compile, chartbuilderUtils, chartbuilderOptionValues) {
+      .service('chartbuilderOptionValueKeys', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
+        return (chartbuilderOptionValues instanceof Object) ? Object.keys(chartbuilderOptionValues) : [];
+      }])
+      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', 'chartbuilderOptionValueKeys', function($compile, chartbuilderUtils, chartbuilderOptionValues, chartbuilderOptionValueKeys) {
         return {
           restrict: 'EA',
           scope: {
@@ -35,7 +38,7 @@ define([
               listSelector: {
                 init: function(key) {
                   if (key in chartbuilderOptionValues) {
-                    $scope.selectedOptions[key] = chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
+                    $scope.selectedOptions[key] = $scope.json[key] || chartbuilderUtils.keys(chartbuilderOptionValues[key])[0];
                     $scope.functionOptions[key] = chartbuilderOptionValues[key];
                   }
                 },
@@ -74,11 +77,11 @@ define([
                 // Get type for current node
                 type: function() {
                   var type = chartbuilderUtils.getType($scope.json);
+
                   if (type === 'function'
                       || (type === 'string'
                         && (
-                          $scope.key === 'interpolate'
-                          || $scope.key === 'style'
+                          chartbuilderOptionValueKeys.indexOf($scope.key) > -1
                         )
                       )
                     ) {

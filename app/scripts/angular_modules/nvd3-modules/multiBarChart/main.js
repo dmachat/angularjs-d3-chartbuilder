@@ -50,22 +50,10 @@
                 type: module.slug,
                 height: 600,
                 clipEdge: true,
-                staggerLabels: true,
-                stacked: true,
-                xAxis: {
-                    axisLabel: 'x Axis',
-                    showMaxMin: false,
-                    tickFormat: function(d){
-                        return d3.format(',f')(d);
-                    }
-                },
-                yAxis: {
-                    axisLabel: 'Y Axis',
-                    axisLabelDistance: 40,
-                    tickFormat: function(d){
-                        return d3.format(',.1f')(d);
-                    }
-                }
+                forceY: [null, null],
+                forceX: [null, null],
+                x: 'function:x/y',
+                y: 'function:key/y'
               }
             }
           }

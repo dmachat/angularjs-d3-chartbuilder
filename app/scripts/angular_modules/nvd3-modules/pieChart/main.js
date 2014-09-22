@@ -50,8 +50,8 @@
               chart: {
                 type: module.slug,
                 height: 600,
-                x: function(d){return d.key;},
-                y: function(d){return d.y;}
+                x: 'function:key/value',
+                y: 'function:key/y'
               }
             }
           }

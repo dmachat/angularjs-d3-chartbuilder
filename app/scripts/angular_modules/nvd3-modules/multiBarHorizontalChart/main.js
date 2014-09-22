@@ -49,19 +49,11 @@
               chart: {
                 type: module.slug,
                 height: 600,
-                x: function(d){return d.label;},
-                y: function(d){return d.value;},
+                x: 'function:label/value',
+                y: 'function:label/value',
                 showValues: true,
-                valueFormat: function(d){
-                  return d3.format(',.4f')(d);
-                },
-                xAxis: {
-                  axisLabel: 'X Axis'
-                },
-                yAxis: {
-                  axisLabel: 'Y Axis',
-                  axisLabelDistance: 30
-                }
+                forceX: [null, null],
+                forceY: [null, null]
               }
             }
           }
