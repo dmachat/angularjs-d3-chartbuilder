@@ -36,7 +36,7 @@ define([
 
             };
           }
-        }
+        };
       })
       .directive('chartbuilderSaveToSvg', function() {
         return {
@@ -54,8 +54,8 @@ define([
               // Bind svg string to textarea
               scope.exportedSVG = svgXml;
 
-            }
+            };
           }
-        }
+        };
       });
   });

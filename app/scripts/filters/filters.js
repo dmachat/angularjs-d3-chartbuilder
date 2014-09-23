@@ -8,7 +8,7 @@ define(['angular'], function(angular) {
       'text': function(input) {
         return input;
       }
-    }
+    };
 
     angular.module('chartbuilderFilters', [])
       .filter('numberFilter', function() {
@@ -19,6 +19,6 @@ define(['angular'], function(angular) {
       .filter('datatype', function() {
         return function(input, type) {
           return coerceInputTypes[type](input);
-        }
+        };
       });
 });

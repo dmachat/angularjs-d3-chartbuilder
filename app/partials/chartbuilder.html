@@ -61,18 +61,7 @@
       </div>
     </div>
     <div id="collapse-color-options" class="panel-collapse collapse in">
-      <div class="panel-body color-picker">
-        <span colorpicker
-          colorpicker-with-input="true"
-          ng-model="chartbuilderData.colors[$index]"
-          ng-repeat="color in chartbuilderData.colors track by $index"
-          ng-style="{ background: color }"
-          class="color-box"
-          >
-        </span>
-        <span class="glyphicon glyphicon-plus" ng-click="chartbuilderData.addNewColor()"></span>
-        <span class="glyphicon glyphicon-transfer" ng-click="chartbuilderData.reverseColors()"></span>
-      </div>
+      <div chartbuilder-colors chartbuilder="chartbuilderData"></div>
     </div>
     <div class="panel-heading">
       <div class="panel-title">

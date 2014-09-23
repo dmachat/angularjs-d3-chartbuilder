@@ -46,12 +46,6 @@ define(['angular', 'd3'], function(angular, d3) {
         showSampleData: function() {
           this.data = this.sampleData.exampleData;
         },
-        addNewColor: function() {
-          this.colors.push('#FFFFFF');
-        },
-        reverseColors: function() {
-          this.colors.reverse();
-        },
         init: function(init) {
 
           if (this.preloaded) {
@@ -120,7 +114,7 @@ define(['angular', 'd3'], function(angular, d3) {
                 _this.data[i - 1] = {
                   'key': headers[i],
                   'values': []
-                }
+                };
               }
               return;
             }
@@ -134,7 +128,7 @@ define(['angular', 'd3'], function(angular, d3) {
               _this.data[i - 1].values.push(newRow);
             }
 
-          }, function(error, rows) {
+          }, function(error) {
             _this.data = [];
             _this.errorMessage = error;
           });

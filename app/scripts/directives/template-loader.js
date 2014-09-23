@@ -1,3 +1,4 @@
+/*global alert */
 define([
   'angular',
   ], function(angular) {
@@ -30,7 +31,7 @@ define([
       }
 
       // Unset preloaded for loading
-      delete scope.chartbuilderData.preloaded;
+      delete data.preloaded;
 
       // return chart data
       return angular.toJson(data);
@@ -53,7 +54,7 @@ define([
 
             };
           }
-        }
+        };
       })
       .directive('chartTemplateOptionsLoader', function() {
         return {
@@ -71,7 +72,7 @@ define([
 
             };
           }
-        }
+        };
       })
       .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
@@ -85,17 +86,19 @@ define([
 
             scope.getOptions = function() {
               if (!attrs.optionsOnly) {
+                delete scope.chartbuilderData.preloaded;
                 return angular.toJson(scope.chartbuilderData);
               } else {
                 var templateOptions = {
                   colors: scope.chartbuilderData.colors,
                   options: scope.chartbuilderData.options.chart
-                }
+                };
+
                 return angular.toJson(templateOptions);
               }
             };
           }
-        }
+        };
       }])
       .directive('chartOptionsFromWindow', ['$window', function($window) {
         return {
@@ -130,7 +133,7 @@ define([
                 channel : 'upstream',
                 msg : 'ready',
                 data : null
-              }, origin )
+              }, origin );
 
             };
 
@@ -149,7 +152,7 @@ define([
                     !angular.isUndefined( msgObj.data ) &&
                     msgObj.data
               ) {
-                console.log( 'App iframe received savedData from WordPress')
+                console.log( 'App iframe received savedData from WordPress');
                 console.log( msgObj.data );
                 scope.chartbuilderData.env = 'iframe';
                 scope.chartbuilderData.load( msgObj.data );
@@ -168,7 +171,7 @@ define([
                 msg : 'chartData',
                 data : chartData,
               }, $window.location.href);
-            }
+            };
           }
         };
       }]);

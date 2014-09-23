@@ -24,6 +24,7 @@ define('main', [], function() {
       // Directives
       'directives': './directives/directives',
       'data-input': './directives/data-input',
+      'colors': './directives/colors',
       'edit-in-place': './directives/edit-in-place',
       'template-loader': './directives/template-loader',
       'save-images': './directives/save-images',
@@ -83,6 +84,7 @@ define('main', [], function() {
       'services': ['angular'],
       'directives': ['angular'],
       'data-input': ['directives'],
+      'colors': ['directives'],
       'edit-in-place': ['directives'],
       'template-loader': ['directives'],
       'save-images': ['directives'],
@@ -144,6 +146,7 @@ define('main', [], function() {
     'directives',
     'chartbuilder-options',
     'data-input',
+    'colors',
     'edit-in-place',
     'template-loader',
     'save-images',

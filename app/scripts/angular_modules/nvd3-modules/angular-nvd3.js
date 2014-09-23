@@ -50,7 +50,7 @@
               scope.chart = nv.models[options.chart.type]();
 
               // Configure colors
-              if (scope.colors) {
+              if (scope.colors && !scope.options.customColors) {
                 scope.chart.color(scope.colors);
               }
 
@@ -264,7 +264,7 @@
             scope.api.refresh();
           }, true);
           scope.$watch('colors', function(colors) {
-            if (!scope.data) return false;
+            if (!scope.data || scope.options.customColors) return false;
             scope.chart.color(colors).update();
           }, true);
 

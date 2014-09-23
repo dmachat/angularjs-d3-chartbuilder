@@ -25,7 +25,7 @@
               <th data-ng-repeat="column in structureData.dataFormat">
                 {{ column.key }}
               </th>
-              <th>Color</th>
+              <th ng-if="structureData.options.customColors">Color</th>
             </tr>
           </thead>
           <tbody ng-model="group.values" ui-sortable>
@@ -42,11 +42,11 @@
                   >
                 </edit-in-place>
               </td>
-              <td class="color-picker">
+              <td ng-if="structureData.options.customColors" class="color-picker">
                 <span colorpicker
                   colorpicker-with-input="true"
                   ng-model="structureData.data[$parent.$index].values[$index].color"
-                  ng-style="{ background: color }"
+                  ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"
                   class="color-box"
                   >
                 </span>
@@ -59,7 +59,7 @@
                   >
                   </span></a>
               </td>
-              <td colspan="2" ng-repeat="column in structureData.dataFormat">
+              <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">
                 <input type="{{ column.type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
               </td>
             </tr>
