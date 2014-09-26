@@ -18,7 +18,7 @@ define([
               // Set up elements and svg
               var chartElement = document.getElementById('chart'),
                 svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer).serializeToString(svg),
+                svgXml = (new XMLSerializer()).serializeToString(svg),
                 canvas = document.getElementById('canvas');
 
               // svg size has to be explicitly set. we already have height
@@ -49,7 +49,7 @@ define([
               // Set up elements and svg
               var chartElement = document.getElementById('chart'),
                 svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer).serializeToString(svg);
+                svgXml = (new XMLSerializer()).serializeToString(svg);
 
               // Bind svg string to textarea
               scope.exportedSVG = svgXml;

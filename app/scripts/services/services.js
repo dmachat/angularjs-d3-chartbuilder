@@ -104,13 +104,14 @@ define(['angular', 'd3'], function(angular, d3) {
 
           // Stream the parsed csv to output
           d3[type].parseRows(file, function(row, idx) {
+            var i = 1;
             if (idx === 0) {
 
               // Set the headers
               headers = angular.extend([], row);
 
               // Write a new data group for each column > 1
-              for (var i = 1; i < headers.length; i++) {
+              for (i = 1; i < headers.length; i++) {
                 _this.data[i - 1] = {
                   'key': headers[i],
                   'values': []
@@ -120,7 +121,7 @@ define(['angular', 'd3'], function(angular, d3) {
             }
 
             // Push column values into respective data groups
-            for (var i = 1; i < headers.length; i++) {
+            for (i = 1; i < headers.length; i++) {
               var newRow = {};
               newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
               newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);

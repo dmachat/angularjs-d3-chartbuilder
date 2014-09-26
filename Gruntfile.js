@@ -21,6 +21,7 @@ module.exports = function(grunt) {
         yeoman: {
             // Configurable paths
             app: 'app',
+            ui: 'ui',
             dist: 'dist'
         },
 
@@ -53,8 +54,11 @@ module.exports = function(grunt) {
         // Watches files for changes and runs tasks based on the changed files
         watch: {
             js: {
-                files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['jshint'],
+                files: [
+                    '<%= yeoman.app %>/scripts/{,*/}*.js',
+                    '<%= yeoman.ui %>/*.js'
+                ],
+                tasks: ['jshint', 'concat:ui'],
                 options: {
                     livereload: true
                 }
@@ -118,6 +122,7 @@ module.exports = function(grunt) {
                 'Gruntfile.js',
                 '<%= yeoman.app %>/scripts/{,*/}*.js',
                 '!<%= yeoman.app %>/scripts/vendor/*',
+                '<%= yeoman.ui %>/*.js',
                 'test/spec/{,*/}*.js'
             ]
         },
@@ -274,6 +279,14 @@ module.exports = function(grunt) {
         },
 
         concat: {
+            ui: {
+                src: [
+                    '<%= yeoman.ui %>/_chartbuilder-options.js',
+                    '<%= yeoman.app %>/scripts/angular_modules/chartbuilder-options/options-constants.js',
+                    '<%= yeoman.ui %>/chart.js'
+                ],
+                dest: '<%= yeoman.dist %>/scripts/chartbuilder-ui.js'
+            },  
             dev: {
                 src: ['.tmp/styles/{,*/}*.css'],
                 dest: '.tmp/styles/style.css'
