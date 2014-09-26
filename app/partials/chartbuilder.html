@@ -91,7 +91,7 @@
       <div class="btn-group">
         <chartbuilder-save-to-png></chartbuilder-save-to-png>
         <button chart-options-saver type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Chart Data">save chart data</button>
-        <chart-options-from-window ng-if="chartbuilderData.env"></chart-options-from-window>
+        <chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window>
       </div>
     </div>
   </div>

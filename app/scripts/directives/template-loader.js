@@ -125,6 +125,9 @@ define([
                 return;
               }
 
+              // enable plugin specific tools
+              scope.chartbuilderData.env = 'iframe';
+
               // setup postMessage listener and tell parent window that child frame is ready to receive data
               var origin = $window.location.protocol + '//' + $window.location.hostname;              
               window.addEventListener('message', scope.receiveMessage, true);
@@ -154,7 +157,6 @@ define([
               ) {
                 console.log( 'App iframe received savedData from WordPress');
                 console.log( msgObj.data );
-                scope.chartbuilderData.env = 'iframe';
                 scope.chartbuilderData.load( msgObj.data );
               }
             };
