@@ -97,13 +97,6 @@
                   if (options.chart[key] === undefined || options.chart[key] === null) {
                     if (scope._config.extended) options.chart[key] = {};
                   }
-
-                  angular.forEach(options.chart[key], function(value, option) {
-                    if (angular.isString(value) && value.trim().substring(0, 9) === 'function:') {
-                      options.chart[key][option] = chartbuilderOptionValues[option][value].option;
-                    }
-                  });
-
                   configure(scope.chart[key], options.chart[key], options.chart.type);
                 }
 
@@ -202,11 +195,16 @@
                   'axis',
                   'rangeBand',
                   'rangeBands'
-                ].indexOf(key) < 0){
+                ].indexOf(key) < 0) {
                   if (options[key] === undefined || options[key] === null) {
                     if (scope._config.extended) options[key] = value();
                   }
-                  else chart[key](options[key]);
+                  else if (angular.isString(options[key]) && options[key].trim().substring(0, 9) === 'function:') {
+                    chart[key](chartbuilderOptionValues[key][options[key]].option);
+                  }
+                  else {
+                    chart[key](options[key]);
+                  }
                 }
               });
             }
