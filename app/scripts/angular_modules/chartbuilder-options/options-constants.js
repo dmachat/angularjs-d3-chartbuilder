@@ -47,13 +47,6 @@
     }
   }
 
-  var xYearValue = {
-    'label': 'year/value',
-    'option': function(d) {
-      return new Date(d.x);
-    }
-  }
-
   var yValue = {
     'label': 'key/y',
     'option': function(d) {
@@ -153,7 +146,7 @@
         'function:date': {
           'label': 'date',
           'option': function(d) {
-            return d3.time.format('%x')(new Date(d));
+            return d3.time.format('%x')(new Date(Date.parse(d)));
           }
         }
       },
@@ -179,7 +172,7 @@
         'function:year': {
           'label': 'year',
           'option': function(d) {
-            return d3.time.format('%y')(new Date(d, 1, 1));
+            return d3.time.format('%y')(new Date(Date.parse(d)));
           }
         }
       },
@@ -187,8 +180,7 @@
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
-        'function:label/value': xLabelValue,
-        'function:year/value': xYearValue
+        'function:label/value': xLabelValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
