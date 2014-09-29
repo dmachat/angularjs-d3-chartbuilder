@@ -419,6 +419,7 @@ module.exports = function(grunt) {
         'cssmin',
         'requirejs',
         'copy:dist',
+        'concat:ui',
         'modernizr',
         'usemin',
         'htmlmin'

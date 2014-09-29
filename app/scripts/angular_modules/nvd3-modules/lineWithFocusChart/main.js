@@ -1,13 +1,13 @@
 /*
- Modular version of the lineChart nvd3-directive
+ Modular version of the lineWithFocusChart nvd3-directive
  */
 "use strict";
 
 (function() {
-  define(['angular', 'angular_modules/nvd3-modules/lineChart/data'], function(angular, data) {
+  define(['angular', 'angular_modules/nvd3-modules/lineWithFocusChart/data'], function(angular, data) {
     var module = {
-      name: 'Line Chart',
-      slug: 'lineChart',
+      name: 'Line With Focus Chart',
+      slug: 'lineWithFocusChart',
       data: data
     };
 
@@ -17,7 +17,7 @@
                      'events="$root.events" ',
                      'config="{ extended: true }"></nvd3>'].join('');
 
-    angular.module('chartbuilder.nvd3.lineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+    angular.module('chartbuilder.nvd3.lineWithFocusChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
        */

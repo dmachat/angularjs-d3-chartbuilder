@@ -31520,7 +31520,7 @@ define('text',['module'], function (module) {
 define('text!../partials/home.html',[],function () { return '\n<div class="chartbuilder-home">\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/cumulativeLineChart.png" /></a>\n    </div>\n    <div class="col-lg-4 jumbotron">\n        <h1>angular + d3 chartbuilder</h1>\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="btn btn-default" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Start building a chart now\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.map"><img src="images/usaMap.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.pieChart"><img src="images/donutChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/lineChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.stackedAreaChart"><img src="images/stackedAreaChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.scatterChart"><img src="images/scatterChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.multiBarChart"><img src="images/multiBarChart.png" /></a>\n    </div>\n  </div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="col-lg-3 sidebar">\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <div class="dropdown">\n        <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n          {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }} <i class="fa fa-caret-down"></i>\n        </h2>\n        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n          <li ng-repeat="module in modules" >\n            <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n          </li>\n        </ul>\n      </div>\n      <p>Load a saved chartbuilder chart, or create a new one</p>\n      <div class="btn-group">\n        <chart-options-loader></chart-options-loader>\n        <button type="button" class="btn btn-default">create new</button>\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Data</h2>\n      <p>Edit the data you\'d like to appear in the chart. You may also upload or paste CSV and TSV data</p>\n      <div class="btn-group">\n        <button type="button" class="btn btn-default" ng-click="chartbuilderData.showSampleData()">use sample</button>\n        <button file-input-button type="button" on-file-load="chartbuilderData.loadDataSet(file)" class="btn btn-default btn-file-input" name="Read Data Set">upload</button>\n        <button type="button" ng-click="chartbuilderData.downloadCSV()" class="btn btn-default btn-file-input" name="Download Data Set">download</button>\n        <button type="butotn" ng-click="dataInputTextarea = !dataInputTextarea" class="btn btn-default" name="Paste Data Set">paste</button>\n        <button type="button" class="btn btn-default" ng-click="chartbuilderData.resetData()">reset</button>\n      </div>\n    </div>\n\n    <textarea class="form-control paste-input" ng-show="dataInputTextarea" ng-model="dataInputDataSet" ng-change="chartbuilderData.loadDataSet(dataInputDataSet)" placeholder="Paste TSV or CSV data"></textarea>\n    <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n    <div class="col-lg-12">\n      <h2>Options</h2>\n      <p>Set colors and other advanced options for the chart.</p>\n      <div class="btn-group">\n        <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>\n        <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>\n      </div>\n    </div>\n\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-color-options"\n            href=""\n            >\n            Colors\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-color-options" class="panel-collapse collapse in">\n      <div chartbuilder-colors chartbuilder="chartbuilderData"></div>\n    </div>\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-advanced-options"\n            href=""\n            ng-click="getAdvancedOptions()"\n            >\n            Advanced Options\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-advanced-options" class="panel-collapse collapse">\n      <div class="panel-body">\n        <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Export</h2>\n      <p>Save the chart as an image, or as data which you can load later with Chartbuilder</p>\n      <div class="btn-group">\n        <chartbuilder-save-to-png></chartbuilder-save-to-png>\n        <button chart-options-saver type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Chart Data">save chart data</button>\n        <chart-options-from-window ng-if="chartbuilderData.env"></chart-options-from-window>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class="col-lg-9">\n  <div class="graph-wrapper">\n    <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n    <div ui-view="graph" id="chart"></div>\n    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n  </div>\n\n  <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n\n  <div class="alert alert-info alert-dismissable">\n    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n  </div>\n\n  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="col-lg-3 sidebar">\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <div class="dropdown">\n        <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">\n          {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }} <i class="fa fa-caret-down"></i>\n        </h2>\n        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n          <li ng-repeat="module in modules" >\n            <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n          </li>\n        </ul>\n      </div>\n      <p>Load a saved chartbuilder chart, or create a new one</p>\n      <div class="btn-group">\n        <chart-options-loader></chart-options-loader>\n        <button type="button" class="btn btn-default">create new</button>\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Data</h2>\n      <p>Edit the data you\'d like to appear in the chart. You may also upload or paste CSV and TSV data</p>\n      <div class="btn-group">\n        <button type="button" class="btn btn-default" ng-click="chartbuilderData.showSampleData()">use sample</button>\n        <button file-input-button type="button" on-file-load="chartbuilderData.loadDataSet(file)" class="btn btn-default btn-file-input" name="Read Data Set">upload</button>\n        <button type="button" ng-click="chartbuilderData.downloadCSV()" class="btn btn-default btn-file-input" name="Download Data Set">download</button>\n        <button type="butotn" ng-click="dataInputTextarea = !dataInputTextarea" class="btn btn-default" name="Paste Data Set">paste</button>\n        <button type="button" class="btn btn-default" ng-click="chartbuilderData.resetData()">reset</button>\n      </div>\n    </div>\n\n    <textarea class="form-control paste-input" ng-show="dataInputTextarea" ng-model="dataInputDataSet" ng-change="chartbuilderData.loadDataSet(dataInputDataSet)" placeholder="Paste TSV or CSV data"></textarea>\n    <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">\n    <div class="col-lg-12">\n      <h2>Options</h2>\n      <p>Set colors and other advanced options for the chart.</p>\n      <div class="btn-group">\n        <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>\n        <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>\n      </div>\n    </div>\n\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-color-options"\n            href=""\n            >\n            Colors\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-color-options" class="panel-collapse collapse in">\n      <div chartbuilder-colors chartbuilder="chartbuilderData"></div>\n    </div>\n    <div class="panel-heading">\n      <div class="panel-title">\n        <h4>\n          <a data-toggle="collapse"\n            data-target="#collapse-advanced-options"\n            href=""\n            ng-click="getAdvancedOptions()"\n            >\n            Advanced Options\n          </a>\n        </h4>\n      </div>\n    </div>\n    <div id="collapse-advanced-options" class="panel-collapse collapse">\n      <div class="panel-body">\n        <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n      </div>\n    </div>\n  </div>\n  <div class="chartbuilder-sidebar-separator"></div>\n\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <h2>Export</h2>\n      <p>Save the chart as an image, or as data which you can load later with Chartbuilder</p>\n      <div class="btn-group">\n        <chartbuilder-save-to-png></chartbuilder-save-to-png>\n        <button chart-options-saver type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Chart Data">save chart data</button>\n        <chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class="col-lg-9">\n  <div class="graph-wrapper">\n    <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>\n    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n    <div ui-view="graph" id="chart"></div>\n    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n  </div>\n\n  <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n\n  <div class="alert alert-info alert-dismissable">\n    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n  </div>\n\n  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About angular + d3 chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n\t\t<p>angular + d3 chartbuilder duplicates the functionality of Quartz Chartbuilder, but allows for modular d3 directives. It has been built to allow a wide range of d3 vizualizations to be created, modified, saved and exported.</p>\n\t</div>\n</div>\n';});
@@ -86526,13 +86526,14 @@ define('services',['angular', 'd3'], function(angular, d3) {
 
           // Stream the parsed csv to output
           d3[type].parseRows(file, function(row, idx) {
+            var i = 1;
             if (idx === 0) {
 
               // Set the headers
               headers = angular.extend([], row);
 
               // Write a new data group for each column > 1
-              for (var i = 1; i < headers.length; i++) {
+              for (i = 1; i < headers.length; i++) {
                 _this.data[i - 1] = {
                   'key': headers[i],
                   'values': []
@@ -86542,7 +86543,7 @@ define('services',['angular', 'd3'], function(angular, d3) {
             }
 
             // Push column values into respective data groups
-            for (var i = 1; i < headers.length; i++) {
+            for (i = 1; i < headers.length; i++) {
               var newRow = {};
               newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
               newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
@@ -87146,6 +87147,9 @@ define('template-loader',[
                 return;
               }
 
+              // enable plugin specific tools
+              scope.chartbuilderData.env = 'iframe';
+
               // setup postMessage listener and tell parent window that child frame is ready to receive data
               var origin = $window.location.protocol + '//' + $window.location.hostname;              
               window.addEventListener('message', scope.receiveMessage, true);
@@ -87175,7 +87179,6 @@ define('template-loader',[
               ) {
                 console.log( 'App iframe received savedData from WordPress');
                 console.log( msgObj.data );
-                scope.chartbuilderData.env = 'iframe';
                 scope.chartbuilderData.load( msgObj.data );
               }
             };
@@ -90965,7 +90968,7 @@ define('save-images',[
               // Set up elements and svg
               var chartElement = document.getElementById('chart'),
                 svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer).serializeToString(svg),
+                svgXml = (new XMLSerializer()).serializeToString(svg),
                 canvas = document.getElementById('canvas');
 
               // svg size has to be explicitly set. we already have height
@@ -90996,7 +90999,7 @@ define('save-images',[
               // Set up elements and svg
               var chartElement = document.getElementById('chart'),
                 svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer).serializeToString(svg);
+                svgXml = (new XMLSerializer()).serializeToString(svg);
 
               // Bind svg string to textarea
               scope.exportedSVG = svgXml;
@@ -91053,13 +91056,6 @@ define('save-images',[
     'label': 'x/y',
     'option': function(d) {
       return d.x;
-    }
-  }
-
-  var xYearValue = {
-    'label': 'year/value',
-    'option': function(d) {
-      return new Date(d.x);
     }
   }
 
@@ -91162,7 +91158,7 @@ define('save-images',[
         'function:date': {
           'label': 'date',
           'option': function(d) {
-            return d3.time.format('%x')(new Date(d));
+            return d3.time.format('%x')(new Date(Date.parse(d)));
           }
         }
       },
@@ -91188,7 +91184,7 @@ define('save-images',[
         'function:year': {
           'label': 'year',
           'option': function(d) {
-            return d3.time.format('%y')(new Date(d, 1, 1));
+            return d3.time.format('%y')(new Date(Date.parse(d)));
           }
         }
       },
@@ -91196,8 +91192,7 @@ define('save-images',[
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
-        'function:label/value': xLabelValue,
-        'function:year/value': xYearValue
+        'function:label/value': xLabelValue
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
@@ -92327,6 +92322,11 @@ define("ui.sortable", function(){});
               scope.api.updateWithOptions(scope.options);
             },
 
+            // Update chart layout
+            update: function() {
+              scope.chart.update();
+            },
+
             // Update chart with new options
             updateWithOptions: function(options) {
 
@@ -92390,13 +92390,6 @@ define("ui.sortable", function(){});
                   if (options.chart[key] === undefined || options.chart[key] === null) {
                     if (scope._config.extended) options.chart[key] = {};
                   }
-
-                  angular.forEach(options.chart[key], function(value, option) {
-                    if (angular.isString(value) && value.trim().substring(0, 9) === 'function:') {
-                      options.chart[key][option] = chartbuilderOptionValues[option][value].option;
-                    }
-                  });
-
                   configure(scope.chart[key], options.chart[key], options.chart.type);
                 }
 
@@ -92414,7 +92407,7 @@ define("ui.sortable", function(){});
                     || (key === 'xScale' && options.chart.type === 'scatterChart')
                     || (key === 'yScale' && options.chart.type === 'scatterChart')
                     || (key === 'x' && (options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart'))
-                    || (key === 'y' && options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart')
+                    || (key === 'y' && (options.chart.type === 'lineWithFocusChart' || options.chart.type === 'multiChart'))
                   );
 
                 else if (options.chart[key] === undefined || options.chart[key] === null) {
@@ -92495,11 +92488,16 @@ define("ui.sortable", function(){});
                   'axis',
                   'rangeBand',
                   'rangeBands'
-                ].indexOf(key) < 0){
+                ].indexOf(key) < 0) {
                   if (options[key] === undefined || options[key] === null) {
                     if (scope._config.extended) options[key] = value();
                   }
-                  else chart[key](options[key]);
+                  else if (angular.isString(options[key]) && options[key].trim().substring(0, 9) === 'function:') {
+                    chart[key](chartbuilderOptionValues[key][options[key]].option);
+                  }
+                  else {
+                    chart[key](options[key]);
+                  }
                 }
               });
             }
@@ -92582,7 +92580,7 @@ define('angular_modules/nvd3-modules/lineChart/data',{
 })
 ;
 /*
- Modular version of the bar chart nvd3-directive
+ Modular version of the lineChart nvd3-directive
  */
 
 
@@ -92601,6 +92599,91 @@ define('angular_modules/nvd3-modules/lineChart/data',{
                      'config="{ extended: true }"></nvd3>'].join('');
 
     angular.module('chartbuilder.nvd3.lineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+      /**
+       * Add this module's state to ui-router routes
+       */
+      .config(['$stateProvider', function($stateProvider) {
+        $stateProvider.state('chartbuilder.' + module.slug, {
+          url: '/' + module.slug,
+          views: {
+            'graph': {
+              template: template,
+              controller: module.slug + 'Controller'
+            }
+          }
+        });
+      }])
+      .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: [{ 'key': 'x', 'type': 'number' }, { 'key': 'y', 'type': 'number' }],
+            template: template,
+            meta: {
+              title: module.name,
+              subtitle: 'Subtitle for a line chart',
+              caption: '1a. Edit a caption for the graph',
+            },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 600,
+                x: 'function:x/y',
+                y: 'function:key/y',
+                forceX: [null, null],
+                forceY: [null, null]
+              }
+            }
+          }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
+        }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        function($scope, chartbuilderData, chartbuilderModuleRegistry) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
+
+          // Initialize the data -- store sample data and set structure
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
+  });
+})();
+
+define('angular_modules/nvd3-modules/lineWithFocusChart/data',{
+  "exampleData": [{
+    "key": "Series 1",
+    "values": [ { "x": 1, "y": 8 }, { "x": 3, "y": 17 }, { "x": 5, "y": 7 }, { "x": 7, "y": 35 }, { "x": 9, "y": 42 }, { "x": 11, "y": 15 } ]
+  }]
+})
+;
+/*
+ Modular version of the lineWithFocusChart nvd3-directive
+ */
+
+
+(function() {
+  define('chartbuilder.nvd3.lineWithFocusChart',['angular', 'angular_modules/nvd3-modules/lineWithFocusChart/data'], function(angular, data) {
+    var module = {
+      name: 'Line With Focus Chart',
+      slug: 'lineWithFocusChart',
+      data: data
+    };
+
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
+    angular.module('chartbuilder.nvd3.lineWithFocusChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
       /**
        * Add this module's state to ui-router routes
        */
@@ -106526,6 +106609,7 @@ define('main', [], function() {
       // NVd3
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.lineChart': './angular_modules/nvd3-modules/lineChart/main',
+      'chartbuilder.nvd3.lineWithFocusChart': './angular_modules/nvd3-modules/lineWithFocusChart/main',
       'chartbuilder.nvd3.discreteBarChart': './angular_modules/nvd3-modules/discreteBarChart/main',
       'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
       'chartbuilder.nvd3.multiBarHorizontalChart': './angular_modules/nvd3-modules/multiBarHorizontalChart/main',
@@ -106583,6 +106667,7 @@ define('main', [], function() {
       'nv.d3': ['d3'],
       'chartbuilder.nvd3': ['angular', 'nv.d3', 'services'],
       'chartbuilder.nvd3.lineChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.lineWithFocusChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.discreteBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarHorizontalChart': ['chartbuilder.nvd3'],
@@ -106640,6 +106725,7 @@ define('main', [], function() {
     'ui.sortable',
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.lineChart',
+    'chartbuilder.nvd3.lineWithFocusChart',
     'chartbuilder.nvd3.discreteBarChart',
     'chartbuilder.nvd3.multiBarChart',
     'chartbuilder.nvd3.multiBarHorizontalChart',
@@ -106672,6 +106758,7 @@ define('main', [], function() {
         'ui.sortable',
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.lineChart',
+        'chartbuilder.nvd3.lineWithFocusChart',
         'chartbuilder.nvd3.discreteBarChart',
         'chartbuilder.nvd3.multiBarChart',
         'chartbuilder.nvd3.multiBarHorizontalChart',
