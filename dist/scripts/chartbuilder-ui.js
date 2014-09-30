@@ -74,6 +74,11 @@ angular.module('chartbuilderOptions', []);
 
   var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionValues', {
+
+      //
+      // NVD3 options
+      //
+
       'interpolate': {
         'linear': {
           'label': 'linear'
@@ -219,6 +224,18 @@ angular.module('chartbuilderOptions', []);
             return d/4;
           }
         }
+      },
+
+      //
+      // Datamaps options
+      //
+      'mapType': {
+        'usa': {
+          'label': 'usa'
+        },
+        'world': {
+          'label': 'world'
+        }
       }
     });
 }));
@@ -271,7 +288,13 @@ angular.module('chartbuilderOptions', []);
 
           // Define build template function
           scope.build = function(_scope) {
-            element.html('').append($compile(scope.data.template)(_scope));
+            var template = [
+              '<h2>{{ data.meta.title }}</h2>',
+              '<h4>{{ data.meta.subtitle }}</h4>',
+              scope.data.template,
+              '<p>{{ data.meta.caption }}</p>'
+            ].join('');
+            element.html('').append($compile(template)(_scope));
           };
 
           // Refresh directive when data changes
