@@ -70,6 +70,11 @@
 
   var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionValues', {
+
+      //
+      // NVD3 options
+      //
+
       'interpolate': {
         'linear': {
           'label': 'linear'
@@ -214,6 +219,18 @@
           'option': function(d) {
             return d/4;
           }
+        }
+      },
+
+      //
+      // Datamaps options
+      //
+      'mapType': {
+        'usa': {
+          'label': 'usa'
+        },
+        'world': {
+          'label': 'world'
         }
       }
     });
