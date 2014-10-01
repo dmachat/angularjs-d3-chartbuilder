@@ -100,7 +100,7 @@ define([
           }
         };
       }])
-      .directive('chartOptionsFromWindow', ['$window', function($window) {
+      .directive('chartOptionsFromWindow', ['$window', 'chartbuilderData', 'chartbuilderDefaultOptions', function($window, chartbuilderData, chartbuilderDefaultOptions) {
         return {
           restrict: 'EA',
           replace: true,
@@ -126,7 +126,7 @@ define([
               }
 
               // enable plugin specific tools
-              scope.chartbuilderData.env = 'iframe';
+              chartbuilderData.env = 'iframe';
 
               // setup postMessage listener and tell parent window that child frame is ready to receive data
               var origin = $window.location.protocol + '//' + $window.location.hostname;              
@@ -151,13 +151,22 @@ define([
                     !angular.isUndefined( msgObj.channel ) &&
                     msgObj.channel === 'downstream' &&
                     !angular.isUndefined( msgObj.msg ) &&
-                    msgObj.msg === 'savedData' &&
+                    (msgObj.msg === 'savedData' || msgObj.msg === 'options') &&
                     !angular.isUndefined( msgObj.data ) &&
                     msgObj.data
               ) {
-                console.log( 'App iframe received savedData from WordPress');
-                console.log( msgObj.data );
-                scope.chartbuilderData.load( msgObj.data );
+                switch (msgObj.msg) {
+                  case 'savedData':
+                    console.log('App iframe received savedData from WordPress');
+                    console.log(msgObj.data);
+                    chartbuilderData.load(msgObj.data);
+                    break;
+                  case 'options':
+                    console.log('App received options from WordPress');
+                    console.log(msgObj.data);
+                    chartbuilderDefaultOptions.load(msgObj.data);
+                    break;
+                }
               }
             };
 

@@ -5,6 +5,19 @@ define([
     'use strict';
 
     angular.module('chartbuilderOptions', ['chartbuilderDirectives'])
+      .service('chartbuilderDefaultOptions', function() {
+        var defaultOptions = {
+
+          options: false,
+
+          load: function(options) {
+            this.options = options;
+          }
+
+        }
+
+        return defaultOptions;
+      })
       .service('chartbuilderOptionValueKeys', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
         return (chartbuilderOptionValues instanceof Object) ? Object.keys(chartbuilderOptionValues) : [];
       }])
