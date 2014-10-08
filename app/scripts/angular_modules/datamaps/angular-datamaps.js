@@ -6,7 +6,7 @@
 
     angular.module('datamaps', [])
 
-      .directive('datamap', [function() {
+      .directive('datamap', ['stateCodeMap', function(stateCodeMap) {
         return {
           restrict: 'EA',
           scope: {
@@ -95,7 +95,7 @@
               else {
                 var _data = {};
                 angular.forEach(data[0].values, function(val) {
-                  _data[val.location] = { fillKey: val.value };
+                  _data[stateCodeMap[val.location] || val.location] = { fillKey: val.value };
                 });
                 scope.api.updateWithData(_data);
               }
@@ -126,7 +126,7 @@
             // Extend the mapOptions object with data and fill values
             function mapData(dst, data) {
               angular.forEach(data, function(val) {
-                dst.data[val.location] = { fillKey: val.value };
+                dst.data[stateCodeMap[val.location] || val.location] = { fillKey: val.value };
               });
 
               if (!scope.options.fillQuartiles) {
@@ -149,6 +149,57 @@
             }
           }
         };
-      }]);
+      }])
+      .value('stateCodeMap', {
+        'Alabama': 'AL',
+        'Alaska': 'AK',
+        'Arizona': 'AZ',
+        'Arkansas': 'AR',
+        'California': 'CA',
+        'Colorado': 'CO',
+        'Connecticut': 'CT',
+        'Delaware': 'DT',
+        'District of Columbia': 'DC',
+        'Florida': 'FL',
+        'Georgia': 'GA',
+        'Hawaii': 'HI',
+        'Idaho': 'ID',
+        'Illinois': 'IL',
+        'Indiana': 'IN',
+        'Iowa': 'IA',
+        'Kansas': 'KS',
+        'Kentucky': 'KY',
+        'Louisiana': 'LA',
+        'Maine': 'ME',
+        'Maryland': 'MD',
+        'Massachusetts': 'MA',
+        'Michigan': 'MI',
+        'Minnesota': 'MN',
+        'Mississippi': 'MS',
+        'Missouri': 'MO',
+        'Montana': 'MT',
+        'Nebraska': 'NE',
+        'Nevada': 'NV',
+        'New Hampshire': 'NH',
+        'New Jersey': 'NJ',
+        'New Mexico': 'NM',
+        'New York': 'NY',
+        'North Carolina': 'NC',
+        'North Dakota': 'ND',
+        'Ohio': 'OH',
+        'Oklahoma': 'OK',
+        'Oregon': 'OR',
+        'Pennsylvania': 'PA',
+        'Rhode Island': 'RI',
+        'South Carolina': 'SC',
+        'South Dakota': 'SD',
+        'Tennessee': 'TN',
+        'Texas': 'TX',
+        'Utah': 'UT',
+        'Vermont': 'VT',
+        'Virginia': 'VA',
+        'Washington': 'WA',
+        'West Virginia': 'WV',
+      });
   });
 })();
