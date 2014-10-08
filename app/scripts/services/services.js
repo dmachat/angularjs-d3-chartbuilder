@@ -23,7 +23,7 @@ define(['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', ['$state', '$filter', 'chartbuilderUtils', function($state, $filter, chartbuilderUtils) {
+    .service('chartbuilderData', ['$state', '$filter', 'chartbuilderUtils', 'chartbuilderDefaultOptions', function($state, $filter, chartbuilderUtils, chartbuilderDefaultOptions) {
       var dataStore = {
         options: {},
         meta: {},
@@ -61,13 +61,20 @@ define(['angular', 'd3'], function(angular, d3) {
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
           }
+
           if (angular.isDefined(init.meta)) {
             this.meta = init.meta;
+          }
+          if (angular.isDefined(chartbuilderDefaultOptions.options) && angular.isDefined(chartbuilderDefaultOptions.options.meta)) {
+            this.meta = angular.extend(this.meta, chartbuilderDefaultOptions.options.meta);
           }
 
           // Set colors. User defined or d3 defaults
           if (angular.isDefined(init.colors)) {
             this.colors = init.colors;
+          }
+          else if (angular.isDefined(chartbuilderDefaultOptions.options) && chartbuilderDefaultOptions.options.colors.length) {
+            this.colors = chartbuilderDefaultOptions.options.colors;
           }
           else {
             this.colors = d3defaultColors();

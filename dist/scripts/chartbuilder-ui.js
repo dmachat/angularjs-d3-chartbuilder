@@ -292,7 +292,8 @@ angular.module('chartbuilderOptions', []);
               '<h2>{{ data.meta.title }}</h2>',
               '<h4>{{ data.meta.subtitle }}</h4>',
               scope.data.template,
-              '<p>{{ data.meta.caption }}</p>'
+              '<p>{{ data.meta.caption }}</p>',
+              '<h6 ng-if="data.meta.attribution">{{ data.meta.attribution }}</h6>'
             ].join('');
             element.html('').append($compile(template)(_scope));
           };
