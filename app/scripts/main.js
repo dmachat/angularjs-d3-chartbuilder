@@ -56,7 +56,12 @@ define('main', [], function() {
       'topojson': '../bower_components/topojson/topojson',
       'datamaps': '../bower_components/datamaps/dist/datamaps.all',
       'chartbuilder.datamaps': './angular_modules/datamaps/angular-datamaps',
-      'chartbuilder.datamaps.usa': './angular_modules/datamaps/main'
+      'chartbuilder.datamaps.usa': './angular_modules/datamaps/main',
+
+      // Highcharts
+      'highcharts': '../bower_components/highcharts/highcharts-all',
+      'highcharts-ng': '../bower_components/highcharts-ng/dist/highcharts-ng',
+      'chartbuilder.highcharts': './angular_modules/highcharts/main'
     },
     shim: {
       'angular': {
@@ -120,7 +125,11 @@ define('main', [], function() {
         exports: 'Datamap'
       },
       'chartbuilder.datamaps': ['d3', 'topojson', 'datamaps'],
-      'chartbuilder.datamaps.usa': ['chartbuilder.datamaps']
+      'chartbuilder.datamaps.usa': ['chartbuilder.datamaps'],
+
+      // Shim the highcharts modules
+      'highcharts-ng': ['highcharts', 'angular'],
+      'chartbuilder.highcharts': ['highcharts-ng']
     }
   });
 
@@ -170,7 +179,10 @@ define('main', [], function() {
     'datamaps',
     'topojson',
     'chartbuilder.datamaps',
-    'chartbuilder.datamaps.usa'
+    'chartbuilder.datamaps.usa',
+    'highcharts',
+    'highcharts-ng',
+    'chartbuilder.highcharts'
   ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
 
     /* App Module */
@@ -201,7 +213,8 @@ define('main', [], function() {
         'chartbuilder.nvd3.scatterChart',
         'chartbuilder.nvd3.scatterPlusLineChart',
         'datamaps',
-        'chartbuilder.datamaps.usa'
+        'chartbuilder.datamaps.usa',
+        'chartbuilder.highcharts'
       ]).config([
         '$stateProvider',
         '$urlRouterProvider',

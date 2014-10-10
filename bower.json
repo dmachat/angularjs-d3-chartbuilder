@@ -23,6 +23,8 @@
     "canvg": "https://canvg.googlecode.com/files/canvg-1.3.zip",
     "comma-separated-values": "~3.3.0",
     "angular-file-input": "git@github.com:dmachat/angular-file-input.git",
-    "angular-datamaps": "*"
+    "angular-datamaps": "*",
+    "highcharts": "git@github.com:highslide-software/highcharts-release",
+    "highcharts-ng": "git@github.com:pablojim/highcharts-ng"
   }
 }

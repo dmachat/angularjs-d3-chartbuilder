@@ -60,12 +60,15 @@ define(['angular', 'd3'], function(angular, d3) {
 
           if (angular.isDefined(init.options)) { 
             this.options = init.options;
+          } else if (angular.isDefined(init.highcharts)) {
+            this.type = 'highcharts';
+            this.highcharts = init.highcharts;
           }
 
           if (angular.isDefined(init.meta)) {
             this.meta = init.meta;
           }
-          if (angular.isDefined(chartbuilderDefaultOptions.options) && angular.isDefined(chartbuilderDefaultOptions.options.meta)) {
+          if (angular.isDefined((chartbuilderDefaultOptions.options || {}).meta)) {
             this.meta = angular.extend(this.meta, chartbuilderDefaultOptions.options.meta);
           }
 
@@ -73,7 +76,7 @@ define(['angular', 'd3'], function(angular, d3) {
           if (angular.isDefined(init.colors)) {
             this.colors = init.colors;
           }
-          else if (angular.isDefined(chartbuilderDefaultOptions.options) && chartbuilderDefaultOptions.options.colors.length) {
+          else if (((chartbuilderDefaultOptions.options || {}).colors || []).length) {
             this.colors = chartbuilderDefaultOptions.options.colors;
           }
           else {
@@ -150,6 +153,11 @@ define(['angular', 'd3'], function(angular, d3) {
             }
           });
 
+        },
+        syncData: function() {
+          if (this.type === 'highcharts') {
+            this.highcharts.series = this.data;
+          }
         },
         downloadCSV: function() {
 
