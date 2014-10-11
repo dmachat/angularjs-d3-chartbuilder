@@ -1,5 +1,5 @@
-/*
- Chartbuild Data Maps module
+/**
+ * Chartbuilder Data Maps module
  */
 "use strict";
 
@@ -42,6 +42,7 @@
             slug: module.slug,
             data: data,
             dataFormat: [{ 'key': 'location', 'type': 'text' }, { 'key': 'value', 'type': 'text' }],
+            dataHelp: 'Data may be entered with the first column as the geography, and subsequent columns as the values. Each subsequent column will be treated as a new data group for toggling the choropleth selection.',
             template: template,
             meta: {
               title: module.name,

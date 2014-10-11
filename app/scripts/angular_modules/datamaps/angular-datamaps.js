@@ -6,7 +6,7 @@
 
     angular.module('datamaps', [])
 
-      .directive('datamap', ['stateCodeMap', function(stateCodeMap) {
+      .directive('datamap', ['$compile', 'stateCodeMap', function($compile, stateCodeMap) {
         return {
           restrict: 'EA',
           scope: {
@@ -24,7 +24,17 @@
 
               // Fully refresh directive
               refresh: function() {
-                scope.api.updateWithOptions(scope.options, scope.data);
+                scope.api.updateWithOptions(scope.options, scope.data[0]);
+              },
+
+              selectDataSet: function(selection) {
+                var selectedData = scope.data[selection];
+                scope.api.updateWithOptions(scope.options, selectedData);
+              },
+
+              datasetSelector: function() {
+                var selector = $compile('<select ng-options="idx as set.key for (idx, set) in data" ng-model="selectedSet" ng-change="api.selectDataSet(selectedSet)" ng-init="selectedSet = \'0\'" style="position: absolute; top: 0"></select>')(scope);
+                element.append(selector);
               },
 
               // Update chart with new options
@@ -44,9 +54,9 @@
                 scope.mapOptions = mapOptions();
 
                 // Add data to map redraw
-                if (data[0].values.length) {
+                if (data.values.length) {
                   // update the map element
-                  scope.mapOptions = mapData(scope.mapOptions, data[0].values);
+                  scope.mapOptions = mapData(scope.mapOptions, data.values);
                 }
 
                 scope.mapOptions.geographyConfig = angular.extend({}, options.chart.geographyConfig);
@@ -98,6 +108,9 @@
                   _data[stateCodeMap[val.location] || val.location] = { fillKey: val.value };
                 });
                 scope.api.updateWithData(_data);
+              }
+              if (data.length > 1) {
+                scope.api.datasetSelector();
               }
             }, true);
 
