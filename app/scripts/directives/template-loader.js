@@ -42,7 +42,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default btn-file-input" file-input-button on-file-load="readTemplateFile(file)" name="Load chart object">load</button>',
+          template: '<a class="btn-file-input" file-input-button on-file-load="readTemplateFile(file)">Load Chart from file</a>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {

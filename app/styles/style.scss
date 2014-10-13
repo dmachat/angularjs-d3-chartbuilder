@@ -4,6 +4,7 @@ $fa-font-path: '../bower_components/font-awesome/fonts';
 @import '../bower_components/animate-sass/animate';
 $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import '../bower_components/sass-bootstrap/lib/bootstrap';
+@import 'navbar.scss';
 @import 'custom_mixins.scss';
 @import 'animations.scss';
 @import 'home.scss';

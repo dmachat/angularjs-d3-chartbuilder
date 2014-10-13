@@ -1,46 +1,75 @@
 <div class="col-lg-3 sidebar">
-  <div class="chartbuilder-sidebar-group clearfix">
+  <div class="select-chart-group clearfix">
     <div class="col-lg-12">
-      <div class="dropdown">
-        <h2 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
-          {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Select a chart type') }} <i class="fa fa-caret-down"></i>
-        </h2>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
-          <li ng-repeat="module in modules" >
-            <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>
-          </li>
-        </ul>
-      </div>
-      <p>Load a saved chartbuilder chart, or create a new one</p>
-      <div class="btn-group">
-        <chart-options-loader></chart-options-loader>
-        <button type="button" class="btn btn-default">create new</button>
-      </div>
+      <h4 id="chartTypeSelect" class="select-dropdown" data-toggle="dropdown">
+        {{ (chartbuilderData.name.length ? chartbuilderData.name : 'Select a chart type') }} <i class="fa fa-caret-down"></i>
+      </h4>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">
+        <li role="presentation" ng-repeat="module in modules" >
+          <a ui-sref="chartbuilder.{{ module.slug }}">
+            {{ module.name }}
+            <div class="thumbnail">
+              <img class="img-responsive" src="images/{{ module.slug }}.png">
+            </div>
+          </a>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <li role="presentation">
+          <chart-options-loader></chart-options-loader>
+        </li>
+      </ul>
     </div>
   </div>
   <div class="chartbuilder-sidebar-separator"></div>
 
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
-      <h2>Data</h2>
+      <h4>Chart Data</h4>
       <p>Edit the data you'd like to appear in the chart. You may also upload or paste CSV and TSV data</p>
+      <p>{{ modules[chartbuilderData.name].dataHelp }}</p>
       <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click="chartbuilderData.showSampleData()">use sample</button>
-        <button file-input-button type="button" on-file-load="chartbuilderData.loadDataSet(file)" class="btn btn-default btn-file-input" name="Read Data Set">upload</button>
-        <button type="button" ng-click="chartbuilderData.downloadCSV()" class="btn btn-default btn-file-input" name="Download Data Set">download</button>
-        <button type="butotn" ng-click="dataInputTextarea = !dataInputTextarea" class="btn btn-default" name="Paste Data Set">paste</button>
-        <button type="button" class="btn btn-default" ng-click="chartbuilderData.resetData()">reset</button>
+        <div class="btn-group">
+          <button type="button" id="dataDropdown" class="btn btn-sm btn-default dropdown-toggle"data-toggle="dropdown">
+            Add Existing Data <i class="fa fa-caret-down"></i>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dataDropdown">
+            <li role="presentation">
+              <a href="" ng-click="chartbuilderData.showSampleData()">Show sample data</a>
+            </li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation" class="dropdown-header">TSV or CSV Data</li>
+            <li role="presentation">
+              <a class="btn-file-input" file-input-button on-file-load="chartbuilderData.loadDataSet(file)">Upload</a>
+            </li>
+            <li role="presentation">
+              <a href="" ng-click="dataInputTextarea = true">Paste</a>
+            </li>
+          </ul>
+        </div>
+        <button type="button" class="btn btn-sm btn-default" ng-show="chartbuilderData.data.values.length" ng-click="chartbuilderData.downloadCSV()">Download Data as CSV</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="liveEditPanel = !liveEditPanel" ng-class="{ 'btn-primary': liveEditPanel }">{{ liveEditPanel ? 'Disable' : 'Enable' }} Live Edit</button>
+        <button type="button" class="btn btn-sm btn-default" ng-click="chartbuilderData.resetData()">Clear All Data</button>
+      </div>
+      <div ng-show="dataInputTextarea" class="panel panel-default">
+        <div class="panel-heading">TSV or CSV text<span class="glyphicon glyphicon-remove pull-right" ng-click="dataInputTextarea = false"></span></div>
+        <textarea class="panel-body form-control paste-input" ng-model="dataInputDataSet" placeholder="Paste or edit TSV/CSV data here"></textarea>
+        <div class="panel-footer clearfix">
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-sm btn-default" ng-click="dataInputDataSet = ''">Clear Input</button>
+            <button type="button" class="btn btn-sm btn-success" ng-click="chartbuilderData.loadDataSet(dataInputDataSet)">Use Data</button>
+          </div>
+        </div>
+      </div>
+      <div ng-show="liveEditPanel" class="panel panel-default">
+        <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>
       </div>
     </div>
-
-    <textarea class="form-control paste-input" ng-show="dataInputTextarea" ng-model="dataInputDataSet" ng-change="chartbuilderData.loadDataSet(dataInputDataSet)" placeholder="Paste TSV or CSV data"></textarea>
-    <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>
   </div>
   <div class="chartbuilder-sidebar-separator"></div>
 
   <div class="chartbuilder-sidebar-group chartbuilder-options clearfix">
     <div class="col-lg-12">
-      <h2>Options</h2>
+      <h4>Chart Customizations</h4>
       <p>Set colors and other advanced options for the chart.</p>
       <div class="btn-group">
         <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>
@@ -86,7 +115,7 @@
 
   <div class="chartbuilder-sidebar-group clearfix">
     <div class="col-lg-12">
-      <h2>Export</h2>
+      <h4>Save Chart</h4>
       <p>Save the chart as an image, or as data which you can load later with Chartbuilder</p>
       <div class="btn-group">
         <chartbuilder-save-to-png></chartbuilder-save-to-png>
@@ -99,7 +128,7 @@
 
 <div class="col-lg-9">
   <div class="graph-wrapper">
-    <h3><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h3>
+    <h4><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h4>
     <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
     <div ui-view="graph" id="chart"></div>
     <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>

@@ -1,0 +1,24 @@
+.navbar-chartbuilder {
+  background-color: #e7e7e7;
+  border-color: #b9b9b9;
+  .navbar-brand {
+    background: url('../images/C.png') 15px 13px no-repeat;
+    padding-left: 33px;
+    color: #424242;
+  }
+  .navbar-nav {
+    .active {
+      a {
+        background-color: #d9d9d9;
+        &:hover {
+          background-color: #d1d1d1;
+        }
+      }
+    }
+    li:hover {
+      a {
+        background-color: #d1d1d1;
+      }
+    }
+  }
+}
