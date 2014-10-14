@@ -42,7 +42,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<a class="btn-file-input" file-input-button on-file-load="readTemplateFile(file)">Load Chart from file</a>',
+          template: '<div class="btn-file-input" file-input-button on-file-load="readTemplateFile(file)">Upload Chart file</div>',
           link: function(scope) {
             // Get the file from the file-input directive, make sure it's json
             scope.readTemplateFile = function(file) {
@@ -104,7 +104,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">to WP</button>',
+          template: '<a role="button" ng-click="sendToWordPress()" name="Send Options Object to Wordpress">To WordPress</a>',
           link: function(scope) {
 
             /**

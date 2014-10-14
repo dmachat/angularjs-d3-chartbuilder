@@ -1,6 +1,7 @@
 .sidebar {
   .chartbuilder-sidebar-group {
     background: #f8f8f8;
+    padding: 0 0 10px;
     @include box-shadow(1px 1px 1px #e7e7e7);
     h2.select-dropdown {
       cursor: pointer;
@@ -8,25 +9,31 @@
         color: $grey;
       }
     }
-    .btn-group {
+    .btn-chartbuilder-group {
       margin: 0 0 10px;
+    }
+    .chart-dropdown {
+      position: relative;
+      margin: 20px 0;
+      .btn-chart-picker {
+        @include button-variant(#3276b1, #FFF, #3276b1);
+        text-align: left;
+        font-weight: bold;
+        width: 100%;
+      }
+    }
+    .well {
+      margin-top: 0;
     }
     textarea.paste-input {
       min-height: 180px;
       font-family: monospace;
     }
-  }
-  .select-chart-group {
-    background: #f8f8f8;
-    cursor: pointer;
-    @include box-shadow(1px 1px 1px #e7e7e7);
-    border-bottom: 2px solid #e7e7e7;
-    ul.dropdown-menu {
-      width: 100%;
+    .save-chart-group {
+      border-top: 2px solid #e7e7e7;
+      padding: 20px 0 10px;
+      margin: 20px 0 0;
     }
-  }
-  .chartbuilder-sidebar-separator {
-    border-bottom: 1px solid #e7e7e7;
   }
   .input-group {
     width: 100%;
@@ -42,24 +49,31 @@
       }
     }
   }
-  [structure-data-input] {
-    .panel-body {
-      padding: 0;
-    }
-  }
-  .dropdown-menu > li {
+  .dropdown-menu {
+    width: 100%;
+    > li {
       position: relative;
-  }
-  .dropdown-menu > li > a .thumbnail {
-      position: absolute; 
-      left: 100%;
-      top: -10px;
-      display: none;    
-      width: 350px;
-      height: auto;
-      margin-left: 5px;
-  }
-  .dropdown-menu > li > a:hover .thumbnail  {
-      display: block;    
+      > a {
+        .thumbnail {
+          position: absolute; 
+          left: 100%;
+          top: -10px;
+          display: none;    
+          width: 350px;
+          height: auto;
+          margin-left: 5px;
+        }
+        &:hover .thumbnail {
+          display: block;    
+        }
+      }
+      > .btn-file-input {
+        padding: 3px 20px;
+        font-weight: bold;
+        &:hover, &:focus {
+          background-color: #f5f5f5;
+        }
+      }
+    }
   }
 }

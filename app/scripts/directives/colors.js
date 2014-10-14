@@ -7,8 +7,7 @@ define([
       directive('chartbuilderColors', function () {
         return {
           restrict: 'EA',
-          transclude: true,
-          template: ['<div class="panel-body color-picker" ng-if="!chartbuilderData.options.customColors">',
+          template: ['<div class="color-picker" ng-if="!chartbuilderData.options.customColors" ng-model="chartbuilderData.colors" ui-sortable>',
                        '<span colorpicker ',
                          'colorpicker-with-input="true" ',
                          'ng-model="chartbuilderData.colors[$index]" ',
@@ -17,8 +16,8 @@ define([
                          'class="color-box"',
                          '>',
                        '</span>',
-                       '<span class="glyphicon glyphicon-plus" ng-click="addNewColor()"></span>',
-                       '<span class="glyphicon glyphicon-transfer" ng-click="reverseColors()"></span>',
+                       '<span popover="Add another color" popover-trigger="mouseenter" ng-click="addNewColor()"><span class="glyphicon glyphicon-plus center-block"></span></span>',
+                       '<span popover="Reverse the color palette" popover-trigger="mouseenter" ng-click="reverseColors()"><span class="glyphicon glyphicon-transfer center-block"></span></span>',
                      '</div>',
                      '<a href ng-click="scaleColors()">use a color scale</a>',
                      '<a href ng-click="customColors()">pick colors for every item</a>'].join(''),

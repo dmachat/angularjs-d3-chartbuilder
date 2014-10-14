@@ -45,15 +45,18 @@
               caption: '1a. Edit a caption for a map',
             },
             highcharts: {
-              options: {
-                "chart": {
-                  "type": "areaspline"
-                },
-                "plotOptions": {
-                  "series": {
-                    "stacking": ""
+              xAxis: {
+                categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+              },
+              labels: {
+                items: [{
+                  html: 'Total fruit consumption',
+                  style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
                   }
-                }
+                }]
               },
               series: [],
               size: {

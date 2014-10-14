@@ -1,6 +1,5 @@
 $fa-font-path: '../bower_components/font-awesome/fonts';
 @import '../bower_components/font-awesome/scss/font-awesome';
-@import '../bower_components/Buttons/scss/buttons';
 @import '../bower_components/animate-sass/animate';
 $icon-font-path: '../bower_components/sass-bootstrap/fonts/';
 @import '../bower_components/sass-bootstrap/lib/bootstrap';
@@ -70,13 +69,6 @@ body {
 }
 .marketing p + h4 {
     margin-top: 28px;
-}
-
-.main-content-container {
-  .col-lg-9 {
-    position: fixed;
-    right: 0;
-  }
 }
 
 /* Responsive: Portrait tablets and up */

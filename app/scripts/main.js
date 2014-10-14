@@ -7,7 +7,7 @@ define('main', [], function() {
       'angular-resource': '../bower_components/angular-resource/angular-resource',
       'angular-animate': '../bower_components/angular-animate/angular-animate',
       'ui-router': '../bower_components/angular-ui-router/release/angular-ui-router',
-      'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap',
+      'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
       'modernizr': '../bower_components/modernizr/modernizr',
       'comma-separated-values': '../bower_components/comma-separated-values/csv',
       'jquery': '../bower_components/jquery/dist/jquery',

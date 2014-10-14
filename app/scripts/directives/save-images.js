@@ -11,7 +11,7 @@ define([
         return {
           restrict: 'EA',
           replace: true,
-          template: '<button type="button" class="btn btn-default" ng-click="saveImage()">save image</button>',
+          template: '<a role="button" ng-click="saveImage()">As an image</a>',
           link: function(scope) {
             scope.saveImage = function() {
 
