@@ -43,7 +43,7 @@
             </li>
           </ul>
         </div>
-        <a role="button" class="btn btn-sm btn-default" ng-show="chartbuilderData.data.values.length" ng-click="chartbuilderData.downloadCSV()">Download Data as CSV</a>
+        <a role="button" class="btn btn-sm btn-default" ng-show="chartbuilderData.data[0].values.length" ng-click="chartbuilderData.downloadCSV()">Download Data as CSV</a>
         <a role="button" class="btn btn-sm btn-default" ng-click="chartbuilderData.resetData()">Clear All Data</a>
         <a role="button" class="btn btn-sm btn-default" ng-click="liveEditPanel = !liveEditPanel" ng-class="{ 'btn-primary': liveEditPanel }">{{ liveEditPanel ? 'Disable' : 'Enable' }} Live Edit</a>
         <a role="button" style="width: 30px" class="btn btn-sm btn-default" ng-show="modules[chartbuilderData.name].dataHelp" ng-click="showDataHelp = !showDataHelp" ng-class="{ 'btn-info': showDataHelp }">?</a>
@@ -78,10 +78,16 @@
         <div chartbuilder-colors></div>
       </div>
 
-      <div ng-show="chartCustomTab === 'Advanced'">
-        <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>
-        <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>
-        <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
+      <div ng-show="chartCustomTab === 'Advanced'" class="panel panel-default">
+        <div class="panel-heading">Advanced Configuration Options<button type="button" class="close pull-right" ng-click="chartCustomTab = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+        <div class="panel-body chartbuilder-panel-options">
+          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />
+        </div>
+        <div class="panel-heading">Template File Options</div>
+        <div class="panel-body">
+          <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>
+          <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>
+        </div>
       </div>
     </div>
 
