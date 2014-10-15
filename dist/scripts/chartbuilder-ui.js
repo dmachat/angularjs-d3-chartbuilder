@@ -273,6 +273,7 @@ angular.module('chartbuilderOptions', []);
    */
 
   var app = angular.module('chartbuilderCharts', ['datamaps', 'chartbuilder.nvd3', 'chartbuilderOptions'])
+    .value('pageCharts', {})
     .directive('chartbuilderChart', ['$compile', function($compile) {
       return {
         restrict: 'EA',
@@ -300,7 +301,7 @@ angular.module('chartbuilderOptions', []);
 
           // Refresh directive when data changes
           scope.$watch('data', function(data) {
-            if (angular.isUndefined(data)) {
+            if (angular.isUndefined(data) || angular.isUndefined(data.template)) {
               return false;
             }
             childScope.$destroy();
@@ -309,9 +310,31 @@ angular.module('chartbuilderOptions', []);
           }, true);
 
           // Build template view
-          scope.build(childScope);
+          //scope.build(childScope);
         }
       };
+    }])
+    .controller('chartbuilderUICtrl', ['$scope', 'pageCharts', function($scope, pageCharts) {
+      $scope.pageCharts = pageCharts;
     }]);
+
   return app;
+}));
+
+(function(angular, factory) {
+  'use strict';
+
+  if (typeof define === 'function' && define.amd) {
+    define(['angular'], function(angular) {
+      return factory(angular);
+    });
+  } else {
+    return factory(angular);
+  }
+} (angular || null, function(angular) {
+
+  'use strict';
+  angular.element(document).ready(function() {
+    angular.bootstrap(document, ['chartbuilderCharts']);
+  });
 }));
