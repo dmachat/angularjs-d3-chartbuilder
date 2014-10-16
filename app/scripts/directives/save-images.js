@@ -13,8 +13,7 @@ define([
           replace: true,
           template: '<a role="button" ng-click="saveImage()">As an image</a>',
           link: function(scope) {
-            scope.saveImage = function() {
-
+            scope.makeImage = function(){
               // Set up elements and svg
               var chartElement = document.getElementById('chart'),
                 svg = chartElement.getElementsByTagName('svg')[0],
@@ -26,11 +25,14 @@ define([
 
               // SVG -> Canvas
               canvg('canvas', svgXml, { renderCallback: 'scope.downloadImage' });
+              return canvas.toDataURL('image/png');
+            };
 
+            scope.saveImage = function() {
               // Canvas -> file
               var a = document.createElement('a');
               a.download = 'image.png';
-              a.href = canvas.toDataURL('image/png');
+              a.href = scope.makeImage();
               document.body.appendChild(a);
               a.click();
 
