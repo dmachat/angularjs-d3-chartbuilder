@@ -176,11 +176,16 @@ define([
 
               var chartData = parseDataForWP(scope.chartbuilderData);
 
+              var chartImg = scope.makeImage();
+
               $window.parent.postMessage({
                 src : 'chartbuilder',
                 channel : 'upstream',
                 msg : 'chartData',
-                data : chartData,
+                data : {
+                  chartData : chartData,
+                  chartImg : chartImg
+                }
               }, $window.location.href);
             };
           }
