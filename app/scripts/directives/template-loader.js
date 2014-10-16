@@ -77,6 +77,7 @@ define([
       .directive('chartOptionsSaver', ['chartbuilderUtils', function(chartbuilderUtils) {
         return {
           restrict: 'EA',
+          template: '<a href="" ng-click="downloadOptionsObject()">As Chart file</a>',
           link: function(scope, element, attrs) {
             // Download the current chartbuilderData object
             scope.downloadOptionsObject = function() {

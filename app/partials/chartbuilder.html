@@ -100,7 +100,7 @@
         </button>
         <ul class="dropdown-menu" role="menu">
           <li><chartbuilder-save-to-png></chartbuilder-save-to-png></li>
-          <li><a href="" ng-click="downloadOptionsObject()">As Chart file</a></li>
+          <li chart-options-saver></li>
           <li><chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window></li>
         </ul>
       </div>
