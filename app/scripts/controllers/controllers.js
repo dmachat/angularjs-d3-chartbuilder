@@ -17,9 +17,11 @@ define(['angular', 'services', 'angular-color-picker'], function(angular) {
       '$scope',
       'chartbuilderModuleRegistry',
       'chartbuilderData',
-      function($scope, chartbuilderModuleRegistry, chartbuilderData) {
+      'chartbuilderError',
+      function($scope, chartbuilderModuleRegistry, chartbuilderData, chartbuilderError) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
+        $scope.chartbuilderError = chartbuilderError;
 
         $scope.getAdvancedOptions = function() {
           if (!$scope.optionsLoaded) {

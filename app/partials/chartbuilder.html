@@ -23,6 +23,13 @@
     </div>
 
     <div class="col-lg-12">
+      <div class="alert alert-danger alert-dismissible" role="role" ng-show="chartbuilderError.$error" ng-messages="chartbuilderError.$error">
+        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <div ng-message="invaliddata">{{ chartbuilderError.message }}</div>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
       <h4><i class="fa fa-database"></i> Chart Data</h4>
       <div class="btn-group btn-chartbuilder-group">
         <div class="btn-group">
@@ -119,7 +126,7 @@
 
   <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>
 
-  <div class="alert alert-info alert-dismissable">
+  <div class="alert alert-info alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
     <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
   </div>

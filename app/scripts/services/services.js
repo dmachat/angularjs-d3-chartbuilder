@@ -23,164 +23,188 @@ define(['angular', 'd3'], function(angular, d3) {
         });
       };
     }])
-    .service('chartbuilderData', ['$state', '$filter', 'chartbuilderUtils', 'chartbuilderDefaultOptions', function($state, $filter, chartbuilderUtils, chartbuilderDefaultOptions) {
-      var dataStore = {
-        options: {},
-        meta: {},
-        data: [],
-        columnValues: [],
-        resetData: function() {
-          this.data = [{ key: 'Example Group', values: [] }];
-          this.preloaded = false;
-        },
-        addGroup: function(title) {
-          this.data.push({ key: title, values: [] });
-        },
-        duplicateGroup: function(title) {
-          var _this = this;
-          var values = _this.data[_this.data.length - 1].values.map(function(object) {
-            return object;
-          });
-          _this.data.push({ key: title, values: values });
-        },
-        showSampleData: function() {
-          this.data = this.sampleData.exampleData;
-        },
-        init: function(init) {
+    .service('chartbuilderError', function() {
+      var errors = {
+        $error: '',
+        message: '',
+        newError: function(message, error) {
+          this.message = message;
+          this.$error = error;
+        }
+      }
+      return errors;
+    })
+    .service('chartbuilderData', [
+      '$state',
+      '$filter',
+      'chartbuilderUtils',
+      'chartbuilderDefaultOptions',
+      'chartbuilderError',
+      function($state, $filter, chartbuilderUtils, chartbuilderDefaultOptions, chartbuilderError) {
+        var dataStore = {
+          options: {},
+          meta: {},
+          data: [],
+          columnValues: [],
+          resetData: function() {
+            this.data = [{ key: 'Example Group', values: [] }];
+            this.preloaded = false;
+          },
+          addGroup: function(title) {
+            this.data.push({ key: title, values: [] });
+          },
+          duplicateGroup: function(title) {
+            var _this = this;
+            var values = _this.data[_this.data.length - 1].values.map(function(object) {
+              return object;
+            });
+            _this.data.push({ key: title, values: values });
+          },
+          showSampleData: function() {
+            this.data = this.sampleData.exampleData;
+          },
+          init: function(init) {
 
-          if (this.preloaded) {
-            return;
-          }
-
-          this.sampleData = init.data;
-          this.dataFormat = init.dataFormat;
-          this.name = init.name;
-          this.slug = init.slug;
-          this.template = init.template;
-
-          if (angular.isDefined(init.options)) { 
-            this.options = init.options;
-          } else if (angular.isDefined(init.highcharts)) {
-            this.type = 'highcharts';
-            this.highcharts = init.highcharts;
-          }
-
-          if (angular.isDefined(init.meta)) {
-            this.meta = init.meta;
-          }
-          if (angular.isDefined((chartbuilderDefaultOptions.options || {}).meta)) {
-            this.meta = angular.extend(this.meta, chartbuilderDefaultOptions.options.meta);
-          }
-
-          // Set colors. User defined or d3 defaults
-          if (angular.isDefined(init.colors)) {
-            this.colors = init.colors;
-          }
-          else if (((chartbuilderDefaultOptions.options || {}).colors || []).length) {
-            this.colors = chartbuilderDefaultOptions.options.colors;
-          }
-          else {
-            this.colors = d3defaultColors();
-          }
-
-          // Reset the data object according to format
-          this.resetData();
-        },
-        load: function(chart) {
-
-          var _this = this,
-            currentSlug = _this.slug;
-
-          _this.preloaded = true;
-
-          // Make sure we're on the right page to render the chart
-          if (currentSlug !== chart.slug) {
-            $state.go('chartbuilder.' + chart.slug);
-          }
-
-          // Map the options object to chartbuilderData
-          angular.forEach(chart, function(options, key) {
-            _this[key] = options;
-          });
-
-        },
-        loadDataSet: function(file) {
-          var _this = this,
-            type = file.match(/\t(.*)$/m) ? 'tsv' : 'csv',
-            headers;
-
-          // Reset data
-          _this.data = [];
-
-          // Stream the parsed csv to output
-          d3[type].parseRows(file, function(row, idx) {
-            var i = 1;
-            if (idx === 0) {
-
-              // Set the headers
-              headers = angular.extend([], row);
-
-              // Write a new data group for each column > 1
-              for (i = 1; i < headers.length; i++) {
-                _this.data[i - 1] = {
-                  'key': headers[i],
-                  'values': []
-                };
-              }
+            if (this.preloaded) {
               return;
             }
 
-            // Push column values into respective data groups
-            for (i = 1; i < headers.length; i++) {
-              var newRow = {};
-              newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
-              newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
+            this.sampleData = init.data;
+            this.dataFormat = init.dataFormat;
+            this.name = init.name;
+            this.slug = init.slug;
+            this.template = init.template;
 
-              _this.data[i - 1].values.push(newRow);
+            if (angular.isDefined(init.options)) { 
+              this.options = init.options;
+            } else if (angular.isDefined(init.highcharts)) {
+              this.type = 'highcharts';
+              this.highcharts = init.highcharts;
             }
 
-          }, function(error) {
-            _this.data = [];
-            _this.errorMessage = error;
-          });
-        },
-        loadOptions: function(options) {
-
-          var _this = this;
-          angular.forEach(options, function(values, name) {
-            if (name === 'colors') {
-              _this.colors = values;
+            if (angular.isDefined(init.meta)) {
+              this.meta = init.meta;
             }
-          });
+            if (angular.isDefined((chartbuilderDefaultOptions.options || {}).meta)) {
+              this.meta = angular.extend(this.meta, chartbuilderDefaultOptions.options.meta);
+            }
 
-        },
-        syncData: function() {
-          if (this.type === 'highcharts') {
-            this.highcharts.series = this.data;
-          }
-        },
-        downloadCSV: function() {
+            // Set colors. User defined or d3 defaults
+            if (angular.isDefined(init.colors)) {
+              this.colors = init.colors;
+            }
+            else if (((chartbuilderDefaultOptions.options || {}).colors || []).length) {
+              this.colors = chartbuilderDefaultOptions.options.colors;
+            }
+            else {
+              this.colors = d3defaultColors();
+            }
 
-          var _this = this;
+            // Reset the data object according to format
+            this.resetData();
+          },
+          load: function(chart) {
 
-          var collateData = [];
+            var _this = this,
+              currentSlug = _this.slug;
 
-          angular.forEach(_this.data, function(group) {
-            angular.forEach(group.values, function(row, idx) {
-              var props = {};
-              angular.forEach(_this.dataFormat, function(column, columnId) {
-                props[(columnId !== 0 ? group.key : column.key)] = row[column.key];
-              });
-              collateData[idx] = angular.extend((collateData[idx] || {}), props);
+            _this.preloaded = true;
+
+            // Make sure we're on the right page to render the chart
+            if (currentSlug !== chart.slug) {
+              $state.go('chartbuilder.' + chart.slug);
+            }
+
+            // Map the options object to chartbuilderData
+            angular.forEach(chart, function(options, key) {
+              _this[key] = options;
             });
-          });
 
-          var csv = d3.csv.format(collateData);
-          chartbuilderUtils.saveFile(csv, 'raw_data.csv', 'text/csv');
-        }
-      };
+          },
+          loadDataSet: function(file) {
+            var _this = this,
+              type = file.match(/\t(.*)$/m) ? 'tsv' : 'csv',
+              headers;
 
-      return dataStore;
+            // Reset data
+            _this.data = [];
+
+            if (file.match(/^[^A-Za-z\,\w]/)) {
+              console.log('error');
+              chartbuilderError.newError('Invalid tabular data', 'invaliddata');
+              return;
+            }
+
+            // Stream the parsed csv to output
+            d3[type].parseRows(file, function(row, idx) {
+              var i = 1;
+              if (idx === 0) {
+
+                // Set the headers
+                headers = angular.extend([], row);
+
+                // Write a new data group for each column > 1
+                for (i = 1; i < headers.length; i++) {
+                  _this.data[i - 1] = {
+                    'key': headers[i],
+                    'values': []
+                  };
+                }
+                return;
+              }
+
+              // Push column values into respective data groups
+              for (i = 1; i < headers.length; i++) {
+                var newRow = {};
+                newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
+                newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
+
+                _this.data[i - 1].values.push(newRow);
+              }
+
+            }, function(error) {
+              console.log(error);
+              _this.data = [];
+              chartbuilderError.newError(error, 'd3');
+            });
+          },
+          loadOptions: function(options) {
+
+            var _this = this;
+            angular.forEach(options, function(values, name) {
+              if (name === 'colors') {
+                _this.colors = values;
+              }
+            });
+
+          },
+          syncData: function() {
+            if (this.type === 'highcharts') {
+              this.highcharts.series = this.data;
+            }
+          },
+          downloadCSV: function() {
+
+            var _this = this;
+
+            var collateData = [];
+
+            angular.forEach(_this.data, function(group) {
+              angular.forEach(group.values, function(row, idx) {
+                var props = {};
+                angular.forEach(_this.dataFormat, function(column, columnId) {
+                  props[(columnId !== 0 ? group.key : column.key)] = row[column.key];
+                });
+                collateData[idx] = angular.extend((collateData[idx] || {}), props);
+              });
+            });
+
+            var csv = d3.csv.format(collateData);
+            chartbuilderUtils.saveFile(csv, 'raw_data.csv', 'text/csv');
+          }
+        };
+
+        return dataStore;
 
     }])
     .service('chartbuilderUtils', function() {
