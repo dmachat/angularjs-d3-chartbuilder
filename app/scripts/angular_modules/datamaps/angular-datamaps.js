@@ -99,7 +99,10 @@
 
             // Watch data changing. Only refresh if options or data map points have changed
             scope.$watch('data', function(data, old) {
-              if (data[0].values.length !== old[0].values.length) {
+              if (!data.length) {
+                scope.api.updateWithData({ values: [] });
+              }
+              else if (old.length && (data[0].values || []).length !== (old[0].values || []).length) {
                 scope.api.refresh();
               }
               else {

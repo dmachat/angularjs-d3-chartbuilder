@@ -42,7 +42,7 @@
             slug: module.slug,
             data: data,
             dataFormat: [{ 'key': 'location', 'type': 'text' }, { 'key': 'value', 'type': 'text' }],
-            dataHelp: 'Data may be entered with the first column as the geography, and subsequent columns as the values. When uploading or pasting data, subsequent columns will be treated as a new data group.',
+            dataHelp: 'Data may be entered with the first column as the geography, and subsequent columns as the values. When uploading or pasting data, subsequent columns will be treated as a new data group. The columns values in the first row will be assigned as the group name; the first value can be either "location" or a blank.',
             template: template,
             meta: {
               title: module.name,

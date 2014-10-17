@@ -10,7 +10,7 @@
       </div>
       <input class="form-control input-sm" ng-if="children[key].type() === 'number'" type="number" class="form-control" ng-model="json[key]" />
       <select class="form-control input-sm selector" ng-if="children[key].type() === 'selector' || selectedOptions[key]" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as value.label for (key, value) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>
-      <input class="form-control input-sm" ng-if="children[key].type() !== 'number' && children[key].type() !== 'boolean' && children[key].type() !== 'selector' && !selectedOptions[key]" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null"/>
+      <input class="form-control input-sm" ng-if="children[key].type() !== 'number' && children[key].type() !== 'boolean' && children[key].type() !== 'selector' && !selectedOptions[key]" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null" ng-model-options="{ debounce: 250 }" />
     </div>
     <chartbuilder-options key="{{ key }}" json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>
   </li>

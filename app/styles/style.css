@@ -10559,14 +10559,8 @@ chartbuilder-options ul ul {
   border: 1px solid #ffffff;
 }
 
-/* iframe */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000317}}
-#chartbuilder-frame {
-  background-color: #b9b9b9;
-}
-
 /* This is your main css file */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000322}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000317}}
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
@@ -10575,22 +10569,22 @@ chartbuilder-options ul ul {
 }
 
 /* Space out content a bit */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000330}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000325}}
 body {
   padding-bottom: 20px;
   /* Container relative to hold animated content */
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000327}}
 body > .main-content-container {
   margin: 50px 0 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000337}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000332}}
 body .container .main-content-container {
   position: relative;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000345}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000340}}
 .header,
 .marketing,
 .footer {
@@ -10599,38 +10593,38 @@ body .container .main-content-container {
 }
 
 /* Custom page footer */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000353}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000348}}
 .footer {
   padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000358}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000353}}
 .container-narrow > hr {
   margin: 30px 0;
 }
 
 /* Main marketing message and sign up button */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000358}}
 .jumbotron {
   text-align: center;
   border-bottom: 1px solid #e5e5e5;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000367}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000362}}
 .jumbotron .btn {
   font-size: 21px;
   padding: 14px 24px;
 }
 
 /* Supporting marketing content */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000368}}
 .marketing {
   margin: 40px 0;
 }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000376}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000371}}
 .marketing p + h4 {
   margin-top: 28px;
 }
@@ -10638,13 +10632,13 @@ body .container .main-content-container {
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Space out the masthead */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000384}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000379}}
   .header {
     margin-bottom: 30px;
   }
 
   /* Remove the bottom border on the jumbotron for visual effect */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000388}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/Alley\/broadway\/themes\/vip\/kffpch\/inc\/plugins\/wordpress-chartbuilder\/app\/app\/styles\/style\.scss}line{font-family:\0000383}}
   .jumbotron {
     border-bottom: 0;
   }

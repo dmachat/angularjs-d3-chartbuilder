@@ -31,7 +31,7 @@ define(['angular', 'd3'], function(angular, d3) {
           this.message = message;
           this.$error = error;
         }
-      }
+      };
       return errors;
     })
     .service('chartbuilderData', [
@@ -89,6 +89,11 @@ define(['angular', 'd3'], function(angular, d3) {
               this.meta = angular.extend(this.meta, chartbuilderDefaultOptions.options.meta);
             }
 
+            // Apply default options to the chart setup
+            if (angular.isDefined((chartbuilderDefaultOptions.options || {}).chart)) {
+              this.options.chart = angular.extend(this.options.chart, chartbuilderDefaultOptions.options.chart);
+            }
+
             // Set colors. User defined or d3 defaults
             if (angular.isDefined(init.colors)) {
               this.colors = init.colors;
@@ -124,13 +129,12 @@ define(['angular', 'd3'], function(angular, d3) {
           loadDataSet: function(file) {
             var _this = this,
               type = file.match(/\t(.*)$/m) ? 'tsv' : 'csv',
-              headers;
+              headers = [];
 
             // Reset data
             _this.data = [];
 
             if (file.match(/^[^A-Za-z\,\w]/)) {
-              console.log('error');
               chartbuilderError.newError('Invalid tabular data', 'invaliddata');
               return;
             }
@@ -140,8 +144,11 @@ define(['angular', 'd3'], function(angular, d3) {
               var i = 1;
               if (idx === 0) {
 
-                // Set the headers
-                headers = angular.extend([], row);
+                // Set the headers, allowing for blanks in the first column
+                if (row.length === 1) {
+                  headers.push(_this.dataFormat[0].key);
+                }
+                headers = headers.concat(row);
 
                 // Write a new data group for each column > 1
                 for (i = 1; i < headers.length; i++) {
@@ -163,7 +170,6 @@ define(['angular', 'd3'], function(angular, d3) {
               }
 
             }, function(error) {
-              console.log(error);
               _this.data = [];
               chartbuilderError.newError(error, 'd3');
             });
