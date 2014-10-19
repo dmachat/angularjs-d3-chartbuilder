@@ -39,6 +39,7 @@
             slug: module.slug,
             data: data,
             dataFormat: [{ 'key': 'label', 'type': 'text' }, { 'key': 'value', 'type': 'number' }],
+            dataHelp: 'The first column will be the label for the bar, and subsequent columns will be added as data groups. Subsequent columns must be in a numerical format so values can be plotted against the y-axis.',
             template: template,
             meta: {
               title: module.name,

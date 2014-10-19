@@ -1,98 +1,87 @@
-<div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>
-  <div class="panel panel-default"
-    ng-repeat="group in structureData.data track by $index"
-    >
-    <div class="panel-heading">
-      <div class="panel-title">
-        Data Group {{ $index + 1 }}: 
-        <edit-in-place value="group.key" type="text"></edit-in-place>
-        <a data-toggle="collapse"
-          data-parent="#accordion"
-          data-target="#collapse-{{ $index }}"
-          href=""
-          ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"
+<div class="panel panel-default">
+  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+    <div class="panel-body">
+      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>
+        <div class="panel panel-default panel-chartbuilder-table"
+          ng-repeat="group in structureData.data track by $index"
           >
-          <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
-        </a>
-      </div>
-    </div>
-    <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">
-      <div class="panel-body">
-        <table class="table table-condensed table-striped">
-          <thead>
-            <tr>
-              <th>Remove</th>
-              <th data-ng-repeat="column in structureData.dataFormat">
-                {{ column.key }}
-              </th>
-              <th ng-if="structureData.options.customColors">Color</th>
-            </tr>
-          </thead>
-          <tbody ng-model="group.values" ui-sortable>
-            <tr ng-repeat="rows in group.values track by $index">
-              <td>
-                <span class="glyphicon glyphicon-minus"
-                  ng-click="removeRow($parent.$index, $index)"
-                  >
-                </span>
-              </td>
-              <td ng-repeat="column in structureData.dataFormat track by column.key">
-                <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
-                  type="{{ column.type }}"
-                  >
-                </edit-in-place>
-              </td>
-              <td ng-if="structureData.options.customColors" class="color-picker">
-                <span colorpicker
-                  colorpicker-with-input="true"
-                  ng-model="structureData.data[$parent.$index].values[$index].color"
-                  ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"
-                  class="color-box"
-                  >
-                </span>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <a href><span class="glyphicon glyphicon-plus"
-                  ng-click="addRow($index)"
-                  >
-                  </span></a>
-              </td>
-              <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">
-                <input type="{{ column.type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="clearfix"><a href class="pull-right" ng-click="singleSeriesData[gidx] = !singleSeriesData[gidx]">single series data</a></div>
-        <div class="pull-right" ng-if="singleSeriesData[gidx]">
-          <div file-input-button on-file-load="readFile(file, $index)" class="btn btn-default btn-xs btn-file-input" name="Read File">
-            <i class="fa fa-upload"></i>
+          <div class="panel-heading">
+            <div class="panel-title">
+              Data Group {{ $index + 1 }}: 
+              <edit-in-place value="group.key" type="text"></edit-in-place>
+              <a data-toggle="collapse"
+                data-parent="#accordion"
+                data-target="#collapse-{{ $index }}"
+                href=""
+                ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"
+                >
+                <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
+              </a>
+            </div>
           </div>
-          <button ng-click="pasteInputToggle = !pasteInputToggle" type="button" class="btn btn-default btn-xs" name="Paste">
-            <i class="fa fa-edit"></i>
-          </button>
-          <button ng-click="downloadCSV($index)" type="button" class="btn btn-default btn-xs" name="Download CSV">
-            <i class="fa fa-download"></i>
-          </button>
+          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">
+            <div class="panel-body">
+              <table class="table table-condensed table-striped">
+                <thead>
+                  <tr>
+                    <th>Remove</th>
+                    <th data-ng-repeat="column in structureData.dataFormat">
+                      {{ column.key }}
+                    </th>
+                    <th ng-if="structureData.options.customColors">Color</th>
+                  </tr>
+                </thead>
+                <tbody ng-model="group.values" ui-sortable>
+                  <tr ng-repeat="rows in group.values track by $index">
+                    <td>
+                      <span class="glyphicon glyphicon-minus"
+                        ng-click="removeRow($parent.$index, $index)"
+                        >
+                      </span>
+                    </td>
+                    <td ng-repeat="column in structureData.dataFormat track by column.key">
+                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
+                        type="{{ column.type }}"
+                        >
+                      </edit-in-place>
+                    </td>
+                    <td ng-if="structureData.options.customColors" class="color-picker">
+                      <span colorpicker
+                        colorpicker-with-input="true"
+                        ng-model="structureData.data[$parent.$index].values[$index].color"
+                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"
+                        class="color-box"
+                        >
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href><span class="glyphicon glyphicon-plus"
+                        ng-click="addRow($index)"
+                        >
+                        </span></a>
+                    </td>
+                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">
+                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <textarea ng-show="pasteInputToggle" ng-model="pasteInputText" ng-change="onPasteInputChanged(pasteInputText, $index)"></textarea>
       </div>
     </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <div class="panel-title">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
-          </span>
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last</button>
-          </span>
-        </div>
+    <div class="panel-footer">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>
+        </span>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last Group</button>
+        </span>
       </div>
     </div>
   </div>

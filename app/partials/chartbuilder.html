@@ -55,7 +55,7 @@
         <a role="button" class="btn btn-sm btn-default" ng-click="liveEditPanel = !liveEditPanel" ng-class="{ 'btn-primary': liveEditPanel }">{{ liveEditPanel ? 'Disable' : 'Enable' }} Live Edit</a>
         <a role="button" style="width: 30px" class="btn btn-sm btn-default" ng-show="modules[chartbuilderData.name].dataHelp" ng-click="showDataHelp = !showDataHelp" ng-class="{ 'btn-info': showDataHelp }">?</a>
       </div>
-      <dl ng-show="showDataHelp" class="well well-sm">
+      <dl ng-show="showDataHelp && modules[chartbuilderData.name].dataHelp" class="well well-sm">
         <dt>How to enter data for this chart:<dt>
         <dd>{{ modules[chartbuilderData.name].dataHelp }}</dd>
       </dl>
@@ -69,9 +69,7 @@
           </div>
         </div>
       </div>
-      <div ng-show="liveEditPanel" class="panel panel-default">
-        <div structure-data-input structure-data="chartbuilderData" expand-data="dataInputTextarea"></div>
-      </div>
+      <structure-data-input ng-show="liveEditPanel" structure-data="chartbuilderData" expand-data="dataInputTextarea">
     </div>
 
     <div class="col-lg-12">
