@@ -73,6 +73,10 @@ angular.module('chartbuilderOptions', []);
   }
 
   var app = angular.module('chartbuilderOptions').
+    value('chartbuilderOptionHelp', {
+      'forceX': 'Set the range of the graph if you\'d like something other than the min and max values from your data set',
+      'margin': 'Adjust the whitespace around this element'
+    }).
     value('chartbuilderOptionValues', {
 
       //
@@ -181,7 +185,7 @@ angular.module('chartbuilderOptions', []);
         'function:year': {
           'label': 'year',
           'option': function(d) {
-            return d3.time.format('%y')(new Date(Date.parse(d)));
+            return d3.time.format('\'%y')(new Date(d));
           }
         }
       },
@@ -189,7 +193,13 @@ angular.module('chartbuilderOptions', []);
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
-        'function:label/value': xLabelValue
+        'function:label/value': xLabelValue,
+        'function:date': {
+          'label': 'date',
+          'option': function(d) {
+            return new Date(Date.parse(d.x));
+          }
+        }
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,
@@ -273,6 +283,7 @@ angular.module('chartbuilderOptions', []);
    */
 
   var app = angular.module('chartbuilderCharts', ['datamaps', 'chartbuilder.nvd3', 'chartbuilderOptions'])
+    .value('pageCharts', {})
     .directive('chartbuilderChart', ['$compile', function($compile) {
       return {
         restrict: 'EA',
@@ -292,14 +303,15 @@ angular.module('chartbuilderOptions', []);
               '<h2>{{ data.meta.title }}</h2>',
               '<h4>{{ data.meta.subtitle }}</h4>',
               scope.data.template,
-              '<p>{{ data.meta.caption }}</p>'
+              '<p>{{ data.meta.caption }}</p>',
+              '<h6 ng-if="data.meta.attribution">{{ data.meta.attribution }}</h6>'
             ].join('');
             element.html('').append($compile(template)(_scope));
           };
 
           // Refresh directive when data changes
           scope.$watch('data', function(data) {
-            if (angular.isUndefined(data)) {
+            if (angular.isUndefined(data) || angular.isUndefined(data.template)) {
               return false;
             }
             childScope.$destroy();
@@ -308,9 +320,31 @@ angular.module('chartbuilderOptions', []);
           }, true);
 
           // Build template view
-          scope.build(childScope);
+          //scope.build(childScope);
         }
       };
+    }])
+    .controller('chartbuilderUICtrl', ['$scope', 'pageCharts', function($scope, pageCharts) {
+      $scope.pageCharts = pageCharts;
     }]);
+
   return app;
+}));
+
+(function(angular, factory) {
+  'use strict';
+
+  if (typeof define === 'function' && define.amd) {
+    define(['angular'], function(angular) {
+      return factory(angular);
+    });
+  } else {
+    return factory(angular);
+  }
+} (angular || null, function(angular) {
+
+  'use strict';
+  angular.element(document).ready(function() {
+    angular.bootstrap(document, ['chartbuilderCharts']);
+  });
 }));
