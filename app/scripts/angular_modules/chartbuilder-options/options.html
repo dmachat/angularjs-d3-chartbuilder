@@ -1,5 +1,13 @@
 <ul ng-hide="node.isCollapsed">
-  <li ng-repeat="key in utils.keys(json) track by key" ng-hide="utils.isHidden(key) || ((children[key].type() === 'function' || children[key].type() === 'selector') && !selectedOptions[key])" ng-class="{ active: !children[key].isCollapsed }" class="clearfix">
+<li tooltip="{{ children[key].help() }}"
+  tooltip-trigger="mouseover"
+  tooltip-popup-delay="100"
+  tooltip-placement="right"
+  ng-repeat="key in utils.keys(json) track by key"
+  ng-hide="utils.isHidden(key) || ((children[key].type() === 'function' || children[key].type() === 'selector') && !selectedOptions[key])"
+  ng-class="{ active: !children[key].isCollapsed }"
+  class="clearfix"
+  >
     <div ng-click="utils.clickNode(children[key])" ng-style="{ 'font-weight': children[key].isObject() ? 'bold' : '' }" ng-class="{ 'pull-left': !children[key].isObject() }">
       {{ key }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ 'glyphicon-chevron-right': children[key].isCollapsed, 'glyphicon-chevron-down': !children[key].isCollapsed }"></i>
     </div>

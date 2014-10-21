@@ -21,7 +21,7 @@ define([
       .service('chartbuilderOptionValueKeys', ['chartbuilderOptionValues', function(chartbuilderOptionValues) {
         return (chartbuilderOptionValues instanceof Object) ? Object.keys(chartbuilderOptionValues) : [];
       }])
-      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', 'chartbuilderOptionValueKeys', function($compile, chartbuilderUtils, chartbuilderOptionValues, chartbuilderOptionValueKeys) {
+      .directive('chartbuilderOptions', ['$compile', 'chartbuilderUtils', 'chartbuilderOptionValues', 'chartbuilderOptionValueKeys', 'chartbuilderOptionHelp', function($compile, chartbuilderUtils, chartbuilderOptionValues, chartbuilderOptionValueKeys, chartbuilderOptionHelp) {
         return {
           restrict: 'EA',
           scope: {
@@ -106,6 +106,12 @@ define([
                 // Calculate collection length for object or array
                 length: function() {
                   return ($scope.json instanceof Object) ? (Object.keys($scope.json).length) : 1
+                },
+
+                help: function() {
+                  if (chartbuilderOptionHelp.hasOwnProperty($scope.key)) {
+                    return chartbuilderOptionHelp[$scope.key];
+                  }
                 },
 
                 // Refresh template view

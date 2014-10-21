@@ -10452,27 +10452,31 @@ td.visible-print {
   margin: 20px 0 0;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000338}}
+.sidebar .chartbuilder-sidebar-group .panel-chartbuilder-table .panel-body {
+  padding: 0;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000343}}
 .sidebar .input-group {
   width: 100%;
   margin: 5px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000343}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000348}}
 .sidebar .chartbuilder-options .panel-heading {
   padding: 15px 15px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000347}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000352}}
 .sidebar .chartbuilder-options #collapse-advanced-options .panel-body {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000357}}
 .sidebar .dropdown-menu {
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000354}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000359}}
 .sidebar .dropdown-menu > li {
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000362}}
 .sidebar .dropdown-menu > li > a .thumbnail {
   position: absolute;
   left: 100%;
@@ -10482,16 +10486,16 @@ td.visible-print {
   height: auto;
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000366}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000371}}
 .sidebar .dropdown-menu > li > a:hover .thumbnail {
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000370}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000375}}
 .sidebar .dropdown-menu > li > .btn-file-input {
   padding: 3px 20px;
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000373}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000378}}
 .sidebar .dropdown-menu > li > .btn-file-input:hover, .sidebar .dropdown-menu > li > .btn-file-input:focus {
   background-color: #f5f5f5;
 }

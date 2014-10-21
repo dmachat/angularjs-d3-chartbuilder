@@ -69,6 +69,10 @@
   }
 
   var app = angular.module('chartbuilderOptions').
+    value('chartbuilderOptionHelp', {
+      'forceX': 'Set the range of the graph if you\'d like something other than the min and max values from your data set',
+      'margin': 'Adjust the whitespace around this element'
+    }).
     value('chartbuilderOptionValues', {
 
       //
@@ -177,7 +181,7 @@
         'function:year': {
           'label': 'year',
           'option': function(d) {
-            return d3.time.format('%y')(new Date(Date.parse(d)));
+            return d3.time.format('\'%y')(new Date(d));
           }
         }
       },
@@ -185,7 +189,13 @@
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
-        'function:label/value': xLabelValue
+        'function:label/value': xLabelValue,
+        'function:date': {
+          'label': 'date',
+          'option': function(d) {
+            return new Date(Date.parse(d.x));
+          }
+        }
       },
       'y': {
         'function:2d-array': yTwoDimensionalArray,

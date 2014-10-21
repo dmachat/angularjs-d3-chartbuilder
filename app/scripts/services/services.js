@@ -61,7 +61,21 @@ define(['angular', 'd3'], function(angular, d3) {
             _this.data.push({ key: title, values: values });
           },
           showSampleData: function() {
-            this.data = this.sampleData.exampleData;
+            var _this = this;
+            _this.data = _this.sampleData.exampleData;
+
+            // map unstructured array data to chart format
+            if (angular.isArray(_this.data[0].values[0])) {
+              angular.forEach(_this.data, function(dataGroup) {
+                dataGroup.values = dataGroup.values.map(function(unstructured) {
+                  var structuredData = {};
+                  angular.forEach(_this.dataFormat, function(format, idx) {
+                    structuredData[format.key] = unstructured[idx];
+                  });
+                  return structuredData;
+                });
+              });
+            }
           },
           init: function(init) {
 

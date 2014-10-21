@@ -49,10 +49,11 @@
               chart: {
                 type: module.slug,
                 height: 600,
-                x: 'function:x/y',
-                y: 'function:key/y',
                 forceX: [null, null],
-                forceY: [null, null]
+                forceY: [null, null],
+                xAxis: {
+                  tickFormat: 'function:year'
+                }
               }
             }
           }
