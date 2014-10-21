@@ -79,45 +79,45 @@ define([
             // Define properties of the current node
             $scope.node = {
 
-                // Check node is collapsed
-                isCollapsed: ($scope.collapsedLevel && +$scope.collapsedLevel) ? (+$scope.collapsedLevel <= 0) : true, /* set up isCollapsed properties, by default - true */
+              // Check node is collapsed
+              isCollapsed: ($scope.collapsedLevel && +$scope.collapsedLevel) ? (+$scope.collapsedLevel <= 0) : true, /* set up isCollapsed properties, by default - true */
 
-                // Check current node is object or array
-                isObject: function() {
-                  return angular.isObject($scope.json)
-                },
+              // Check current node is object or array
+              isObject: function() {
+                return angular.isObject($scope.json)
+              },
 
-                // Get type for current node
-                type: function() {
-                  var type = chartbuilderUtils.getType($scope.json);
+              // Get type for current node
+              type: function() {
+                var type = chartbuilderUtils.getType($scope.json);
 
-                  if (type === 'function'
-                      || (type === 'string'
-                        && (
-                          chartbuilderOptionValueKeys.indexOf($scope.key) > -1
-                        )
+                if (type === 'function'
+                    || (type === 'string'
+                      && (
+                        chartbuilderOptionValueKeys.indexOf($scope.key) > -1
                       )
-                    ) {
-                    return 'selector';
-                  }
-                  return type;
-                },
-
-                // Calculate collection length for object or array
-                length: function() {
-                  return ($scope.json instanceof Object) ? (Object.keys($scope.json).length) : 1
-                },
-
-                help: function() {
-                  if (chartbuilderOptionHelp.hasOwnProperty($scope.key)) {
-                    return chartbuilderOptionHelp[$scope.key];
-                  }
-                },
-
-                // Refresh template view
-                refresh: function() {
-                  $scope.refresh();
+                    )
+                  ) {
+                  return 'selector';
                 }
+                return type;
+              },
+
+              // Calculate collection length for object or array
+              length: function() {
+                return ($scope.json instanceof Object) ? (Object.keys($scope.json).length) : 1
+              },
+
+              help: function() {
+                if (chartbuilderOptionHelp.hasOwnProperty($scope.key)) {
+                  return chartbuilderOptionHelp[$scope.key];
+                }
+              },
+
+              // Refresh template view
+              refresh: function() {
+                $scope.refresh();
+              }
             };
           },
           link: function(scope, element, attrs) {

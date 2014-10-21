@@ -5,18 +5,45 @@
         <div class="panel panel-default panel-chartbuilder-table"
           ng-repeat="group in structureData.data track by $index"
           >
+          <div class="panel-heading data-group-title-heading">
+            <div class="panel-title">
+              <h5>
+                Data Group {{ $index + 1 }}: 
+                <edit-in-place value="group.key" type="text"></edit-in-place>
+                <a data-toggle="collapse"
+                  data-parent="#accordion"
+                  data-target="#collapse-{{ $index }}"
+                  href=""
+                  ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"
+                  >
+                  <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
+                </a>
+              </h5>
+            </div>
+          </div>
           <div class="panel-heading">
             <div class="panel-title">
-              Data Group {{ $index + 1 }}: 
-              <edit-in-place value="group.key" type="text"></edit-in-place>
-              <a data-toggle="collapse"
-                data-parent="#accordion"
-                data-target="#collapse-{{ $index }}"
-                href=""
-                ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"
-                >
-                <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
-              </a>
+              <div class="clearfix">
+                <h6 class="pull-left">Fill area under line?</h6>
+                <div class="btn-group pull-right" ng-if="structureData.slug === 'lineChart'" ng-model="group.area" ng-click="group.area = !group.area">
+                  <button type="button" class="btn btn-xs" ng-class="{ active: group.area, 'btn-primary': group.area, 'btn-default': !group.area }">On</button>
+                  <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, 'btn-primary': !group.area, 'btn-default': group.area }">Off</button>
+                </div>
+              </div>
+            </div>
+            <div class="panel-title">
+              <div class="clearfix">
+                <h6 class="pull-left">Series Color</h6>
+                <div class="color-picker pull-right">
+                  <span colorpicker
+                    colorpicker-with-input="true"
+                    ng-model="group.color"
+                    ng-style="{ background: (group.color || structureData.colors[$index]) }"
+                    class="color-box"
+                    >
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">

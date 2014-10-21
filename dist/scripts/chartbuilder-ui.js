@@ -74,8 +74,14 @@ angular.module('chartbuilderOptions', []);
 
   var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionHelp', {
-      'forceX': 'Set the range of the graph if you\'d like something other than the min and max values from your data set',
-      'margin': 'Adjust the whitespace around this element'
+      'forceX': {
+        'help': 'Set the range of the graph if you\'d like something other than the min and max values from your data set',
+        'label': 'X-axis endpoints'
+      },
+      'margin': {
+        'help': 'Adjust the whitespace around this element',
+        'label': 'Margin'
+      }
     }).
     value('chartbuilderOptionValues', {
 
