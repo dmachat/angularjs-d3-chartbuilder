@@ -74,8 +74,41 @@ angular.module('chartbuilderOptions', []);
 
   var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionHelp', {
-      'forceX': 'Set the range of the graph if you\'d like something other than the min and max values from your data set',
-      'margin': 'Adjust the whitespace around this element'
+      'forceX': {
+        'help': 'Set the min (0) and the max (1) values to scale this axis to',
+        'label': 'x-Axis Endpoints'
+      },
+      'forceY': {
+        'help': 'Set the min (0) and the max (1) values to scale this axis to',
+        'label': 'y-Axis Endpoints'
+      },
+      'x': {
+        'help': 'Select the correct data type for values on this axis',
+        'label': 'x-Axis Datatype'
+      },
+      'y': {
+        'help': 'Select the correct data type for values on this axis',
+        'label': 'y-Axis Datatype'
+      },
+      'showXAxis': {
+        'label': 'Show x-Axis'
+      },
+      'showYAxis': {
+        'label': 'Show y-Axis'
+      },
+      'staggerLabels': {
+        'label': 'Stagger Tick Labels'
+      },
+      'rightAlignYAxis': {
+        'label': 'Align y-Axis to the right'
+      },
+      'tooltips': {
+        'label': 'Show Tooltips'
+      },
+      'margin': {
+        'help': 'Adjust the whitespace around this element',
+        'label': 'Margin'
+      }
     }).
     value('chartbuilderOptionValues', {
 
