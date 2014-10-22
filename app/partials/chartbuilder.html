@@ -122,20 +122,22 @@
 </div>
 
 <div class="col-lg-9">
-  <div class="graph-wrapper">
-    <h4><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h4>
-    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
-    <div ui-view="graph" id="chart"></div>
-    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
-    <h6>{{ chartbuilderData.meta.attribution }}</h6>
+  <div bs-affix data-offset-top="0" data-offset-bottom="50" class="chartbuilder-affixed">
+    <div class="graph-wrapper">
+      <h4><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h4>
+      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>
+      <div ui-view="graph" id="chart"></div>
+      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>
+      <h6>{{ chartbuilderData.meta.attribution }}</h6>
+    </div>
+
+    <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>
+
+    <div class="alert alert-info alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
+    </div>
+
+    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>
   </div>
-
-  <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>
-
-  <div class="alert alert-info alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}
-  </div>
-
-  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>
 </div>

@@ -10455,28 +10455,32 @@ td.visible-print {
 .sidebar .chartbuilder-sidebar-group .panel-chartbuilder-table .panel-body {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000343}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000342}}
+.sidebar .chartbuilder-sidebar-group .data-group-title-heading {
+  border-bottom: 1px solid #ddd;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000346}}
 .sidebar .input-group {
   width: 100%;
   margin: 5px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000351}}
 .sidebar .chartbuilder-options .panel-heading {
   padding: 15px 15px 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000352}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000355}}
 .sidebar .chartbuilder-options #collapse-advanced-options .panel-body {
   padding: 0;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000357}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000360}}
 .sidebar .dropdown-menu {
   width: 100%;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000359}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000362}}
 .sidebar .dropdown-menu > li {
   position: relative;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000362}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000365}}
 .sidebar .dropdown-menu > li > a .thumbnail {
   position: absolute;
   left: 100%;
@@ -10486,16 +10490,16 @@ td.visible-print {
   height: auto;
   margin-left: 5px;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000371}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000374}}
 .sidebar .dropdown-menu > li > a:hover .thumbnail {
   display: block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000375}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000378}}
 .sidebar .dropdown-menu > li > .btn-file-input {
   padding: 3px 20px;
   font-weight: bold;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000378}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\0000381}}
 .sidebar .dropdown-menu > li > .btn-file-input:hover, .sidebar .dropdown-menu > li > .btn-file-input:focus {
   background-color: #f5f5f5;
 }

@@ -1,4 +1,4 @@
-define(['angular', 'services', 'angular-spectrum-colorpicker'], function(angular) {
+define(['angular', 'services', 'angular-spectrum-colorpicker', 'colors', 'bsAffix'], function(angular) {
   'use strict';
 
   /* Controllers */
