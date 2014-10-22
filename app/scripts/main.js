@@ -9,7 +9,6 @@ define('main', [], function() {
       'ui-router': '../bower_components/angular-ui-router/release/angular-ui-router',
       'ui-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
       'modernizr': '../bower_components/modernizr/modernizr',
-      'comma-separated-values': '../bower_components/comma-separated-values/csv',
       'jquery': '../bower_components/jquery/dist/jquery',
       'jqueryui': '../bower_components/jquery-ui/jquery-ui',
       'underscore': '../bower_components/underscore/underscore',
@@ -36,7 +35,8 @@ define('main', [], function() {
       'slugifier': './angular_modules/angular-slugify/angular-slugify',
       'ui.sortable': './angular_modules/ui-sortable/sortable',
       'angular-file-input': '../bower_components/angular-file-input/dist/angular-file-input',
-      'angular-color-picker': './angular_modules/angular-color-picker/angular-color-picker',
+      'spectrum': '../bower_components/spectrum/spectrum',
+      'angular-spectrum-colorpicker': '../bower_components/angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.min',
       'text': './vendor/text',
 
       // NVd3
@@ -77,9 +77,6 @@ define('main', [], function() {
       'd3': {
         exports: 'd3'
       },
-      'comma-separated-values': {
-        exports: 'CSV'
-      },
       'angular-resource': ['angular'],
       'angular-animate': ['angular'],
       'ui-router': ['angular'],
@@ -100,6 +97,9 @@ define('main', [], function() {
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['angular', 'jquery', 'jqueryui'],
+
+      // angular-spectrum-colorpicker
+      'angular-spectrum-colorpicker': ['angular', 'jquery', 'spectrum'],
 
       // Shim the nvd3 modules
       'nv.d3': ['d3'],
@@ -150,7 +150,6 @@ define('main', [], function() {
     'nv.d3',
     'bootstrap',
     'modernizr',
-    'comma-separated-values',
     'angular-file-input',
     'services',
     'filters',

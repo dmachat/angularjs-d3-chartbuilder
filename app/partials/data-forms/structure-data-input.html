@@ -24,7 +24,7 @@
           <div class="panel-heading">
             <div class="panel-title">
               <div class="clearfix">
-                <h6 class="pull-left">Fill area under line?</h6>
+                <h6 class="pull-left">Area Fill</h6>
                 <div class="btn-group pull-right" ng-if="structureData.slug === 'lineChart'" ng-model="group.area" ng-click="group.area = !group.area">
                   <button type="button" class="btn btn-xs" ng-class="{ active: group.area, 'btn-primary': group.area, 'btn-default': !group.area }">On</button>
                   <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, 'btn-primary': !group.area, 'btn-default': group.area }">Off</button>
@@ -33,15 +33,22 @@
             </div>
             <div class="panel-title">
               <div class="clearfix">
-                <h6 class="pull-left">Series Color</h6>
+                <h6 class="pull-left">Series Color (Optional)</h6>
                 <div class="color-picker pull-right">
-                  <span colorpicker
-                    colorpicker-with-input="true"
+                  <spectrum-colorpicker
+                    trigger-id="series-{{ $index }}-color-picker"
                     ng-model="group.color"
-                    ng-style="{ background: (group.color || structureData.colors[$index]) }"
+                    options="{
+                      showPaletteOnly: true,
+                      showPalette: true,
+                      hideAfterPaletteSelect: true,
+                      allowEmpty: true,
+                      palette: {{ structureData.colors }}
+                    }"
+                    format="'hex'"
                     class="color-box"
                     >
-                  </span>
+                  </spectrum-colorpicker>
                 </div>
               </div>
             </div>

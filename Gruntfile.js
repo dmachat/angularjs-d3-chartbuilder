@@ -311,7 +311,6 @@ module.exports = function(grunt) {
                         'bower_components/font-awesome/fonts/*.*',
                         'bower_components/nvd3/*.css',
                         'bower_components/angular-file-input/dist/*.css',
-                        'scripts/angular_modules/angular-color-picker/*.css',
                         'bower_components/requirejs/require.js'
                     ]
                 }]

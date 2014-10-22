@@ -1,9 +1,9 @@
-define(['angular', 'services', 'angular-color-picker'], function(angular) {
+define(['angular', 'services', 'angular-spectrum-colorpicker'], function(angular) {
   'use strict';
 
   /* Controllers */
 
-  angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'colorpicker.module'])
+  angular.module('chartbuilderControllers', ['chartbuilderServices', 'chartbuilderOptions', 'angularSpectrumColorpicker'])
     .controller('Home', [
       '$scope',
       'chartbuilderModuleRegistry',

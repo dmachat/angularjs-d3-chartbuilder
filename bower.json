@@ -20,10 +20,10 @@
     "datamaps": "~0.3.2",
     "angular-ui-router": "~0.2.11",
     "canvg": "https://canvg.googlecode.com/files/canvg-1.3.zip",
-    "comma-separated-values": "~3.3.0",
     "angular-file-input": "git@github.com:dmachat/angular-file-input.git",
     "angular-datamaps": "*",
     "highcharts": "git@github.com:highslide-software/highcharts-release",
-    "highcharts-ng": "https://github.com/pablojim/highcharts-ng.git"
+    "highcharts-ng": "https://github.com/pablojim/highcharts-ng.git",
+    "angular-spectrum-colorpicker": "git@github.com:Jimdo/angular-spectrum-colorpicker.git"
   }
 }

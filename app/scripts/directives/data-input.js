@@ -1,8 +1,8 @@
 define([
   'angular',
-  'comma-separated-values',
+  'd3',
   'text!../partials/data-forms/structure-data-input.html',
-  ], function(angular, CSV, dataFormTemplate) {
+  ], function(angular, d3, dataFormTemplate) {
     'use strict';
 
     angular.module('chartbuilderDirectives').
@@ -20,12 +20,6 @@ define([
             scope.newDataFile = {};
             scope.singleSeriesData = {};
 
-            // Set CSV parsing options
-            var csvOptions = {
-              header: true,
-              line: '\n'
-            };
-
             // Keep an empty new row for the input model
             scope.$watch('structureData.data', function(newval) {
               angular.forEach(newval, function(group, gidx) {
@@ -35,7 +29,7 @@ define([
 
             // When data is pasted to the input text area, parse it for values
             scope.onPasteInputChanged = function(input, gidx) {
-              scope.structureData.data[gidx].values = new CSV(input, csvOptions).parse();
+              scope.structureData.data[gidx].values = d3.csv.parse(input);
               scope.pasteInputToggle = false;
             };
 
@@ -75,12 +69,12 @@ define([
 
             // This is just the callback from the file reader input. Parse and insert uploaded values
             scope.readFile = function(file, gidx) {
-              scope.structureData.data[gidx].values = new CSV(file, csvOptions).parse();
+              scope.structureData.data[gidx].values = d3.csv.parse(file);
             };
 
             // Download existing csv data
             scope.downloadCSV = function(gidx) {
-              var csvText = new CSV(scope.structureData.data[gidx].values, csvOptions).encode();
+              var csvText = d3.csv.format(scope.structureData.data[gidx].values);
               chartbuilderUtils.saveFile(csvText, scope.structureData.data[gidx].key + '.csv', 'text/csv');
             };
           }
