@@ -10378,6 +10378,11 @@ td.visible-print {
   min-height: 635px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_charts\.scss}line{font-family:\0000310}}
+.chartbuilder-affixed {
+  width: inherit;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_sidebar\.scss}line{font-family:\000032}}
 .sidebar .chartbuilder-sidebar-group {
   background: #f8f8f8;

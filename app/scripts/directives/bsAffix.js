@@ -17,7 +17,6 @@ define([
             offsetBottom = options.offsetBottom * 1,
             reset = 'affix affix-top affix-bottom',
             affix;
-          console.log(windowHeight + ', ' + height);
 
           if (instance.unpin !== null && (scrollTop + instance.unpin <= position.top)) {
             affix = false;
@@ -31,7 +30,6 @@ define([
             affix = false;
           }
 
-          console.log(affix);
           if (instance.affixed === affix) {
             return;
           }

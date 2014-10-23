@@ -12,59 +12,89 @@
 
   'use strict';
 
-  var xTwoDimensionalArray = {
-    'label': '2d-array',
-    'option': function(d) {
-      return d[0];
-    }
-  }
-
-  var yTwoDimensionalArray = {
-    'label': '2d-array',
-    'option': function(d) {
-      return d[1];
-    }
-  }
-
   var xKeyValue = {
-    'label': 'key/value',
+    'label': 'Key',
     'option': function(d) {
       return d.key;
     }
   }
 
   var xLabelValue = {
-    'label': 'label/value',
+    'label': 'Label',
     'option': function(d) {
       return d.label;
     }
   }
 
   var xValue = {
-    'label': 'x/y',
+    'label': 'X',
     'option': function(d) {
       return d.x;
     }
   }
 
   var yValue = {
-    'label': 'key/y',
+    'label': 'Y',
     'option': function(d) {
       return d.y;
     }
   }
 
-  var yCleaned = {
-    'label': 'yCleaned',
+  var yLabelValue = {
+    'label': 'Value',
     'option': function(d) {
-      return parseInt(d.y);
+      return d.value;
     }
   }
 
-  var yLabelValue = {
-    'label': 'label/value',
-    'option': function(d) {
-      return d.value;
+  var formatters = {
+    'function:text': {
+      'label': 'Text (unformatted)',
+      'option': function(d) {
+        return d;
+      }
+    },
+    'function:percent': {
+      'label': 'Percent (no decimal)',
+      'option': function(d) {
+        return d3.format('.0%')(d);
+      }
+    },
+    'function:percent-.1': {
+      'label': 'Percent (0.1%)',
+      'option': function(d) {
+        return d3.format('.1%')(d);
+      }
+    },
+    'function:percent-.01': {
+      'label': 'Percent (0.01%)',
+      'option': function(d) {
+        return d3.format('.2%')(d);
+      }
+    },
+    'function:price': {
+      'label': 'Currency (no decimal)',
+      'option': function(d) {
+        return d3.format('$,.0f')(d);
+      }
+    },
+    'function:price-.1': {
+      'label': 'Currency ($0.1)',
+      'option': function(d) {
+        return d3.format('$,.1f')(d);
+      }
+    },
+    'function:price-.01': {
+      'label': 'Currency ($.01)',
+      'option': function(d) {
+        return d3.format('$,.2f')(d);
+      }
+    },
+    'function:year': {
+      'label': 'Year',
+      'option': function(d) {
+        return d3.time.format('\'%y')(new Date(d));
+      }
     }
   }
 
@@ -178,63 +208,31 @@
           'label': 'percent'
         }
       },
-      'valueFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:date': {
-          'label': 'date',
-          'option': function(d) {
-            return d3.time.format('%x')(new Date(Date.parse(d)));
-          }
-        }
-      },
-      'tickFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:percent': {
-          'label': 'percent',
-          'option': function(d) {
-            return d3.format('.0%')(d);
-          }
-        },
-        'function:price': {
-          'label': 'price',
-          'option': function(d) {
-            return d3.format('$,.1f')(d);
-          }
-        },
-        'function:year': {
-          'label': 'year',
-          'option': function(d) {
-            return d3.time.format('\'%y')(new Date(d));
-          }
-        }
-      },
+      'valueFormat': formatters,
+      'tickFormat': formatters,
       'x': {
-        'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
         'function:label/value': xLabelValue,
+        'function:timestamp': {
+          'label': 'Timestamp',
+          'option': function(d) {
+            if (isNaN(d.x)) {
+              return null;
+            }
+            return new Date(+d.x);
+          }
+        },
         'function:date': {
-          'label': 'date',
+          'label': 'Date',
           'option': function(d) {
             return new Date(Date.parse(d.x));
           }
         }
       },
       'y': {
-        'function:2d-array': yTwoDimensionalArray,
         'function:key/y': yValue,
         'function:label/value': yLabelValue,
-        'function:cleanedy': yCleaned
       },
       'tooltipContent': {
         'function:key/value': {

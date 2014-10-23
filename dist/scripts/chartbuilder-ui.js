@@ -72,6 +72,33 @@ angular.module('chartbuilderOptions', []);
     }
   }
 
+  var formatters = {
+    'function:text': {
+      'label': 'text',
+      'option': function(d) {
+        return d;
+      }
+    },
+    'function:percent': {
+      'label': 'percent',
+      'option': function(d) {
+        return d3.format('.0%')(d);
+      }
+    },
+    'function:price': {
+      'label': 'price',
+      'option': function(d) {
+        return d3.format('$,.1f')(d);
+      }
+    },
+    'function:year': {
+      'label': 'year',
+      'option': function(d) {
+        return d3.time.format('\'%y')(new Date(d));
+      }
+    }
+  }
+
   var app = angular.module('chartbuilderOptions').
     value('chartbuilderOptionHelp', {
       'forceX': {
@@ -182,46 +209,8 @@ angular.module('chartbuilderOptions', []);
           'label': 'percent'
         }
       },
-      'valueFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:date': {
-          'label': 'date',
-          'option': function(d) {
-            return d3.time.format('%x')(new Date(Date.parse(d)));
-          }
-        }
-      },
-      'tickFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:percent': {
-          'label': 'percent',
-          'option': function(d) {
-            return d3.format('.0%')(d);
-          }
-        },
-        'function:price': {
-          'label': 'price',
-          'option': function(d) {
-            return d3.format('$,.1f')(d);
-          }
-        },
-        'function:year': {
-          'label': 'year',
-          'option': function(d) {
-            return d3.time.format('\'%y')(new Date(d));
-          }
-        }
-      },
+      'valueFormat': formatters,
+      'tickFormat': formatters,
       'x': {
         'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
