@@ -140,6 +140,7 @@ define('main', [], function() {
     'text!../partials/home.html',
     'text!../partials/chartbuilder.html',
     'text!../partials/about.html',
+    'text!../partials/faq.html',
     'text!../404.html',
     'jquery',
     'jqueryui',
@@ -184,7 +185,7 @@ define('main', [], function() {
     'highcharts',
     'highcharts-ng',
     'chartbuilder.highcharts'
-  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
+  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, faqTemplate, pageNotFoundTemplate) {
 
     /* App Module */
     angular.element(document).ready(function () {
@@ -236,6 +237,11 @@ define('main', [], function() {
             state('about', {
               url: '/about',
               template: aboutTemplate
+            }).
+            state('faq', {
+              url: '/faq',
+              template: faqTemplate,
+              controller: 'ChartbuilderFAQ'
             }).
             state('404', {
               url: '/404',

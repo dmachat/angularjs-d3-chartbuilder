@@ -13,6 +13,17 @@ define(['angular', 'services', 'angular-spectrum-colorpicker', 'colors', 'bsAffi
         $scope.chartbuilderData = chartbuilderData;
       }
     ])
+    .controller('ChartbuilderFAQ', [
+      '$scope',
+      '$location',
+      '$anchorScroll',
+      function($scope, $location, $anchorScroll) {
+        $scope.scrollTo = function(id) {
+          $location.hash(id);
+          $anchorScroll();
+        };
+      }
+    ])
     .controller('Chartbuilder', [
       '$scope',
       'chartbuilderModuleRegistry',
