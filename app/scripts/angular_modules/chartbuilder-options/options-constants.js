@@ -138,6 +138,12 @@
       'tooltips': {
         'label': 'Show Tooltips'
       },
+      'tickFormat': {
+        'label': 'Tick Formatter'
+      },
+      'valueFormat': {
+        'label': 'Value Formatter'
+      },
       'margin': {
         'help': 'Adjust the whitespace around this element',
         'label': 'Margin'
