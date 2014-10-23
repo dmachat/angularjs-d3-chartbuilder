@@ -40,6 +40,13 @@
     }
   }
 
+  var yPercent = {
+    'label': 'Y Percent Value',
+    'option': function(d) {
+      return d.y / 100;
+    }
+  }
+
   var yLabelValue = {
     'label': 'Value',
     'option': function(d) {
@@ -232,6 +239,7 @@
       },
       'y': {
         'function:key/y': yValue,
+        'function:yPercentData': yPercent,
         'function:label/value': yLabelValue,
       },
       'tooltipContent': {
