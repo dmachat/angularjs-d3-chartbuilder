@@ -123,7 +123,7 @@ define('main', [], function() {
         exports: 'topojson'
       },
       'datamaps': {
-        deps: ['d3', 'topojson'],
+        deps: ['angular', 'd3', 'topojson'],
         exports: 'Datamap'
       },
       'chartbuilder.datamaps': ['d3', 'topojson', 'datamaps'],
