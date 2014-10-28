@@ -31628,10 +31628,16 @@ define('text',['module'], function (module) {
 define('text!../partials/home.html',[],function () { return '\n<div class="chartbuilder-home">\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/cumulativeLineChart.png" /></a>\n    </div>\n    <div class="col-lg-4 jumbotron">\n        <h1>angular + d3 chartbuilder</h1>\n        <div class="dropdown">\n          <h2 id="chartTypeSelect" class="btn btn-default" data-toggle="dropdown">\n            {{ (chartbuilderData.name.length ? chartbuilderData.name : \'Start building a chart now\') }} <i class="fa fa-caret-down"></i>\n          </h2>\n          <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n            <li ng-repeat="module in modules" >\n              <a ui-sref="chartbuilder.{{ module.slug }}">{{ module.name }}</a>\n            </li>\n          </ul>\n        </div>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.discreteBarChart"><img src="images/discreteBarChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.map"><img src="images/map.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.pieChart"><img src="images/donutChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.lineChart"><img src="images/lineChart.png" /></a>\n    </div>\n  </div>\n  <div class="row">\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.stackedAreaChart"><img src="images/stackedAreaChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.scatterChart"><img src="images/scatterChart.png" /></a>\n    </div>\n    <div class="col-lg-4">\n      <a href ui-sref="chartbuilder.multiBarChart"><img src="images/multiBarChart.png" /></a>\n    </div>\n  </div>\n</div>\n';});
 
 
-define('text!../partials/chartbuilder.html',[],function () { return '<div class="col-lg-3 sidebar">\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <div class="chart-dropdown">\n        <button type="button" id="chartTypeSelect" class="btn btn-chart-picker" data-toggle="dropdown">\n          <span class="pull-left">{{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }}</span><i class="fa fa-caret-down pull-right"></i>\n        </button>\n        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n          <li role="presentation" ng-repeat="module in modules" >\n            <a ui-sref="chartbuilder.{{ module.slug }}">\n              {{ module.name }}\n              <div class="thumbnail">\n                <img class="img-responsive" src="images/{{ module.slug }}.png">\n              </div>\n            </a>\n          </li>\n          <li role="presentation" class="divider"></li>\n          <li role="presentation">\n            <chart-options-loader></chart-options-loader>\n          </li>\n        </ul>\n      </div>\n    </div>\n\n    <div class="col-lg-12">\n      <div class="alert alert-danger alert-dismissible" role="role" ng-show="chartbuilderError.$error" ng-messages="chartbuilderError.$error">\n        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>\n        <div ng-message="invaliddata">{{ chartbuilderError.message }}</div>\n      </div>\n    </div>\n\n    <div class="col-lg-12">\n      <h4><i class="fa fa-database"></i> Chart Data</h4>\n      <div class="btn-group btn-chartbuilder-group">\n        <div class="btn-group">\n          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">\n            Add Existing Data <i class="fa fa-caret-down"></i>\n          </a>\n          <ul class="dropdown-menu" role="menu">\n            <li role="presentation">\n              <a href="" ng-click="chartbuilderData.showSampleData()">Show sample data</a>\n            </li>\n            <li role="presentation" class="divider"></li>\n            <li role="presentation" class="dropdown-header">TSV or CSV Data</li>\n            <li role="presentation">\n              <div class="btn-file-input" file-input-button on-file-load="chartbuilderData.loadDataSet(file)">Upload</div>\n            </li>\n            <li role="presentation">\n              <a href="" ng-click="dataInputTextarea = true">Paste</a>\n            </li>\n          </ul>\n        </div>\n        <a role="button" class="btn btn-sm btn-default" ng-show="chartbuilderData.data[0].values.length" ng-click="chartbuilderData.downloadCSV()">Download Data as CSV</a>\n        <a role="button" class="btn btn-sm btn-default" ng-click="chartbuilderData.resetData()">Clear All Data</a>\n        <a role="button" class="btn btn-sm btn-default" ng-click="liveEditPanel = !liveEditPanel" ng-class="{ \'btn-primary\': liveEditPanel }">{{ liveEditPanel ? \'Disable\' : \'Enable\' }} Live Edit</a>\n        <a role="button" style="width: 30px" class="btn btn-sm btn-default" ng-show="modules[chartbuilderData.name].dataHelp" ng-click="showDataHelp = !showDataHelp" ng-class="{ \'btn-info\': showDataHelp }">?</a>\n      </div>\n      <dl ng-show="showDataHelp && modules[chartbuilderData.name].dataHelp" class="well well-sm">\n        <dt>How to enter data for this chart:<dt>\n        <dd>{{ modules[chartbuilderData.name].dataHelp }}</dd>\n      </dl>\n      <div ng-show="dataInputTextarea" class="panel panel-default">\n        <div class="panel-heading">TSV or CSV text<button type="button" class="close pull-right" ng-click="dataInputTextarea = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <textarea class="panel-body form-control paste-input" ng-model="dataInputDataSet" placeholder="Paste or edit TSV/CSV data here"></textarea>\n        <div class="panel-footer clearfix">\n          <div class="btn-group pull-right">\n            <button type="button" class="btn btn-sm btn-default" ng-click="dataInputDataSet = \'\'">Clear Input</button>\n            <button type="button" class="btn btn-sm btn-success" ng-click="chartbuilderData.loadDataSet(dataInputDataSet)">Use Data</button>\n          </div>\n        </div>\n      </div>\n      <structure-data-input ng-show="liveEditPanel" structure-data="chartbuilderData" expand-data="dataInputTextarea">\n    </div>\n\n    <div class="col-lg-12">\n      <h4><i class="fa fa-bar-chart"></i> Chart Customizations</h4>\n      <div class="btn-group btn-group-justified btn-chartbuilder-group">\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Color\'">Color / Style</label>\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Basic\'">Basic Options</label>\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Advanced\'" ng-mouseup="getAdvancedOptions()">Advanced Options</label>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Color\'" class="well well-sm">\n        <div chartbuilder-colors></div>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Basic\'" class="well well-sm">\n        <div class="panel-heading">Basic Chart Options<button type="button" class="close pull-right" ng-click="chartCustomTab = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <div class="panel-body chartbuilder-panel-options">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="basicOptions" />\n        </div>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Advanced\'" class="panel panel-default">\n        <div class="panel-heading">Advanced Configuration Options<button type="button" class="close pull-right" ng-click="chartCustomTab = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <div class="panel-body chartbuilder-panel-options">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n        </div>\n        <div class="panel-heading">Template File Options</div>\n        <div class="panel-body">\n          <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>\n          <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>\n        </div>\n      </div>\n    </div>\n\n    <div class="col-lg-12 text-center save-chart-group">\n      <div class="btn-group">\n        <button type="button" class="btn btn-lg btn-primary"><i class="fa fa-pie-chart"></i> Save Chart</button>\n        <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown">\n          <span class="caret"></span>\n          <span class="sr-only">Toggle Dropdown</span>\n        </button>\n        <ul class="dropdown-menu" role="menu">\n          <li><chartbuilder-save-to-png></chartbuilder-save-to-png></li>\n          <li chart-options-saver></li>\n          <li><chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class="col-lg-9">\n  <div class="graph-wrapper">\n    <h4><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h4>\n    <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n    <div ui-view="graph" id="chart"></div>\n    <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n    <h6>{{ chartbuilderData.meta.attribution }}</h6>\n  </div>\n\n  <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n\n  <div class="alert alert-info alert-dismissible">\n    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n    <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n  </div>\n\n  <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n</div>\n';});
+define('text!../partials/chartbuilder.html',[],function () { return '<div class="col-lg-3 sidebar">\n  <div class="chartbuilder-sidebar-group clearfix">\n    <div class="col-lg-12">\n      <div class="chart-dropdown">\n        <button type="button" id="chartTypeSelect" class="btn btn-chart-picker" data-toggle="dropdown">\n          <span class="pull-left">{{ (chartbuilderData.name.length ? chartbuilderData.name : \'Select a chart type\') }}</span><i class="fa fa-caret-down pull-right"></i>\n        </button>\n        <ul class="dropdown-menu" role="menu" aria-labelledby="chartTypeSelect">\n          <li role="presentation" ng-repeat="module in modules" >\n            <a ui-sref="chartbuilder.{{ module.slug }}">\n              {{ module.name }}\n              <div class="thumbnail">\n                <img class="img-responsive" src="images/{{ module.slug }}.png">\n              </div>\n            </a>\n          </li>\n          <li role="presentation" class="divider"></li>\n          <li role="presentation">\n            <chart-options-loader></chart-options-loader>\n          </li>\n        </ul>\n      </div>\n    </div>\n\n    <div class="col-lg-12">\n      <div class="alert alert-danger alert-dismissible" role="role" ng-show="chartbuilderError.$error" ng-messages="chartbuilderError.$error">\n        <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>\n        <div ng-message="invaliddata">{{ chartbuilderError.message }}</div>\n      </div>\n    </div>\n\n    <div class="col-lg-12">\n      <h4><i class="fa fa-database"></i> Chart Data</h4>\n      <div class="btn-group btn-chartbuilder-group">\n        <div class="btn-group">\n          <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">\n            Add Existing Data <i class="fa fa-caret-down"></i>\n          </a>\n          <ul class="dropdown-menu" role="menu">\n            <li role="presentation">\n              <a href="" ng-click="chartbuilderData.showSampleData()">Show sample data</a>\n            </li>\n            <li role="presentation" class="divider"></li>\n            <li role="presentation" class="dropdown-header">TSV or CSV Data</li>\n            <li role="presentation">\n              <div class="btn-file-input" file-input-button on-file-load="chartbuilderData.loadDataSet(file)">Upload</div>\n            </li>\n            <li role="presentation">\n              <a href="" ng-click="dataInputTextarea = true">Paste</a>\n            </li>\n          </ul>\n        </div>\n        <a role="button" class="btn btn-sm btn-default" ng-show="chartbuilderData.data[0].values.length" ng-click="chartbuilderData.downloadCSV()">Download Data as CSV</a>\n        <a role="button" class="btn btn-sm btn-default" ng-click="chartbuilderData.resetData()">Clear All Data</a>\n        <a role="button" class="btn btn-sm btn-default" ng-click="liveEditPanel = !liveEditPanel" ng-class="{ \'btn-primary\': liveEditPanel }">{{ liveEditPanel ? \'Disable\' : \'Enable\' }} Live Edit</a>\n        <a role="button" style="width: 30px" class="btn btn-sm btn-default" ng-show="modules[chartbuilderData.name].dataHelp" ng-click="showDataHelp = !showDataHelp" ng-class="{ \'btn-info\': showDataHelp }">?</a>\n      </div>\n      <dl ng-show="showDataHelp && modules[chartbuilderData.name].dataHelp" class="well well-sm">\n        <dt>How to enter data for this chart:<dt>\n        <dd>{{ modules[chartbuilderData.name].dataHelp }}</dd>\n      </dl>\n      <div ng-show="dataInputTextarea" class="panel panel-default">\n        <div class="panel-heading">TSV or CSV text<button type="button" class="close pull-right" ng-click="dataInputTextarea = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <textarea class="panel-body form-control paste-input" ng-model="dataInputDataSet" placeholder="Paste or edit TSV/CSV data here"></textarea>\n        <div class="panel-footer clearfix">\n          <div class="btn-group pull-right">\n            <button type="button" class="btn btn-sm btn-default" ng-click="dataInputDataSet = \'\'">Clear Input</button>\n            <button type="button" class="btn btn-sm btn-success" ng-click="chartbuilderData.loadDataSet(dataInputDataSet)">Use Data</button>\n          </div>\n        </div>\n      </div>\n      <structure-data-input ng-show="liveEditPanel" structure-data="chartbuilderData" expand-data="dataInputTextarea">\n    </div>\n\n    <div class="col-lg-12">\n      <h4><i class="fa fa-bar-chart"></i> Chart Customizations</h4>\n      <div class="btn-group btn-group-justified btn-chartbuilder-group">\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Color\'">Color / Style</label>\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Basic\'">Basic Options</label>\n        <label class="btn btn-sm btn-default" ng-model="chartCustomTab" btn-radio="\'Advanced\'" ng-mouseup="getAdvancedOptions()">Advanced Options</label>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Color\'" class="well well-sm">\n        <div chartbuilder-colors></div>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Basic\'" class="well well-sm">\n        <div class="panel-heading">Basic Chart Options<button type="button" class="close pull-right" ng-click="chartCustomTab = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <div class="panel-body chartbuilder-panel-options">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="basicOptions" />\n        </div>\n      </div>\n\n      <div ng-show="chartCustomTab === \'Advanced\'" class="panel panel-default">\n        <div class="panel-heading">Advanced Configuration Options<button type="button" class="close pull-right" ng-click="chartCustomTab = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n        <div class="panel-body chartbuilder-panel-options">\n          <chartbuilder-options json="chartbuilderData.options.chart" collapsed-level="1" node="nodeOptions" />\n        </div>\n        <div class="panel-heading">Template File Options</div>\n        <div class="panel-body">\n          <chart-template-options-loader ng-if="!chartbuilderData.env"></chart-template-options-loader>\n          <button chart-options-saver ng-if="!chartbuilderData.env" type="button" class="btn btn-default" ng-click="downloadOptionsObject()" name="Save Options Template" ng-attr-options-only="true">save template options</button>\n        </div>\n      </div>\n    </div>\n\n    <div class="col-lg-12 text-center save-chart-group">\n      <div class="btn-group">\n        <button type="button" class="btn btn-lg btn-primary"><i class="fa fa-pie-chart"></i> Save Chart</button>\n        <button type="button" class="btn btn-lg btn-primary dropdown-toggle" data-toggle="dropdown">\n          <span class="caret"></span>\n          <span class="sr-only">Toggle Dropdown</span>\n        </button>\n        <ul class="dropdown-menu" role="menu">\n          <li><chartbuilder-save-to-png></chartbuilder-save-to-png></li>\n          <li chart-options-saver></li>\n          <li><chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window></li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</div>\n\n<div class="col-lg-9">\n  <div bs-affix data-offset-top="0" data-offset-bottom="50" class="chartbuilder-affixed">\n    <div class="graph-wrapper">\n      <h4><edit-in-place value="chartbuilderData.meta.title"></edit-in-place></h4>\n      <h5><edit-in-place value="chartbuilderData.meta.subtitle"></edit-in-place></h5>\n      <div ui-view="graph" id="chart"></div>\n      <p><edit-in-place value="chartbuilderData.meta.caption"></edit-in-place></p>\n      <h6>{{ chartbuilderData.meta.attribution }}</h6>\n    </div>\n\n    <canvas id="canvas" style="display: none" ng-attr-height="{{ chartbuilderData.options.chart.height }}px"></canvas>\n\n    <div class="alert alert-info alert-dismissible">\n      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>\n      <strong>Example Data: </strong>{{ chartbuilderData.data | json }}\n    </div>\n\n    <textarea id="exportedSVG" ng-model="exportedSVG" ng-show="exportedSVG.length"></textarea>\n  </div>\n</div>\n';});
 
 
 define('text!../partials/about.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>About Chartbuilder</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n    <p>Chartbuilder aims to simplify the process of turning your data into interactive visualization for the web. It has been built to leverage a wide range of existing chart libaries like d3 with nvd3 or highcharts, or to easily add more. Whether you want to build a simple chart from scratch, or to copy a data set from excel and tweak all the nitty-gritty options, Chartbuilder can fill the gap where you would otherwise need a programmer or designer to get visualizations ready for the web.</p>\n    <p>Chartbuilder is alpha software. Check back as we continue to add features and improve the experience.</p>\n\t</div>\n</div>\n';});
+
+
+define('text!../partials/tutorials.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>Tutorials</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n    <h3><strong>Line Chart with Two Highlight Lines</strong></h3>\n    <br />\n    <p class="lead">This one is a little different, since we only want to highlight two lines, but still show the rest. This is the chart we want to match:</p>\n    <br />\n    <img class="img-thumbnail" src="images/tutorial1-requirement.png" />\n    <br />\n    <br />\n    <p>There are some things we can\'t do with Chartbuilder, yet, like adding the persistent labels to a line, or adding a generic label. The chart we build is going to be a little different, and will supplement the plot lines with an interactive tooltip.</p>\n    <br />\n    <p>First, let\'s import data. In <a href="demos/tutorial1.csv">the csv file</a> for this example we have years and percentages for several countries. The first column is a standard four digit year, the second is a formatted percentage. Upload the csv data to Chartbuilder by clicking <strong>Add Existing Data -> Upload</strong>. Now we have values populated in our data groups, and some plotted lines. To get these to plot properly for our line graph, we\'ll need to set the datatypes and formatters for our axis. For the first column, we set <strong>x-Axis Datatype</strong> to <i>Date</i>. This attempts to parse dates from the values in the first column, and handles most common date formats, like this four digit year as well as 2005-12-14, etc. Now the graph knows we are making a time series, and will plot accordingly. We can also use the available time formatters to make our axis label look like it should. <strong>xAxis -> Tick Formatter</strong> has a few available options. We\'ll pick <i>Year (YYYY)</i>. As for the y-Axis, since our percent values are already formatted, we can use the default <strong>y-Axis Datatype</strong> of <i>Y,</i> and set the <strong>y-Axis Tick Formatter</strong> to <i>Percent (unmultiplied).</i> Other percent formatters take raw decimal data and multiply it to get percentages, but we don\'t need to do that here.</p>\n    <br />\n    <p>Next we want to adjust our scale, so that the y-Axis goes from 0 to 18%. Use the <strong>y-Axis Endpoints</strong> option to set <i>0 </i>(the start) and <i>1 </i>(the end) to 0 and 18.</p>\n    <br />\n    <p>To smooth the lines, set <strong>Interpolate</strong> to <i>bundle</i>.</p>\n    <br />\n    <p>Since we\'re using custom colors in this chart, click <strong>Enable Live Edit</strong>, and go through each data series to associate highlight colors with United States and Comparable Country Average, and a grey for the other comparison countries. Enable <strong>useInteractiveGuideline</strong> for a nice tooltip that tracks the mouse on the x-Axis and summarizes the value group.</p>\n    <br />\n    <p>It\'s not exact, but we have replicated the data plot for this graph, and have a nice interactive tooltip for line values instead of the static line labels. This graph is also responsive and can be styled to match your site\'s theme.</p>\n    <br />\n    <h2>{{ tutorial1.meta.title }}</h2>\n    <h4>{{ tutorial1.meta.subtitle }}</h4>\n    <nvd3 options="tutorial1.options" data="tutorial1.data" colors="tutorial1.colors" events="$root.events" config="{ extended: true }"></nvd3>\n    <p>{{ tutorial1.meta.caption }}</p>\n    <h6 ng-if="tutorial1.meta.attribution">{{ tutorial1.meta.attribution }}</h6>\n\t</div>\n</div>\n';});
+
+
+define('text!../partials/faq.html',[],function () { return '<div class="row">\n\t<div class="col-lg-8 col-lg-offset-2 page-header">\n\t\t<h3>FAQs</h3>\n\t</div>\n\t<div class="col-lg-8 col-lg-offset-2">\n    <ul class="list-unstyled page-header">\n      <li><a ng-click="scrollTo(\'faq-1\')">How do I edit the colors for a Chart?</a></li>\n      <li><a ng-click="scrollTo(\'faq-2\')">How can I build a chart by pasting data?</a></li>\n      <li><a ng-click="scrollTo(\'faq-3\')">What\'s the difference between a datatype and a formatter?</a></li>\n    </ul>\n    <div id="faq-1" class="page-header">\n      <h4>Editing Colors</h4>\n      <p>There are two ways to manage the colors in your chart. The first is by using the <strong>Color / Style</strong> tab in <strong>Chart Customizations</strong>. You can use the spectrum color picker to choose a color, or you can paste hex values into the text box. The colors in the palette can be reordered by dragging and dropping the color boxes, or by using the reverse palette button.</p>\n      <p>The second option is for charts that have series data, like the Line Chart. In the <strong>Live Edit Data Tables</strong> window, there will be a swatch where you can pick a color from the default palette. It will override any values in the <strong>Color / Style</strong> tab.</p>\n    </div>\n    <div id="faq-2" class="page-header">\n      <h4>Pasting Data</h4>\n      <p>You may paste or upload valid CSV or TSV data. Copying and pasting from a spreadsheet usually produces TSV data you can paste into the input box <strong>Add Existing Data -> Paste</strong>. Most charts have data groups with two dimensions, so your pasted data should have the constant in the first column, with each subsequent column containing a new data group. For example, to create two data groups for a Map:</p>\n      <pre>\n        location,Traffic,Palm Trees\n        California,Y,Y\n        New York,Y,N\n        Texas,N,Y\n        Maine,N,N\n        Florida,Y,Y\n      </pre>\n      <p>In the case of time series data, the first column values need not match, and null values will be skipped on input and line will be connected according to the interpolation method you choose.</p>\n    </div>\n    <div id="faq-3" class="page-header">\n      <h4>Datatypes & Formatters</h4>\n      <p>When drawing charts from scratch, the most important options that need to be set are <strong>x-Axis Datatype</strong> and <strong>y-Axis Datatype</strong>. The settings ensure that the chart knows how to handle the data you\'ve provided. Often the default will suffice, but for example, the x-Axis on a line chart can be made up of normal incremented numbers, or it can be a time series. Bar Charts have labels, line charts have <i>x</i> values, etc. Without the correct datatype, the chart probably won\'t look right, and you won\'t be able to use <strong>formatters</strong>.</p>\n      <p>Formatters can be set from either <strong>Tick Formatter</strong> or <strong>Value Formatter</strong> options, and affect only the display values on the chart. Number values can be transformed into currency or percentages and dates can be formatted to show only the year, month, or another time format.</p>\n    </div>\n\t</div>\n</div>\n';});
 
 
 define('text!../404.html',[],function () { return '<style>::-moz-selection {\n                background: #b3d4fc;\n                text-shadow: none;\n            }\n\n            ::selection {\n                background: #b3d4fc;\n                text-shadow: none;\n            }\n\n            html {\n                padding: 30px 10px;\n                font-size: 20px;\n                line-height: 1.4;\n                color: #737373;\n                background: #f0f0f0;\n                -webkit-text-size-adjust: 100%;\n                -ms-text-size-adjust: 100%;\n            }\n\n            html,\n            input {\n                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;\n            }\n\n            body {\n                max-width: 500px;\n                _width: 500px;\n                padding: 30px 20px 50px;\n                border: 1px solid #b3b3b3;\n                border-radius: 4px;\n                margin: 0 auto;\n                box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;\n                background: #fcfcfc;\n            }\n\n            h1 {\n                margin: 0 10px;\n                font-size: 50px;\n                text-align: center;\n            }\n\n            h1 span {\n                color: #bbb;\n            }\n\n            h3 {\n                margin: 1.5em 0 0.5em;\n            }\n\n            p {\n                margin: 1em 0;\n            }\n\n            ul {\n                padding: 0 0 0 40px;\n                margin: 1em 0;\n            }\n\n            .container {\n                max-width: 380px;\n                _width: 380px;\n                margin: 0 auto;\n            }\n\n            /* google search */\n\n            #goog-fixurl ul {\n                list-style: none;\n                padding: 0;\n                margin: 0;\n            }\n\n            #goog-fixurl form {\n                margin: 0;\n            }\n\n            #goog-wm-qt,\n            #goog-wm-sb {\n                border: 1px solid #bbb;\n                font-size: 16px;\n                line-height: normal;\n                vertical-align: top;\n                color: #444;\n                border-radius: 2px;\n            }\n\n            #goog-wm-qt {\n                width: 220px;\n                height: 20px;\n                padding: 5px;\n                margin: 5px 10px 0 0;\n                box-shadow: inset 0 1px 1px #ccc;\n            }\n\n            #goog-wm-sb {\n                display: inline-block;\n                height: 32px;\n                padding: 0 10px;\n                margin: 5px 0 0;\n                white-space: nowrap;\n                cursor: pointer;\n                background-color: #f5f5f5;\n                background-image: -webkit-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -moz-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -ms-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                background-image: -o-linear-gradient(rgba(255,255,255,0), #f1f1f1);\n                -webkit-appearance: none;\n                -moz-appearance: none;\n                appearance: none;\n                *overflow: visible;\n                *display: inline;\n                *zoom: 1;\n            }\n\n            #goog-wm-sb:hover,\n            #goog-wm-sb:focus {\n                border-color: #aaa;\n                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);\n                background-color: #f8f8f8;\n            }\n\n            #goog-wm-qt:hover,\n            #goog-wm-qt:focus {\n                border-color: #105cb6;\n                outline: 0;\n                color: #222;\n            }\n            \n            input::-moz-focus-inner {\n                padding: 0;\n                border: 0;\n            }</style><div class=container><h1>Not found\n                    <span>:(</span></h1><p>Sorry, but the page you were trying\n                to view does not exist.</p><p>It looks like this was the result\n                of either:</p><ul><li>a mistyped address</li><li>an out-of-date\n                link</li></ul></div>\n';});
@@ -58163,1422 +58169,6 @@ angular.module("template/typeahead/typeahead-popup.html", []).run(["$templateCac
 }]);
 
 define("ui-bootstrap", function(){});
-
-//     Underscore.js 1.7.0
-//     http://underscorejs.org
-//     (c) 2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-//     Underscore may be freely distributed under the MIT license.
-
-(function() {
-
-  // Baseline setup
-  // --------------
-
-  // Establish the root object, `window` in the browser, or `exports` on the server.
-  var root = this;
-
-  // Save the previous value of the `_` variable.
-  var previousUnderscore = root._;
-
-  // Save bytes in the minified (but not gzipped) version:
-  var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
-
-  // Create quick reference variables for speed access to core prototypes.
-  var
-    push             = ArrayProto.push,
-    slice            = ArrayProto.slice,
-    concat           = ArrayProto.concat,
-    toString         = ObjProto.toString,
-    hasOwnProperty   = ObjProto.hasOwnProperty;
-
-  // All **ECMAScript 5** native function implementations that we hope to use
-  // are declared here.
-  var
-    nativeIsArray      = Array.isArray,
-    nativeKeys         = Object.keys,
-    nativeBind         = FuncProto.bind;
-
-  // Create a safe reference to the Underscore object for use below.
-  var _ = function(obj) {
-    if (obj instanceof _) return obj;
-    if (!(this instanceof _)) return new _(obj);
-    this._wrapped = obj;
-  };
-
-  // Export the Underscore object for **Node.js**, with
-  // backwards-compatibility for the old `require()` API. If we're in
-  // the browser, add `_` as a global object.
-  if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-      exports = module.exports = _;
-    }
-    exports._ = _;
-  } else {
-    root._ = _;
-  }
-
-  // Current version.
-  _.VERSION = '1.7.0';
-
-  // Internal function that returns an efficient (for current engines) version
-  // of the passed-in callback, to be repeatedly applied in other Underscore
-  // functions.
-  var createCallback = function(func, context, argCount) {
-    if (context === void 0) return func;
-    switch (argCount == null ? 3 : argCount) {
-      case 1: return function(value) {
-        return func.call(context, value);
-      };
-      case 2: return function(value, other) {
-        return func.call(context, value, other);
-      };
-      case 3: return function(value, index, collection) {
-        return func.call(context, value, index, collection);
-      };
-      case 4: return function(accumulator, value, index, collection) {
-        return func.call(context, accumulator, value, index, collection);
-      };
-    }
-    return function() {
-      return func.apply(context, arguments);
-    };
-  };
-
-  // A mostly-internal function to generate callbacks that can be applied
-  // to each element in a collection, returning the desired result — either
-  // identity, an arbitrary callback, a property matcher, or a property accessor.
-  _.iteratee = function(value, context, argCount) {
-    if (value == null) return _.identity;
-    if (_.isFunction(value)) return createCallback(value, context, argCount);
-    if (_.isObject(value)) return _.matches(value);
-    return _.property(value);
-  };
-
-  // Collection Functions
-  // --------------------
-
-  // The cornerstone, an `each` implementation, aka `forEach`.
-  // Handles raw objects in addition to array-likes. Treats all
-  // sparse array-likes as if they were dense.
-  _.each = _.forEach = function(obj, iteratee, context) {
-    if (obj == null) return obj;
-    iteratee = createCallback(iteratee, context);
-    var i, length = obj.length;
-    if (length === +length) {
-      for (i = 0; i < length; i++) {
-        iteratee(obj[i], i, obj);
-      }
-    } else {
-      var keys = _.keys(obj);
-      for (i = 0, length = keys.length; i < length; i++) {
-        iteratee(obj[keys[i]], keys[i], obj);
-      }
-    }
-    return obj;
-  };
-
-  // Return the results of applying the iteratee to each element.
-  _.map = _.collect = function(obj, iteratee, context) {
-    if (obj == null) return [];
-    iteratee = _.iteratee(iteratee, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-        length = (keys || obj).length,
-        results = Array(length),
-        currentKey;
-    for (var index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      results[index] = iteratee(obj[currentKey], currentKey, obj);
-    }
-    return results;
-  };
-
-  var reduceError = 'Reduce of empty array with no initial value';
-
-  // **Reduce** builds up a single result from a list of values, aka `inject`,
-  // or `foldl`.
-  _.reduce = _.foldl = _.inject = function(obj, iteratee, memo, context) {
-    if (obj == null) obj = [];
-    iteratee = createCallback(iteratee, context, 4);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-        length = (keys || obj).length,
-        index = 0, currentKey;
-    if (arguments.length < 3) {
-      if (!length) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[index++] : index++];
-    }
-    for (; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
-    }
-    return memo;
-  };
-
-  // The right-associative version of reduce, also known as `foldr`.
-  _.reduceRight = _.foldr = function(obj, iteratee, memo, context) {
-    if (obj == null) obj = [];
-    iteratee = createCallback(iteratee, context, 4);
-    var keys = obj.length !== + obj.length && _.keys(obj),
-        index = (keys || obj).length,
-        currentKey;
-    if (arguments.length < 3) {
-      if (!index) throw new TypeError(reduceError);
-      memo = obj[keys ? keys[--index] : --index];
-    }
-    while (index--) {
-      currentKey = keys ? keys[index] : index;
-      memo = iteratee(memo, obj[currentKey], currentKey, obj);
-    }
-    return memo;
-  };
-
-  // Return the first value which passes a truth test. Aliased as `detect`.
-  _.find = _.detect = function(obj, predicate, context) {
-    var result;
-    predicate = _.iteratee(predicate, context);
-    _.some(obj, function(value, index, list) {
-      if (predicate(value, index, list)) {
-        result = value;
-        return true;
-      }
-    });
-    return result;
-  };
-
-  // Return all the elements that pass a truth test.
-  // Aliased as `select`.
-  _.filter = _.select = function(obj, predicate, context) {
-    var results = [];
-    if (obj == null) return results;
-    predicate = _.iteratee(predicate, context);
-    _.each(obj, function(value, index, list) {
-      if (predicate(value, index, list)) results.push(value);
-    });
-    return results;
-  };
-
-  // Return all the elements for which a truth test fails.
-  _.reject = function(obj, predicate, context) {
-    return _.filter(obj, _.negate(_.iteratee(predicate)), context);
-  };
-
-  // Determine whether all of the elements match a truth test.
-  // Aliased as `all`.
-  _.every = _.all = function(obj, predicate, context) {
-    if (obj == null) return true;
-    predicate = _.iteratee(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-        length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      if (!predicate(obj[currentKey], currentKey, obj)) return false;
-    }
-    return true;
-  };
-
-  // Determine if at least one element in the object matches a truth test.
-  // Aliased as `any`.
-  _.some = _.any = function(obj, predicate, context) {
-    if (obj == null) return false;
-    predicate = _.iteratee(predicate, context);
-    var keys = obj.length !== +obj.length && _.keys(obj),
-        length = (keys || obj).length,
-        index, currentKey;
-    for (index = 0; index < length; index++) {
-      currentKey = keys ? keys[index] : index;
-      if (predicate(obj[currentKey], currentKey, obj)) return true;
-    }
-    return false;
-  };
-
-  // Determine if the array or object contains a given value (using `===`).
-  // Aliased as `include`.
-  _.contains = _.include = function(obj, target) {
-    if (obj == null) return false;
-    if (obj.length !== +obj.length) obj = _.values(obj);
-    return _.indexOf(obj, target) >= 0;
-  };
-
-  // Invoke a method (with arguments) on every item in a collection.
-  _.invoke = function(obj, method) {
-    var args = slice.call(arguments, 2);
-    var isFunc = _.isFunction(method);
-    return _.map(obj, function(value) {
-      return (isFunc ? method : value[method]).apply(value, args);
-    });
-  };
-
-  // Convenience version of a common use case of `map`: fetching a property.
-  _.pluck = function(obj, key) {
-    return _.map(obj, _.property(key));
-  };
-
-  // Convenience version of a common use case of `filter`: selecting only objects
-  // containing specific `key:value` pairs.
-  _.where = function(obj, attrs) {
-    return _.filter(obj, _.matches(attrs));
-  };
-
-  // Convenience version of a common use case of `find`: getting the first object
-  // containing specific `key:value` pairs.
-  _.findWhere = function(obj, attrs) {
-    return _.find(obj, _.matches(attrs));
-  };
-
-  // Return the maximum element (or element-based computation).
-  _.max = function(obj, iteratee, context) {
-    var result = -Infinity, lastComputed = -Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value > result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = _.iteratee(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed > lastComputed || computed === -Infinity && result === -Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
-
-  // Return the minimum element (or element-based computation).
-  _.min = function(obj, iteratee, context) {
-    var result = Infinity, lastComputed = Infinity,
-        value, computed;
-    if (iteratee == null && obj != null) {
-      obj = obj.length === +obj.length ? obj : _.values(obj);
-      for (var i = 0, length = obj.length; i < length; i++) {
-        value = obj[i];
-        if (value < result) {
-          result = value;
-        }
-      }
-    } else {
-      iteratee = _.iteratee(iteratee, context);
-      _.each(obj, function(value, index, list) {
-        computed = iteratee(value, index, list);
-        if (computed < lastComputed || computed === Infinity && result === Infinity) {
-          result = value;
-          lastComputed = computed;
-        }
-      });
-    }
-    return result;
-  };
-
-  // Shuffle a collection, using the modern version of the
-  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
-  _.shuffle = function(obj) {
-    var set = obj && obj.length === +obj.length ? obj : _.values(obj);
-    var length = set.length;
-    var shuffled = Array(length);
-    for (var index = 0, rand; index < length; index++) {
-      rand = _.random(0, index);
-      if (rand !== index) shuffled[index] = shuffled[rand];
-      shuffled[rand] = set[index];
-    }
-    return shuffled;
-  };
-
-  // Sample **n** random values from a collection.
-  // If **n** is not specified, returns a single random element.
-  // The internal `guard` argument allows it to work with `map`.
-  _.sample = function(obj, n, guard) {
-    if (n == null || guard) {
-      if (obj.length !== +obj.length) obj = _.values(obj);
-      return obj[_.random(obj.length - 1)];
-    }
-    return _.shuffle(obj).slice(0, Math.max(0, n));
-  };
-
-  // Sort the object's values by a criterion produced by an iteratee.
-  _.sortBy = function(obj, iteratee, context) {
-    iteratee = _.iteratee(iteratee, context);
-    return _.pluck(_.map(obj, function(value, index, list) {
-      return {
-        value: value,
-        index: index,
-        criteria: iteratee(value, index, list)
-      };
-    }).sort(function(left, right) {
-      var a = left.criteria;
-      var b = right.criteria;
-      if (a !== b) {
-        if (a > b || a === void 0) return 1;
-        if (a < b || b === void 0) return -1;
-      }
-      return left.index - right.index;
-    }), 'value');
-  };
-
-  // An internal function used for aggregate "group by" operations.
-  var group = function(behavior) {
-    return function(obj, iteratee, context) {
-      var result = {};
-      iteratee = _.iteratee(iteratee, context);
-      _.each(obj, function(value, index) {
-        var key = iteratee(value, index, obj);
-        behavior(result, value, key);
-      });
-      return result;
-    };
-  };
-
-  // Groups the object's values by a criterion. Pass either a string attribute
-  // to group by, or a function that returns the criterion.
-  _.groupBy = group(function(result, value, key) {
-    if (_.has(result, key)) result[key].push(value); else result[key] = [value];
-  });
-
-  // Indexes the object's values by a criterion, similar to `groupBy`, but for
-  // when you know that your index values will be unique.
-  _.indexBy = group(function(result, value, key) {
-    result[key] = value;
-  });
-
-  // Counts instances of an object that group by a certain criterion. Pass
-  // either a string attribute to count by, or a function that returns the
-  // criterion.
-  _.countBy = group(function(result, value, key) {
-    if (_.has(result, key)) result[key]++; else result[key] = 1;
-  });
-
-  // Use a comparator function to figure out the smallest index at which
-  // an object should be inserted so as to maintain order. Uses binary search.
-  _.sortedIndex = function(array, obj, iteratee, context) {
-    iteratee = _.iteratee(iteratee, context, 1);
-    var value = iteratee(obj);
-    var low = 0, high = array.length;
-    while (low < high) {
-      var mid = low + high >>> 1;
-      if (iteratee(array[mid]) < value) low = mid + 1; else high = mid;
-    }
-    return low;
-  };
-
-  // Safely create a real, live array from anything iterable.
-  _.toArray = function(obj) {
-    if (!obj) return [];
-    if (_.isArray(obj)) return slice.call(obj);
-    if (obj.length === +obj.length) return _.map(obj, _.identity);
-    return _.values(obj);
-  };
-
-  // Return the number of elements in an object.
-  _.size = function(obj) {
-    if (obj == null) return 0;
-    return obj.length === +obj.length ? obj.length : _.keys(obj).length;
-  };
-
-  // Split a collection into two arrays: one whose elements all satisfy the given
-  // predicate, and one whose elements all do not satisfy the predicate.
-  _.partition = function(obj, predicate, context) {
-    predicate = _.iteratee(predicate, context);
-    var pass = [], fail = [];
-    _.each(obj, function(value, key, obj) {
-      (predicate(value, key, obj) ? pass : fail).push(value);
-    });
-    return [pass, fail];
-  };
-
-  // Array Functions
-  // ---------------
-
-  // Get the first element of an array. Passing **n** will return the first N
-  // values in the array. Aliased as `head` and `take`. The **guard** check
-  // allows it to work with `_.map`.
-  _.first = _.head = _.take = function(array, n, guard) {
-    if (array == null) return void 0;
-    if (n == null || guard) return array[0];
-    if (n < 0) return [];
-    return slice.call(array, 0, n);
-  };
-
-  // Returns everything but the last entry of the array. Especially useful on
-  // the arguments object. Passing **n** will return all the values in
-  // the array, excluding the last N. The **guard** check allows it to work with
-  // `_.map`.
-  _.initial = function(array, n, guard) {
-    return slice.call(array, 0, Math.max(0, array.length - (n == null || guard ? 1 : n)));
-  };
-
-  // Get the last element of an array. Passing **n** will return the last N
-  // values in the array. The **guard** check allows it to work with `_.map`.
-  _.last = function(array, n, guard) {
-    if (array == null) return void 0;
-    if (n == null || guard) return array[array.length - 1];
-    return slice.call(array, Math.max(array.length - n, 0));
-  };
-
-  // Returns everything but the first entry of the array. Aliased as `tail` and `drop`.
-  // Especially useful on the arguments object. Passing an **n** will return
-  // the rest N values in the array. The **guard**
-  // check allows it to work with `_.map`.
-  _.rest = _.tail = _.drop = function(array, n, guard) {
-    return slice.call(array, n == null || guard ? 1 : n);
-  };
-
-  // Trim out all falsy values from an array.
-  _.compact = function(array) {
-    return _.filter(array, _.identity);
-  };
-
-  // Internal implementation of a recursive `flatten` function.
-  var flatten = function(input, shallow, strict, output) {
-    if (shallow && _.every(input, _.isArray)) {
-      return concat.apply(output, input);
-    }
-    for (var i = 0, length = input.length; i < length; i++) {
-      var value = input[i];
-      if (!_.isArray(value) && !_.isArguments(value)) {
-        if (!strict) output.push(value);
-      } else if (shallow) {
-        push.apply(output, value);
-      } else {
-        flatten(value, shallow, strict, output);
-      }
-    }
-    return output;
-  };
-
-  // Flatten out an array, either recursively (by default), or just one level.
-  _.flatten = function(array, shallow) {
-    return flatten(array, shallow, false, []);
-  };
-
-  // Return a version of the array that does not contain the specified value(s).
-  _.without = function(array) {
-    return _.difference(array, slice.call(arguments, 1));
-  };
-
-  // Produce a duplicate-free version of the array. If the array has already
-  // been sorted, you have the option of using a faster algorithm.
-  // Aliased as `unique`.
-  _.uniq = _.unique = function(array, isSorted, iteratee, context) {
-    if (array == null) return [];
-    if (!_.isBoolean(isSorted)) {
-      context = iteratee;
-      iteratee = isSorted;
-      isSorted = false;
-    }
-    if (iteratee != null) iteratee = _.iteratee(iteratee, context);
-    var result = [];
-    var seen = [];
-    for (var i = 0, length = array.length; i < length; i++) {
-      var value = array[i];
-      if (isSorted) {
-        if (!i || seen !== value) result.push(value);
-        seen = value;
-      } else if (iteratee) {
-        var computed = iteratee(value, i, array);
-        if (_.indexOf(seen, computed) < 0) {
-          seen.push(computed);
-          result.push(value);
-        }
-      } else if (_.indexOf(result, value) < 0) {
-        result.push(value);
-      }
-    }
-    return result;
-  };
-
-  // Produce an array that contains the union: each distinct element from all of
-  // the passed-in arrays.
-  _.union = function() {
-    return _.uniq(flatten(arguments, true, true, []));
-  };
-
-  // Produce an array that contains every item shared between all the
-  // passed-in arrays.
-  _.intersection = function(array) {
-    if (array == null) return [];
-    var result = [];
-    var argsLength = arguments.length;
-    for (var i = 0, length = array.length; i < length; i++) {
-      var item = array[i];
-      if (_.contains(result, item)) continue;
-      for (var j = 1; j < argsLength; j++) {
-        if (!_.contains(arguments[j], item)) break;
-      }
-      if (j === argsLength) result.push(item);
-    }
-    return result;
-  };
-
-  // Take the difference between one array and a number of other arrays.
-  // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-    var rest = flatten(slice.call(arguments, 1), true, true, []);
-    return _.filter(array, function(value){
-      return !_.contains(rest, value);
-    });
-  };
-
-  // Zip together multiple lists into a single array -- elements that share
-  // an index go together.
-  _.zip = function(array) {
-    if (array == null) return [];
-    var length = _.max(arguments, 'length').length;
-    var results = Array(length);
-    for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(arguments, i);
-    }
-    return results;
-  };
-
-  // Converts lists into objects. Pass either a single array of `[key, value]`
-  // pairs, or two parallel arrays of the same length -- one of keys, and one of
-  // the corresponding values.
-  _.object = function(list, values) {
-    if (list == null) return {};
-    var result = {};
-    for (var i = 0, length = list.length; i < length; i++) {
-      if (values) {
-        result[list[i]] = values[i];
-      } else {
-        result[list[i][0]] = list[i][1];
-      }
-    }
-    return result;
-  };
-
-  // Return the position of the first occurrence of an item in an array,
-  // or -1 if the item is not included in the array.
-  // If the array is large and already in sort order, pass `true`
-  // for **isSorted** to use binary search.
-  _.indexOf = function(array, item, isSorted) {
-    if (array == null) return -1;
-    var i = 0, length = array.length;
-    if (isSorted) {
-      if (typeof isSorted == 'number') {
-        i = isSorted < 0 ? Math.max(0, length + isSorted) : isSorted;
-      } else {
-        i = _.sortedIndex(array, item);
-        return array[i] === item ? i : -1;
-      }
-    }
-    for (; i < length; i++) if (array[i] === item) return i;
-    return -1;
-  };
-
-  _.lastIndexOf = function(array, item, from) {
-    if (array == null) return -1;
-    var idx = array.length;
-    if (typeof from == 'number') {
-      idx = from < 0 ? idx + from + 1 : Math.min(idx, from + 1);
-    }
-    while (--idx >= 0) if (array[idx] === item) return idx;
-    return -1;
-  };
-
-  // Generate an integer Array containing an arithmetic progression. A port of
-  // the native Python `range()` function. See
-  // [the Python documentation](http://docs.python.org/library/functions.html#range).
-  _.range = function(start, stop, step) {
-    if (arguments.length <= 1) {
-      stop = start || 0;
-      start = 0;
-    }
-    step = step || 1;
-
-    var length = Math.max(Math.ceil((stop - start) / step), 0);
-    var range = Array(length);
-
-    for (var idx = 0; idx < length; idx++, start += step) {
-      range[idx] = start;
-    }
-
-    return range;
-  };
-
-  // Function (ahem) Functions
-  // ------------------
-
-  // Reusable constructor function for prototype setting.
-  var Ctor = function(){};
-
-  // Create a function bound to a given object (assigning `this`, and arguments,
-  // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
-  // available.
-  _.bind = function(func, context) {
-    var args, bound;
-    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    if (!_.isFunction(func)) throw new TypeError('Bind must be called on a function');
-    args = slice.call(arguments, 2);
-    bound = function() {
-      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
-      Ctor.prototype = func.prototype;
-      var self = new Ctor;
-      Ctor.prototype = null;
-      var result = func.apply(self, args.concat(slice.call(arguments)));
-      if (_.isObject(result)) return result;
-      return self;
-    };
-    return bound;
-  };
-
-  // Partially apply a function by creating a version that has had some of its
-  // arguments pre-filled, without changing its dynamic `this` context. _ acts
-  // as a placeholder, allowing any combination of arguments to be pre-filled.
-  _.partial = function(func) {
-    var boundArgs = slice.call(arguments, 1);
-    return function() {
-      var position = 0;
-      var args = boundArgs.slice();
-      for (var i = 0, length = args.length; i < length; i++) {
-        if (args[i] === _) args[i] = arguments[position++];
-      }
-      while (position < arguments.length) args.push(arguments[position++]);
-      return func.apply(this, args);
-    };
-  };
-
-  // Bind a number of an object's methods to that object. Remaining arguments
-  // are the method names to be bound. Useful for ensuring that all callbacks
-  // defined on an object belong to it.
-  _.bindAll = function(obj) {
-    var i, length = arguments.length, key;
-    if (length <= 1) throw new Error('bindAll must be passed function names');
-    for (i = 1; i < length; i++) {
-      key = arguments[i];
-      obj[key] = _.bind(obj[key], obj);
-    }
-    return obj;
-  };
-
-  // Memoize an expensive function by storing its results.
-  _.memoize = function(func, hasher) {
-    var memoize = function(key) {
-      var cache = memoize.cache;
-      var address = hasher ? hasher.apply(this, arguments) : key;
-      if (!_.has(cache, address)) cache[address] = func.apply(this, arguments);
-      return cache[address];
-    };
-    memoize.cache = {};
-    return memoize;
-  };
-
-  // Delays a function for the given number of milliseconds, and then calls
-  // it with the arguments supplied.
-  _.delay = function(func, wait) {
-    var args = slice.call(arguments, 2);
-    return setTimeout(function(){
-      return func.apply(null, args);
-    }, wait);
-  };
-
-  // Defers a function, scheduling it to run after the current call stack has
-  // cleared.
-  _.defer = function(func) {
-    return _.delay.apply(_, [func, 1].concat(slice.call(arguments, 1)));
-  };
-
-  // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time. Normally, the throttled function will run
-  // as much as it can, without ever going more than once per `wait` duration;
-  // but if you'd like to disable the execution on the leading edge, pass
-  // `{leading: false}`. To disable execution on the trailing edge, ditto.
-  _.throttle = function(func, wait, options) {
-    var context, args, result;
-    var timeout = null;
-    var previous = 0;
-    if (!options) options = {};
-    var later = function() {
-      previous = options.leading === false ? 0 : _.now();
-      timeout = null;
-      result = func.apply(context, args);
-      if (!timeout) context = args = null;
-    };
-    return function() {
-      var now = _.now();
-      if (!previous && options.leading === false) previous = now;
-      var remaining = wait - (now - previous);
-      context = this;
-      args = arguments;
-      if (remaining <= 0 || remaining > wait) {
-        clearTimeout(timeout);
-        timeout = null;
-        previous = now;
-        result = func.apply(context, args);
-        if (!timeout) context = args = null;
-      } else if (!timeout && options.trailing !== false) {
-        timeout = setTimeout(later, remaining);
-      }
-      return result;
-    };
-  };
-
-  // Returns a function, that, as long as it continues to be invoked, will not
-  // be triggered. The function will be called after it stops being called for
-  // N milliseconds. If `immediate` is passed, trigger the function on the
-  // leading edge, instead of the trailing.
-  _.debounce = function(func, wait, immediate) {
-    var timeout, args, context, timestamp, result;
-
-    var later = function() {
-      var last = _.now() - timestamp;
-
-      if (last < wait && last > 0) {
-        timeout = setTimeout(later, wait - last);
-      } else {
-        timeout = null;
-        if (!immediate) {
-          result = func.apply(context, args);
-          if (!timeout) context = args = null;
-        }
-      }
-    };
-
-    return function() {
-      context = this;
-      args = arguments;
-      timestamp = _.now();
-      var callNow = immediate && !timeout;
-      if (!timeout) timeout = setTimeout(later, wait);
-      if (callNow) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
-
-      return result;
-    };
-  };
-
-  // Returns the first function passed as an argument to the second,
-  // allowing you to adjust arguments, run code before and after, and
-  // conditionally execute the original function.
-  _.wrap = function(func, wrapper) {
-    return _.partial(wrapper, func);
-  };
-
-  // Returns a negated version of the passed-in predicate.
-  _.negate = function(predicate) {
-    return function() {
-      return !predicate.apply(this, arguments);
-    };
-  };
-
-  // Returns a function that is the composition of a list of functions, each
-  // consuming the return value of the function that follows.
-  _.compose = function() {
-    var args = arguments;
-    var start = args.length - 1;
-    return function() {
-      var i = start;
-      var result = args[start].apply(this, arguments);
-      while (i--) result = args[i].call(this, result);
-      return result;
-    };
-  };
-
-  // Returns a function that will only be executed after being called N times.
-  _.after = function(times, func) {
-    return function() {
-      if (--times < 1) {
-        return func.apply(this, arguments);
-      }
-    };
-  };
-
-  // Returns a function that will only be executed before being called N times.
-  _.before = function(times, func) {
-    var memo;
-    return function() {
-      if (--times > 0) {
-        memo = func.apply(this, arguments);
-      } else {
-        func = null;
-      }
-      return memo;
-    };
-  };
-
-  // Returns a function that will be executed at most one time, no matter how
-  // often you call it. Useful for lazy initialization.
-  _.once = _.partial(_.before, 2);
-
-  // Object Functions
-  // ----------------
-
-  // Retrieve the names of an object's properties.
-  // Delegates to **ECMAScript 5**'s native `Object.keys`
-  _.keys = function(obj) {
-    if (!_.isObject(obj)) return [];
-    if (nativeKeys) return nativeKeys(obj);
-    var keys = [];
-    for (var key in obj) if (_.has(obj, key)) keys.push(key);
-    return keys;
-  };
-
-  // Retrieve the values of an object's properties.
-  _.values = function(obj) {
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var values = Array(length);
-    for (var i = 0; i < length; i++) {
-      values[i] = obj[keys[i]];
-    }
-    return values;
-  };
-
-  // Convert an object into a list of `[key, value]` pairs.
-  _.pairs = function(obj) {
-    var keys = _.keys(obj);
-    var length = keys.length;
-    var pairs = Array(length);
-    for (var i = 0; i < length; i++) {
-      pairs[i] = [keys[i], obj[keys[i]]];
-    }
-    return pairs;
-  };
-
-  // Invert the keys and values of an object. The values must be serializable.
-  _.invert = function(obj) {
-    var result = {};
-    var keys = _.keys(obj);
-    for (var i = 0, length = keys.length; i < length; i++) {
-      result[obj[keys[i]]] = keys[i];
-    }
-    return result;
-  };
-
-  // Return a sorted list of the function names available on the object.
-  // Aliased as `methods`
-  _.functions = _.methods = function(obj) {
-    var names = [];
-    for (var key in obj) {
-      if (_.isFunction(obj[key])) names.push(key);
-    }
-    return names.sort();
-  };
-
-  // Extend a given object with all the properties in passed-in object(s).
-  _.extend = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    var source, prop;
-    for (var i = 1, length = arguments.length; i < length; i++) {
-      source = arguments[i];
-      for (prop in source) {
-        if (hasOwnProperty.call(source, prop)) {
-            obj[prop] = source[prop];
-        }
-      }
-    }
-    return obj;
-  };
-
-  // Return a copy of the object only containing the whitelisted properties.
-  _.pick = function(obj, iteratee, context) {
-    var result = {}, key;
-    if (obj == null) return result;
-    if (_.isFunction(iteratee)) {
-      iteratee = createCallback(iteratee, context);
-      for (key in obj) {
-        var value = obj[key];
-        if (iteratee(value, key, obj)) result[key] = value;
-      }
-    } else {
-      var keys = concat.apply([], slice.call(arguments, 1));
-      obj = new Object(obj);
-      for (var i = 0, length = keys.length; i < length; i++) {
-        key = keys[i];
-        if (key in obj) result[key] = obj[key];
-      }
-    }
-    return result;
-  };
-
-   // Return a copy of the object without the blacklisted properties.
-  _.omit = function(obj, iteratee, context) {
-    if (_.isFunction(iteratee)) {
-      iteratee = _.negate(iteratee);
-    } else {
-      var keys = _.map(concat.apply([], slice.call(arguments, 1)), String);
-      iteratee = function(value, key) {
-        return !_.contains(keys, key);
-      };
-    }
-    return _.pick(obj, iteratee, context);
-  };
-
-  // Fill in a given object with default properties.
-  _.defaults = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    for (var i = 1, length = arguments.length; i < length; i++) {
-      var source = arguments[i];
-      for (var prop in source) {
-        if (obj[prop] === void 0) obj[prop] = source[prop];
-      }
-    }
-    return obj;
-  };
-
-  // Create a (shallow-cloned) duplicate of an object.
-  _.clone = function(obj) {
-    if (!_.isObject(obj)) return obj;
-    return _.isArray(obj) ? obj.slice() : _.extend({}, obj);
-  };
-
-  // Invokes interceptor with the obj, and then returns obj.
-  // The primary purpose of this method is to "tap into" a method chain, in
-  // order to perform operations on intermediate results within the chain.
-  _.tap = function(obj, interceptor) {
-    interceptor(obj);
-    return obj;
-  };
-
-  // Internal recursive comparison function for `isEqual`.
-  var eq = function(a, b, aStack, bStack) {
-    // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-    if (a === b) return a !== 0 || 1 / a === 1 / b;
-    // A strict comparison is necessary because `null == undefined`.
-    if (a == null || b == null) return a === b;
-    // Unwrap any wrapped objects.
-    if (a instanceof _) a = a._wrapped;
-    if (b instanceof _) b = b._wrapped;
-    // Compare `[[Class]]` names.
-    var className = toString.call(a);
-    if (className !== toString.call(b)) return false;
-    switch (className) {
-      // Strings, numbers, regular expressions, dates, and booleans are compared by value.
-      case '[object RegExp]':
-      // RegExps are coerced to strings for comparison (Note: '' + /a/i === '/a/i')
-      case '[object String]':
-        // Primitives and their corresponding object wrappers are equivalent; thus, `"5"` is
-        // equivalent to `new String("5")`.
-        return '' + a === '' + b;
-      case '[object Number]':
-        // `NaN`s are equivalent, but non-reflexive.
-        // Object(NaN) is equivalent to NaN
-        if (+a !== +a) return +b !== +b;
-        // An `egal` comparison is performed for other numeric values.
-        return +a === 0 ? 1 / +a === 1 / b : +a === +b;
-      case '[object Date]':
-      case '[object Boolean]':
-        // Coerce dates and booleans to numeric primitive values. Dates are compared by their
-        // millisecond representations. Note that invalid dates with millisecond representations
-        // of `NaN` are not equivalent.
-        return +a === +b;
-    }
-    if (typeof a != 'object' || typeof b != 'object') return false;
-    // Assume equality for cyclic structures. The algorithm for detecting cyclic
-    // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
-    var length = aStack.length;
-    while (length--) {
-      // Linear search. Performance is inversely proportional to the number of
-      // unique nested structures.
-      if (aStack[length] === a) return bStack[length] === b;
-    }
-    // Objects with different constructors are not equivalent, but `Object`s
-    // from different frames are.
-    var aCtor = a.constructor, bCtor = b.constructor;
-    if (
-      aCtor !== bCtor &&
-      // Handle Object.create(x) cases
-      'constructor' in a && 'constructor' in b &&
-      !(_.isFunction(aCtor) && aCtor instanceof aCtor &&
-        _.isFunction(bCtor) && bCtor instanceof bCtor)
-    ) {
-      return false;
-    }
-    // Add the first object to the stack of traversed objects.
-    aStack.push(a);
-    bStack.push(b);
-    var size, result;
-    // Recursively compare objects and arrays.
-    if (className === '[object Array]') {
-      // Compare array lengths to determine if a deep comparison is necessary.
-      size = a.length;
-      result = size === b.length;
-      if (result) {
-        // Deep compare the contents, ignoring non-numeric properties.
-        while (size--) {
-          if (!(result = eq(a[size], b[size], aStack, bStack))) break;
-        }
-      }
-    } else {
-      // Deep compare objects.
-      var keys = _.keys(a), key;
-      size = keys.length;
-      // Ensure that both objects contain the same number of properties before comparing deep equality.
-      result = _.keys(b).length === size;
-      if (result) {
-        while (size--) {
-          // Deep compare each member
-          key = keys[size];
-          if (!(result = _.has(b, key) && eq(a[key], b[key], aStack, bStack))) break;
-        }
-      }
-    }
-    // Remove the first object from the stack of traversed objects.
-    aStack.pop();
-    bStack.pop();
-    return result;
-  };
-
-  // Perform a deep comparison to check if two objects are equal.
-  _.isEqual = function(a, b) {
-    return eq(a, b, [], []);
-  };
-
-  // Is a given array, string, or object empty?
-  // An "empty" object has no enumerable own-properties.
-  _.isEmpty = function(obj) {
-    if (obj == null) return true;
-    if (_.isArray(obj) || _.isString(obj) || _.isArguments(obj)) return obj.length === 0;
-    for (var key in obj) if (_.has(obj, key)) return false;
-    return true;
-  };
-
-  // Is a given value a DOM element?
-  _.isElement = function(obj) {
-    return !!(obj && obj.nodeType === 1);
-  };
-
-  // Is a given value an array?
-  // Delegates to ECMA5's native Array.isArray
-  _.isArray = nativeIsArray || function(obj) {
-    return toString.call(obj) === '[object Array]';
-  };
-
-  // Is a given variable an object?
-  _.isObject = function(obj) {
-    var type = typeof obj;
-    return type === 'function' || type === 'object' && !!obj;
-  };
-
-  // Add some isType methods: isArguments, isFunction, isString, isNumber, isDate, isRegExp.
-  _.each(['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'], function(name) {
-    _['is' + name] = function(obj) {
-      return toString.call(obj) === '[object ' + name + ']';
-    };
-  });
-
-  // Define a fallback version of the method in browsers (ahem, IE), where
-  // there isn't any inspectable "Arguments" type.
-  if (!_.isArguments(arguments)) {
-    _.isArguments = function(obj) {
-      return _.has(obj, 'callee');
-    };
-  }
-
-  // Optimize `isFunction` if appropriate. Work around an IE 11 bug.
-  if (typeof /./ !== 'function') {
-    _.isFunction = function(obj) {
-      return typeof obj == 'function' || false;
-    };
-  }
-
-  // Is a given object a finite number?
-  _.isFinite = function(obj) {
-    return isFinite(obj) && !isNaN(parseFloat(obj));
-  };
-
-  // Is the given value `NaN`? (NaN is the only number which does not equal itself).
-  _.isNaN = function(obj) {
-    return _.isNumber(obj) && obj !== +obj;
-  };
-
-  // Is a given value a boolean?
-  _.isBoolean = function(obj) {
-    return obj === true || obj === false || toString.call(obj) === '[object Boolean]';
-  };
-
-  // Is a given value equal to null?
-  _.isNull = function(obj) {
-    return obj === null;
-  };
-
-  // Is a given variable undefined?
-  _.isUndefined = function(obj) {
-    return obj === void 0;
-  };
-
-  // Shortcut function for checking if an object has a given property directly
-  // on itself (in other words, not on a prototype).
-  _.has = function(obj, key) {
-    return obj != null && hasOwnProperty.call(obj, key);
-  };
-
-  // Utility Functions
-  // -----------------
-
-  // Run Underscore.js in *noConflict* mode, returning the `_` variable to its
-  // previous owner. Returns a reference to the Underscore object.
-  _.noConflict = function() {
-    root._ = previousUnderscore;
-    return this;
-  };
-
-  // Keep the identity function around for default iteratees.
-  _.identity = function(value) {
-    return value;
-  };
-
-  _.constant = function(value) {
-    return function() {
-      return value;
-    };
-  };
-
-  _.noop = function(){};
-
-  _.property = function(key) {
-    return function(obj) {
-      return obj[key];
-    };
-  };
-
-  // Returns a predicate for checking whether an object has a given set of `key:value` pairs.
-  _.matches = function(attrs) {
-    var pairs = _.pairs(attrs), length = pairs.length;
-    return function(obj) {
-      if (obj == null) return !length;
-      obj = new Object(obj);
-      for (var i = 0; i < length; i++) {
-        var pair = pairs[i], key = pair[0];
-        if (pair[1] !== obj[key] || !(key in obj)) return false;
-      }
-      return true;
-    };
-  };
-
-  // Run a function **n** times.
-  _.times = function(n, iteratee, context) {
-    var accum = Array(Math.max(0, n));
-    iteratee = createCallback(iteratee, context, 1);
-    for (var i = 0; i < n; i++) accum[i] = iteratee(i);
-    return accum;
-  };
-
-  // Return a random integer between min and max (inclusive).
-  _.random = function(min, max) {
-    if (max == null) {
-      max = min;
-      min = 0;
-    }
-    return min + Math.floor(Math.random() * (max - min + 1));
-  };
-
-  // A (possibly faster) way to get the current timestamp as an integer.
-  _.now = Date.now || function() {
-    return new Date().getTime();
-  };
-
-   // List of HTML entities for escaping.
-  var escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#x27;',
-    '`': '&#x60;'
-  };
-  var unescapeMap = _.invert(escapeMap);
-
-  // Functions for escaping and unescaping strings to/from HTML interpolation.
-  var createEscaper = function(map) {
-    var escaper = function(match) {
-      return map[match];
-    };
-    // Regexes for identifying a key that needs to be escaped
-    var source = '(?:' + _.keys(map).join('|') + ')';
-    var testRegexp = RegExp(source);
-    var replaceRegexp = RegExp(source, 'g');
-    return function(string) {
-      string = string == null ? '' : '' + string;
-      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
-    };
-  };
-  _.escape = createEscaper(escapeMap);
-  _.unescape = createEscaper(unescapeMap);
-
-  // If the value of the named `property` is a function then invoke it with the
-  // `object` as context; otherwise, return it.
-  _.result = function(object, property) {
-    if (object == null) return void 0;
-    var value = object[property];
-    return _.isFunction(value) ? object[property]() : value;
-  };
-
-  // Generate a unique integer id (unique within the entire client session).
-  // Useful for temporary DOM ids.
-  var idCounter = 0;
-  _.uniqueId = function(prefix) {
-    var id = ++idCounter + '';
-    return prefix ? prefix + id : id;
-  };
-
-  // By default, Underscore uses ERB-style template delimiters, change the
-  // following template settings to use alternative delimiters.
-  _.templateSettings = {
-    evaluate    : /<%([\s\S]+?)%>/g,
-    interpolate : /<%=([\s\S]+?)%>/g,
-    escape      : /<%-([\s\S]+?)%>/g
-  };
-
-  // When customizing `templateSettings`, if you don't want to define an
-  // interpolation, evaluation or escaping regex, we need one that is
-  // guaranteed not to match.
-  var noMatch = /(.)^/;
-
-  // Certain characters need to be escaped so that they can be put into a
-  // string literal.
-  var escapes = {
-    "'":      "'",
-    '\\':     '\\',
-    '\r':     'r',
-    '\n':     'n',
-    '\u2028': 'u2028',
-    '\u2029': 'u2029'
-  };
-
-  var escaper = /\\|'|\r|\n|\u2028|\u2029/g;
-
-  var escapeChar = function(match) {
-    return '\\' + escapes[match];
-  };
-
-  // JavaScript micro-templating, similar to John Resig's implementation.
-  // Underscore templating handles arbitrary delimiters, preserves whitespace,
-  // and correctly escapes quotes within interpolated code.
-  // NB: `oldSettings` only exists for backwards compatibility.
-  _.template = function(text, settings, oldSettings) {
-    if (!settings && oldSettings) settings = oldSettings;
-    settings = _.defaults({}, settings, _.templateSettings);
-
-    // Combine delimiters into one regular expression via alternation.
-    var matcher = RegExp([
-      (settings.escape || noMatch).source,
-      (settings.interpolate || noMatch).source,
-      (settings.evaluate || noMatch).source
-    ].join('|') + '|$', 'g');
-
-    // Compile the template source, escaping string literals appropriately.
-    var index = 0;
-    var source = "__p+='";
-    text.replace(matcher, function(match, escape, interpolate, evaluate, offset) {
-      source += text.slice(index, offset).replace(escaper, escapeChar);
-      index = offset + match.length;
-
-      if (escape) {
-        source += "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'";
-      } else if (interpolate) {
-        source += "'+\n((__t=(" + interpolate + "))==null?'':__t)+\n'";
-      } else if (evaluate) {
-        source += "';\n" + evaluate + "\n__p+='";
-      }
-
-      // Adobe VMs need the match returned to produce the correct offest.
-      return match;
-    });
-    source += "';\n";
-
-    // If a variable is not specified, place data values in local scope.
-    if (!settings.variable) source = 'with(obj||{}){\n' + source + '}\n';
-
-    source = "var __t,__p='',__j=Array.prototype.join," +
-      "print=function(){__p+=__j.call(arguments,'');};\n" +
-      source + 'return __p;\n';
-
-    try {
-      var render = new Function(settings.variable || 'obj', '_', source);
-    } catch (e) {
-      e.source = source;
-      throw e;
-    }
-
-    var template = function(data) {
-      return render.call(this, data, _);
-    };
-
-    // Provide the compiled source as a convenience for precompilation.
-    var argument = settings.variable || 'obj';
-    template.source = 'function(' + argument + '){\n' + source + '}';
-
-    return template;
-  };
-
-  // Add a "chain" function. Start chaining a wrapped Underscore object.
-  _.chain = function(obj) {
-    var instance = _(obj);
-    instance._chain = true;
-    return instance;
-  };
-
-  // OOP
-  // ---------------
-  // If Underscore is called as a function, it returns a wrapped object that
-  // can be used OO-style. This wrapper holds altered versions of all the
-  // underscore functions. Wrapped objects may be chained.
-
-  // Helper function to continue chaining intermediate results.
-  var result = function(obj) {
-    return this._chain ? _(obj).chain() : obj;
-  };
-
-  // Add your own custom functions to the Underscore object.
-  _.mixin = function(obj) {
-    _.each(_.functions(obj), function(name) {
-      var func = _[name] = obj[name];
-      _.prototype[name] = function() {
-        var args = [this._wrapped];
-        push.apply(args, arguments);
-        return result.call(this, func.apply(_, args));
-      };
-    });
-  };
-
-  // Add all of the Underscore functions to the wrapper object.
-  _.mixin(_);
-
-  // Add all mutator Array functions to the wrapper.
-  _.each(['pop', 'push', 'reverse', 'shift', 'sort', 'splice', 'unshift'], function(name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function() {
-      var obj = this._wrapped;
-      method.apply(obj, arguments);
-      if ((name === 'shift' || name === 'splice') && obj.length === 0) delete obj[0];
-      return result.call(this, obj);
-    };
-  });
-
-  // Add all accessor Array functions to the wrapper.
-  _.each(['concat', 'join', 'slice'], function(name) {
-    var method = ArrayProto[name];
-    _.prototype[name] = function() {
-      return result.call(this, method.apply(this._wrapped, arguments));
-    };
-  });
-
-  // Extracts the result from a wrapped and chained object.
-  _.prototype.value = function() {
-    return this._wrapped;
-  };
-
-  // AMD registration happens at the end for compatibility with AMD loaders
-  // that may not enforce next-turn semantics on modules. Even though general
-  // practice for AMD registration is to be anonymous, underscore registers
-  // as a named module because, like jQuery, it is a base library that is
-  // popular enough to be bundled in a third party lib, but not be part of
-  // an AMD load request. Those cases could generate an error when an
-  // anonymous define() is called outside of a loader request.
-  if (typeof define === 'function' && define.amd) {
-    define('underscore', [], function() {
-      return _;
-    });
-  }
-}.call(this));
 
 d3 = function() {
   var d3 = {
@@ -86799,6 +85389,10 @@ define('services',['angular', 'd3'], function(angular, d3) {
             });
             _this.data.push({ key: title, values: values });
           },
+          removeDataGroup: function(groupIndex) {
+            var _this = this;
+            _this.data.splice(groupIndex, 1);
+          },
           showSampleData: function() {
             var _this = this;
             _this.data = _this.sampleData.exampleData;
@@ -86919,7 +85513,9 @@ define('services',['angular', 'd3'], function(angular, d3) {
                 newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
                 newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
 
-                _this.data[i - 1].values.push(newRow);
+                if (newRow[_this.dataFormat[1].key]) {
+                  _this.data[i - 1].values.push(newRow);
+                }
               }
 
             }, function(error) {
@@ -87055,7 +85651,12 @@ define('filters',['angular'], function(angular) {
     /* Filters */
     var coerceInputTypes = {
       'number': function(input) {
-        return +input;
+        var number = parseFloat(input.replace(/[^0-9-.]/g, ''));
+        if (isNaN(number)) {
+          return null;
+        } else {
+          return number;
+        }
       },
       'text': function(input) {
         return input;
@@ -87232,7 +85833,7 @@ define('chartbuilder-options',[
 });
 
 
-define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel panel-default">\n  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n    <div class="panel-body">\n      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n        <div class="panel panel-default panel-chartbuilder-table"\n          ng-repeat="group in structureData.data track by $index"\n          >\n          <div class="panel-heading data-group-title-heading">\n            <div class="panel-title">\n              <h5>\n                Data Group {{ $index + 1 }}: \n                <edit-in-place value="group.key" type="text"></edit-in-place>\n                <a data-toggle="collapse"\n                  data-parent="#accordion"\n                  data-target="#collapse-{{ $index }}"\n                  href=""\n                  ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n                  >\n                  <i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-up\' : \'fa-caret-down\' }}"></i>\n                </a>\n              </h5>\n            </div>\n          </div>\n          <div ng-if="structureData.slug === \'lineChart\'" class="panel-heading">\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Area Fill</h6>\n                <div class="btn-group pull-right" ng-if="structureData.slug === \'lineChart\'" ng-model="group.area" ng-click="group.area = !group.area">\n                  <button type="button" class="btn btn-xs" ng-class="{ active: group.area, \'btn-primary\': group.area, \'btn-default\': !group.area }">On</button>\n                  <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, \'btn-primary\': !group.area, \'btn-default\': group.area }">Off</button>\n                </div>\n              </div>\n            </div>\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Series Color (Optional)</h6>\n                <div class="color-picker pull-right">\n                  <spectrum-colorpicker\n                    trigger-id="series-{{ $index }}-color-picker"\n                    ng-model="group.color"\n                    options="{\n                      showPaletteOnly: true,\n                      showPalette: true,\n                      hideAfterPaletteSelect: true,\n                      allowEmpty: true,\n                      palette: {{ structureData.colors }}\n                    }"\n                    format="\'hex\'"\n                    class="color-box"\n                    >\n                  </spectrum-colorpicker>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n            <div class="panel-body">\n              <table class="table table-condensed table-striped">\n                <thead>\n                  <tr>\n                    <th>Remove</th>\n                    <th data-ng-repeat="column in structureData.dataFormat">\n                      {{ column.key }}\n                    </th>\n                    <th ng-if="structureData.options.customColors">Color</th>\n                  </tr>\n                </thead>\n                <tbody ng-model="group.values" ui-sortable>\n                  <tr ng-repeat="rows in group.values track by $index">\n                    <td>\n                      <span class="glyphicon glyphicon-minus"\n                        ng-click="removeRow($parent.$index, $index)"\n                        >\n                      </span>\n                    </td>\n                    <td ng-repeat="column in structureData.dataFormat track by column.key">\n                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n                        type="{{ column.type }}"\n                        >\n                      </edit-in-place>\n                    </td>\n                    <td ng-if="structureData.options.customColors" class="color-picker">\n                      <span colorpicker\n                        colorpicker-with-input="true"\n                        ng-model="structureData.data[$parent.$index].values[$index].color"\n                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"\n                        class="color-box"\n                        >\n                      </span>\n                    </td>\n                  </tr>\n                  <tr>\n                    <td>\n                      <a href><span class="glyphicon glyphicon-plus"\n                        ng-click="addRow($index)"\n                        >\n                        </span></a>\n                    </td>\n                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">\n                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="panel-footer">\n      <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last Group</button>\n        </span>\n      </div>\n    </div>\n  </div>\n</div>\n';});
+define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel panel-default">\n  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n    <div class="panel-body">\n      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n        <div class="panel panel-default panel-chartbuilder-table"\n          ng-repeat="group in structureData.data track by $index"\n          >\n          <div class="panel-heading data-group-title-heading">\n            <div class="panel-title">\n              <h5>\n                Data Group {{ $index + 1 }}: \n                <edit-in-place value="group.key" type="text"></edit-in-place>\n                <a data-toggle="collapse"\n                  data-parent="#accordion"\n                  data-target="#collapse-{{ $index }}"\n                  href=""\n                  ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n                  >\n                  <i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-up\' : \'fa-caret-down\' }}"></i>\n                </a>\n              </h5>\n              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>\n            </div>\n          </div>\n          <div ng-if="structureData.slug === \'lineChart\'" class="panel-heading">\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Area Fill</h6>\n                <div class="btn-group pull-right" ng-if="structureData.slug === \'lineChart\'" ng-model="group.area" ng-click="group.area = !group.area">\n                  <button type="button" class="btn btn-xs" ng-class="{ active: group.area, \'btn-primary\': group.area, \'btn-default\': !group.area }">On</button>\n                  <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, \'btn-primary\': !group.area, \'btn-default\': group.area }">Off</button>\n                </div>\n              </div>\n            </div>\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Series Color (Optional)</h6>\n                <div class="color-picker pull-right">\n                  <spectrum-colorpicker\n                    trigger-id="series-{{ $index }}-color-picker"\n                    ng-model="group.color"\n                    options="{\n                      showPaletteOnly: true,\n                      showPalette: true,\n                      hideAfterPaletteSelect: true,\n                      allowEmpty: true,\n                      palette: {{ structureData.colors }}\n                    }"\n                    format="\'hex\'"\n                    class="color-box"\n                    >\n                  </spectrum-colorpicker>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n            <div class="panel-body">\n              <table class="table table-condensed table-striped">\n                <thead>\n                  <tr>\n                    <th>Remove</th>\n                    <th data-ng-repeat="column in structureData.dataFormat">\n                      {{ column.key }}\n                    </th>\n                    <th ng-if="structureData.options.customColors">Color</th>\n                  </tr>\n                </thead>\n                <tbody ng-model="group.values" ui-sortable>\n                  <tr ng-repeat="rows in group.values track by $index">\n                    <td>\n                      <span class="glyphicon glyphicon-minus"\n                        ng-click="removeRow($parent.$index, $index)"\n                        >\n                      </span>\n                    </td>\n                    <td ng-repeat="column in structureData.dataFormat track by column.key">\n                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n                        type="{{ column.type }}"\n                        >\n                      </edit-in-place>\n                    </td>\n                    <td ng-if="structureData.options.customColors" class="color-picker">\n                      <span colorpicker\n                        colorpicker-with-input="true"\n                        ng-model="structureData.data[$parent.$index].values[$index].color"\n                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"\n                        class="color-box"\n                        >\n                      </span>\n                    </td>\n                  </tr>\n                  <tr>\n                    <td>\n                      <a href><span class="glyphicon glyphicon-plus"\n                        ng-click="addRow($index)"\n                        >\n                        </span></a>\n                    </td>\n                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">\n                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="panel-footer">\n      <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last Group</button>\n        </span>\n      </div>\n    </div>\n  </div>\n</div>\n';});
 
 define('data-input',[
   'angular',
@@ -87316,54 +85917,6 @@ define('data-input',[
           }
         };
       }]);
-});
-
-define('colors',[
-  'angular',
-  ], function(angular) {
-    
-
-    angular.module('chartbuilderDirectives').
-      directive('chartbuilderColors', function () {
-        return {
-          restrict: 'EA',
-          template: ['<div class="color-picker" ng-if="!chartbuilderData.options.customColors" ng-model="chartbuilderData.colors" ui-sortable>',
-                       '<spectrum-colorpicker ',
-                         'ng-repeat="color in chartbuilderData.colors track by $index" ',
-                         'trigger-id="color-picker-{{ $index }}" ',
-                         'ng-model="chartbuilderData.colors[$index]" ',
-                         'options="{',
-                           'allowEmpty: true,',
-                           'showInput: true,',
-                           'preferredFormat: \'hex3\',',
-                         '}" ',
-                         'format="\'hex\'" ',
-                         'class="color-box" ',
-                         '>',
-                       '</spectrum-colorpicker>',
-
-                       '<span popover="Add another color" popover-trigger="mouseenter" ng-click="addNewColor()"><span class="glyphicon glyphicon-plus center-block"></span></span>',
-                       '<span popover="Reverse the color palette" popover-trigger="mouseenter" ng-click="reverseColors()"><span class="glyphicon glyphicon-transfer center-block"></span></span>',
-                     '</div>',
-                     '<a href ng-click="scaleColors()">use a color scale</a>',
-                     '<a href ng-click="customColors()">pick colors for every item</a>'].join(''),
-          link: function(scope) {
-
-            scope.addNewColor = function() {
-              scope.chartbuilderData.colors.push('#FFFFFF');
-            };
-
-            scope.reverseColors = function() {
-              scope.chartbuilderData.colors.reverse();
-            };
-
-            scope.customColors = function() {
-              scope.chartbuilderData.options.customColors = true;
-            };
-
-          }
-        };
-      });
 });
 
 
@@ -91435,59 +89988,108 @@ define('save-images',[
 
   
 
-  var xTwoDimensionalArray = {
-    'label': '2d-array',
-    'option': function(d) {
-      return d[0];
-    }
-  }
-
-  var yTwoDimensionalArray = {
-    'label': '2d-array',
-    'option': function(d) {
-      return d[1];
-    }
-  }
-
   var xKeyValue = {
-    'label': 'key/value',
+    'label': 'Key',
     'option': function(d) {
       return d.key;
     }
   }
 
   var xLabelValue = {
-    'label': 'label/value',
+    'label': 'Label',
     'option': function(d) {
       return d.label;
     }
   }
 
   var xValue = {
-    'label': 'x/y',
+    'label': 'X',
     'option': function(d) {
       return d.x;
     }
   }
 
   var yValue = {
-    'label': 'key/y',
+    'label': 'Y',
     'option': function(d) {
       return d.y;
     }
   }
 
-  var yCleaned = {
-    'label': 'yCleaned',
+  var yPercent = {
+    'label': 'Y Percent Value',
     'option': function(d) {
-      return parseInt(d.y);
+      return d.y / 100;
     }
   }
 
   var yLabelValue = {
-    'label': 'label/value',
+    'label': 'Value',
     'option': function(d) {
       return d.value;
+    }
+  }
+
+  var formatters = {
+    'function:text': {
+      'label': 'Text (unformatted)',
+      'option': function(d) {
+        return d;
+      }
+    },
+    'function:percent': {
+      'label': 'Percent (no decimal)',
+      'option': function(d) {
+        return d3.format('.0%')(d);
+      }
+    },
+    'function:percent-.1': {
+      'label': 'Percent (0.1%)',
+      'option': function(d) {
+        return d3.format('.1%')(d);
+      }
+    },
+    'function:percent-.01': {
+      'label': 'Percent (0.01%)',
+      'option': function(d) {
+        return d3.format('.2%')(d);
+      }
+    },
+    'function:percent-unmultiplied': {
+      'label': 'Percent (unmultiplied)',
+      'option': function(d) {
+        return d3.format('.0%')(d / 100);
+      }
+    },
+    'function:price': {
+      'label': 'Currency (no decimal)',
+      'option': function(d) {
+        return d3.format('$,.0f')(d);
+      }
+    },
+    'function:price-.1': {
+      'label': 'Currency ($0.1)',
+      'option': function(d) {
+        return d3.format('$,.1f')(d);
+      }
+    },
+    'function:price-.01': {
+      'label': 'Currency ($.01)',
+      'option': function(d) {
+        return d3.format('$,.2f')(d);
+      }
+    },
+    'function:year': {
+      'label': 'Year (\'YY)',
+      'option': function(d) {
+        return d3.time.format('\'%y')(new Date(d));
+      }
+    },
+    'function:year-yyyy': {
+      'label': 'Year (YYYY)',
+      'option': function(d) {
+        return d3.time.format('%Y')(new Date(d));
+      }
     }
   }
 
@@ -91523,6 +90125,12 @@ define('save-images',[
       },
       'tooltips': {
         'label': 'Show Tooltips'
+      },
+      'tickFormat': {
+        'label': 'Tick Formatter'
+      },
+      'valueFormat': {
+        'label': 'Value Formatter'
       },
       'margin': {
         'help': 'Adjust the whitespace around this element',
@@ -91601,63 +90209,32 @@ define('save-images',[
           'label': 'percent'
         }
       },
-      'valueFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:date': {
-          'label': 'date',
-          'option': function(d) {
-            return d3.time.format('%x')(new Date(Date.parse(d)));
-          }
-        }
-      },
-      'tickFormat': {
-        'function:text': {
-          'label': 'text',
-          'option': function(d) {
-            return d;
-          }
-        },
-        'function:percent': {
-          'label': 'percent',
-          'option': function(d) {
-            return d3.format('.0%')(d);
-          }
-        },
-        'function:price': {
-          'label': 'price',
-          'option': function(d) {
-            return d3.format('$,.1f')(d);
-          }
-        },
-        'function:year': {
-          'label': 'year',
-          'option': function(d) {
-            return d3.time.format('\'%y')(new Date(d));
-          }
-        }
-      },
+      'valueFormat': formatters,
+      'tickFormat': formatters,
       'x': {
-        'function:2d-array': xTwoDimensionalArray,
         'function:key/value': xKeyValue,
         'function:x/y': xValue,
         'function:label/value': xLabelValue,
+        'function:timestamp': {
+          'label': 'Timestamp',
+          'option': function(d) {
+            if (isNaN(d.x)) {
+              return null;
+            }
+            return new Date(+d.x);
+          }
+        },
         'function:date': {
-          'label': 'date',
+          'label': 'Date',
           'option': function(d) {
             return new Date(Date.parse(d.x));
           }
         }
       },
       'y': {
-        'function:2d-array': yTwoDimensionalArray,
         'function:key/y': yValue,
+        'function:yPercentData': yPercent,
         'function:label/value': yLabelValue,
-        'function:cleanedy': yCleaned
       },
       'tooltipContent': {
         'function:key/value': {
@@ -93967,7 +92544,137 @@ define("spectrum", function(){});
 !function(a){var b=a.module("angularSpectrumColorpicker",[]);!function(c){b.directive("spectrumColorpicker",function(){return{restrict:"E",require:"ngModel",scope:!1,replace:!0,template:'<span><input class="input-small" /></span>',link:function(b,d,e,f){function g(b){var c=i;b?c=b.toString(j):a.isUndefined(i)&&(c=b),f.$setViewValue(c)}var h=d.find("input"),i=b.$eval(e.fallbackValue),j=b.$eval(e.format)||c,k=function(a){b.$apply(function(){g(a)})},l=function(){return h.spectrum("toggle"),!1},m=a.extend({color:f.$viewValue,change:k,move:k,hide:k},b.$eval(e.options));e.triggerId&&a.element(document.body).on("click","#"+e.triggerId,l),f.$render=function(){h.spectrum("set",f.$viewValue||"")},m.color&&(h.spectrum("set",m.color||""),g(m.color)),h.spectrum(m),b.$on("$destroy",function(){h.spectrum("destroy")})}}})}()}(window.angular);
 define("angular-spectrum-colorpicker", function(){});
 
-define('controllers',['angular', 'services', 'angular-spectrum-colorpicker'], function(angular) {
+define('colors',[
+  'angular',
+  ], function(angular) {
+    
+
+    angular.module('chartbuilderDirectives').
+      directive('chartbuilderColors', function () {
+        return {
+          restrict: 'EA',
+          template: ['<div class="color-picker" ng-if="!chartbuilderData.options.customColors" ng-model="chartbuilderData.colors" ui-sortable>',
+                       '<spectrum-colorpicker ',
+                         'ng-repeat="color in chartbuilderData.colors track by $index" ',
+                         'trigger-id="color-picker-{{ $index }}" ',
+                         'ng-model="chartbuilderData.colors[$index]" ',
+                         'options="{',
+                           'allowEmpty: true,',
+                           'showInput: true,',
+                           'preferredFormat: \'hex3\',',
+                         '}" ',
+                         'format="\'hex\'" ',
+                         'class="color-box" ',
+                         '>',
+                       '</spectrum-colorpicker>',
+
+                       '<span popover="Add another color" popover-trigger="mouseenter" ng-click="addNewColor()"><span class="glyphicon glyphicon-plus center-block"></span></span>',
+                       '<span popover="Reverse the color palette" popover-trigger="mouseenter" ng-click="reverseColors()"><span class="glyphicon glyphicon-transfer center-block"></span></span>',
+                     '</div>',
+                     '<a href ng-click="scaleColors()">use a color scale</a>',
+                     '<a href ng-click="customColors()">pick colors for every item</a>'].join(''),
+          link: function(scope) {
+
+            scope.addNewColor = function() {
+              scope.chartbuilderData.colors.push('#FFFFFF');
+            };
+
+            scope.reverseColors = function() {
+              scope.chartbuilderData.colors.reverse();
+            };
+
+            scope.customColors = function() {
+              scope.chartbuilderData.options.customColors = true;
+            };
+
+          }
+        };
+      });
+});
+
+define('bsAffix',[
+  'angular',
+  ], function(angular) {
+    
+
+    angular.module('chartbuilderDirectives')
+      .directive('bsAffix', function($window, $location) {
+
+        var checkPosition = function(instance, el, options) {
+
+          var scrollTop = window.pageYOffset,
+            scrollHeight = document.body.scrollHeight,
+            position = jQuery(el[0]).offset(),
+            height = jQuery(el[0]).height(),
+            windowHeight = jQuery(window).height(),
+            offsetTop = options.offsetTop * 1,
+            offsetBottom = options.offsetBottom * 1,
+            reset = 'affix affix-top affix-bottom',
+            affix;
+
+          if (instance.unpin !== null && (scrollTop + instance.unpin <= position.top)) {
+            affix = false;
+          } else if (windowHeight >= height) {
+            affix = 'top';
+          } else if (offsetBottom && (height >= windowHeight - offsetBottom)) {
+            affix = 'bottom';
+          } else if (offsetTop && scrollTop <= offsetTop) {
+            affix = 'top';
+          } else {
+            affix = false;
+          }
+
+          if (instance.affixed === affix) {
+            return;
+          }
+
+          instance.affixed = affix;
+          instance.unpin = affix === 'bottom' ? position.top - scrollTop : null;
+
+          el.removeClass(reset).addClass('affix');
+          if (affix) {
+            el.addClass('affix' + (affix ? '-' + affix : ''));
+          }
+        };
+
+        var checkCallbacks = function(scope, instance, element, attrs) {
+          if (instance.affixed) {
+            if (attrs.onUnaffix) {
+              eval("scope." + attrs.onUnaffix);
+            }
+          }
+          else {
+            if (attrs.onAffix) {
+              eval("scope." + attrs.onAffix);
+            }
+          }
+        };
+
+        return {
+          restrict: 'EA',
+          link: function postLink(scope, element, attrs) {
+            var instance = {
+              unpin: null
+            };
+
+            angular.element($window).bind('scroll', function() {
+              checkPosition(instance, element, attrs);
+              checkCallbacks(scope, instance, element, attrs);
+            });
+
+            angular.element($window).bind('click', function() {
+              setTimeout(function() {
+                checkPosition(instance, element, attrs);
+                checkCallbacks(scope, instance, element, attrs);
+              }, 1);
+            });
+          }
+        };
+
+      });
+});
+
+define('controllers',['angular', 'services', 'angular-spectrum-colorpicker', 'colors', 'bsAffix'], function(angular) {
   
 
   /* Controllers */
@@ -93980,6 +92687,23 @@ define('controllers',['angular', 'services', 'angular-spectrum-colorpicker'], fu
       function($scope, chartbuilderModuleRegistry, chartbuilderData) {
         $scope.modules = chartbuilderModuleRegistry;
         $scope.chartbuilderData = chartbuilderData;
+      }
+    ])
+    .controller('ChartbuilderTutorials', [
+      '$scope',
+      function($scope) {
+        $scope.tutorial1 = {"options":{"chart":{"type":"lineChart","height":600,"x":"function:date","y":"function:key/y","forceX":[null,null],"forceY":["0","18"],"dispatch":{},"lines":{"dispatch":{},"id":85549,"interactive":true,"xDomain":null,"yDomain":null,"xRange":null,"yRange":null,"sizeDomain":[16,256],"forceX":[],"forceY":[],"forceSize":[],"clipVoronoi":true,"useVoronoi":true,"padData":false,"margin":{"top":0,"right":0,"bottom":0,"left":0},"width":960,"height":500,"clipEdge":false,"interpolate":"linear"},"legend":{"dispatch":{},"margin":{"top":5,"right":0,"bottom":5,"left":0},"width":400,"height":20,"align":true,"rightAlign":true,"updateState":true,"radioButtonMode":false},"xAxis":{"orient":"bottom","tickValues":null,"tickSubdivide":0,"tickSize":6,"tickPadding":7,"tickFormat":"function:year-yyyy","domain":[0,1],"range":[0,1],"margin":{"top":0,"right":0,"bottom":0,"left":0},"width":75,"ticks":null,"height":60,"axisLabel":null,"showMaxMin":true,"highlightZero":true,"rotateYLabel":true,"rotateLabels":0,"staggerLabels":false,"axisLabelDistance":12},"yAxis":{"orient":"left","tickValues":null,"tickSubdivide":0,"tickSize":6,"tickPadding":3,"tickFormat":"function:percent-unmultiplied","domain":[0,1],"range":[0,1],"margin":{"top":0,"right":0,"bottom":0,"left":0},"width":75,"ticks":null,"height":60,"axisLabel":null,"showMaxMin":true,"highlightZero":true,"rotateYLabel":true,"rotateLabels":0,"staggerLabels":false,"axisLabelDistance":12},"interactiveLayer":{"dispatch":{},"margin":{"left":0,"top":0},"width":null,"height":null,"showGuideLine":true,"svgContainer":null},"xDomain":null,"yDomain":null,"xRange":null,"yRange":null,"interactive":true,"clipEdge":false,"clipVoronoi":true,"useVoronoi":false,"id":85549,"interpolate":"bundle","margin":{"top":30,"right":20,"bottom":50,"left":30},"width":null,"showLegend":false,"showXAxis":true,"showYAxis":true,"rightAlignYAxis":false,"useInteractiveGuideline":true,"tooltips":true,"state":{"disabled":[false,false,false,false,false,false,false,false,false,false,false,false,false]},"defaultState":null,"noData":"No Data Available.","transitionDuration":250},"styles":{"classes":{"with-3d-shadow":true,"with-transitions":true,"gallery":false},"css":{}}},"meta":{"title":"Since 1980, the gap has widened between U.S. health spending and that of other countries","subtitle":"Total health expenditures as percent of GDP, 1970 – 2012","caption":"Source: OECD (2013), \"OECD Health Data: Health expenditure and financing: Health expenditure indicators\", OECD Health Statistics (database).  doi: 10.1787/data-00349-en (Accessed on June, 25 2014). Notes: Data unavailable for: the Netherlands in 1970, 1971, and 2012; Australia in 1970 and 2012; Germany in 1991; and France from 1971 through 1974, 1976 through 1979; 1981 through 1984, and 1986 through 1989. Break in series in 2003 for Belgium and France and in 2005 for the Netherlands. 2012 data for Canada and Switzerland are estimated values."},"data":[{"key":"United Kingdom","values":[{"x":1970,"y":4,"series":0},{"x":1971,"y":5,"series":0},{"x":1972,"y":5,"series":0},{"x":1973,"y":5,"series":0},{"x":1974,"y":5,"series":0},{"x":1975,"y":5,"series":0},{"x":1976,"y":5,"series":0},{"x":1977,"y":5,"series":0},{"x":1978,"y":5,"series":0},{"x":1979,"y":5,"series":0},{"x":1980,"y":6,"series":0},{"x":1981,"y":6,"series":0},{"x":1982,"y":6,"series":0},{"x":1983,"y":6,"series":0},{"x":1984,"y":6,"series":0},{"x":1985,"y":6,"series":0},{"x":1986,"y":6,"series":0},{"x":1987,"y":6,"series":0},{"x":1988,"y":6,"series":0},{"x":1989,"y":6,"series":0},{"x":1990,"y":6,"series":0},{"x":1991,"y":6,"series":0},{"x":1992,"y":7,"series":0},{"x":1993,"y":7,"series":0},{"x":1994,"y":7,"series":0},{"x":1995,"y":7,"series":0},{"x":1996,"y":7,"series":0},{"x":1997,"y":6,"series":0},{"x":1998,"y":7,"series":0},{"x":1999,"y":7,"series":0},{"x":2000,"y":7,"series":0},{"x":2001,"y":7,"series":0},{"x":2002,"y":8,"series":0},{"x":2003,"y":8,"series":0},{"x":2004,"y":8,"series":0},{"x":2005,"y":8,"series":0},{"x":2006,"y":8,"series":0},{"x":2007,"y":8,"series":0},{"x":2008,"y":9,"series":0},{"x":2009,"y":10,"series":0},{"x":2010,"y":9,"series":0},{"x":2011,"y":9,"series":0},{"x":2012,"y":9,"series":0}],"seriesIndex":0,"color":"#c7c7c7"},{"key":"Switzerland","values":[{"x":1970,"y":5,"series":1},{"x":1971,"y":6,"series":1},{"x":1972,"y":6,"series":1},{"x":1973,"y":6,"series":1},{"x":1974,"y":6,"series":1},{"x":1975,"y":7,"series":1},{"x":1976,"y":7,"series":1},{"x":1977,"y":7,"series":1},{"x":1978,"y":7,"series":1},{"x":1979,"y":7,"series":1},{"x":1980,"y":7,"series":1},{"x":1981,"y":7,"series":1},{"x":1982,"y":7,"series":1},{"x":1983,"y":8,"series":1},{"x":1984,"y":8,"series":1},{"x":1985,"y":8,"series":1},{"x":1986,"y":8,"series":1},{"x":1987,"y":8,"series":1},{"x":1988,"y":8,"series":1},{"x":1989,"y":8,"series":1},{"x":1990,"y":8,"series":1},{"x":1991,"y":9,"series":1},{"x":1992,"y":9,"series":1},{"x":1993,"y":9,"series":1},{"x":1994,"y":9,"series":1},{"x":1995,"y":9,"series":1},{"x":1996,"y":10,"series":1},{"x":1997,"y":10,"series":1},{"x":1998,"y":10,"series":1},{"x":1999,"y":10,"series":1},{"x":2000,"y":10,"series":1},{"x":2001,"y":10,"series":1},{"x":2002,"y":11,"series":1},{"x":2003,"y":11,"series":1},{"x":2004,"y":11,"series":1},{"x":2005,"y":11,"series":1},{"x":2006,"y":10,"series":1},{"x":2007,"y":10,"series":1},{"x":2008,"y":10,"series":1},{"x":2009,"y":11,"series":1},{"x":2010,"y":11,"series":1},{"x":2011,"y":11,"series":1},{"x":2012,"y":11,"series":1}],"seriesIndex":1,"color":"#c7c7c7"},{"key":"Sweden","values":[{"x":1970,"y":7,"series":2},{"x":1971,"y":7,"series":2},{"x":1972,"y":7,"series":2},{"x":1973,"y":7,"series":2},{"x":1974,"y":7,"series":2},{"x":1975,"y":7,"series":2},{"x":1976,"y":8,"series":2},{"x":1977,"y":8,"series":2},{"x":1978,"y":9,"series":2},{"x":1979,"y":8,"series":2},{"x":1980,"y":9,"series":2},{"x":1981,"y":9,"series":2},{"x":1982,"y":9,"series":2},{"x":1983,"y":9,"series":2},{"x":1984,"y":9,"series":2},{"x":1985,"y":8,"series":2},{"x":1986,"y":8,"series":2},{"x":1987,"y":8,"series":2},{"x":1988,"y":8,"series":2},{"x":1989,"y":8,"series":2},{"x":1990,"y":8,"series":2},{"x":1991,"y":8,"series":2},{"x":1992,"y":8,"series":2},{"x":1993,"y":8,"series":2},{"x":1994,"y":8,"series":2},{"x":1995,"y":8,"series":2},{"x":1996,"y":8,"series":2},{"x":1997,"y":8,"series":2},{"x":1998,"y":8,"series":2},{"x":1999,"y":8,"series":2},{"x":2000,"y":8,"series":2},{"x":2001,"y":9,"series":2},{"x":2002,"y":9,"series":2},{"x":2003,"y":9,"series":2},{"x":2004,"y":9,"series":2},{"x":2005,"y":9,"series":2},{"x":2006,"y":9,"series":2},{"x":2007,"y":9,"series":2},{"x":2008,"y":9,"series":2},{"x":2009,"y":10,"series":2},{"x":2010,"y":9,"series":2},{"x":2011,"y":9,"series":2},{"x":2012,"y":10,"series":2}],"seriesIndex":2,"color":"#c7c7c7"},{"key":"Netherlands","values":[{"x":1972,"y":7,"series":3},{"x":1973,"y":7,"series":3},{"x":1974,"y":7,"series":3},{"x":1975,"y":7,"series":3},{"x":1976,"y":7,"series":3},{"x":1977,"y":7,"series":3},{"x":1978,"y":7,"series":3},{"x":1979,"y":7,"series":3},{"x":1980,"y":7,"series":3},{"x":1981,"y":8,"series":3},{"x":1982,"y":8,"series":3},{"x":1983,"y":8,"series":3},{"x":1984,"y":7,"series":3},{"x":1985,"y":7,"series":3},{"x":1986,"y":7,"series":3},{"x":1987,"y":8,"series":3},{"x":1988,"y":8,"series":3},{"x":1989,"y":8,"series":3},{"x":1990,"y":8,"series":3},{"x":1991,"y":8,"series":3},{"x":1992,"y":8,"series":3},{"x":1993,"y":8,"series":3},{"x":1994,"y":8,"series":3},{"x":1995,"y":8,"series":3},{"x":1996,"y":8,"series":3},{"x":1997,"y":8,"series":3},{"x":1998,"y":8,"series":3},{"x":1999,"y":8,"series":3},{"x":2000,"y":8,"series":3},{"x":2001,"y":8,"series":3},{"x":2002,"y":9,"series":3},{"x":2003,"y":10,"series":3},{"x":2004,"y":10,"series":3},{"x":2005,"y":11,"series":3},{"x":2006,"y":11,"series":3},{"x":2007,"y":11,"series":3},{"x":2008,"y":11,"series":3},{"x":2009,"y":12,"series":3},{"x":2010,"y":12,"series":3},{"x":2011,"y":12,"series":3}],"seriesIndex":3,"color":"#c7c7c7"},{"key":"Germany","values":[{"x":1970,"y":6,"series":4},{"x":1971,"y":6,"series":4},{"x":1972,"y":7,"series":4},{"x":1973,"y":7,"series":4},{"x":1974,"y":8,"series":4},{"x":1975,"y":8,"series":4},{"x":1976,"y":8,"series":4},{"x":1977,"y":8,"series":4},{"x":1978,"y":8,"series":4},{"x":1979,"y":8,"series":4},{"x":1980,"y":8,"series":4},{"x":1981,"y":9,"series":4},{"x":1982,"y":9,"series":4},{"x":1983,"y":9,"series":4},{"x":1984,"y":9,"series":4},{"x":1985,"y":9,"series":4},{"x":1986,"y":9,"series":4},{"x":1987,"y":9,"series":4},{"x":1988,"y":9,"series":4},{"x":1989,"y":8,"series":4},{"x":1990,"y":8,"series":4},{"x":1992,"y":10,"series":4},{"x":1993,"y":10,"series":4},{"x":1994,"y":10,"series":4},{"x":1995,"y":10,"series":4},{"x":1996,"y":10,"series":4},{"x":1997,"y":10,"series":4},{"x":1998,"y":10,"series":4},{"x":1999,"y":10,"series":4},{"x":2000,"y":10,"series":4},{"x":2001,"y":11,"series":4},{"x":2002,"y":11,"series":4},{"x":2003,"y":11,"series":4},{"x":2004,"y":11,"series":4},{"x":2005,"y":11,"series":4},{"x":2006,"y":11,"series":4},{"x":2007,"y":10,"series":4},{"x":2008,"y":11,"series":4},{"x":2009,"y":12,"series":4},{"x":2010,"y":12,"series":4},{"x":2011,"y":11,"series":4},{"x":2012,"y":11,"series":4}],"seriesIndex":4,"color":"#c7c7c7"},{"key":"France","values":[{"x":1970,"y":5,"series":5},{"x":1975,"y":6,"series":5},{"x":1980,"y":7,"series":5},{"x":1985,"y":8,"series":5},{"x":1990,"y":8,"series":5},{"x":1991,"y":9,"series":5},{"x":1992,"y":9,"series":5},{"x":1993,"y":9,"series":5},{"x":1994,"y":9,"series":5},{"x":1995,"y":10,"series":5},{"x":1996,"y":10,"series":5},{"x":1997,"y":10,"series":5},{"x":1998,"y":10,"series":5},{"x":1999,"y":10,"series":5},{"x":2000,"y":10,"series":5},{"x":2001,"y":10,"series":5},{"x":2002,"y":11,"series":5},{"x":2003,"y":11,"series":5},{"x":2004,"y":11,"series":5},{"x":2005,"y":11,"series":5},{"x":2006,"y":11,"series":5},{"x":2007,"y":11,"series":5},{"x":2008,"y":11,"series":5},{"x":2009,"y":12,"series":5},{"x":2010,"y":12,"series":5},{"x":2011,"y":12,"series":5},{"x":2012,"y":12,"series":5}],"seriesIndex":5,"color":"#c7c7c7"},{"key":"Canada","values":[{"x":1970,"y":7,"series":6},{"x":1971,"y":7,"series":6},{"x":1972,"y":7,"series":6},{"x":1973,"y":7,"series":6},{"x":1974,"y":6,"series":6},{"x":1975,"y":7,"series":6},{"x":1976,"y":7,"series":6},{"x":1977,"y":7,"series":6},{"x":1978,"y":7,"series":6},{"x":1979,"y":7,"series":6},{"x":1980,"y":7,"series":6},{"x":1981,"y":7,"series":6},{"x":1982,"y":8,"series":6},{"x":1983,"y":8,"series":6},{"x":1984,"y":8,"series":6},{"x":1985,"y":8,"series":6},{"x":1986,"y":8,"series":6},{"x":1987,"y":8,"series":6},{"x":1988,"y":8,"series":6},{"x":1989,"y":8,"series":6},{"x":1990,"y":9,"series":6},{"x":1991,"y":9,"series":6},{"x":1992,"y":10,"series":6},{"x":1993,"y":10,"series":6},{"x":1994,"y":9,"series":6},{"x":1995,"y":9,"series":6},{"x":1996,"y":9,"series":6},{"x":1997,"y":9,"series":6},{"x":1998,"y":9,"series":6},{"x":1999,"y":9,"series":6},{"x":2000,"y":9,"series":6},{"x":2001,"y":9,"series":6},{"x":2002,"y":9,"series":6},{"x":2003,"y":10,"series":6},{"x":2004,"y":10,"series":6},{"x":2005,"y":10,"series":6},{"x":2006,"y":10,"series":6},{"x":2007,"y":10,"series":6},{"x":2008,"y":10,"series":6},{"x":2009,"y":11,"series":6},{"x":2010,"y":11,"series":6},{"x":2011,"y":11,"series":6},{"x":2012,"y":11,"series":6}],"seriesIndex":6,"color":"#c7c7c7"},{"key":"Belgium","values":[{"x":1970,"y":4,"series":7},{"x":1971,"y":4,"series":7},{"x":1972,"y":4,"series":7},{"x":1973,"y":4,"series":7},{"x":1974,"y":4,"series":7},{"x":1975,"y":6,"series":7},{"x":1976,"y":6,"series":7},{"x":1977,"y":6,"series":7},{"x":1978,"y":6,"series":7},{"x":1979,"y":6,"series":7},{"x":1980,"y":6,"series":7},{"x":1981,"y":7,"series":7},{"x":1982,"y":7,"series":7},{"x":1983,"y":7,"series":7},{"x":1984,"y":7,"series":7},{"x":1985,"y":7,"series":7},{"x":1986,"y":7,"series":7},{"x":1987,"y":7,"series":7},{"x":1988,"y":7,"series":7},{"x":1989,"y":7,"series":7},{"x":1990,"y":7,"series":7},{"x":1991,"y":8,"series":7},{"x":1992,"y":8,"series":7},{"x":1993,"y":8,"series":7},{"x":1994,"y":8,"series":7},{"x":1995,"y":8,"series":7},{"x":1996,"y":8,"series":7},{"x":1997,"y":8,"series":7},{"x":1998,"y":8,"series":7},{"x":1999,"y":8,"series":7},{"x":2000,"y":8,"series":7},{"x":2001,"y":8,"series":7},{"x":2002,"y":8,"series":7},{"x":2003,"y":10,"series":7},{"x":2004,"y":10,"series":7},{"x":2005,"y":10,"series":7},{"x":2006,"y":10,"series":7},{"x":2007,"y":10,"series":7},{"x":2008,"y":10,"series":7},{"x":2009,"y":11,"series":7},{"x":2010,"y":11,"series":7},{"x":2011,"y":11,"series":7},{"x":2012,"y":11,"series":7}],"seriesIndex":7,"color":"#c7c7c7"},{"key":"Australia","values":[{"x":1971,"y":5,"series":8},{"x":1972,"y":5,"series":8},{"x":1973,"y":5,"series":8},{"x":1974,"y":6,"series":8},{"x":1975,"y":6,"series":8},{"x":1976,"y":6,"series":8},{"x":1977,"y":7,"series":8},{"x":1978,"y":6,"series":8},{"x":1979,"y":6,"series":8},{"x":1980,"y":6,"series":8},{"x":1981,"y":6,"series":8},{"x":1982,"y":6,"series":8},{"x":1983,"y":6,"series":8},{"x":1984,"y":6,"series":8},{"x":1985,"y":6,"series":8},{"x":1986,"y":7,"series":8},{"x":1987,"y":6,"series":8},{"x":1988,"y":6,"series":8},{"x":1989,"y":6,"series":8},{"x":1990,"y":7,"series":8},{"x":1991,"y":7,"series":8},{"x":1992,"y":7,"series":8},{"x":1993,"y":7,"series":8},{"x":1994,"y":7,"series":8},{"x":1995,"y":7,"series":8},{"x":1996,"y":7,"series":8},{"x":1997,"y":7,"series":8},{"x":1998,"y":8,"series":8},{"x":1999,"y":8,"series":8},{"x":2000,"y":8,"series":8},{"x":2001,"y":8,"series":8},{"x":2002,"y":8,"series":8},{"x":2003,"y":8,"series":8},{"x":2004,"y":9,"series":8},{"x":2005,"y":8,"series":8},{"x":2006,"y":8,"series":8},{"x":2007,"y":9,"series":8},{"x":2008,"y":9,"series":8},{"x":2009,"y":9,"series":8},{"x":2010,"y":9,"series":8},{"x":2011,"y":9,"series":8}],"seriesIndex":8,"color":"#c7c7c7"},{"key":"United States","values":[{"x":1970,"y":7,"series":9},{"x":1971,"y":7,"series":9},{"x":1972,"y":7,"series":9},{"x":1973,"y":7,"series":9},{"x":1974,"y":7,"series":9},{"x":1975,"y":8,"series":9},{"x":1976,"y":8,"series":9},{"x":1977,"y":8,"series":9},{"x":1978,"y":8,"series":9},{"x":1979,"y":8,"series":9},{"x":1980,"y":9,"series":9},{"x":1981,"y":9,"series":9},{"x":1982,"y":10,"series":9},{"x":1983,"y":10,"series":9},{"x":1984,"y":10,"series":9},{"x":1985,"y":10,"series":9},{"x":1986,"y":10,"series":9},{"x":1987,"y":10,"series":9},{"x":1988,"y":11,"series":9},{"x":1989,"y":11,"series":9},{"x":1990,"y":12,"series":9},{"x":1991,"y":13,"series":9},{"x":1992,"y":13,"series":9},{"x":1993,"y":13,"series":9},{"x":1994,"y":13,"series":9},{"x":1995,"y":13,"series":9},{"x":1996,"y":13,"series":9},{"x":1997,"y":13,"series":9},{"x":1998,"y":13,"series":9},{"x":1999,"y":13,"series":9},{"x":2000,"y":13,"series":9},{"x":2001,"y":14,"series":9},{"x":2002,"y":15,"series":9},{"x":2003,"y":15,"series":9},{"x":2004,"y":15,"series":9},{"x":2005,"y":15,"series":9},{"x":2006,"y":15,"series":9},{"x":2007,"y":16,"series":9},{"x":2008,"y":16,"series":9},{"x":2009,"y":17,"series":9},{"x":2010,"y":17,"series":9},{"x":2011,"y":17,"series":9},{"x":2012,"y":17,"series":9}],"seriesIndex":9,"color":"#1f77b4"},{"key":"Comparable Country Average","values":[{"x":1970,"y":5,"series":10},{"x":1971,"y":6,"series":10},{"x":1972,"y":6,"series":10},{"x":1973,"y":6,"series":10},{"x":1974,"y":6,"series":10},{"x":1975,"y":7,"series":10},{"x":1976,"y":7,"series":10},{"x":1977,"y":7,"series":10},{"x":1978,"y":7,"series":10},{"x":1979,"y":7,"series":10},{"x":1980,"y":7,"series":10},{"x":1981,"y":7,"series":10},{"x":1982,"y":8,"series":10},{"x":1983,"y":8,"series":10},{"x":1984,"y":7,"series":10},{"x":1985,"y":8,"series":10},{"x":1986,"y":8,"series":10},{"x":1987,"y":8,"series":10},{"x":1988,"y":8,"series":10},{"x":1989,"y":8,"series":10},{"x":1990,"y":8,"series":10},{"x":1991,"y":8,"series":10},{"x":1992,"y":9,"series":10},{"x":1993,"y":9,"series":10},{"x":1994,"y":9,"series":10},{"x":1995,"y":9,"series":10},{"x":1996,"y":9,"series":10},{"x":1997,"y":9,"series":10},{"x":1998,"y":9,"series":10},{"x":1999,"y":9,"series":10},{"x":2000,"y":9,"series":10},{"x":2001,"y":9,"series":10},{"x":2002,"y":9,"series":10},{"x":2003,"y":10,"series":10},{"x":2004,"y":10,"series":10},{"x":2005,"y":10,"series":10},{"x":2006,"y":10,"series":10},{"x":2007,"y":10,"series":10},{"x":2008,"y":10,"series":10},{"x":2009,"y":11,"series":10},{"x":2010,"y":11,"series":10},{"x":2011,"y":11,"series":10},{"x":2012,"y":11,"series":10}],"seriesIndex":10,"color":"#8c564b"},{"key":"Japan","values":[{"x":1970,"y":4,"series":11},{"x":1971,"y":5,"series":11},{"x":1972,"y":5,"series":11},{"x":1973,"y":5,"series":11},{"x":1974,"y":5,"series":11},{"x":1975,"y":6,"series":11},{"x":1976,"y":6,"series":11},{"x":1977,"y":6,"series":11},{"x":1978,"y":6,"series":11},{"x":1979,"y":6,"series":11},{"x":1980,"y":6,"series":11},{"x":1981,"y":6,"series":11},{"x":1982,"y":7,"series":11},{"x":1983,"y":7,"series":11},{"x":1984,"y":6,"series":11},{"x":1985,"y":7,"series":11},{"x":1986,"y":7,"series":11},{"x":1987,"y":7,"series":11},{"x":1988,"y":6,"series":11},{"x":1989,"y":6,"series":11},{"x":1990,"y":6,"series":11},{"x":1991,"y":6,"series":11},{"x":1992,"y":6,"series":11},{"x":1993,"y":6,"series":11},{"x":1994,"y":7,"series":11},{"x":1995,"y":7,"series":11},{"x":1996,"y":7,"series":11},{"x":1997,"y":7,"series":11},{"x":1998,"y":7,"series":11},{"x":1999,"y":7,"series":11},{"x":2000,"y":8,"series":11},{"x":2001,"y":8,"series":11},{"x":2002,"y":8,"series":11},{"x":2003,"y":8,"series":11},{"x":2004,"y":8,"series":11},{"x":2005,"y":8,"series":11},{"x":2006,"y":8,"series":11},{"x":2007,"y":8,"series":11},{"x":2008,"y":9,"series":11},{"x":2009,"y":10,"series":11},{"x":2010,"y":10,"series":11},{"x":2011,"y":10,"series":11},{"x":2012,"y":10,"series":11}],"seriesIndex":11,"color":"#c7c7c7"},{"key":"Austria","values":[{"x":1970,"y":5,"series":12},{"x":1971,"y":5,"series":12},{"x":1972,"y":5,"series":12},{"x":1973,"y":5,"series":12},{"x":1974,"y":5,"series":12},{"x":1975,"y":7,"series":12},{"x":1976,"y":7,"series":12},{"x":1977,"y":7,"series":12},{"x":1978,"y":7,"series":12},{"x":1979,"y":7,"series":12},{"x":1980,"y":7,"series":12},{"x":1981,"y":7,"series":12},{"x":1982,"y":6,"series":12},{"x":1983,"y":6,"series":12},{"x":1984,"y":6,"series":12},{"x":1985,"y":6,"series":12},{"x":1986,"y":7,"series":12},{"x":1987,"y":7,"series":12},{"x":1988,"y":7,"series":12},{"x":1989,"y":7,"series":12},{"x":1990,"y":8,"series":12},{"x":1991,"y":8,"series":12},{"x":1992,"y":9,"series":12},{"x":1993,"y":9,"series":12},{"x":1994,"y":10,"series":12},{"x":1995,"y":10,"series":12},{"x":1996,"y":10,"series":12},{"x":1997,"y":10,"series":12},{"x":1998,"y":10,"series":12},{"x":1999,"y":10,"series":12},{"x":2000,"y":10,"series":12},{"x":2001,"y":10,"series":12},{"x":2002,"y":10,"series":12},{"x":2003,"y":10,"series":12},{"x":2004,"y":10,"series":12},{"x":2005,"y":10,"series":12},{"x":2006,"y":10,"series":12},{"x":2007,"y":10,"series":12},{"x":2008,"y":10,"series":12},{"x":2009,"y":11,"series":12},{"x":2010,"y":11,"series":12},{"x":2011,"y":11,"series":12},{"x":2012,"y":11,"series":12}],"seriesIndex":12,"color":"#c7c7c7"}],"columnValues":[],"sampleData":{"exampleData":[{"key":"Price","area":true,"values":[[1136005200000,71.89],[1138683600000,75.51],[1141102800000,68.49],[1143781200000,62.72],[1146369600000,70.39],[1149048000000,59.77],[1151640000000,57.27],[1154318400000,67.96],[1156996800000,67.85],[1159588800000,76.98],[1162270800000,81.08],[1164862800000,91.66],[1167541200000,84.84],[1170219600000,85.73],[1172638800000,84.61],[1175313600000,92.91],[1177905600000,99.8],[1180584000000,121.191],[1183176000000,122.04],[1185854400000,131.76],[1188532800000,138.48],[1191124800000,153.47],[1193803200000,189.95],[1196398800000,182.22],[1199077200000,198.08],[1201755600000,135.36],[1204261200000,125.02],[1206936000000,143.5],[1209528000000,173.95],[1212206400000,188.75],[1214798400000,167.44],[1217476800000,158.95],[1220155200000,169.53],[1222747200000,113.66],[1225425600000,107.59],[1228021200000,92.67],[1230699600000,85.35],[1233378000000,90.13],[1235797200000,89.31],[1238472000000,105.12],[1241064000000,125.83],[1243742400000,135.81],[1246334400000,142.43],[1249012800000,163.39],[1251691200000,168.21],[1254283200000,185.35],[1256961600000,188.5],[1259557200000,199.91],[1262235600000,210.732],[1264914000000,192.063],[1267333200000,204.62],[1270008000000,235],[1272600000000,261.09],[1275278400000,256.88],[1277870400000,251.53],[1280548800000,257.25],[1283227200000,243.1],[1285819200000,283.75],[1288497600000,300.98],[1291093200000,311.15],[1293771600000,322.56],[1296450000000,339.32],[1298869200000,353.21],[1301544000000,348.5075],[1304136000000,350.13],[1306814400000,347.83],[1309406400000,335.67],[1312084800000,390.48],[1314763200000,384.83],[1317355200000,381.32],[1320033600000,404.78],[1322629200000,382.2],[1325307600000,405],[1327986000000,456.48],[1330491600000,542.44],[1333166400000,599.55],[1335758400000,583.98]]}]},"dataFormat":[{"key":"x","type":"number"},{"key":"y","type":"number"}],"name":"Line Chart","slug":"lineChart","template":"<nvd3 options=\"dataStore.options\" data=\"dataStore.data\" colors=\"dataStore.colors\" events=\"$root.events\" config=\"{ extended: true }\"></nvd3>","colors":["#1f77b4","#aec7e8","#ff7f0e","#ffbb78","#2ca02c","#98df8a","#d62728","#ff9896","#9467bd","#c5b0d5","#8c564b","#c49c94","#e377c2","#f7b6d2","#7f7f7f","#c7c7c7","#bcbd22","#dbdb8d","#17becf","#9edae5"]} 
+      }
+    ])
+    .controller('ChartbuilderFAQ', [
+      '$scope',
+      '$location',
+      '$anchorScroll',
+      function($scope, $location, $anchorScroll) {
+        $scope.scrollTo = function(id) {
+          $location.hash(id);
+          $anchorScroll();
+        };
       }
     ])
     .controller('Chartbuilder', [
@@ -94864,7 +93588,8 @@ define('angular_modules/nvd3-modules/lineChart/data',{
                 x: 'function:x/y',
                 y: 'function:key/y',
                 forceX: [null, null],
-                forceY: [null, null]
+                forceY: [null, null],
+                useVoronoi: false
               }
             }
           }
@@ -94958,6 +93683,112 @@ define('angular_modules/nvd3-modules/lineWithFocusChart/data',{
                 xAxis: {
                   tickFormat: 'function:year'
                 }
+              }
+            }
+          }
+
+          // Add the slug and name definitions to chartbuilder
+          angular.extend(chartbuilderModuleRegistry, moduleOpts);
+        }
+      ])
+      .controller(module.slug + 'Controller', [
+        '$scope',
+        'chartbuilderData',
+        'chartbuilderModuleRegistry',
+        function($scope, chartbuilderData, chartbuilderModuleRegistry) {
+          // Localize the datastore for the view
+          $scope.dataStore = chartbuilderData;
+
+          // Initialize the data -- store sample data and set structure
+          chartbuilderData.init(chartbuilderModuleRegistry[module.name]);
+        }
+      ]);
+  });
+})();
+
+define('angular_modules/nvd3-modules/cumulativeLineChart/data',{
+  "exampleData": [
+    {
+      "key": "Series 1",
+      "values": [ [ 1025409600000 , 0] , [ 1028088000000 , -6.3382185140371] , [ 1030766400000 , -5.9507873460847] , [ 1033358400000 , -11.569146943813] , [ 1036040400000 , -5.4767332317425] , [ 1038632400000 , 0.50794682203014] , [ 1041310800000 , -5.5310285460542] , [ 1043989200000 , -5.7838296963382] , [ 1046408400000 , -7.3249341615649] , [ 1049086800000 , -6.7078630712489] , [ 1051675200000 , 0.44227126150934] , [ 1054353600000 , 7.2481659343222] , [ 1056945600000 , 9.2512381306992] , [ 1059624000000 , 11.341210982529] , [ 1062302400000 , 14.734820409020] , [ 1064894400000 , 12.387148007542] , [ 1067576400000 , 18.436471461827] , [ 1070168400000 , 19.830742266977] , [ 1072846800000 , 22.643205829887] , [ 1075525200000 , 26.743156781239] , [ 1078030800000 , 29.597478802228] , [ 1080709200000 , 30.831697585341] , [ 1083297600000 , 28.054068024708] , [ 1085976000000 , 29.294079423832] , [ 1088568000000 , 30.269264061274] , [ 1091246400000 , 24.934526898906] , [ 1093924800000 , 24.265982759406] , [ 1096516800000 , 27.217794897473] , [ 1099195200000 , 30.802601992077] , [ 1101790800000 , 36.331003758254] , [ 1104469200000 , 43.142498700060] , [ 1107147600000 , 40.558263931958] , [ 1109566800000 , 42.543622385800] , [ 1112245200000 , 41.683584710331] , [ 1114833600000 , 36.375367302328] , [ 1117512000000 , 40.719688980730] , [ 1120104000000 , 43.897963036919] , [ 1122782400000 , 49.797033975368] , [ 1125460800000 , 47.085993935989] , [ 1128052800000 , 46.601972859745] , [ 1130734800000 , 41.567784572762] , [ 1133326800000 , 47.296923737245] , [ 1136005200000 , 47.642969612080] , [ 1138683600000 , 50.781515820954] , [ 1141102800000 , 52.600229204305] , [ 1143781200000 , 55.599684490628] , [ 1146369600000 , 57.920388436633] , [ 1149048000000 , 53.503593218971] , [ 1151640000000 , 53.522973979964] , [ 1154318400000 , 49.846822298548] , [ 1156996800000 , 54.721341614650] , [ 1159588800000 , 58.186236223191] , [ 1162270800000 , 63.908065540997] , [ 1164862800000 , 69.767285129367] , [ 1167541200000 , 72.534013373592] , [ 1170219600000 , 77.991819436573] , [ 1172638800000 , 78.143584404990] , [ 1175313600000 , 83.702398665233] , [ 1177905600000 , 91.140859312418] , [ 1180584000000 , 98.590960607028] , [ 1183176000000 , 96.245634754228] , [ 1185854400000 , 92.326364432615] , [ 1188532800000 , 97.068765332230] , [ 1191124800000 , 105.81025556260] , [ 1193803200000 , 114.38348777791] , [ 1196398800000 , 103.59604949810] , [ 1199077200000 , 101.72488429307] , [ 1201755600000 , 89.840147735028] , [ 1204261200000 , 86.963597532664] , [ 1206936000000 , 84.075505208491] , [ 1209528000000 , 93.170105645831] , [ 1212206400000 , 103.62838083121] , [ 1214798400000 , 87.458241365091] , [ 1217476800000 , 85.808374141319] , [ 1220155200000 , 93.158054469193] , [ 1222747200000 , 65.973252382360] , [ 1225425600000 , 44.580686638224] , [ 1228021200000 , 36.418977140128] , [ 1230699600000 , 38.727678144761] , [ 1233378000000 , 36.692674173387] , [ 1235797200000 , 30.033022809480] , [ 1238472000000 , 36.707532162718] , [ 1241064000000 , 52.191457688389] , [ 1243742400000 , 56.357883979735] , [ 1246334400000 , 57.629002180305] , [ 1249012800000 , 66.650985790166] , [ 1251691200000 , 70.839243432186] , [ 1254283200000 , 78.731998491499] , [ 1256961600000 , 72.375528540349] , [ 1259557200000 , 81.738387881630] , [ 1262235600000 , 87.539792394232] , [ 1264914000000 , 84.320762662273] , [ 1267333200000 , 90.621278391889] , [ 1270008000000 , 102.47144881651] , [ 1272600000000 , 102.79320353429] , [ 1275278400000 , 90.529736050479] , [ 1277870400000 , 76.580859994531] , [ 1280548800000 , 86.548979376972] , [ 1283227200000 , 81.879653334089] , [ 1285819200000 , 101.72550015956] , [ 1288497600000 , 107.97964852260] , [ 1291093200000 , 106.16240630785] , [ 1293771600000 , 114.84268599533] , [ 1296450000000 , 121.60793322282] , [ 1298869200000 , 133.41437346605] , [ 1301544000000 , 125.46646042904] , [ 1304136000000 , 129.76784954301] , [ 1306814400000 , 128.15798861044] , [ 1309406400000 , 121.92388706072] , [ 1312084800000 , 116.70036100870] , [ 1314763200000 , 88.367701837033] , [ 1317355200000 , 59.159665765725] , [ 1320033600000 , 79.793568139753] , [ 1322629200000 , 75.903834028417] , [ 1325307600000 , 72.704218209157] , [ 1327986000000 , 84.936990804097] , [ 1330491600000 , 93.388148670744]]
+    },
+    {
+      "key": "Series 2",
+      "values": [ [ 1025409600000 , 0] , [ 1028088000000 , 0] , [ 1030766400000 , 0] , [ 1033358400000 , 0] , [ 1036040400000 , 0] , [ 1038632400000 , 0] , [ 1041310800000 , 0] , [ 1043989200000 , 0] , [ 1046408400000 , 0] , [ 1049086800000 , 0] , [ 1051675200000 , 0] , [ 1054353600000 , 0] , [ 1056945600000 , 0] , [ 1059624000000 , 0] , [ 1062302400000 , 0] , [ 1064894400000 , 0] , [ 1067576400000 , 0] , [ 1070168400000 , 0] , [ 1072846800000 , 0] , [ 1075525200000 , -0.049184266875945] , [ 1078030800000 , -0.10757569491991] , [ 1080709200000 , -0.075601531307242] , [ 1083297600000 , -0.061245277988149] , [ 1085976000000 , -0.068227316401169] , [ 1088568000000 , -0.11242758058502] , [ 1091246400000 , -0.074848439408270] , [ 1093924800000 , -0.11465623676497] , [ 1096516800000 , -0.24370633342416] , [ 1099195200000 , -0.21523268478893] , [ 1101790800000 , -0.37859370911822] , [ 1104469200000 , -0.41932884345151] , [ 1107147600000 , -0.45393735984802] , [ 1109566800000 , -0.50868179522598] , [ 1112245200000 , -0.48164396881207] , [ 1114833600000 , -0.41605962887194] , [ 1117512000000 , -0.48490348490240] , [ 1120104000000 , -0.55071036101311] , [ 1122782400000 , -0.67489170505394] , [ 1125460800000 , -0.74978070939342] , [ 1128052800000 , -0.86395050745343] , [ 1130734800000 , -0.78524898506764] , [ 1133326800000 , -0.99800440950854] , [ 1136005200000 , -1.1177951153878] , [ 1138683600000 , -1.4119975432964] , [ 1141102800000 , -1.2409959736465] , [ 1143781200000 , -1.3088936375431] , [ 1146369600000 , -1.5495785469683] , [ 1149048000000 , -1.1563414981293] , [ 1151640000000 , -0.87192471725994] , [ 1154318400000 , -0.84073995183442] , [ 1156996800000 , -0.88761892867370] , [ 1159588800000 , -0.81748513917485] , [ 1162270800000 , -1.2874081041274] , [ 1164862800000 , -1.9234702981339] , [ 1167541200000 , -1.8377768147648] , [ 1170219600000 , -2.7107654031830] , [ 1172638800000 , -2.6493268125418] , [ 1175313600000 , -3.0814553134551] , [ 1177905600000 , -3.8509837783574] , [ 1180584000000 , -5.2919167850718] , [ 1183176000000 , -5.2297750650773] , [ 1185854400000 , -3.9335668501451] , [ 1188532800000 , -2.3695525190114] , [ 1191124800000 , -2.3084243151854] , [ 1193803200000 , -3.0753680726738] , [ 1196398800000 , -2.2346609938962] , [ 1199077200000 , -3.0598810361615] , [ 1201755600000 , -1.8410154270386] , [ 1204261200000 , -1.6479442038620] , [ 1206936000000 , -1.9293858622780] , [ 1209528000000 , -3.0769590460943] , [ 1212206400000 , -4.2423933501421] , [ 1214798400000 , -2.6951491617768] , [ 1217476800000 , -2.8981825939957] , [ 1220155200000 , -2.9662727940324] , [ 1222747200000 , 0.21556750497498] , [ 1225425600000 , 2.6784995167088] , [ 1228021200000 , 4.1296711248958] , [ 1230699600000 , 3.7311068218734] , [ 1233378000000 , 4.7695330866954] , [ 1235797200000 , 5.1919133040990] , [ 1238472000000 , 4.1025856045660] , [ 1241064000000 , 2.8498939666225] , [ 1243742400000 , 2.8106017222851] , [ 1246334400000 , 2.8456526669963] , [ 1249012800000 , 0.65563070754298] , [ 1251691200000 , -0.30022343874633] , [ 1254283200000 , -1.1600358228964] , [ 1256961600000 , -0.26674408835052] , [ 1259557200000 , -1.4693389757812] , [ 1262235600000 , -2.7855421590594] , [ 1264914000000 , -1.2668244065703] , [ 1267333200000 , -2.5537804115548] , [ 1270008000000 , -4.9144552474502] , [ 1272600000000 , -6.0484408234831] , [ 1275278400000 , -3.3834349033750] , [ 1277870400000 , -0.46752826932523] , [ 1280548800000 , -1.8030186027963] , [ 1283227200000 , -0.99623230097881] , [ 1285819200000 , -3.3475370235594] , [ 1288497600000 , -3.8187026520342] , [ 1291093200000 , -4.2354146250353] , [ 1293771600000 , -5.6795404292885] , [ 1296450000000 , -6.2928665328172] , [ 1298869200000 , -6.8549277434419] , [ 1301544000000 , -6.9925308360918] , [ 1304136000000 , -8.3216548655839] , [ 1306814400000 , -7.7682867271435] , [ 1309406400000 , -6.9244213301058] , [ 1312084800000 , -5.7407624451404] , [ 1314763200000 , -2.1813149077927] , [ 1317355200000 , 2.9407596325999] , [ 1320033600000 , -1.1130607112134] , [ 1322629200000 , -2.0274822307752] , [ 1325307600000 , -1.8372559072154] , [ 1327986000000 , -4.0732815531148] , [ 1330491600000 , -6.4417038470291]]
+    },
+    {
+      "key": "Series 3",
+      "values": [ [ 1025409600000 , 0] , [ 1028088000000 , -6.3382185140371] , [ 1030766400000 , -5.9507873460847] , [ 1033358400000 , -11.569146943813] , [ 1036040400000 , -5.4767332317425] , [ 1038632400000 , 0.50794682203014] , [ 1041310800000 , -5.5310285460542] , [ 1043989200000 , -5.7838296963382] , [ 1046408400000 , -7.3249341615649] , [ 1049086800000 , -6.7078630712489] , [ 1051675200000 , 0.44227126150934] , [ 1054353600000 , 7.2481659343222] , [ 1056945600000 , 9.2512381306992] , [ 1059624000000 , 11.341210982529] , [ 1062302400000 , 14.734820409020] , [ 1064894400000 , 12.387148007542] , [ 1067576400000 , 18.436471461827] , [ 1070168400000 , 19.830742266977] , [ 1072846800000 , 22.643205829887] , [ 1075525200000 , 26.693972514363] , [ 1078030800000 , 29.489903107308] , [ 1080709200000 , 30.756096054034] , [ 1083297600000 , 27.992822746720] , [ 1085976000000 , 29.225852107431] , [ 1088568000000 , 30.156836480689] , [ 1091246400000 , 24.859678459498] , [ 1093924800000 , 24.151326522641] , [ 1096516800000 , 26.974088564049] , [ 1099195200000 , 30.587369307288] , [ 1101790800000 , 35.952410049136] , [ 1104469200000 , 42.723169856608] , [ 1107147600000 , 40.104326572110] , [ 1109566800000 , 42.034940590574] , [ 1112245200000 , 41.201940741519] , [ 1114833600000 , 35.959307673456] , [ 1117512000000 , 40.234785495828] , [ 1120104000000 , 43.347252675906] , [ 1122782400000 , 49.122142270314] , [ 1125460800000 , 46.336213226596] , [ 1128052800000 , 45.738022352292] , [ 1130734800000 , 40.782535587694] , [ 1133326800000 , 46.298919327736] , [ 1136005200000 , 46.525174496692] , [ 1138683600000 , 49.369518277658] , [ 1141102800000 , 51.359233230659] , [ 1143781200000 , 54.290790853085] , [ 1146369600000 , 56.370809889665] , [ 1149048000000 , 52.347251720842] , [ 1151640000000 , 52.651049262704] , [ 1154318400000 , 49.006082346714] , [ 1156996800000 , 53.833722685976] , [ 1159588800000 , 57.368751084016] , [ 1162270800000 , 62.620657436870] , [ 1164862800000 , 67.843814831233] , [ 1167541200000 , 70.696236558827] , [ 1170219600000 , 75.281054033390] , [ 1172638800000 , 75.494257592448] , [ 1175313600000 , 80.620943351778] , [ 1177905600000 , 87.289875534061] , [ 1180584000000 , 93.299043821956] , [ 1183176000000 , 91.015859689151] , [ 1185854400000 , 88.392797582470] , [ 1188532800000 , 94.699212813219] , [ 1191124800000 , 103.50183124741] , [ 1193803200000 , 111.30811970524] , [ 1196398800000 , 101.36138850420] , [ 1199077200000 , 98.665003256909] , [ 1201755600000 , 87.999132307989] , [ 1204261200000 , 85.315653328802] , [ 1206936000000 , 82.146119346213] , [ 1209528000000 , 90.093146599737] , [ 1212206400000 , 99.385987481068] , [ 1214798400000 , 84.763092203314] , [ 1217476800000 , 82.910191547323] , [ 1220155200000 , 90.191781675161] , [ 1222747200000 , 66.188819887335] , [ 1225425600000 , 47.259186154933] , [ 1228021200000 , 40.548648265024] , [ 1230699600000 , 42.458784966634] , [ 1233378000000 , 41.462207260082] , [ 1235797200000 , 35.224936113579] , [ 1238472000000 , 40.810117767284] , [ 1241064000000 , 55.041351655012] , [ 1243742400000 , 59.168485702020] , [ 1246334400000 , 60.474654847301] , [ 1249012800000 , 67.306616497709] , [ 1251691200000 , 70.539019993440] , [ 1254283200000 , 77.571962668603] , [ 1256961600000 , 72.108784451998] , [ 1259557200000 , 80.269048905849] , [ 1262235600000 , 84.754250235173] , [ 1264914000000 , 83.053938255703] , [ 1267333200000 , 88.067497980334] , [ 1270008000000 , 97.556993569060] , [ 1272600000000 , 96.744762710807] , [ 1275278400000 , 87.146301147104] , [ 1277870400000 , 76.113331725206] , [ 1280548800000 , 84.745960774176] , [ 1283227200000 , 80.883421033110] , [ 1285819200000 , 98.377963136001] , [ 1288497600000 , 104.16094587057] , [ 1291093200000 , 101.92699168281] , [ 1293771600000 , 109.16314556604] , [ 1296450000000 , 115.31506669000] , [ 1298869200000 , 126.55944572261] , [ 1301544000000 , 118.47392959295] , [ 1304136000000 , 121.44619467743] , [ 1306814400000 , 120.38970188330] , [ 1309406400000 , 114.99946573061] , [ 1312084800000 , 110.95959856356] , [ 1314763200000 , 86.186386929240] , [ 1317355200000 , 62.100425398325] , [ 1320033600000 , 78.680507428540] , [ 1322629200000 , 73.876351797642] , [ 1325307600000 , 70.866962301942] , [ 1327986000000 , 80.863709250982] , [ 1330491600000 , 86.946444823715]]
+    },
+    {
+      "key": "Series 4",
+      "values": [ [ 1025409600000 , -7.0674410638835] , [ 1028088000000 , -14.663359292964] , [ 1030766400000 , -14.104393060540] , [ 1033358400000 , -23.114477037218] , [ 1036040400000 , -16.774256687841] , [ 1038632400000 , -11.902028464000] , [ 1041310800000 , -16.883038668422] , [ 1043989200000 , -19.104223676831] , [ 1046408400000 , -20.420523282736] , [ 1049086800000 , -19.660555051587] , [ 1051675200000 , -13.106911231646] , [ 1054353600000 , -8.2448460302143] , [ 1056945600000 , -7.0313058730976] , [ 1059624000000 , -5.1485118700389] , [ 1062302400000 , -3.0011028761469] , [ 1064894400000 , -4.1367265281467] , [ 1067576400000 , 1.5425209565025] , [ 1070168400000 , 2.7673533607299] , [ 1072846800000 , 7.7077114755360] , [ 1075525200000 , 9.7565015112434] , [ 1078030800000 , 11.396888609473] , [ 1080709200000 , 10.013964745578] , [ 1083297600000 , 8.0558890950562] , [ 1085976000000 , 9.6081966657458] , [ 1088568000000 , 11.918590426432] , [ 1091246400000 , 7.9945345523982] , [ 1093924800000 , 8.3201276776796] , [ 1096516800000 , 9.8283954846342] , [ 1099195200000 , 11.527125859650] , [ 1101790800000 , 16.413657596527] , [ 1104469200000 , 20.393798297928] , [ 1107147600000 , 17.456308413907] , [ 1109566800000 , 20.087778400999] , [ 1112245200000 , 17.988336990817] , [ 1114833600000 , 15.378490151331] , [ 1117512000000 , 19.474322935730] , [ 1120104000000 , 20.013851070354] , [ 1122782400000 , 24.749943726975] , [ 1125460800000 , 23.558710274826] , [ 1128052800000 , 24.558915040889] , [ 1130734800000 , 22.355860488034] , [ 1133326800000 , 27.138026265756] , [ 1136005200000 , 27.202220808591] , [ 1138683600000 , 31.219437344964] , [ 1141102800000 , 31.392355525125] , [ 1143781200000 , 33.373099232542] , [ 1146369600000 , 35.095277582309] , [ 1149048000000 , 30.923356507615] , [ 1151640000000 , 31.083717332561] , [ 1154318400000 , 31.290690671561] , [ 1156996800000 , 34.247769216679] , [ 1159588800000 , 37.411073177620] , [ 1162270800000 , 42.079177096411] , [ 1164862800000 , 44.978191659648] , [ 1167541200000 , 46.713271025310] , [ 1170219600000 , 49.203892437699] , [ 1172638800000 , 46.684723471826] , [ 1175313600000 , 48.385458973500] , [ 1177905600000 , 54.660197840305] , [ 1180584000000 , 60.311838415602] , [ 1183176000000 , 57.583282204682] , [ 1185854400000 , 52.425398898751] , [ 1188532800000 , 54.663538086985] , [ 1191124800000 , 60.181844325224] , [ 1193803200000 , 62.877219773621] , [ 1196398800000 , 55.760611512951] , [ 1199077200000 , 54.735280367784] , [ 1201755600000 , 45.495912959474] , [ 1204261200000 , 40.934919015876] , [ 1206936000000 , 40.303777633187] , [ 1209528000000 , 47.403740368773] , [ 1212206400000 , 49.951960898839] , [ 1214798400000 , 37.534590035098] , [ 1217476800000 , 36.405758293321] , [ 1220155200000 , 38.545373001858] , [ 1222747200000 , 26.106358664455] , [ 1225425600000 , 4.2658006768744] , [ 1228021200000 , -3.5517839867557] , [ 1230699600000 , -2.0878920761513] , [ 1233378000000 , -10.408879093829] , [ 1235797200000 , -19.924242196038] , [ 1238472000000 , -12.906491912782] , [ 1241064000000 , -3.9774866468346] , [ 1243742400000 , 1.0319171601402] , [ 1246334400000 , 1.3109350357718] , [ 1249012800000 , 9.1668309061935] , [ 1251691200000 , 13.121178985954] , [ 1254283200000 , 17.578680237511] , [ 1256961600000 , 14.971294355085] , [ 1259557200000 , 21.551327027338] , [ 1262235600000 , 24.592328423819] , [ 1264914000000 , 20.158087829555] , [ 1267333200000 , 24.135661929185] , [ 1270008000000 , 31.815205405903] , [ 1272600000000 , 34.389524768466] , [ 1275278400000 , 23.785555857522] , [ 1277870400000 , 17.082756649072] , [ 1280548800000 , 25.248007727100] , [ 1283227200000 , 19.415179069165] , [ 1285819200000 , 30.413636349327] , [ 1288497600000 , 35.357952964550] , [ 1291093200000 , 35.886413535859] , [ 1293771600000 , 45.003601951959] , [ 1296450000000 , 48.274893564020] , [ 1298869200000 , 53.562864914648] , [ 1301544000000 , 54.108274337412] , [ 1304136000000 , 58.618190111927] , [ 1306814400000 , 56.806793965598] , [ 1309406400000 , 54.135477252994] , [ 1312084800000 , 50.735258942442] , [ 1314763200000 , 42.208170945813] , [ 1317355200000 , 31.617916826724] , [ 1320033600000 , 46.492005006737] , [ 1322629200000 , 46.203116922145] , [ 1325307600000 , 47.541427643137] , [ 1327986000000 , 54.518998440993] , [ 1330491600000 , 61.099720234693]]
+    }
+  ]
+});
+
+/*
+ Modular version of the cumulativeLineChart nvd3-directive
+ */
+
+
+(function() {
+  define('chartbuilder.nvd3.cumulativeLineChart',['angular', 'angular_modules/nvd3-modules/cumulativeLineChart/data'], function(angular, data) {
+    var module = {
+      name: 'Cumulative Line Chart',
+      slug: 'cumulativeLineChart',
+      data: data
+    };
+
+    var template = ['<nvd3 options="dataStore.options" ',
+                     'data="dataStore.data" ',
+                     'colors="dataStore.colors" ',
+                     'events="$root.events" ',
+                     'config="{ extended: true }"></nvd3>'].join('');
+
+    angular.module('chartbuilder.nvd3.cumulativeLineChart', ['chartbuilderServices', 'chartbuilder.nvd3'])
+      /**
+       * Add this module's state to ui-router routes
+       */
+      .config(['$stateProvider', function($stateProvider) {
+        $stateProvider.state('chartbuilder.' + module.slug, {
+          url: '/' + module.slug,
+          views: {
+            'graph': {
+              template: template,
+              controller: module.slug + 'Controller'
+            }
+          }
+        });
+      }])
+      .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
+          var moduleOpts = {};
+          moduleOpts[module.name] = {
+            name: module.name,
+            slug: module.slug,
+            data: data,
+            dataFormat: [{ 'key': 'x', 'type': 'number' }, { 'key': 'y', 'type': 'number' }],
+            template: template,
+            meta: {
+              title: module.name,
+              subtitle: 'Subtitle for a line chart',
+              caption: '1a. Edit a caption for the graph',
+            },
+            options: {
+              chart: {
+                type: module.slug,
+                height: 600,
+                useVoronoi: false,
+                x: 'function:timestamp',
+                y: 'function:yPercentData',
+                xAxis: {
+                  tickFormat: 'function:year'
+                },
+                yAxis: {
+                  tickFormat: 'function:percent'
+                },
+                forceX: [null, null],
+                forceY: [null, null]
               }
             }
           }
@@ -109806,7 +108637,7 @@ define('main', [], function() {
       'modernizr': '../bower_components/modernizr/modernizr',
       'jquery': '../bower_components/jquery/dist/jquery',
       'jqueryui': '../bower_components/jquery-ui/jquery-ui',
-      'underscore': '../bower_components/underscore/underscore',
+      //'underscore': '../bower_components/underscore/underscore',
       'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
       'd3': '../bower_components/d3/d3',
       'nv.d3': '../bower_components/nvd3/nv.d3',
@@ -109819,6 +108650,7 @@ define('main', [], function() {
       'directives': './directives/directives',
       'data-input': './directives/data-input',
       'colors': './directives/colors',
+      'bsAffix': './directives/bsAffix',
       'edit-in-place': './directives/edit-in-place',
       'template-loader': './directives/template-loader',
       'save-images': './directives/save-images',
@@ -109838,6 +108670,7 @@ define('main', [], function() {
       'chartbuilder.nvd3': './angular_modules/nvd3-modules/angular-nvd3',
       'chartbuilder.nvd3.lineChart': './angular_modules/nvd3-modules/lineChart/main',
       'chartbuilder.nvd3.lineWithFocusChart': './angular_modules/nvd3-modules/lineWithFocusChart/main',
+      'chartbuilder.nvd3.cumulativeLineChart': './angular_modules/nvd3-modules/cumulativeLineChart/main',
       'chartbuilder.nvd3.discreteBarChart': './angular_modules/nvd3-modules/discreteBarChart/main',
       'chartbuilder.nvd3.multiBarChart': './angular_modules/nvd3-modules/multiBarChart/main',
       'chartbuilder.nvd3.multiBarHorizontalChart': './angular_modules/nvd3-modules/multiBarHorizontalChart/main',
@@ -109863,9 +108696,11 @@ define('main', [], function() {
         deps: ['jquery'],
         exports: 'angular'
       },
+      /*
       'underscore': {
         exports: '_'
       },
+      */
       'jquery': {
         exports: '$'
       },
@@ -109883,6 +108718,7 @@ define('main', [], function() {
       'directives': ['angular'],
       'data-input': ['directives'],
       'colors': ['directives'],
+      'bsAffix': ['directives'],
       'edit-in-place': ['directives'],
       'template-loader': ['directives'],
       'save-images': ['directives'],
@@ -109892,8 +108728,6 @@ define('main', [], function() {
       'slugifier': ['angular'],
       'jqueryui': ['jquery'],
       'ui.sortable': ['angular', 'jquery', 'jqueryui'],
-
-      // angular-spectrum-colorpicker
       'angular-spectrum-colorpicker': ['angular', 'jquery', 'spectrum'],
 
       // Shim the nvd3 modules
@@ -109901,6 +108735,7 @@ define('main', [], function() {
       'chartbuilder.nvd3': ['angular', 'nv.d3', 'services'],
       'chartbuilder.nvd3.lineChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.lineWithFocusChart': ['chartbuilder.nvd3'],
+      'chartbuilder.nvd3.cumulativeLineChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.discreteBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarChart': ['chartbuilder.nvd3'],
       'chartbuilder.nvd3.multiBarHorizontalChart': ['chartbuilder.nvd3'],
@@ -109916,7 +108751,7 @@ define('main', [], function() {
         exports: 'topojson'
       },
       'datamaps': {
-        deps: ['d3', 'topojson'],
+        deps: ['angular', 'd3', 'topojson'],
         exports: 'Datamap'
       },
       'chartbuilder.datamaps': ['d3', 'topojson', 'datamaps'],
@@ -109933,6 +108768,8 @@ define('main', [], function() {
     'text!../partials/home.html',
     'text!../partials/chartbuilder.html',
     'text!../partials/about.html',
+    'text!../partials/tutorials.html',
+    'text!../partials/faq.html',
     'text!../404.html',
     'jquery',
     'jqueryui',
@@ -109940,7 +108777,7 @@ define('main', [], function() {
     'angular-animate',
     'ui-router',
     'ui-bootstrap',
-    'underscore',
+    //'underscore',
     'd3',
     'nv.d3',
     'bootstrap',
@@ -109951,7 +108788,6 @@ define('main', [], function() {
     'directives',
     'chartbuilder-options',
     'data-input',
-    'colors',
     'edit-in-place',
     'template-loader',
     'save-images',
@@ -109962,6 +108798,7 @@ define('main', [], function() {
     'chartbuilder.nvd3',
     'chartbuilder.nvd3.lineChart',
     'chartbuilder.nvd3.lineWithFocusChart',
+    'chartbuilder.nvd3.cumulativeLineChart',
     'chartbuilder.nvd3.discreteBarChart',
     'chartbuilder.nvd3.multiBarChart',
     'chartbuilder.nvd3.multiBarHorizontalChart',
@@ -109977,7 +108814,7 @@ define('main', [], function() {
     'highcharts',
     'highcharts-ng',
     'chartbuilder.highcharts'
-  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, pageNotFoundTemplate) {
+  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, tutorialTemplate, faqTemplate, pageNotFoundTemplate) {
 
     /* App Module */
     angular.element(document).ready(function () {
@@ -109998,6 +108835,7 @@ define('main', [], function() {
         'chartbuilder.nvd3',
         'chartbuilder.nvd3.lineChart',
         'chartbuilder.nvd3.lineWithFocusChart',
+        'chartbuilder.nvd3.cumulativeLineChart',
         'chartbuilder.nvd3.discreteBarChart',
         'chartbuilder.nvd3.multiBarChart',
         'chartbuilder.nvd3.multiBarHorizontalChart',
@@ -110028,6 +108866,16 @@ define('main', [], function() {
             state('about', {
               url: '/about',
               template: aboutTemplate
+            }).
+            state('tutorials', {
+              url: '/tutorials',
+              template: tutorialTemplate,
+              controller: 'ChartbuilderTutorials'
+            }).
+            state('faq', {
+              url: '/faq',
+              template: faqTemplate,
+              controller: 'ChartbuilderFAQ'
             }).
             state('404', {
               url: '/404',
