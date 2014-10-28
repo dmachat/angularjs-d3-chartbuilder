@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col-lg-8 col-lg-offset-2 page-header">
+		<h3>Tutorials</h3>
+	</div>
+	<div class="col-lg-8 col-lg-offset-2">
+    <h3><strong>Line Chart with Two Highlight Lines</strong></h3>
+    <br />
+    <p class="lead">This one is a little different, since we only want to highlight two lines, but still show the rest. This is the chart we want to match:</p>
+    <br />
+    <img class="img-thumbnail" src="images/tutorial1-requirement.png" />
+    <br />
+    <br />
+    <p>There are some things we can't do with Chartbuilder, yet, like adding the persistent labels to a line, or adding a generic label. The chart we build is going to be a little different, and will supplement the plot lines with an interactive tooltip.</p>
+    <br />
+    <p>First, let's import data. In <a href="demos/tutorial1.csv">the csv file</a> for this example we have years and percentages for several countries. The first column is a standard four digit year, the second is a formatted percentage. Upload the csv data to Chartbuilder by clicking <strong>Add Existing Data -> Upload</strong>. Now we have values populated in our data groups, and some plotted lines. To get these to plot properly for our line graph, we'll need to set the datatypes and formatters for our axis. For the first column, we set <strong>x-Axis Datatype</strong> to <i>Date</i>. This attempts to parse dates from the values in the first column, and handles most common date formats, like this four digit year as well as 2005-12-14, etc. Now the graph knows we are making a time series, and will plot accordingly. We can also use the available time formatters to make our axis label look like it should. <strong>xAxis -> Tick Formatter</strong> has a few available options. We'll pick <i>Year (YYYY)</i>. As for the y-Axis, since our percent values are already formatted, we can use the default <strong>y-Axis Datatype</strong> of <i>Y,</i> and set the <strong>y-Axis Tick Formatter</strong> to <i>Percent (unmultiplied).</i> Other percent formatters take raw decimal data and multiply it to get percentages, but we don't need to do that here.</p>
+    <br />
+    <p>Next we want to adjust our scale, so that the y-Axis goes from 0 to 18%. Use the <strong>y-Axis Endpoints</strong> option to set <i>0 </i>(the start) and <i>1 </i>(the end) to 0 and 18.</p>
+    <br />
+    <p>To smooth the lines, set <strong>Interpolate</strong> to <i>bundle</i>.</p>
+    <br />
+    <p>Since we're using custom colors in this chart, click <strong>Enable Live Edit</strong>, and go through each data series to associate highlight colors with United States and Comparable Country Average, and a grey for the other comparison countries. Enable <strong>useInteractiveGuideline</strong> for a nice tooltip that tracks the mouse on the x-Axis and summarizes the value group.</p>
+    <br />
+    <p>It's not exact, but we have replicated the data plot for this graph, and have a nice interactive tooltip for line values instead of the static line labels. This graph is also responsive and can be styled to match your site's theme.</p>
+    <br />
+    <h2>{{ tutorial1.meta.title }}</h2>
+    <h4>{{ tutorial1.meta.subtitle }}</h4>
+    <nvd3 options="tutorial1.options" data="tutorial1.data" colors="tutorial1.colors" events="$root.events" config="{ extended: true }"></nvd3>
+    <p>{{ tutorial1.meta.caption }}</p>
+    <h6 ng-if="tutorial1.meta.attribution">{{ tutorial1.meta.attribution }}</h6>
+	</div>
+</div>

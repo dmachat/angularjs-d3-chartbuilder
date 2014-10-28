@@ -52,7 +52,8 @@
                 x: 'function:x/y',
                 y: 'function:key/y',
                 forceX: [null, null],
-                forceY: [null, null]
+                forceY: [null, null],
+                useVoronoi: false
               }
             }
           }

@@ -11,7 +11,7 @@ define('main', [], function() {
       'modernizr': '../bower_components/modernizr/modernizr',
       'jquery': '../bower_components/jquery/dist/jquery',
       'jqueryui': '../bower_components/jquery-ui/jquery-ui',
-      'underscore': '../bower_components/underscore/underscore',
+      //'underscore': '../bower_components/underscore/underscore',
       'bootstrap': '../bower_components/sass-bootstrap/dist/js/bootstrap',
       'd3': '../bower_components/d3/d3',
       'nv.d3': '../bower_components/nvd3/nv.d3',
@@ -70,9 +70,11 @@ define('main', [], function() {
         deps: ['jquery'],
         exports: 'angular'
       },
+      /*
       'underscore': {
         exports: '_'
       },
+      */
       'jquery': {
         exports: '$'
       },
@@ -140,6 +142,7 @@ define('main', [], function() {
     'text!../partials/home.html',
     'text!../partials/chartbuilder.html',
     'text!../partials/about.html',
+    'text!../partials/tutorials.html',
     'text!../partials/faq.html',
     'text!../404.html',
     'jquery',
@@ -148,7 +151,7 @@ define('main', [], function() {
     'angular-animate',
     'ui-router',
     'ui-bootstrap',
-    'underscore',
+    //'underscore',
     'd3',
     'nv.d3',
     'bootstrap',
@@ -185,7 +188,7 @@ define('main', [], function() {
     'highcharts',
     'highcharts-ng',
     'chartbuilder.highcharts'
-  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, faqTemplate, pageNotFoundTemplate) {
+  ], function(angular, homeTemplate, chartbuilderTemplate, aboutTemplate, tutorialTemplate, faqTemplate, pageNotFoundTemplate) {
 
     /* App Module */
     angular.element(document).ready(function () {
@@ -237,6 +240,11 @@ define('main', [], function() {
             state('about', {
               url: '/about',
               template: aboutTemplate
+            }).
+            state('tutorials', {
+              url: '/tutorials',
+              template: tutorialTemplate,
+              controller: 'ChartbuilderTutorials'
             }).
             state('faq', {
               url: '/faq',

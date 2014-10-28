@@ -60,6 +60,10 @@ define(['angular', 'd3'], function(angular, d3) {
             });
             _this.data.push({ key: title, values: values });
           },
+          removeDataGroup: function(groupIndex) {
+            var _this = this;
+            _this.data.splice(groupIndex, 1);
+          },
           showSampleData: function() {
             var _this = this;
             _this.data = _this.sampleData.exampleData;
@@ -180,7 +184,9 @@ define(['angular', 'd3'], function(angular, d3) {
                 newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
                 newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
 
-                _this.data[i - 1].values.push(newRow);
+                if (newRow[_this.dataFormat[1].key]) {
+                  _this.data[i - 1].values.push(newRow);
+                }
               }
 
             }, function(error) {

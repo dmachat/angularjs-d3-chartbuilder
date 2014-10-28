@@ -79,6 +79,12 @@
         return d3.format('.2%')(d);
       }
     },
+    'function:percent-unmultiplied': {
+      'label': 'Percent (unmultiplied)',
+      'option': function(d) {
+        return d3.format('.0%')(d / 100);
+      }
+    },
     'function:price': {
       'label': 'Currency (no decimal)',
       'option': function(d) {
@@ -98,9 +104,15 @@
       }
     },
     'function:year': {
-      'label': 'Year',
+      'label': 'Year (\'YY)',
       'option': function(d) {
         return d3.time.format('\'%y')(new Date(d));
+      }
+    },
+    'function:year-yyyy': {
+      'label': 'Year (YYYY)',
+      'option': function(d) {
+        return d3.time.format('%Y')(new Date(d));
       }
     }
   }

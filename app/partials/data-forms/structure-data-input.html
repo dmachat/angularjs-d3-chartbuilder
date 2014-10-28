@@ -19,6 +19,7 @@
                   <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
                 </a>
               </h5>
+              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>
             </div>
           </div>
           <div ng-if="structureData.slug === 'lineChart'" class="panel-heading">

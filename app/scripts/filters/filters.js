@@ -3,7 +3,12 @@ define(['angular'], function(angular) {
     /* Filters */
     var coerceInputTypes = {
       'number': function(input) {
-        return +input;
+        var number = parseFloat(input.replace(/[^0-9-.]/g, ''));
+        if (isNaN(number)) {
+          return null;
+        } else {
+          return number;
+        }
       },
       'text': function(input) {
         return input;
