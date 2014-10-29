@@ -22,11 +22,11 @@
               <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>
             </div>
           </div>
-          <div ng-if="structureData.slug === 'lineChart'" class="panel-heading">
+          <div ng-if="structureData.slug === 'lineChart' || (structureData.slug === 'multiBarHorizontalChart' && structureData.data.length > 1)" class="panel-heading">
             <div class="panel-title">
               <div class="clearfix">
                 <h6 class="pull-left">Area Fill</h6>
-                <div class="btn-group pull-right" ng-if="structureData.slug === 'lineChart'" ng-model="group.area" ng-click="group.area = !group.area">
+                <div class="btn-group pull-right" ng-model="group.area" ng-click="group.area = !group.area">
                   <button type="button" class="btn btn-xs" ng-class="{ active: group.area, 'btn-primary': group.area, 'btn-default': !group.area }">On</button>
                   <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, 'btn-primary': !group.area, 'btn-default': group.area }">Off</button>
                 </div>

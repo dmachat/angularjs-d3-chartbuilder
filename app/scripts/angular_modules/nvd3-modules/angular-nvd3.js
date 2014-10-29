@@ -57,6 +57,13 @@
               // Configure colors
               if (scope.colors && !scope.options.customColors) {
                 scope.chart.color(scope.colors);
+
+                // Special coloring options for multiBarHorizontalChart set to discrete single group
+                if (scope.data.length === 1 && scope.options.chart.type === 'multiBarHorizontalChart') {
+                  scope.options.chart.barColor = scope.colors;
+                } else {
+                  scope.options.chart.barColor = null;
+                }
               }
 
               angular.forEach(scope.chart, function(value, key) {
