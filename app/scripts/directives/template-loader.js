@@ -148,7 +148,10 @@ define([
             // allow postMessages from same-origin or *.wordpress.com
             // i.e. for VIP sites
             scope.matchOrigin = function( sender ){
-              if ( sender === $window.location.protocol + '//' + $window.location.hostname ){
+              var currentOrigin = $window.location.protocol + '//' + $window.location.hostname;
+              
+              // allow same origin, or any cross-origin message when developing with app hosted at http://chartbuidler.dev
+              if ( sender === currentOrigin || 'http://chartbuilder.dev' === currentOrigin ){
                 return true;
               }
 
