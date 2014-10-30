@@ -115,8 +115,7 @@ define([
             // this is initialized on the directive
             scope.initDataLoad = function() {
 
-              // confirm that we're in an iframe
-              if ( ! window.frameElement ){
+              if ( scope.isTopLevelWindow() ){
                 return;
               }
 
@@ -133,6 +132,17 @@ define([
                 data : null
               }, '*' );
 
+            };
+
+            // look iframe containing the app
+            scope.isTopLevelWindow = function(){
+              try {
+                // window.frameElement is null in top level window
+                return window.frameElement === null;
+              } catch ( err ){
+                // will throw SecurityError when attempting to access cross-origin iframe
+                return err.name !== 'SecurityError';
+              }
             };
 
             scope.receiveMessage = function(e){
