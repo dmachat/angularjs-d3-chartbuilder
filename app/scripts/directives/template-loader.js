@@ -131,6 +131,8 @@ define([
                 msg : 'ready',
                 data : null
               }, '*' );
+              // '*' is not ideal, but there are subsequent checks in parent window
+              // and here to validate message origins
 
             };
 
