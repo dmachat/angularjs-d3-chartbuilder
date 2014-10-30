@@ -114,12 +114,6 @@ define([
 
             // this is initialized on the directive
             scope.initDataLoad = function() {
-              // // if bootstrapped data, use that
-              // // i.e. front-end of site
-              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
-              //   scope.chartbuilderData.load($window.chartbuilderOptions);
-              //   return;
-              // }
 
               // confirm that we're in an iframe
               if ( ! window.frameElement ){
@@ -137,7 +131,7 @@ define([
                 channel : 'upstream',
                 msg : 'ready',
                 data : null
-              }, origin );
+              }, '*' );
 
             };
 
