@@ -145,8 +145,20 @@ define([
               }
             };
 
+            // allow postMessages from same-origin or *.wordpress.com
+            // i.e. for VIP sites
+            scope.matchOrigin = function( sender ){
+              if ( sender === $window.location.protocol + '//' + $window.location.hostname ){
+                return true;
+              }
+
+              // test http and https on WPCOM subdomains
+              var re = /^(https?):\/\/[a-z0-9\-]+\.wordpress\.com/;
+              return re.test( sender );
+            };
+
             scope.receiveMessage = function(e){
-              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+              if ( ! scope.matchOrigin( e.origin ) ){
                 throw( 'Illegal postMessage from ' + e.origin );
               }
 
