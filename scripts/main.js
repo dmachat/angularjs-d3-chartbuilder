@@ -85833,7 +85833,7 @@ define('chartbuilder-options',[
 });
 
 
-define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel panel-default">\n  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n    <div class="panel-body">\n      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n        <div class="panel panel-default panel-chartbuilder-table"\n          ng-repeat="group in structureData.data track by $index"\n          >\n          <div class="panel-heading data-group-title-heading">\n            <div class="panel-title">\n              <h5>\n                Data Group {{ $index + 1 }}: \n                <edit-in-place value="group.key" type="text"></edit-in-place>\n                <a data-toggle="collapse"\n                  data-parent="#accordion"\n                  data-target="#collapse-{{ $index }}"\n                  href=""\n                  ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n                  >\n                  <i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-up\' : \'fa-caret-down\' }}"></i>\n                </a>\n              </h5>\n              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>\n            </div>\n          </div>\n          <div ng-if="structureData.slug === \'lineChart\'" class="panel-heading">\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Area Fill</h6>\n                <div class="btn-group pull-right" ng-if="structureData.slug === \'lineChart\'" ng-model="group.area" ng-click="group.area = !group.area">\n                  <button type="button" class="btn btn-xs" ng-class="{ active: group.area, \'btn-primary\': group.area, \'btn-default\': !group.area }">On</button>\n                  <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, \'btn-primary\': !group.area, \'btn-default\': group.area }">Off</button>\n                </div>\n              </div>\n            </div>\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Series Color (Optional)</h6>\n                <div class="color-picker pull-right">\n                  <spectrum-colorpicker\n                    trigger-id="series-{{ $index }}-color-picker"\n                    ng-model="group.color"\n                    options="{\n                      showPaletteOnly: true,\n                      showPalette: true,\n                      hideAfterPaletteSelect: true,\n                      allowEmpty: true,\n                      palette: {{ structureData.colors }}\n                    }"\n                    format="\'hex\'"\n                    class="color-box"\n                    >\n                  </spectrum-colorpicker>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n            <div class="panel-body">\n              <table class="table table-condensed table-striped">\n                <thead>\n                  <tr>\n                    <th>Remove</th>\n                    <th data-ng-repeat="column in structureData.dataFormat">\n                      {{ column.key }}\n                    </th>\n                    <th ng-if="structureData.options.customColors">Color</th>\n                  </tr>\n                </thead>\n                <tbody ng-model="group.values" ui-sortable>\n                  <tr ng-repeat="rows in group.values track by $index">\n                    <td>\n                      <span class="glyphicon glyphicon-minus"\n                        ng-click="removeRow($parent.$index, $index)"\n                        >\n                      </span>\n                    </td>\n                    <td ng-repeat="column in structureData.dataFormat track by column.key">\n                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n                        type="{{ column.type }}"\n                        >\n                      </edit-in-place>\n                    </td>\n                    <td ng-if="structureData.options.customColors" class="color-picker">\n                      <span colorpicker\n                        colorpicker-with-input="true"\n                        ng-model="structureData.data[$parent.$index].values[$index].color"\n                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"\n                        class="color-box"\n                        >\n                      </span>\n                    </td>\n                  </tr>\n                  <tr>\n                    <td>\n                      <a href><span class="glyphicon glyphicon-plus"\n                        ng-click="addRow($index)"\n                        >\n                        </span></a>\n                    </td>\n                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">\n                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="panel-footer">\n      <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last Group</button>\n        </span>\n      </div>\n    </div>\n  </div>\n</div>\n';});
+define('text!../partials/data-forms/structure-data-input.html',[],function () { return '<div class="panel panel-default">\n  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>\n    <div class="panel-body">\n      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>\n        <div class="panel panel-default panel-chartbuilder-table"\n          ng-repeat="group in structureData.data track by $index"\n          >\n          <div class="panel-heading data-group-title-heading">\n            <div class="panel-title">\n              <h5>\n                Data Group {{ $index + 1 }}: \n                <edit-in-place value="group.key" type="text"></edit-in-place>\n                <a data-toggle="collapse"\n                  data-parent="#accordion"\n                  data-target="#collapse-{{ $index }}"\n                  href=""\n                  ng-click="dataGroupBox[$index] = !dataGroupBox[$index]"\n                  >\n                  <i class="fa pull-right {{ dataGroupBox[$index] ? \'fa-caret-up\' : \'fa-caret-down\' }}"></i>\n                </a>\n              </h5>\n              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>\n            </div>\n          </div>\n          <div ng-if="structureData.slug === \'lineChart\' || (structureData.slug === \'multiBarHorizontalChart\' && structureData.data.length > 1)" class="panel-heading">\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Area Fill</h6>\n                <div class="btn-group pull-right" ng-model="group.area" ng-click="group.area = !group.area">\n                  <button type="button" class="btn btn-xs" ng-class="{ active: group.area, \'btn-primary\': group.area, \'btn-default\': !group.area }">On</button>\n                  <button type="button" class="btn btn-xs btn-default" ng-class="{ active: !group.area, \'btn-primary\': !group.area, \'btn-default\': group.area }">Off</button>\n                </div>\n              </div>\n            </div>\n            <div class="panel-title">\n              <div class="clearfix">\n                <h6 class="pull-left">Series Color (Optional)</h6>\n                <div class="color-picker pull-right">\n                  <spectrum-colorpicker\n                    trigger-id="series-{{ $index }}-color-picker"\n                    ng-model="group.color"\n                    options="{\n                      showPaletteOnly: true,\n                      showPalette: true,\n                      hideAfterPaletteSelect: true,\n                      allowEmpty: true,\n                      palette: {{ structureData.colors }}\n                    }"\n                    format="\'hex\'"\n                    class="color-box"\n                    >\n                  </spectrum-colorpicker>\n                </div>\n              </div>\n            </div>\n          </div>\n          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">\n            <div class="panel-body">\n              <table class="table table-condensed table-striped">\n                <thead>\n                  <tr>\n                    <th>Remove</th>\n                    <th data-ng-repeat="column in structureData.dataFormat">\n                      {{ column.key }}\n                    </th>\n                    <th ng-if="structureData.options.customColors">Color</th>\n                  </tr>\n                </thead>\n                <tbody ng-model="group.values" ui-sortable>\n                  <tr ng-repeat="rows in group.values track by $index">\n                    <td>\n                      <span class="glyphicon glyphicon-minus"\n                        ng-click="removeRow($parent.$index, $index)"\n                        >\n                      </span>\n                    </td>\n                    <td ng-repeat="column in structureData.dataFormat track by column.key">\n                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"\n                        type="{{ column.type }}"\n                        >\n                      </edit-in-place>\n                    </td>\n                    <td ng-if="structureData.options.customColors" class="color-picker">\n                      <span colorpicker\n                        colorpicker-with-input="true"\n                        ng-model="structureData.data[$parent.$index].values[$index].color"\n                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"\n                        class="color-box"\n                        >\n                      </span>\n                    </td>\n                  </tr>\n                  <tr>\n                    <td>\n                      <a href><span class="glyphicon glyphicon-plus"\n                        ng-click="addRow($index)"\n                        >\n                        </span></a>\n                    </td>\n                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">\n                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === \'number\' ? 0 : \'name\' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />\n                    </td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <div class="panel-footer">\n      <div class="input-group">\n        <input type="text" class="form-control" placeholder="Add a data group" ng-model="newDataGroup" />\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="addGroup()">Add</button>\n        </span>\n        <span class="input-group-btn">\n          <button class="btn btn-default" type="button" ng-click="duplicateGroup()">Duplicate Last Group</button>\n        </span>\n      </div>\n    </div>\n  </div>\n</div>\n';});
 
 define('data-input',[
   'angular',
@@ -86083,15 +86083,8 @@ define('template-loader',[
 
             // this is initialized on the directive
             scope.initDataLoad = function() {
-              // // if bootstrapped data, use that
-              // // i.e. front-end of site
-              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
-              //   scope.chartbuilderData.load($window.chartbuilderOptions);
-              //   return;
-              // }
 
-              // confirm that we're in an iframe
-              if ( ! window.frameElement ){
+              if ( scope.isTopLevelWindow() ){
                 return;
               }
 
@@ -86106,12 +86099,40 @@ define('template-loader',[
                 channel : 'upstream',
                 msg : 'ready',
                 data : null
-              }, origin );
+              }, '*' );
+              // '*' is not ideal, but there are subsequent checks in parent window
+              // and here to validate message origins
 
             };
 
+            // look iframe containing the app
+            scope.isTopLevelWindow = function(){
+              try {
+                // window.frameElement is null in top level window
+                return window.frameElement === null;
+              } catch ( err ){
+                // will throw SecurityError when attempting to access cross-origin iframe
+                return err.name !== 'SecurityError';
+              }
+            };
+
+            // allow postMessages from same-origin or *.wordpress.com
+            // i.e. for VIP sites
+            scope.matchOrigin = function( sender ){
+              var currentOrigin = $window.location.protocol + '//' + $window.location.hostname;
+              
+              // allow same origin, or any cross-origin message when developing with app hosted at http://chartbuidler.dev
+              if ( sender === currentOrigin || 'http://chartbuilder.dev' === currentOrigin ){
+                return true;
+              }
+
+              // test http and https on WPCOM subdomains
+              var re = /^(https?):\/\/[a-z0-9\-]+\.wordpress\.com/;
+              return re.test( sender );
+            };
+
             scope.receiveMessage = function(e){
-              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+              if ( ! scope.matchOrigin( e.origin ) ){
                 throw( 'Illegal postMessage from ' + e.origin );
               }
 
@@ -86156,7 +86177,7 @@ define('template-loader',[
                   chartData : chartData,
                   chartImg : chartImg
                 }
-              }, $window.location.href);
+              }, '*');
             };
           }
         };
@@ -93299,6 +93320,13 @@ define("ui.sortable", function(){});
               // Configure colors
               if (scope.colors && !scope.options.customColors) {
                 scope.chart.color(scope.colors);
+
+                // Special coloring options for multiBarHorizontalChart set to discrete single group
+                if (scope.data.length === 1 && scope.options.chart.type === 'multiBarHorizontalChart') {
+                  scope.options.chart.barColor = scope.colors;
+                } else {
+                  scope.options.chart.barColor = null;
+                }
               }
 
               angular.forEach(scope.chart, function(value, key) {
