@@ -208,7 +208,7 @@ define([
                   chartData : chartData,
                   chartImg : chartImg
                 }
-              }, $window.location.href);
+              }, '*');
             };
           }
         };
