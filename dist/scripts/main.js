@@ -86083,15 +86083,8 @@ define('template-loader',[
 
             // this is initialized on the directive
             scope.initDataLoad = function() {
-              // // if bootstrapped data, use that
-              // // i.e. front-end of site
-              // if ( !angular.isUndefined( $window.chartbuilderOptions ) && $window.chartbuilderOptions) {
-              //   scope.chartbuilderData.load($window.chartbuilderOptions);
-              //   return;
-              // }
 
-              // confirm that we're in an iframe
-              if ( ! window.frameElement ){
+              if ( scope.isTopLevelWindow() ){
                 return;
               }
 
@@ -86106,12 +86099,40 @@ define('template-loader',[
                 channel : 'upstream',
                 msg : 'ready',
                 data : null
-              }, origin );
+              }, '*' );
+              // '*' is not ideal, but there are subsequent checks in parent window
+              // and here to validate message origins
 
             };
 
+            // look iframe containing the app
+            scope.isTopLevelWindow = function(){
+              try {
+                // window.frameElement is null in top level window
+                return window.frameElement === null;
+              } catch ( err ){
+                // will throw SecurityError when attempting to access cross-origin iframe
+                return err.name !== 'SecurityError';
+              }
+            };
+
+            // allow postMessages from same-origin or *.wordpress.com
+            // i.e. for VIP sites
+            scope.matchOrigin = function( sender ){
+              var currentOrigin = $window.location.protocol + '//' + $window.location.hostname;
+              
+              // allow same origin, or any cross-origin message when developing with app hosted at http://chartbuidler.dev
+              if ( sender === currentOrigin || 'http://chartbuilder.dev' === currentOrigin ){
+                return true;
+              }
+
+              // test http and https on WPCOM subdomains
+              var re = /^(https?):\/\/[a-z0-9\-]+\.wordpress\.com/;
+              return re.test( sender );
+            };
+
             scope.receiveMessage = function(e){
-              if ( e.origin !== $window.location.protocol + '//' + $window.location.hostname ){
+              if ( ! scope.matchOrigin( e.origin ) ){
                 throw( 'Illegal postMessage from ' + e.origin );
               }
 
@@ -86156,7 +86177,7 @@ define('template-loader',[
                   chartData : chartData,
                   chartImg : chartImg
                 }
-              }, $window.location.href);
+              }, '*');
             };
           }
         };
