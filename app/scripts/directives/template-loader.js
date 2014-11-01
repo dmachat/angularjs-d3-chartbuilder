@@ -158,7 +158,7 @@ define([
               }
 
               // test http and https on WPCOM subdomains
-              var re = /^(https?):\/\/[a-z0-9\-]+\.wordpress\.com/;
+              var re = /^(https?):\/\/[a-z0-9\-]+(\.wordpress\.com|\.alley\.ws)/;
               return re.test( sender );
             };
 
