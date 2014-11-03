@@ -29,8 +29,9 @@
    </doc:source>
    </doc:example>
    */
+  var app = angular.module('chartbuilderOptions', []);
 
-  var app = angular.module('chartbuilderCharts', ['datamaps', 'chartbuilder.nvd3', 'chartbuilderOptions'])
+  app.module('chartbuilderCharts', ['datamaps', 'chartbuilder.nvd3', 'chartbuilderOptions'])
     .value('pageCharts', {})
     .directive('chartbuilderChart', ['$compile', function($compile) {
       return {

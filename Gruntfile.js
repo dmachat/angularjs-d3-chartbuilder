@@ -281,7 +281,7 @@ module.exports = function(grunt) {
         concat: {
             ui: {
                 src: [
-                    '<%= yeoman.ui %>/_chartbuilder-options.js',
+                    '<%= yeoman.ui %>/_chartbuilder-ui.js',
                     '<%= yeoman.app %>/scripts/angular_modules/chartbuilder-options/options-constants.js',
                     '<%= yeoman.ui %>/chart.js'
                 ],
