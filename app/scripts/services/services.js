@@ -149,6 +149,11 @@ define(['angular', 'd3'], function(angular, d3) {
               type = file.match(/\t(.*)$/m) ? 'tsv' : 'csv',
               headers = [];
 
+            if (angular.isUndefined(_this.dataFormat)) {
+              chartbuilderError.newError('Select a chart type before adding data.', 'chartbuilder');
+              return;
+            }
+
             // Reset data
             _this.data = [];
 

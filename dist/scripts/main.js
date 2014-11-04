@@ -85920,7 +85920,7 @@ define('data-input',[
 });
 
 
-define('text!../partials/data-forms/edit-in-place.html',[],function () { return '<span ng-click="edit()" ng-bind="value"></span>\n<input ng-model="value" type="{{ type }}" class="form-control"></input>\n';});
+define('text!../partials/data-forms/edit-in-place.html',[],function () { return '<span ng-click="edit()" ng-bind="value"></span>\n<textarea ng-model="value" type="{{ type }}" class="form-control"></textarea>\n';});
 
 define('edit-in-place',[
   'angular',
@@ -86127,7 +86127,7 @@ define('template-loader',[
               }
 
               // test http and https on WPCOM subdomains
-              var re = /^(https?):\/\/[a-z0-9\-]+\.wordpress\.com/;
+              var re = /^(https?):\/\/[a-z0-9\-]+(\.wordpress\.com|\.alley\.ws)/;
               return re.test( sender );
             };
 
