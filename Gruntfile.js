@@ -31,7 +31,7 @@ module.exports = function(grunt) {
                 port: 9000,
                 livereload: 35729,
                 // Change this to '0.0.0.0' to access the server from outside
-                hostname: 'localhost'
+                hostname: 'chartbuilder.dev'
             },
             livereload: {
                 options: {
@@ -311,7 +311,9 @@ module.exports = function(grunt) {
                         'bower_components/font-awesome/fonts/*.*',
                         'bower_components/nvd3/*.css',
                         'bower_components/angular-file-input/dist/*.css',
-                        'bower_components/requirejs/require.js'
+                        'bower_components/requirejs/require.js',
+                        'bower_components/chartbuilder-widget/dist/release/js/*.js',
+                        'bower_components/chartbuilder-widget/loader/dist/*.js'
                     ]
                 }]
             },
