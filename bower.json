@@ -24,6 +24,7 @@
     "angular-datamaps": "*",
     "highcharts": "git@github.com:highslide-software/highcharts-release",
     "highcharts-ng": "https://github.com/pablojim/highcharts-ng.git",
-    "angular-spectrum-colorpicker": "git@github.com:Jimdo/angular-spectrum-colorpicker.git"
+    "angular-spectrum-colorpicker": "git@github.com:Jimdo/angular-spectrum-colorpicker.git",
+    "chartbuilder-widget": "git@github.com:dmachat/chartbuilder-widget.git"
   }
 }
