@@ -10542,7 +10542,7 @@ chartbuilder-options ul ul {
   display: none;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\000036}}
-.edit-in-place.active input {
+.edit-in-place.active textarea {
   display: inline-block;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000310}}
@@ -10550,7 +10550,7 @@ chartbuilder-options ul ul {
   cursor: pointer;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000313}}
-.edit-in-place input {
+.edit-in-place textarea {
   display: none;
 }
 
