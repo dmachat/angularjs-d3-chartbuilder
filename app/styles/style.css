@@ -10538,18 +10538,23 @@ chartbuilder-options ul ul {
 }
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\000033}}
-.edit-in-place.active span {
+.edit-in-place.active div {
   display: none;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\000036}}
 .edit-in-place.active textarea {
   display: inline-block;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000310}}
-.edit-in-place span {
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000311}}
+.edit-in-place.empty div {
+  min-height: 12px;
+  border-left: 2px solid #b9b9b9;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000316}}
+.edit-in-place div {
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000313}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000319}}
 .edit-in-place textarea {
   display: none;
 }

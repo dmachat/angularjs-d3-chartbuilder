@@ -31,6 +31,8 @@ define([
               if (event.which === 13) {
                 if (!scope.value.length) {
                   element.addClass('empty');
+                } else {
+                  element.removeClass('empty');
                 }
                 scope.editing = false;
                 element.removeClass('active');
@@ -40,6 +42,8 @@ define([
             inputElement.bind('blur', function() {
               if (!scope.value.length) {
                 element.addClass('empty');
+              } else {
+                element.removeClass('empty');
               }
               scope.editing = false;
               element.removeClass('active');

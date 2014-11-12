@@ -90351,6 +90351,8 @@ define('edit-in-place',[
               if (event.which === 13) {
                 if (!scope.value.length) {
                   element.addClass('empty');
+                } else {
+                  element.removeClass('empty');
                 }
                 scope.editing = false;
                 element.removeClass('active');
@@ -90360,6 +90362,8 @@ define('edit-in-place',[
             inputElement.bind('blur', function() {
               if (!scope.value.length) {
                 element.addClass('empty');
+              } else {
+                element.removeClass('empty');
               }
               scope.editing = false;
               element.removeClass('active');
