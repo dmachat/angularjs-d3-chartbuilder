@@ -90525,11 +90525,13 @@ define('template-loader',[
               
               // allow same origin, or any cross-origin message when developing with app hosted at http://chartbuidler.dev
               if ( sender === currentOrigin || 'http://chartbuilder.dev' === currentOrigin ){
-                return true;
+                //return true;
               }
+              sender = 'http://kffpch.wp.alley.ws';
 
               // test http and https on WPCOM subdomains
-              var re = /^(https?):\/\/[a-z0-9\-]+(\.wordpress\.com|\.alley\.ws)/;
+              var re = /^(https?):\/\/[a-z0-9\-\.]+(\.wordpress\.com|\.alley\.ws)/;
+              console.log(sender);
               return re.test( sender );
             };
 
