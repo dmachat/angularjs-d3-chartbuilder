@@ -89853,6 +89853,11 @@ define('services',['angular', 'd3'], function(angular, d3) {
               $state.go('chartbuilder.' + chart.slug);
             }
 
+            // Decode html entities
+            angular.forEach(chart.meta, function(value, key) {
+              chart.meta[key] = decodeURIComponent(value);
+            });
+
             // Map the options object to chartbuilderData
             angular.forEach(chart, function(options, key) {
               _this[key] = options;
@@ -90374,7 +90379,9 @@ define('template-loader',[
     }
 
     function parseDataForWP(data) {
-      if (angular.isUndefined(data) || angular.isUndefined(data.options.chart) || angular.isUndefined(data.options.chart.type)) {
+      if (angular.isUndefined(data) ||
+          angular.isUndefined(data.options.chart) ||
+          angular.isUndefined(data.slug)) {
         alert('You must select a chart type and add data before sending to WordPress');
         return false;
       }
@@ -90385,10 +90392,15 @@ define('template-loader',[
       }
 
       // validate chart type
-      if (!angular.isString(data.options.chart.type)) {
+      if (!data.slug.length) {
         console.log('invalid chart type');
         return false;
       }
+
+      // encode meta fields to avoid double quote issues
+      angular.forEach(data.meta, function(value, key) {
+        data.meta[key] = encodeURIComponent(value);
+      });
 
       // Unset preloaded for loading
       delete data.preloaded;
@@ -90483,7 +90495,6 @@ define('template-loader',[
               chartbuilderData.env = 'iframe';
 
               // setup postMessage listener and tell parent window that child frame is ready to receive data
-              var origin = $window.location.protocol + '//' + $window.location.hostname;              
               window.addEventListener('message', scope.receiveMessage, true);
               window.parent.postMessage( {
                 src : 'chartbuilder',
@@ -97052,12 +97063,12 @@ define('bsAffix',[
         var checkCallbacks = function(scope, instance, element, attrs) {
           if (instance.affixed) {
             if (attrs.onUnaffix) {
-              eval("scope." + attrs.onUnaffix);
+              eval('scope.' + attrs.onUnaffix);
             }
           }
           else {
             if (attrs.onAffix) {
-              eval("scope." + attrs.onAffix);
+              eval('scope.' + attrs.onAffix);
             }
           }
         };
