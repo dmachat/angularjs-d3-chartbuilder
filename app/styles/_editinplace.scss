@@ -1,13 +1,19 @@
 .edit-in-place {
   &.active {
-    span {
+    div {
       display: none;
     }
     textarea {
       display: inline-block;
     }
   }
-  span {
+  &.empty {
+    div {
+      min-height: 12px;
+      border-left: 2px solid #b9b9b9;
+    }
+  }
+  div {
     cursor: pointer;
   }
   textarea {

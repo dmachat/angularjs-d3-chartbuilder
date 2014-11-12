@@ -90316,7 +90316,7 @@ define('data-input',[
 });
 
 
-define('text!../partials/data-forms/edit-in-place.html',[],function () { return '<span ng-click="edit()" ng-bind="value"></span>\n<textarea ng-model="value" type="{{ type }}" class="form-control" rows="1"></textarea>\n';});
+define('text!../partials/data-forms/edit-in-place.html',[],function () { return '<div ng-click="edit()" ng-bind="value"></div>\n<textarea ng-model="value" type="{{ type }}" class="form-control" rows="1"></textarea>\n';});
 
 define('edit-in-place',[
   'angular',
@@ -90348,13 +90348,19 @@ define('edit-in-place',[
             };
 
             inputElement.bind('keydown keypress', function(event) {
-              if(event.which === 13) {
+              if (event.which === 13) {
+                if (!scope.value.length) {
+                  element.addClass('empty');
+                }
                 scope.editing = false;
                 element.removeClass('active');
               }
             });
 
             inputElement.bind('blur', function() {
+              if (!scope.value.length) {
+                element.addClass('empty');
+              }
               scope.editing = false;
               element.removeClass('active');
             });

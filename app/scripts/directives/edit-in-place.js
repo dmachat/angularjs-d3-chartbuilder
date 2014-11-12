@@ -28,13 +28,19 @@ define([
             };
 
             inputElement.bind('keydown keypress', function(event) {
-              if(event.which === 13) {
+              if (event.which === 13) {
+                if (!scope.value.length) {
+                  element.addClass('empty');
+                }
                 scope.editing = false;
                 element.removeClass('active');
               }
             });
 
             inputElement.bind('blur', function() {
+              if (!scope.value.length) {
+                element.addClass('empty');
+              }
               scope.editing = false;
               element.removeClass('active');
             });
