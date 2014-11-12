@@ -46,12 +46,12 @@ define([
         var checkCallbacks = function(scope, instance, element, attrs) {
           if (instance.affixed) {
             if (attrs.onUnaffix) {
-              eval("scope." + attrs.onUnaffix);
+              eval('scope.' + attrs.onUnaffix);
             }
           }
           else {
             if (attrs.onAffix) {
-              eval("scope." + attrs.onAffix);
+              eval('scope.' + attrs.onAffix);
             }
           }
         };

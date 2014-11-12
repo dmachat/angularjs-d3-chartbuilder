@@ -14,7 +14,9 @@ define([
     }
 
     function parseDataForWP(data) {
-      if (angular.isUndefined(data) || angular.isUndefined(data.options.chart) || angular.isUndefined(data.options.chart.type)) {
+      if (angular.isUndefined(data) ||
+          angular.isUndefined(data.options.chart) ||
+          angular.isUndefined(data.slug)) {
         alert('You must select a chart type and add data before sending to WordPress');
         return false;
       }
@@ -25,10 +27,15 @@ define([
       }
 
       // validate chart type
-      if (!angular.isString(data.options.chart.type)) {
+      if (!data.slug.length) {
         console.log('invalid chart type');
         return false;
       }
+
+      // encode meta fields to avoid double quote issues
+      angular.forEach(data.meta, function(value, key) {
+        data.meta[key] = encodeURIComponent(value);
+      });
 
       // Unset preloaded for loading
       delete data.preloaded;
@@ -123,7 +130,6 @@ define([
               chartbuilderData.env = 'iframe';
 
               // setup postMessage listener and tell parent window that child frame is ready to receive data
-              var origin = $window.location.protocol + '//' + $window.location.hostname;              
               window.addEventListener('message', scope.receiveMessage, true);
               window.parent.postMessage( {
                 src : 'chartbuilder',

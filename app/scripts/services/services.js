@@ -138,6 +138,11 @@ define(['angular', 'd3'], function(angular, d3) {
               $state.go('chartbuilder.' + chart.slug);
             }
 
+            // Decode html entities
+            angular.forEach(chart.meta, function(value, key) {
+              chart.meta[key] = decodeURIComponent(value);
+            });
+
             // Map the options object to chartbuilderData
             angular.forEach(chart, function(options, key) {
               _this[key] = options;
