@@ -115,8 +115,13 @@
           <li><chartbuilder-save-to-png></chartbuilder-save-to-png></li>
           <li chart-options-saver></li>
           <li><chart-options-from-window ng-show="chartbuilderData.env"></chart-options-from-window></li>
+          <li><chart-embed-code /></li>
         </ul>
       </div>
+    </div>
+
+    <div ng-show="chartbuilderData.embedCode.length" class="col-lg-12">
+      <textarea ng-model="chartbuilderData.embedCode" />
     </div>
   </div>
 </div>

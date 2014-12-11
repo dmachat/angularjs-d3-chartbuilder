@@ -108,6 +108,33 @@ define([
           }
         };
       }])
+      .directive('chartEmbedCode', ['chartbuilderData', 'chartbuilderDefaultOptions', function(chartbuilderData, chartbuilderDefaultOptions) {
+        return {
+          restrict: 'EA',
+          replace: true,
+          template: '<a role="button" ng-click="makeEmbedCode()" name="Make embed code">Create embed code</a>',
+          link: function(scope) {
+            scope.makeEmbedCode = function() {
+              if (!chartbuilderData.data[0].values.length) {
+                return false;
+              }
+              var chartData = parseDataForWP(scope.chartbuilderData);
+              var embedData = angular.fromJson(chartData);
+              var templateString = embedData.template;
+              delete embedData.template;
+
+              var embedString = [
+                '<script async ',
+                  'data-chart=\'' + JSON.stringify(embedData) + '\' ',
+                  'data-template=\'' + JSON.stringify(templateString).replace(/\\/g, '') + '\' ',
+                  'src="//dmachat.github.io/angularjs-d3-chartbuilder/bower_components/chartbuilder-widget/loader/dist/chartbuilder.load.v1.default.js">',
+                '</script>'].join('');
+
+              chartbuilderData.embedCode = embedString;
+            }
+          }
+        }
+      }])
       .directive('chartOptionsFromWindow', ['$window', 'chartbuilderData', 'chartbuilderDefaultOptions', function($window, chartbuilderData, chartbuilderDefaultOptions) {
         return {
           restrict: 'EA',
@@ -202,7 +229,7 @@ define([
 
             scope.initDataLoad();
 
-            scope.sendToWordPress = function(){
+            scope.sendToWordPress = function() {
 
               var chartData = parseDataForWP(scope.chartbuilderData);
 
