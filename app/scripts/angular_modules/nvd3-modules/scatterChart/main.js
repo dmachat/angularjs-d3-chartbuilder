@@ -32,10 +32,10 @@
         });
       }])
       .run(['chartbuilderModuleRegistry', function(chartbuilderModuleRegistry) {
-          var data = generateData(4, 10);
+          var shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+              data = generateData(4, 10);
           function generateData(groups, points) {
             var data = [],
-              shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
               random = d3.random.normal();
 
             for (var i = 0; i < groups; i++) {
@@ -61,6 +61,7 @@
             slug: module.slug,
             data: { exampleData: data },
             dataFormat: [{ 'key': 'x', 'type': 'number' }, { 'key': 'y', 'type': 'number' }, { 'key': 'size', 'type': 'number' }, { 'key': 'shape', 'type': 'text' }],
+            shapes: shapes,
             template: template,
             meta: {
               title: module.name,
@@ -79,6 +80,8 @@
                 tooltipContent: function(key) {
                   return '<h3>' + key + '</h3>';
                 },
+                forceX: [null, null],
+                forceY: [null, null],
                 xAxis: {
                   axisLabel: 'X Axis',
                   tickFormat: function(d) {

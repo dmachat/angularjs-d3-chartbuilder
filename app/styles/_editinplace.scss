@@ -15,6 +15,9 @@
   }
   div {
     cursor: pointer;
+    &.emptyData {
+      min-height: 1.42em;
+    }
   }
   textarea {
     display: none;

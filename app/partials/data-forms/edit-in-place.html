@@ -1,2 +1,2 @@
-<div ng-click="edit()" ng-bind="value"></div>
+<div ng-click="edit()" ng-bind="value" ng-class="{ emptyData: !value }"></div>
 <textarea ng-model="value" type="{{ type }}" class="form-control" rows="1"></textarea>

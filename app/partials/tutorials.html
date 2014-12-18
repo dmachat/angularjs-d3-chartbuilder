@@ -3,6 +3,21 @@
 		<h3>Tutorials</h3>
 	</div>
 	<div class="col-lg-8 col-lg-offset-2">
+    <h3><strong>Scatter Plot With Trend Lines</strong></h3>
+    <br />
+    <p class="lead">Creating a scatter plot is pretty straightforward, but adding trend lines can be a little tricky. Lets tackle that with Chartbuilder.</p>
+    <p>We'll start by importing our data. Select <strong>Scatter Plus Line Chart</strong> as your chart type, then upload a tsv file containing data for <a href="demos/tutorial2.tsv">the density of MRI units in the US vs other countries from 1995-2010</a> by clicking <strong>Add Existing Data -> Upload</strong>. The tsv file has some basic time series data that Chartbuilder will convert into groups for editing.</p>
+    <br />
+    <p>Scatter charts allow you to change the size and shape for the data point markers from the live edit table view. After that we can make a few more tweaks if we like. I've added text and scaled the y-axis to show 0-40.</p>
+    <br />
+    <p>Now comes the tricky part. The charting library doesn't do the calculations for the trend line automatically, so we'll have to do it ourselves, and input in the two special data group fields: <strong>slope</strong> and <strong>intercept</strong>. Slope can be calculated by via a simple equation: <blockquote><i>y1 - y2 / x1 - x2</i> (You can use different points if you want to adjust the trend line.)</blockquote> Intercept is the point on the Y-axis where the line intersects at x = 0. So for this data it's actually a little odd since we're using the numerical point values of the year. Finding the intercept: <blockquote><i>[slope] x [-xmin]</i> or <i>1.3052941176470592 x -1995</i></blockquote> for the second line in our data. This calculation is imperfect, so we can nudge the intercept manually until we get the line in the right place. I settled on <i>-2593</i>. Be aware that if you change the Datatype of your axis, the calculation may change eg choosing <strong>Date</strong> for the X-axis would necessitate using the timestamp value in that calculation instead.</p>
+    <h2>{{ tutorial2.meta.title }}</h2>
+    <h4>{{ tutorial2.meta.subtitle }}</h4>
+    <nvd3 options="tutorial2.options" data="tutorial2.data" colors="tutorial2.colors" events="$root.events" config="{ extended: true }"></nvd3>
+    <p>{{ tutorial2.meta.caption }}</p>
+    <h6 ng-if="tutorial2.meta.attribution">{{ tutorial2.meta.attribution }}</h6>
+	</div>
+	<div class="col-lg-8 col-lg-offset-2">
     <h3><strong>Line Chart with Two Highlight Lines</strong></h3>
     <br />
     <p class="lead">This one is a little different, since we only want to highlight two lines, but still show the rest. This is the chart we want to match:</p>

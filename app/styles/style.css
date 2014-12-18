@@ -10554,7 +10554,11 @@ chartbuilder-options ul ul {
 .edit-in-place div {
   cursor: pointer;
 }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000319}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000318}}
+.edit-in-place div.emptyData {
+  min-height: 1.42em;
+}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/drew\/chartbuilder\/angularjs-d3-chartbuilder\/app\/styles\/_editinplace\.scss}line{font-family:\0000322}}
 .edit-in-place textarea {
   display: none;
 }

@@ -7,9 +7,9 @@
           >
           <div class="panel-heading data-group-title-heading">
             <div class="panel-title">
-              <h5>
-                Data Group {{ $index + 1 }}: 
-                <edit-in-place value="group.key" type="text"></edit-in-place>
+              <div class="clearfix">
+                <div class="pull-left">Data Group {{ $index + 1 }}: </div>
+                <edit-in-place class="pull-left" value="group.key" type="text"></edit-in-place>
                 <a data-toggle="collapse"
                   data-parent="#accordion"
                   data-target="#collapse-{{ $index }}"
@@ -18,7 +18,7 @@
                   >
                   <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
                 </a>
-              </h5>
+              </div>
               <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>
             </div>
           </div>
@@ -75,10 +75,11 @@
                       </span>
                     </td>
                     <td ng-repeat="column in structureData.dataFormat track by column.key">
-                      <edit-in-place value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
+                      <edit-in-place ng-hide="column.key === 'shape'" value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
                         type="{{ column.type }}"
                         >
                       </edit-in-place>
+                      <select ng-show="column.key === 'shape'" class="form-control" ng-options="type as type for type in structureData.shapes" ng-model="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]" />
                     </td>
                     <td ng-if="structureData.options.customColors" class="color-picker">
                       <span colorpicker
@@ -104,6 +105,22 @@
                 </tbody>
               </table>
             </div>
+          </div>
+          <div class="panel-footer" ng-if="structureData.slug === 'scatterPlusLineChart'">
+            <form class="form-inline" role="form">
+              <div class="form-group">
+                <div class="input-group">
+                  <label class="sr-only" for="groupSlope{{ $index + 1 }}">Slope</label>
+                  <div class="input-group-addon">Slope</div>
+                  <input type="number" class="form-control" id="groupSlope{{ $index + 1}}" ng-model="group.slope"></input>
+                </div>
+                <div class="input-group">
+                  <label class="sr-only" for="groupIntercept{{ $index + 1 }}">Intercept</label>
+                  <div class="input-group-addon">Intercept</div>
+                  <input type="number" class="form-control" id="groupIntercept{{ $index + 1}}" ng-model="group.intercept"></input>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>

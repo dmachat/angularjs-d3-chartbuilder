@@ -29,7 +29,7 @@ define([
 
             inputElement.bind('keydown keypress', function(event) {
               if (event.which === 13) {
-                if (!scope.value.length) {
+                if (!scope.value.toString().length) {
                   element.addClass('empty');
                 } else {
                   element.removeClass('empty');
@@ -40,7 +40,7 @@ define([
             });
 
             inputElement.bind('blur', function() {
-              if (!scope.value.length) {
+              if (!scope.value.toString().length) {
                 element.addClass('empty');
               } else {
                 element.removeClass('empty');

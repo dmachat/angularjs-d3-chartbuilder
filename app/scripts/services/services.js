@@ -123,6 +123,11 @@ define(['angular', 'd3'], function(angular, d3) {
               this.colors = d3defaultColors();
             }
 
+            // Provide shapes for some data types
+            if (angular.isDefined(init.shapes)) {
+              this.shapes = init.shapes;
+            }
+
             // Reset the data object according to format
             this.resetData();
           },
