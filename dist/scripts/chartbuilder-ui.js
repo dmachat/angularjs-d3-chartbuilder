@@ -246,10 +246,10 @@ angular.module('chartbuilderOptions', []);
         'function:timestamp': {
           'label': 'Timestamp',
           'option': function(d) {
-            if (isNaN(d.x)) {
+            if (isNaN(d.x) && isNaN(d.timestamp)) {
               return null;
             }
-            return new Date(+d.x);
+            return new Date(+(d.x || d.timestamp));
           }
         },
         'function:date': {

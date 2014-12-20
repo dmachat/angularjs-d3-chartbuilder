@@ -38,7 +38,8 @@
             name: module.name,
             slug: module.slug,
             data: data,
-            dataFormat: [{ 'key': 'timestamp', 'type': 'number' }, { 'key': 'value', 'type': 'number' }],
+            //dataFormat: [{ 'key': 'timestamp', 'type': 'number' }, { 'key': 'value', 'type': 'number' }],
+            dataFormat: [{ 'key': 'text', 'values': [{ 'key': 'text', 'values': [{ 'key': 'timestamp', 'type': 'number' }, { 'key': 'value', 'type': 'number' }] }] }],
             template: template,
             meta: {
               title: module.name,

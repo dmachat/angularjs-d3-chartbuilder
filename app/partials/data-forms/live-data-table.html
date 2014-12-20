@@ -1,0 +1,61 @@
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th>Remove</th>
+      <th data-ng-repeat="column in structureData.dataFormat">
+        {{ column.key }}
+      </th>
+      <th ng-if="structureData.options.customColors">Color</th>
+    </tr>
+  </thead>
+  <tbody ng-model="groupParent[$index].values" ui-sortable>
+    <tr ng-repeat="row in groupParent[$index].values">
+      <td>
+        <span class="glyphicon glyphicon-minus"
+          ng-click="removeRow($parent.$index, $index)"
+          >
+        </span>
+      </td>
+      <td ng-repeat="column in structureData.dataFormat">
+        <edit-in-place ng-hide="column.key === 'shape'" value="row[column.key]"
+          type="{{ column.type }}"
+          >
+        </edit-in-place>
+        <select ng-show="column.key === 'shape'"
+          class="form-control"
+          ng-options="type as type for type in structureData.shapes"
+          ng-model="row[column.key]"
+          >
+        </select>
+      </td>
+      <td ng-if="structureData.options.customColors" class="color-picker">
+        <span colorpicker
+          colorpicker-with-input="true"
+          ng-model="row.color"
+          ng-style="{ background: row.color }"
+          class="color-box"
+          >
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a href><span class="glyphicon glyphicon-plus"
+          ng-click="addRow($index)"
+          >
+          </span></a>
+      </td>
+      <td colspan="{{ structureData.options.customColors ? 2 : 1 }}"
+        ng-repeat="column in structureData.dataFormat"
+        >
+        <input type="{{ column.type }}"
+          class="form-control"
+          placeholder="{{ type === 'number' ? 0 : 'name' }}"
+          ng-model="newRow[$parent.$index][column.key]"
+          ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0"
+          >
+        </input>
+      </td>
+    </tr>
+  </tbody>
+</table>

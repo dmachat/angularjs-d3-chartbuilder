@@ -1,26 +1,79 @@
 <ul ng-hide="node.isCollapsed">
-<li popover="{{ children[key].help().help }}"
-  popover-trigger="mouseenter"
-  popover-popup-delay="300"
-  popover-placement="right"
-  popover-append-to-body="true"
-  ng-repeat="key in utils.keys(json) track by key"
-  ng-hide="utils.isHidden(key) || ((children[key].type() === 'function' || children[key].type() === 'selector') && !selectedOptions[key])"
-  ng-class="{ active: !children[key].isCollapsed }"
-  class="clearfix"
-  >
-    <div ng-click="utils.clickNode(children[key])" ng-style="{ 'font-weight': children[key].isObject() ? 'bold' : '' }" ng-class="{ 'pull-left': !children[key].isObject() }">
-      {{ ( children[key].help().label || key ) }}<i ng-show="children[key].isObject()" class="glyphicon pull-right" ng-class="{ 'glyphicon-chevron-right': children[key].isCollapsed, 'glyphicon-chevron-down': !children[key].isCollapsed }"></i>
+  <li popover="{{ children[key].help().help }}"
+    popover-trigger="mouseenter"
+    popover-popup-delay="300"
+    popover-placement="right"
+    popover-append-to-body="true"
+    ng-repeat="(key, json) in json track by key"
+    ng-init="groupValue = $parent.json"
+    ng-hide="utils.isHidden(key) || ((children[key].type() === 'function' || children[key].type() === 'selector') && !selectedOptions[key])"
+    ng-class="{ active: !children[key].isCollapsed }"
+    class="clearfix"
+    >
+    <div ng-click="utils.clickNode(children[key])"
+      ng-style="{ 'font-weight': children[key].isObject() ? 'bold' : '' }"
+      ng-class="{ 'pull-left': !children[key].isObject() }"
+      >
+      {{ ( children[key].help().label || key ) }}
+      <i ng-show="children[key].isObject()"
+        class="glyphicon pull-right"
+        ng-class="{ 'glyphicon-chevron-right': children[key].isCollapsed, 'glyphicon-chevron-down': !children[key].isCollapsed }"
+        ></i>
     </div>
-    <div ng-hide="children[key].isObject()" class="pull-right">
-      <div ng-if="children[key].type() === 'boolean'" ng-model="json[key]" class="btn-group" ng-click="json[key] = !json[key]">
-        <button type="button" class="btn btn-sm" ng-class="{ active: json[key], 'btn-primary': json[key], 'btn-default': !json[key] }">On</button>
-        <button type="button" class="btn btn-sm btn-default" ng-class="{ active: !json[key], 'btn-primary': !json[key], 'btn-default': json[key] }">Off</button>
+    <div ng-hide="children[key].isObject()"
+      ng-switch="children[key].type()"
+      class="pull-right"
+      >
+
+      <div ng-switch-when="boolean"
+        ng-model="groupValue[key]"
+        class="btn-group"
+        ng-click="groupValue[key] = !groupValue[key]"
+        >
+        <button type="button"
+          class="btn btn-sm"
+          ng-class="{ active: groupValue[key], 'btn-primary': groupValue[key], 'btn-default': !groupValue[key] }"
+          >
+          On
+        </button>
+        <button type="button"
+          class="btn btn-sm btn-default"
+          ng-class="{ active: !groupValue[key], 'btn-primary': !groupValue[key], 'btn-default': groupValue[key] }"
+          >
+          Off
+        </button>
       </div>
-      <input class="form-control input-sm" ng-if="children[key].type() === 'number'" type="number" class="form-control" ng-model="json[key]" />
-      <select class="form-control input-sm selector" ng-if="children[key].type() === 'selector' || selectedOptions[key]" ng-model="selectedOptions[key]" ng-init="utils.listSelector.init(key)" ng-options="key as value.label for (key, value) in functionOptions[key]" ng-change="utils.listSelector.onChange(selectedOptions[key], key)"></select>
-      <input class="form-control input-sm" ng-if="children[key].type() !== 'number' && children[key].type() !== 'boolean' && children[key].type() !== 'selector' && !selectedOptions[key]" type="text" class="form-control" ng-model="json[key]" ng-change="utils.validateNode(key)" placeholder="null" ng-model-options="{ debounce: 250 }" />
+
+      <input ng-switch-when="number"
+        class="form-control input-sm"
+        type="number"
+        class="form-control"
+        ng-model="groupValue[key]"
+        ng-model-options="{ debounce: 250 }" />
+
+      <select ng-switch-when="selector"
+        class="form-control input-sm selector"
+        ng-model="selectedOptions[key]"
+        ng-init="utils.listSelector.init(key)"
+        ng-options="key as value.label for (key, value) in functionOptions[key]"
+        ng-change="utils.listSelector.onChange(selectedOptions[key], key)" />
+
+      <input ng-switch-default
+        class="form-control input-sm"
+        type="text"
+        ng-model="groupValue[key]"
+        ng-change="utils.validateNode(key)"
+        placeholder="null"
+        ng-model-options="{ debounce: 250 }" />
+
     </div>
-    <chartbuilder-options key="{{ key }}" json="json[key]" collapsed-level="{{ +collapsedLevel - 1 }}" node="children[key]" ng-show="children[key].isObject()"></chartbuilder-options>
+
+    <chartbuilder-options
+      key="{{ key }}"
+      json="json"
+      collapsed-level="{{ +collapsedLevel - 1 }}"
+      node="children[key]"
+      ng-show="children[key].isObject()" />
+
   </li>
 </ul>
