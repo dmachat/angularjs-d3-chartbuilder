@@ -257,12 +257,24 @@ angular.module('chartbuilderOptions', []);
           'option': function(d) {
             return new Date(Date.parse(d.x));
           }
+        },
+        'function:datefromarray': {
+          'label': 'Date (Stacked Area)',
+          'option': function(d) {
+            return new Date(Date.parse(d[0]));
+          }
         }
       },
       'y': {
         'function:key/y': yValue,
         'function:yPercentData': yPercent,
         'function:label/value': yLabelValue,
+        'function:valuefromarray': {
+          'label': 'Value (Stacked Area)',
+          'option': function(d) {
+            return d[1];
+          }
+        }
       },
       'tooltipContent': {
         'function:key/value': {

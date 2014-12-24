@@ -97,9 +97,11 @@ define([
                         chartbuilderOptionValueKeys.indexOf($scope.key) > -1
                       )
                     )
+                    || $scope.selectedOptions[$scope.key]
                   ) {
                   return 'selector';
                 }
+
                 return type;
               },
 

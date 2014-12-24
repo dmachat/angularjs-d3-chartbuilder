@@ -1,9 +1,10 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
     <div class="panel-body">
-      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>
+      <div class="panel-group" id="accordion" ng-model="chartbuilderData.data" ui-sortable>
         <div class="panel panel-default panel-chartbuilder-table"
-          ng-repeat="group in structureData.data track by $index"
+          ng-repeat="group in groupedData"
+          ng-init="groupParent = groupedData"
           >
           <div class="panel-heading data-group-title-heading">
             <div class="panel-title">
@@ -19,10 +20,10 @@
                   <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
                 </a>
               </div>
-              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>
+              <a ng-if="chartbuilderData.data.length > 1" ng-click="chartbuilderData.removeDataGroup($index)"><small>Delete this group</small></a>
             </div>
           </div>
-          <div ng-if="structureData.slug === 'lineChart' || (structureData.slug === 'multiBarHorizontalChart' && structureData.data.length > 1)" class="panel-heading">
+          <div ng-if="chartbuilderData.slug === 'lineChart' || (chartbuilderData.slug === 'multiBarHorizontalChart' && chartbuilderData.data.length > 1)" class="panel-heading">
             <div class="panel-title">
               <div class="clearfix">
                 <h6 class="pull-left">Area Fill</h6>
@@ -44,7 +45,7 @@
                       showPalette: true,
                       hideAfterPaletteSelect: true,
                       allowEmpty: true,
-                      palette: {{ structureData.colors }}
+                      palette: {{ chartbuilderData.colors }}
                     }"
                     format="'hex'"
                     class="color-box"
@@ -54,59 +55,12 @@
               </div>
             </div>
           </div>
-          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">
+          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !dataInputTextarea) }">
             <div class="panel-body">
-              <table class="table table-condensed table-striped">
-                <thead>
-                  <tr>
-                    <th>Remove</th>
-                    <th data-ng-repeat="column in structureData.dataFormat">
-                      {{ column.key }}
-                    </th>
-                    <th ng-if="structureData.options.customColors">Color</th>
-                  </tr>
-                </thead>
-                <tbody ng-model="group.values" ui-sortable>
-                  <tr ng-repeat="rows in group.values track by $index">
-                    <td>
-                      <span class="glyphicon glyphicon-minus"
-                        ng-click="removeRow($parent.$index, $index)"
-                        >
-                      </span>
-                    </td>
-                    <td ng-repeat="column in structureData.dataFormat track by column.key">
-                      <edit-in-place ng-hide="column.key === 'shape'" value="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]"
-                        type="{{ column.type }}"
-                        >
-                      </edit-in-place>
-                      <select ng-show="column.key === 'shape'" class="form-control" ng-options="type as type for type in structureData.shapes" ng-model="structureData.data[$parent.$parent.$index].values[$parent.$index][column.key]" />
-                    </td>
-                    <td ng-if="structureData.options.customColors" class="color-picker">
-                      <span colorpicker
-                        colorpicker-with-input="true"
-                        ng-model="structureData.data[$parent.$index].values[$index].color"
-                        ng-style="{ background: structureData.data[$parent.$index].values[$index].color }"
-                        class="color-box"
-                        >
-                      </span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href><span class="glyphicon glyphicon-plus"
-                        ng-click="addRow($index)"
-                        >
-                        </span></a>
-                    </td>
-                    <td colspan="{{ structureData.options.customColors ? 2 : 1 }}" ng-repeat="column in structureData.dataFormat">
-                      <input type="{{ column.type }}" class="form-control" placeholder="{{ type === 'number' ? 0 : 'name' }}" ng-model="newRow[$parent.$index][column.key]" ng-keypress="($event.which === 13) ? addRow($parent.$index) : 0" />
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+              <live-data-table />
             </div>
           </div>
-          <div class="panel-footer" ng-if="structureData.slug === 'scatterPlusLineChart'">
+          <div class="panel-footer" ng-if="chartbuilderData.slug === 'scatterPlusLineChart'">
             <form class="form-inline" role="form">
               <div class="form-group">
                 <div class="input-group">
