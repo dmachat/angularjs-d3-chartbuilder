@@ -1,10 +1,10 @@
 <div class="panel panel-default">
-  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="$parent.liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+  <div class="panel-heading"><strong>Live Edit Data Tables</strong><button type="button" class="close pull-right" ng-click="liveEditPanel = false"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
     <div class="panel-body">
-      <div class="panel-group" id="accordion" ng-model="structureData.data" ui-sortable>
+      <div class="panel-group" id="accordion" ng-model="chartbuilderData.data" ui-sortable>
         <div class="panel panel-default panel-chartbuilder-table"
-          ng-repeat="group in structureData.data"
-          ng-init="groupParent = structureData.data"
+          ng-repeat="group in groupedData"
+          ng-init="groupParent = groupedData"
           >
           <div class="panel-heading data-group-title-heading">
             <div class="panel-title">
@@ -20,10 +20,10 @@
                   <i class="fa pull-right {{ dataGroupBox[$index] ? 'fa-caret-up' : 'fa-caret-down' }}"></i>
                 </a>
               </div>
-              <a ng-if="structureData.data.length > 1" ng-click="structureData.removeDataGroup($index)"><small>Delete this group</small></a>
+              <a ng-if="chartbuilderData.data.length > 1" ng-click="chartbuilderData.removeDataGroup($index)"><small>Delete this group</small></a>
             </div>
           </div>
-          <div ng-if="structureData.slug === 'lineChart' || (structureData.slug === 'multiBarHorizontalChart' && structureData.data.length > 1)" class="panel-heading">
+          <div ng-if="chartbuilderData.slug === 'lineChart' || (chartbuilderData.slug === 'multiBarHorizontalChart' && chartbuilderData.data.length > 1)" class="panel-heading">
             <div class="panel-title">
               <div class="clearfix">
                 <h6 class="pull-left">Area Fill</h6>
@@ -45,7 +45,7 @@
                       showPalette: true,
                       hideAfterPaletteSelect: true,
                       allowEmpty: true,
-                      palette: {{ structureData.colors }}
+                      palette: {{ chartbuilderData.colors }}
                     }"
                     format="'hex'"
                     class="color-box"
@@ -55,12 +55,12 @@
               </div>
             </div>
           </div>
-          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !expandData) }">
+          <div id="collapse-{{ $index }}" class="panel-collapse collapse" ng-class="{ in: ($index === 0 && !dataInputTextarea) }">
             <div class="panel-body">
               <live-data-table />
             </div>
           </div>
-          <div class="panel-footer" ng-if="structureData.slug === 'scatterPlusLineChart'">
+          <div class="panel-footer" ng-if="chartbuilderData.slug === 'scatterPlusLineChart'">
             <form class="form-inline" role="form">
               <div class="form-group">
                 <div class="input-group">

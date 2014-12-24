@@ -246,10 +246,10 @@ angular.module('chartbuilderOptions', []);
         'function:timestamp': {
           'label': 'Timestamp',
           'option': function(d) {
-            if (isNaN(d.x) && isNaN(d.timestamp)) {
+            if (isNaN(d.x)) {
               return null;
             }
-            return new Date(+(d.x || d.timestamp));
+            return new Date(+d.x);
           }
         },
         'function:date': {
@@ -257,12 +257,24 @@ angular.module('chartbuilderOptions', []);
           'option': function(d) {
             return new Date(Date.parse(d.x));
           }
+        },
+        'function:datefromarray': {
+          'label': 'Date (Stacked Area)',
+          'option': function(d) {
+            return new Date(Date.parse(d[0]));
+          }
         }
       },
       'y': {
         'function:key/y': yValue,
         'function:yPercentData': yPercent,
         'function:label/value': yLabelValue,
+        'function:valuefromarray': {
+          'label': 'Value (Stacked Area)',
+          'option': function(d) {
+            return d[1];
+          }
+        }
       },
       'tooltipContent': {
         'function:key/value': {

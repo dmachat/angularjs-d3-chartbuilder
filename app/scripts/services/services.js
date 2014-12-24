@@ -165,7 +165,7 @@ define(['angular', 'd3'], function(angular, d3) {
             }
 
             // Reset data
-            _this.data = [];
+            // _this.data = [];
 
             if (file.match(/^[^A-Za-z\,\w]/)) {
               chartbuilderError.newError('Invalid tabular data', 'invaliddata');
@@ -185,22 +185,42 @@ define(['angular', 'd3'], function(angular, d3) {
 
                 // Write a new data group for each column > 1
                 for (i = 1; i < headers.length; i++) {
-                  _this.data[i - 1] = {
-                    'key': headers[i],
-                    'values': []
-                  };
+                  // The data structure for some types is nested differently
+                  if (chartbuilderUtils.getType(_this.dataFormat[0].values) === 'array') {
+                    _this.data[0].values[i - 1] = {
+                      'key': headers[i],
+                      'values': []
+                    };
+                  } else {
+                    _this.data[i - 1] = {
+                      'key': headers[i],
+                      'values': []
+                    };
+                  }
                 }
                 return;
               }
 
               // Push column values into respective data groups
-              for (i = 1; i < headers.length; i++) {
-                var newRow = {};
-                newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
-                newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
+              // Extra nested structures with arrays
+              if (chartbuilderUtils.getType(_this.dataFormat[0].values) === 'array') {
+                for (i = 1; i < headers.length; i++) {
+                  var newRow = [
+                    $filter('datatype')(row[0], _this.dataFormat[0].values[0].type),
+                    $filter('datatype')(row[i], _this.dataFormat[0].values[1].type)
+                  ]
 
-                if (newRow[_this.dataFormat[1].key]) {
-                  _this.data[i - 1].values.push(newRow);
+                  _this.data[0].values[i - 1].values.push(newRow);
+                }
+              } else {
+                for (i = 1; i < headers.length; i++) {
+                  var newRow = {};
+                  newRow[_this.dataFormat[0].key] = $filter('datatype')(row[0], _this.dataFormat[0].type);
+                  newRow[_this.dataFormat[1].key] = $filter('datatype')(row[i], _this.dataFormat[1].type);
+
+                  if (newRow[_this.dataFormat[1].key]) {
+                    _this.data[i - 1].values.push(newRow);
+                  }
                 }
               }
 

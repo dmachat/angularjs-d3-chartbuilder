@@ -9,10 +9,6 @@ define([
       directive('structureDataInput', ['chartbuilderUtils', 'chartbuilderData', function(chartbuilderUtils, chartbuilderData) {
         return {
           restrict: 'EA',
-          scope: {
-            structureData: '=',
-            expandData: '@?'
-          },
           template: dataFormTemplate,
           link: function(scope) {
             scope.dataGroupBox = {};
@@ -21,22 +17,29 @@ define([
             scope.singleSeriesData = {};
 
             // Keep an empty new row for the input model
-            scope.$watch('structureData.data', function(newval) {
+            scope.$watch('chartbuilderData.data', function(newval) {
               angular.forEach(newval, function(group, gidx) {
                 scope.newRow[gidx] = {};
               });
+              if (chartbuilderUtils.getType(chartbuilderData.dataFormat[0].values) === 'array') {
+                scope.groupedData = chartbuilderData.data[0].values;
+                scope.groupedFormat = chartbuilderData.dataFormat[0].values;
+              } else {
+                scope.groupedData = chartbuilderData.data;
+                scope.groupedFormat = chartbuilderData.dataFormat;
+              }
             }, true);
 
             // When data is pasted to the input text area, parse it for values
             scope.onPasteInputChanged = function(input, gidx) {
-              scope.structureData.data[gidx].values = d3.csv.parse(input);
+              scope.chartbuilderData.data[gidx].values = d3.csv.parse(input);
               scope.pasteInputToggle = false;
             };
 
             // Append a new data row from the empty data model
             scope.addRow = function(gidx) {
               var validate = true;
-              angular.forEach(scope.structureData.columnValues, function(type, key) {
+              angular.forEach(scope.chartbuilderData.columnValues, function(type, key) {
                 if (!_.has(scope.newRow[gidx], key) || scope.newRow[gidx][key] === null) {
                   validate = false;
                 }
@@ -44,7 +47,7 @@ define([
               if (!validate) {
                 return false;
               }
-              scope.structureData.data[gidx].values.push(scope.newRow[gidx]);
+              scope.chartbuilderData.data[gidx].values.push(scope.newRow[gidx]);
             };
 
             scope.addGroup = function() {
@@ -64,18 +67,18 @@ define([
             };
 
             scope.removeRow = function(gidx, idx) {
-              scope.structureData.data[gidx].values.splice(idx, 1);
+              scope.chartbuilderData.data[gidx].values.splice(idx, 1);
             };
 
             // This is just the callback from the file reader input. Parse and insert uploaded values
             scope.readFile = function(file, gidx) {
-              scope.structureData.data[gidx].values = d3.csv.parse(file);
+              scope.chartbuilderData.data[gidx].values = d3.csv.parse(file);
             };
 
             // Download existing csv data
             scope.downloadCSV = function(gidx) {
-              var csvText = d3.csv.format(scope.structureData.data[gidx].values);
-              chartbuilderUtils.saveFile(csvText, scope.structureData.data[gidx].key + '.csv', 'text/csv');
+              var csvText = d3.csv.format(scope.chartbuilderData.data[gidx].values);
+              chartbuilderUtils.saveFile(csvText, scope.chartbuilderData.data[gidx].key + '.csv', 'text/csv');
             };
           }
         };

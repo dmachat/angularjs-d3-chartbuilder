@@ -2,10 +2,10 @@
   <thead>
     <tr>
       <th>Remove</th>
-      <th data-ng-repeat="column in structureData.dataFormat">
+      <th data-ng-repeat="column in groupedFormat">
         {{ column.key }}
       </th>
-      <th ng-if="structureData.options.customColors">Color</th>
+      <th ng-if="chartbuilderData.options.customColors">Color</th>
     </tr>
   </thead>
   <tbody ng-model="groupParent[$index].values" ui-sortable>
@@ -16,19 +16,19 @@
           >
         </span>
       </td>
-      <td ng-repeat="column in structureData.dataFormat">
+      <td ng-repeat="column in groupedFormat">
         <edit-in-place ng-hide="column.key === 'shape'" value="row[column.key]"
           type="{{ column.type }}"
           >
         </edit-in-place>
         <select ng-show="column.key === 'shape'"
           class="form-control"
-          ng-options="type as type for type in structureData.shapes"
+          ng-options="type as type for type in chartbuilderData.shapes"
           ng-model="row[column.key]"
           >
         </select>
       </td>
-      <td ng-if="structureData.options.customColors" class="color-picker">
+      <td ng-if="chartbuilderData.options.customColors" class="color-picker">
         <span colorpicker
           colorpicker-with-input="true"
           ng-model="row.color"
@@ -45,8 +45,8 @@
           >
           </span></a>
       </td>
-      <td colspan="{{ structureData.options.customColors ? 2 : 1 }}"
-        ng-repeat="column in structureData.dataFormat"
+      <td colspan="{{ chartbuilderData.options.customColors ? 2 : 1 }}"
+        ng-repeat="column in groupedFormat"
         >
         <input type="{{ column.type }}"
           class="form-control"
