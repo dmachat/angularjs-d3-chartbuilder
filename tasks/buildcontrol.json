@@ -1,16 +1,14 @@
 {
-  "buildcontrol": {
+  "options": {
+    "dir": "dist",
+    "commit": true,
+    "push": true,
+    "message": "Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%"
+  },
+  "pages": {
     "options": {
-      "dir": "dist",
-      "commit": true,
-      "push": true,
-      "message": "Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%"
-    },
-    "pages": {
-      "options": {
-        "remote": "git@github.com:dmachat/angularjs-d3-chartbuilder.git",
-        "branch": "gh-pages"
-      }
+      "remote": "git@github.com:dmachat/angularjs-d3-chartbuilder.git",
+      "branch": "gh-pages"
     }
   }
 }
