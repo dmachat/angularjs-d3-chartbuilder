@@ -1,0 +1,25 @@
+{
+  "serve": [
+    "clean:server",
+    "concurrent:server",
+    "concat",
+    "autoprefixer",
+    "copy:appcss",
+    "connect:livereload",
+    "watch"
+  ],
+  "build": [
+    "clean:dist",
+    "copy",
+    "webpack",
+    "concat:ui"
+  ],
+  "push": [
+    "build",
+    "buildcontrol:pages"
+  ],
+  "default": [
+    "newer:jshint",
+    "build"
+  ]
+}

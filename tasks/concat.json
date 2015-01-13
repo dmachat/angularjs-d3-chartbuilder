@@ -1,0 +1,14 @@
+{
+  "ui": {
+    "src": [
+      "<%= yeoman.ui %>/_chartbuilder-options.js",
+      "<%= yeoman.app %>/scripts/angular_modules/chartbuilder-options/options-constants.js",
+      "<%= yeoman.ui %>/chart.js"
+    ],
+    "dest": "<%= yeoman.dist %>/scripts/chartbuilder-ui.js"
+  },  
+  "dev": {
+    "src": [".tmp/styles/{,*/}*.css"],
+    "dest": ".tmp/styles/style.css"
+  }
+}

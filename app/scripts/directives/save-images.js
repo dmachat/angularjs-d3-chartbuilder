@@ -1,63 +1,66 @@
-/*global canvg*/
-define([
-  'angular',
-  'rgbcolor',
-  'StackBlur',
-  'canvg'
-  ], function(angular) {
-    'use strict';
-    angular.module('chartbuilderDirectives')
-      .directive('chartbuilderSaveToPng', function() {
-        return {
-          restrict: 'EA',
-          replace: true,
-          template: '<a role="button" ng-click="saveImage()">As an image</a>',
-          link: function(scope) {
-            scope.makeImage = function(){
-              // Set up elements and svg
-              var chartElement = document.getElementById('chart'),
-                svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer()).serializeToString(svg),
-                canvas = document.getElementById('canvas');
+'use strict';
 
-              // svg size has to be explicitly set. we already have height
-              canvas.setAttribute('width', chartElement.offsetWidth);
+require('./module');
 
-              // SVG -> Canvas
-              canvg('canvas', svgXml, { renderCallback: 'scope.downloadImage' });
-              return canvas.toDataURL('image/png');
-            };
+require('../../bower_components/canvg/rgbcolor');
+require('../../bower_components/canvg/StackBlur');
+var canvg = require('../../bower_components/canvg/canvg');
 
-            scope.saveImage = function() {
-              // Canvas -> file
-              var a = document.createElement('a');
-              a.download = 'image.png';
-              a.href = scope.makeImage();
-              document.body.appendChild(a);
-              a.click();
+angular
 
-            };
-          }
+  .module('chartbuilderDirectives')
+
+  .directive('chartbuilderSaveToPng', function() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      template: '<a role="button" ng-click="saveImage()">As an image</a>',
+      link: function(scope) {
+        scope.makeImage = function(){
+          // Set up elements and svg
+          var chartElement = document.getElementById('chart'),
+            svg = chartElement.getElementsByTagName('svg')[0],
+            svgXml = (new XMLSerializer()).serializeToString(svg),
+            canvas = document.getElementById('canvas');
+
+          // svg size has to be explicitly set. we already have height
+          canvas.setAttribute('width', chartElement.offsetWidth);
+
+          // SVG -> Canvas
+          canvg('canvas', svgXml, { renderCallback: 'scope.downloadImage' });
+          return canvas.toDataURL('image/png');
         };
-      })
-      .directive('chartbuilderSaveToSvg', function() {
-        return {
-          restrict: 'EA',
-          replace: true,
-          template: '',
-          link: function(scope) {
-            scope.svgToString = function() {
 
-              // Set up elements and svg
-              var chartElement = document.getElementById('chart'),
-                svg = chartElement.getElementsByTagName('svg')[0],
-                svgXml = (new XMLSerializer()).serializeToString(svg);
+        scope.saveImage = function() {
+          // Canvas -> file
+          var a = document.createElement('a');
+          a.download = 'image.png';
+          a.href = scope.makeImage();
+          document.body.appendChild(a);
+          a.click();
 
-              // Bind svg string to textarea
-              scope.exportedSVG = svgXml;
-
-            };
-          }
         };
-      });
+      }
+    };
+  })
+
+  .directive('chartbuilderSaveToSvg', function() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      template: '',
+      link: function(scope) {
+        scope.svgToString = function() {
+
+          // Set up elements and svg
+          var chartElement = document.getElementById('chart'),
+            svg = chartElement.getElementsByTagName('svg')[0],
+            svgXml = (new XMLSerializer()).serializeToString(svg);
+
+          // Bind svg string to textarea
+          scope.exportedSVG = svgXml;
+
+        };
+      }
+    };
   });

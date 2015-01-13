@@ -1,0 +1,24 @@
+{
+  "dist": {
+    "files": [{
+      "dot": true,
+      "src": [
+        ".tmp",
+        "<%= yeoman.dist %>/*",
+        "!<%= yeoman.dist %>/.git*",
+        "!<%= yeoman.dist %>/index.html"
+      ]
+    }]
+  },
+  "afterBuild": {
+    "files": [{
+      "dot": true,
+      "src": [
+        "<%= yeoman.dist %>/scripts/*.js",
+        "!<%= yeoman.dist %>/chartbuilder.vendor.js",
+        "!<%= yeoman.dist %>/scripts/main.js"
+      ]
+    }]
+  },
+  "server": ".tmp"
+}

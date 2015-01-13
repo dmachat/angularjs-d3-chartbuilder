@@ -1,0 +1,23 @@
+{
+  "options": {
+    "port": 9000,
+    "livereload": 35729,
+    "hostname": "chartbuilder.dev"
+  },
+  "livereload": {
+    "options": {
+      "open": true,
+      "base": [
+        ".tmp",
+        "<%= yeoman.app %>"
+      ]
+    }
+  },
+  "dist": {
+    "options": {
+      "open": true,
+      "base": "<%= yeoman.dist %>",
+      "livereload": false
+    }
+  }
+}

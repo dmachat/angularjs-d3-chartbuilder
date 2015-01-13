@@ -1,54 +1,54 @@
-define([
-  'angular',
-  'text!../partials/data-forms/edit-in-place.html',
-  ], function(angular, editInPlaceTemplate) {
-    'use strict';
+'use strict';
 
-    angular.module('chartbuilderDirectives')
-      .directive('editInPlace', function() {
-        return {
-          restrict: 'EA',
-          scope: {
-            value: '=',
-            type: '@?'
-          },
-          template: editInPlaceTemplate,
-          link: function(scope, element) {
-            var inputElement = angular.element(element.children()[1]);
+require('./module');
 
-            element.addClass('edit-in-place');
+angular
 
-            scope.editing = false;
+  .module('chartbuilderDirectives')
 
-            scope.edit = function() {
-              scope.editing = true;
+  .directive('editInPlace', function() {
+    return {
+      restrict: 'EA',
+      scope: {
+        value: '=',
+        type: '@?'
+      },
+      template: require('../../partials/data-forms/edit-in-place.html'),
+      link: function(scope, element) {
+        var inputElement = angular.element(element.children()[1]);
 
-              element.addClass('active');
-              inputElement[0].focus();
-            };
+        element.addClass('edit-in-place');
 
-            inputElement.bind('keydown keypress', function(event) {
-              if (event.which === 13) {
-                if (!scope.value.toString().length) {
-                  element.addClass('empty');
-                } else {
-                  element.removeClass('empty');
-                }
-                scope.editing = false;
-                element.removeClass('active');
-              }
-            });
+        scope.editing = false;
 
-            inputElement.bind('blur', function() {
-              if (!scope.value.toString().length) {
-                element.addClass('empty');
-              } else {
-                element.removeClass('empty');
-              }
-              scope.editing = false;
-              element.removeClass('active');
-            });
-          }
+        scope.edit = function() {
+          scope.editing = true;
+
+          element.addClass('active');
+          inputElement[0].focus();
         };
-      });
-});
+
+        inputElement.bind('keydown keypress', function(event) {
+          if (event.which === 13) {
+            if (!scope.value.toString().length) {
+              element.addClass('empty');
+            } else {
+              element.removeClass('empty');
+            }
+            scope.editing = false;
+            element.removeClass('active');
+          }
+        });
+
+        inputElement.bind('blur', function() {
+          if (!scope.value.toString().length) {
+            element.addClass('empty');
+          } else {
+            element.removeClass('empty');
+          }
+          scope.editing = false;
+          element.removeClass('active');
+        });
+      }
+    };
+  });

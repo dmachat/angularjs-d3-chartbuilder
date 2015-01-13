@@ -1,0 +1,33 @@
+{
+  "js": {
+    "files": [
+      "<%= yeoman.app %>/scripts/{,*/}*.js",
+      "<%= yeoman.ui %>/*.js"
+    ],
+    "tasks": ["jshint", "concat:ui"],
+    "options": {
+      "livereload": true
+    }
+  },
+  "jstest": {
+    "files": ["test/spec/{,*/}*.js"],
+    "tasks": ["test:watch"]
+  },
+  "gruntfile": {
+    "files": ["Gruntfile.js"]
+  },
+  "compass": {
+    "files": ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"],
+    "tasks": ["compass:server", "autoprefixer"]
+  },
+  "livereload": {
+    "options": {
+      "livereload": "<%= connect.options.livereload %>"
+    },
+    "files": [
+      "<%= yeoman.app %>/{,*/}*.html",
+      ".tmp/styles/{,*/}*.css",
+      "<%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}"
+    ]
+  }
+}

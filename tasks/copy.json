@@ -1,0 +1,39 @@
+{
+  "dist": {
+    "files": [{
+      "expand": true,
+      "dot": true,
+      "cwd": "<%= yeoman.app %>",
+      "dest": "<%= yeoman.dist %>",
+      "src": [
+        "*.{ico,png,txt}",
+        "styles/fonts/{,*/}*.*",
+        "styles/style.css",
+        "images/*",
+        "bower_components/sass-bootstrap/fonts/*.*",
+        "bower_components/font-awesome/fonts/*.*",
+        "bower_components/nvd3/*.css",
+        "bower_components/spectrum/*.css",
+        "bower_components/angular-file-input/dist/*.css",
+        "bower_components/chartbuilder-widget/dist/release/js/*.js",
+        "bower_components/chartbuilder-widget/loader/dist/*.js"
+      ]
+    }]
+  },
+  "appcss": {
+    "files": [{
+      "expand": true,
+      "dot": true,
+      "cwd": ".tmp/styles",
+      "dest": "<%= yeoman.app %>/styles",
+      "src": "{,*/}*.css"
+    }]
+  },
+  "styles": {
+    "expand": true,
+    "dot": true,
+    "cwd": "<%= yeoman.app %>/styles",
+    "dest": ".tmp/styles/",
+    "src": "{,*/}*.css"
+  }
+}

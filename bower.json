@@ -25,6 +25,8 @@
     "highcharts": "git@github.com:highslide-software/highcharts-release",
     "highcharts-ng": "https://github.com/pablojim/highcharts-ng.git",
     "angular-spectrum-colorpicker": "git@github.com:Jimdo/angular-spectrum-colorpicker.git",
-    "chartbuilder-widget": "git@github.com:dmachat/chartbuilder-widget.git"
+    "chartbuilder-widget": "git@github.com:dmachat/chartbuilder-widget.git",
+    "d3-browserify": "https://github.com/zcbenz/d3-browserify.git#3.4.12",
+    "slugifier": "https://github.com/paulsmith/angular-slugify.git"
   }
 }

@@ -1,0 +1,11 @@
+{
+  "server": [
+    "compass:server"
+  ],
+  "dist": [
+    "compass",
+    "copy:styles",
+    "imagemin",
+    "svgmin"
+  ]
+}
