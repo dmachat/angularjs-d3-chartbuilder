@@ -252,19 +252,26 @@ angular
         },
         downloadCSV: function() {
 
-          var _this = this;
+          var _this = this,
+              collateData = [];
 
-          var collateData = [];
+          if (chartbuilderUtils.getType(_this.dataFormat[0].values) === 'array') {
+            collateDataGroups(_this.data[0].values, _this.dataFormat[0].values);
+          } else {
+            collateDataGroups(_this.data, _this.dataFormat);
+          }
 
-          angular.forEach(_this.data, function(group) {
-            angular.forEach(group.values, function(row, idx) {
-              var props = {};
-              angular.forEach(_this.dataFormat, function(column, columnId) {
-                props[(columnId !== 0 ? group.key : column.key)] = row[column.key];
+          function collateDataGroups(groupData, formatTypes) {
+            angular.forEach(groupData, function(group) {
+              angular.forEach(group.values, function(row, idx) {
+                var props = {};
+                angular.forEach(formatTypes, function(column, columnId) {
+                  props[(columnId !== 0 ? group.key : column.key)] = row[column.key];
+                });
+                collateData[idx] = angular.extend((collateData[idx] || {}), props);
               });
-              collateData[idx] = angular.extend((collateData[idx] || {}), props);
             });
-          });
+          }
 
           var csv = d3.csv.format(collateData);
           chartbuilderUtils.saveFile(csv, 'raw_data.csv', 'text/csv');

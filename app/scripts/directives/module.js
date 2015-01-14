@@ -2,4 +2,9 @@
 
 angular
 
-  .module('chartbuilderDirectives', []);
+  .module('chartbuilderDirectives', [
+    'fileInput',
+    'ui.sortable',
+    'slugifier',
+    'chartbuilderOptions'
+  ]);

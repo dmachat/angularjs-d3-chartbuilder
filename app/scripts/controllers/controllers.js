@@ -1,8 +1,6 @@
 'use strict';
 
 require('../services/services');
-require('../directives/bsAffix');
-require('../directives/colors');
 require('../angular_modules/chartbuilder-options/options');
 require('../../bower_components/spectrum/spectrum');
 require('../../bower_components/angular-spectrum-colorpicker/dist/angular-spectrum-colorpicker.min');

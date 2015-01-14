@@ -4,10 +4,7 @@
       "<%= yeoman.app %>/scripts/{,*/}*.js",
       "<%= yeoman.ui %>/*.js"
     ],
-    "tasks": ["jshint", "concat:ui"],
-    "options": {
-      "livereload": true
-    }
+    "tasks": ["webpack:dev"]
   },
   "jstest": {
     "files": ["test/spec/{,*/}*.js"],

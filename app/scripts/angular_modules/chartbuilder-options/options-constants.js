@@ -2,6 +2,12 @@
 
 var d3 = require('d3');
 
+// Normalize dates
+function normalizedDate(date) {
+  var d = new Date(Date.parse(date));
+  return new Date(d.getTime() + d.getTimezoneOffset() * 60000);
+}
+
 var xKeyValue = {
   'label': 'Key',
   'option': function(d) {
@@ -245,13 +251,13 @@ angular
       'function:date': {
         'label': 'Date',
         'option': function(d) {
-          return new Date(Date.parse(d.x));
+          return normalizedDate(d.x);
         }
       },
       'function:datefromarray': {
         'label': 'Date (Stacked Area)',
         'option': function(d) {
-          return new Date(Date.parse(d[0]));
+          return normalizedDate(d[0]);
         }
       }
     },

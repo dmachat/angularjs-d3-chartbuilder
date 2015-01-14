@@ -42,7 +42,6 @@ angular
         name: module.name,
         slug: module.slug,
         data: module.data,
-        //dataFormat: [{ 'key': 'timestamp', 'type': 'number' }, { 'key': 'value', 'type': 'number' }],
         dataFormat: [{ 'key': 'text', 'values': [{ 'key': 0, 'type': 'number' }, { 'key': 1, 'type': 'number' }] }],
         template: template,
         meta: {

@@ -13,7 +13,8 @@ module.exports = {
   output: {
 		path: path.join(__dirname, '../dist/scripts'),
     filename: 'main.bundle.js',
-    chunkFilename: '[id].main.bundle.js'
+    chunkFilename: '[id].main.bundle.js',
+    sourceMapFilename: '[id].main.bundle.map'
   },
 
   resolve: {
@@ -38,6 +39,12 @@ module.exports = {
 
   module: {
     noParse: [ bowerRoot ],
+    preLoaders: [
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader'
+      }
+    ],
     loaders: [
       {
         test: /[\/]angular(\.min)?\.js$/,
