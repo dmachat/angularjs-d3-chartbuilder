@@ -6,6 +6,10 @@ require('../../bower_components/canvg/rgbcolor');
 require('../../bower_components/canvg/StackBlur');
 var canvg = require('../../bower_components/canvg/canvg');
 
+/*
+var html2canvas = require('../../bower_components/html2canvas/build/html2canvas');
+*/
+
 angular
 
   .module('chartbuilderDirectives')
@@ -29,6 +33,15 @@ angular
           // SVG -> Canvas
           canvg('canvas', svgXml, { renderCallback: 'scope.downloadImage' });
           return canvas.toDataURL('image/png');
+          /*
+          var chartElement = document.getElementById('chart'),
+              newElement = document.getElementById('newcanvas');
+          console.log(chartElement);
+          html2canvas(chartElement).then(function(canvas) {
+            newElement.appendChild(canvas);
+          });
+          */
+
         };
 
         scope.saveImage = function() {

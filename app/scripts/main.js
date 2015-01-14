@@ -40,7 +40,7 @@
       'chartbuilderServices',
       'chartbuilderDirectives',
       'chartbuilder.nvd3',
-      'chartbuilder.datamaps.usa',
+      'chartbuilder.datamaps',
       'chartbuilder.highcharts'
     ])
 

@@ -20,6 +20,9 @@ angular
 
         // Keep an empty new row for the input model
         scope.$watch('chartbuilderData.data', function(newval) {
+          if (angular.isUndefined(chartbuilderData.dataFormat)) {
+            return;
+          }
           angular.forEach(newval, function(group, gidx) {
             scope.newRow[gidx] = {};
           });

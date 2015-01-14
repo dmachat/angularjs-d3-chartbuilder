@@ -27,6 +27,7 @@
     "angular-spectrum-colorpicker": "git@github.com:Jimdo/angular-spectrum-colorpicker.git",
     "chartbuilder-widget": "git@github.com:dmachat/chartbuilder-widget.git",
     "d3-browserify": "https://github.com/zcbenz/d3-browserify.git#3.4.12",
-    "slugifier": "https://github.com/paulsmith/angular-slugify.git"
+    "slugifier": "https://github.com/paulsmith/angular-slugify.git",
+    "html2canvas": "*"
   }
 }

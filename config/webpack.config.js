@@ -3,7 +3,7 @@ var path = require('path'),
 
     appRoot = path.join(__dirname, '../app'),
     bowerRoot = path.join(__dirname, '../app/bower_components'),
-    modulesRoot = path.join(__dirname, '../app/angular_modules');
+    modulesRoot = path.join(__dirname, '../app/scripts/angular_modules');
 
 module.exports = {
   cache: true,
@@ -57,6 +57,14 @@ module.exports = {
       {
         test: /[\/]datamaps(\.\w)?(\.min)?\.js$/,
         loader: 'exports?Datamap'
+      },
+      {
+        test: /[\/]html2canvas(\.min)?\.js$/,
+        loader: 'exports?html2canvas'
+      },
+      {
+        test: /[\/]canvg(\.min)?\.js$/,
+        loader: 'exports?canvg'
       },
       {
         test: /[\/]nv\.d3(\.\w)?(\.min)?\.js$/,

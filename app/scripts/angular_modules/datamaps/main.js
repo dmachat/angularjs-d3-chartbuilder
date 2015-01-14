@@ -24,7 +24,7 @@ var template = ['<datamap options="dataStore.options" ',
 
 angular
 
-  .module('chartbuilder.datamaps.usa', ['chartbuilderServices'])
+  .module('chartbuilder.datamaps', ['chartbuilderServices', 'datamaps'])
 
   .value('chartbuilderModuleRegistry', {})
 
