@@ -24,8 +24,10 @@ module.exports = {
       'jquery': path.join(bowerRoot, 'jquery/dist/jquery'),
       'd3': path.join(bowerRoot, 'd3-browserify/d3'),
       'topojson': path.join(bowerRoot, 'topojson/topojson'),
-      'datamaps': path.join(bowerRoot, 'datamaps/dist/datamaps.usa'),
-      'nvd3': path.join(bowerRoot, 'nvd3/nv.d3')
+      'datamaps': path.join(bowerRoot, 'datamaps/dist/datamaps.all'),
+      'nvd3': path.join(bowerRoot, 'nvd3/nv.d3'),
+      'RGBColor': path.join(bowerRoot, 'canvg/rgbcolor'),
+      'StackBlur': path.join(bowerRoot, 'canvg/StackBlur')
     },
   },
 
@@ -59,15 +61,19 @@ module.exports = {
         loader: 'exports?Datamap'
       },
       {
-        test: /[\/]html2canvas(\.min)?\.js$/,
-        loader: 'exports?html2canvas'
+        test: /[\/]rgbcolor(\.min)?\.js$/,
+        loader: 'exports?RGBColor'
+      },
+      {
+        test: /[\/]StackBlur(\.min)?\.js$/,
+        loader: 'exports?stackBlurCanvasRGBA'
       },
       {
         test: /[\/]canvg(\.min)?\.js$/,
-        loader: 'exports?canvg'
+        loader: 'exports?canvg!imports?RGBColor,StackBlur'
       },
       {
-        test: /[\/]nv\.d3(\.\w)?(\.min)?\.js$/,
+        test: /[\/]nv\.d3(\.min)?\.js$/,
         loader: 'imports?d3!exports?nv'
       },
       {
