@@ -56,7 +56,8 @@ angular
             forceX: [null, null],
             x: 'function:x/y',
             y: 'function:key/y',
-            tooltip: 'function:multiBarChart'
+            tooltip: 'function:multiBarChart',
+            wrapLabels: true
           }
         }
       }
