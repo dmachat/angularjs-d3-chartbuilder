@@ -173,7 +173,6 @@ angular
                 .transition().duration(scope.options.chart['transitionDuration'])
                 .call(scope.chart);
 
-
               // Set up svg height and width. It is important for all browsers...
               var svgEl = d3.select(element[0]).select('svg');
 
