@@ -294,6 +294,10 @@ angular
         'option': function(key) {
           return '<h3>' + key + '</h3>';
         }
+      },
+      'Default': {
+        'label': 'Default',
+        'option': null
       }
     },
     'tooltip': {
@@ -303,6 +307,10 @@ angular
           return '<h3>' + key + '</h3>' +
                  '<p>' +  y + ' ' + x + '</p>';
         }
+      },
+      'Default': {
+        'label': 'Default',
+        'option': null
       }
     },
     'fillQuartiles': {

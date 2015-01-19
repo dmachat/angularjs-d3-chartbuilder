@@ -54,7 +54,7 @@ angular
             x: 'function:label/value',
             y: 'function:label/value',
             showValues: true,
-            forceX: [null, null],
+            clipEdge: true,
             forceY: [null, null]
           }
         }

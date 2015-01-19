@@ -59,7 +59,7 @@ angular
               }
             },
             onChange: function(item, key) {
-              $scope.json[key] = item;
+              $scope.json[key] = 'Default' === item ? null : item;
             }
           },
 
