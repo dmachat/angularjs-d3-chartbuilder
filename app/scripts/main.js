@@ -3,6 +3,7 @@
 (function() {
   require('jquery');
 
+  // Require angular
   var angular = require('../bower_components/angular/angular');
 
   // Main app dependencies
