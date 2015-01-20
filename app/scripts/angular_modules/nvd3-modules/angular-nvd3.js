@@ -46,6 +46,9 @@ angular
 
             if (scope.options.chart.wrapLabels) {
               svgEl.selectAll('.nv-axis .tick text').each(function(d) {
+                if (!isNaN(d)) {
+                  return;
+                }
                 var el = d3.select(this);
                 var words = d.toString().split(' ');
                 el.text('');
@@ -173,7 +176,9 @@ angular
 
             nv.addGraph(function() {
               // Update the chart when window resizes
-              nv.utils.windowResize(function() { scope.chart.update(); });
+              nv.utils.windowResize(function() {
+                scope.chart.update();
+              });
               return scope.chart;
             }, scope.api.wrapLabels);
           },
