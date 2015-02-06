@@ -171,6 +171,7 @@ angular
           }
 
           // Reset data
+          // _this.data = [];
 
           if (file.match(/^[^A-Za-z\,\w]/)) {
             chartbuilderError.newError('Invalid tabular data', 'invaliddata');
